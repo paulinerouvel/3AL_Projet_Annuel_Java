@@ -1,4 +1,4 @@
-import Annotations.Documentation;
+import Annotations.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import Annotations.*;
+
+import java.time.LocalDate;
 
 public class Main extends Application {
 
@@ -46,6 +48,14 @@ public class Main extends Application {
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
+
+        User newUser;
+        newUser = new User(1, null, "Jean","Ri","jean.ri@email.com", "0000000000",
+                "adresse", "ville", 000000, "Rjean", "Rjean12", null,
+                null, 0, "Particulier", "7584994495", LocalDate.of(2019, 4,
+                25), 10);
+        JsonSerializer serializer = new JsonSerializer();
+        serializer.serialize(newUser);
 
         primaryStage.setMaximized(true); // met en plein écran au lancement
 
