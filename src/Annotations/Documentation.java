@@ -1,7 +1,4 @@
-package Annotations;
-
 import java.lang.annotation.*;
-
 
 public class Documentation {
     public enum TYPEDOC {
@@ -37,5 +34,12 @@ public class Documentation {
     public @interface JsonField {
         public String value() default "";
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.LOCAL_VARIABLE)
+    public @interface JsonLocalVariable {
+        public String value() default "";
+    }
 }
+
 
