@@ -1,23 +1,12 @@
 import java.time.LocalDate;
-import Annotations.*;
 
 public class User {
     private Integer id;
-
-    @Documentation.JsonField("libelle")
     private String libelle;
-
-    @Documentation.JsonField("nom")
     private String nom;
-
-    @Documentation.JsonField("prenom")
     private String prenom;
-
-    @Documentation.JsonField("mail")
     private String mail;
-    @Documentation.JsonField("pseudo")
     private String pseudo;
-    
     private String mdp;
     private String photo;
     private String desc;

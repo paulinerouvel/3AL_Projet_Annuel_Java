@@ -1,4 +1,3 @@
-import Annotations.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -15,8 +14,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import Annotations.*;
 
 import java.time.LocalDate;
 
@@ -54,8 +51,6 @@ public class Main extends Application {
                 "adresse", "ville", 000000, "Rjean", "Rjean12", null,
                 null, 0, "Particulier", "7584994495", LocalDate.of(2019, 4,
                 25), 10);
-        JsonSerializer serializer = new JsonSerializer();
-        serializer.serialize(newUser);
 
         primaryStage.setMaximized(true); // met en plein écran au lancement
 
