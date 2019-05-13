@@ -16,13 +16,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("login.fxml"))/*getClass().getResource("login.fxml")*/);
         primaryStage.setTitle("Hello World");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);

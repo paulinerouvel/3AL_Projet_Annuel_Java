@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="javafx-sdk-11.0">
-    <CLASSES />
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../javafx-sdk-11.0.2windows" />
+    </CLASSES>
     <JAVADOC />
-    <NATIVE>
-      <root url="file://$PROJECT_DIR$/../javafx-sdk-11.0.2" />
-    </NATIVE>
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../javafx-sdk-11.0.2windows" recursive="false" />
   </library>
 </component>
