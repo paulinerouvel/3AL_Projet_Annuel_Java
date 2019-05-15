@@ -10,5 +10,8 @@
         <module name="javaclient" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="parent" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

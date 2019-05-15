@@ -1,7 +1,10 @@
-Main.class
 controllers\LoaderFX.class
-controllers\User.class
+MainApp.class
 controllers\Product.class
-controllers\FXMLLoginController.class
+controllers\RootLayoutController.class
+models\User.class
+models\Person.class
+services\Authentication.class
+controllers\LoginController.class
+models\NodeParkUser.class
 controllers\Controller.class
-Main$1.class

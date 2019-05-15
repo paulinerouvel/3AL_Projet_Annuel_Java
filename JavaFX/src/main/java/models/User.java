@@ -1,8 +1,9 @@
-package controllers;
+package models;
 
 import java.time.LocalDate;
 
 public class User {
+
     private Integer id;
     private String libelle;
     private String nom;

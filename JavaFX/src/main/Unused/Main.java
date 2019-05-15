@@ -1,4 +1,4 @@
-import controllers.User;
+import models.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/views/FXMLLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/Login.fxml"));
 
         primaryStage.setTitle("WasteMart 0.2");
 

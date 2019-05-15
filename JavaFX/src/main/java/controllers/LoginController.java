@@ -1,24 +1,59 @@
 package controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import services.Authentication;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
-public class FXMLLoginController implements Initializable {
+public class LoginController {
+
+    public TextField login;
+    public PasswordField password;
+    public Label connectionStatus;
+    public TextArea infoText;
+
+
+
+    public void authenticate(ActionEvent actionEvent){
+
+        connectionStatus.setText("Trying to connect...");
+        Authentication Authentifier = new Authentication();
+        try {
+            String connResult = Authentifier.whenPostJsonUsingHttpClient_thenCorrect(login.getText(), password.getText());
+            infoText.setText(connResult);
+            if(connResult.equals("400")){
+                connectionStatus.setText("Identifiant ou mot de passe incorrect.");
+            } else {
+                connectionStatus.setText(connResult);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
-    private AnchorPane root;
+    private BorderPane root;
 
-    public static AnchorPane rootP;
+    public static BorderPane rootP;
 
+
+/*
     @Override
     public void initialize(URL url, ResourceBundle rb){
         rootP = root;
     }
-
+*/
     /*private void loadSplashScreen() {
         try {
             //Load splash screen view FXML
