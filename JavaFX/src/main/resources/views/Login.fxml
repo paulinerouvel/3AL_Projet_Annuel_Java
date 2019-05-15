@@ -15,9 +15,9 @@
          <children>
             <Label text="Bienvenue à Wastemart" />
             <Label text="Identifiant" />
-            <TextField fx:id="login" prefHeight="25.0" prefWidth="200.0" promptText="Identifiant" text="analyse@outlook.com" />
+            <TextField fx:id="login" prefHeight="25.0" prefWidth="200.0" promptText="Identifiant" text="testemail@email.com" />
             <Label text="Mot de passe" />
-            <PasswordField fx:id="password" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" text="anna" />
+            <PasswordField fx:id="password" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" text="toto" />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button mnemonicParsing="false" onAction="#authenticate" text="Login" />

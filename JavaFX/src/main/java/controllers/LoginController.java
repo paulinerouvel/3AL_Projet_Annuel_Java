@@ -1,8 +1,16 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
@@ -15,15 +23,34 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import javafx.concurrent.Worker;
 
 public class LoginController {
+    private Scene scene;
 
+    public void setScene(Scene scene) { this.scene = scene; }
+
+    @FXML
     public TextField login;
+
+    @FXML
     public PasswordField password;
+
+    @FXML
     public Label connectionStatus;
+
+    @FXML
     public TextArea infoText;
 
-
+    /*
+    public void loadScene(){
+        // loading code
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        AnchorPane root = (AnchorPane) fxmlLoader.load(getClass().getResource("views/Login.fxml"));
+        LoginController myController = (LoginController) fxmlLoader.getController();
+        this.setScene(scene);
+    }
+    */
 
     public void authenticate(ActionEvent actionEvent){
 
@@ -46,6 +73,69 @@ public class LoginController {
     private BorderPane root;
 
     public static BorderPane rootP;
+
+
+/*
+    private void doAuthenticate() {
+        final Cursor oldCursor = scene.getCursor();
+        scene.setCursor(Cursor.WAIT);
+        calculateButton.setDisable(true);
+        final Service<Void> calculateService = new Service<Void>() {
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+
+                    @Override
+                    protected Void call() throws Exception {
+                        final int maxIterations = 1000000;
+                        for (int iterations = 0; iterations < maxIterations; iterations ++) {
+                            System.out.println(iterations);
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+        calculateService.stateProperty().addListener(new ChangeListener<Worker.State>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldValue, Worker.State newValue) {
+                switch (newValue) {
+                    case FAILED:
+                    case CANCELLED:
+                    case SUCCEEDED:
+                        scene.setCursor(oldCursor);
+                        calculateButton.setDisable(false);
+                        break;
+                }
+            }
+        });
+        calculateService.start();
+    }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

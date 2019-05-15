@@ -1,14 +1,29 @@
 import java.io.IOException;
+import java.util.Stack;
+
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private Scene scene;
 
     /*/**
      * The data as an observable list of Persons.
@@ -19,25 +34,9 @@ public class MainApp extends Application {
      * Constructor
      */
     public MainApp() {
-        // Add some sample data
-        /*personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));*/
+
     }
 
-    /*/**
-     * Returns the data as an observable list of Persons.
-     * @return
-     */
-    /*public ObservableList<Person> getPersonData() {
-        return personData;
-    }*/
 
     @Override
     public void start(Stage primaryStage) {
@@ -68,6 +67,7 @@ public class MainApp extends Application {
         }
     }
 
+    private Button calculateButton;
     /**
      * Shows the person overview inside the root layout.
      */
@@ -77,6 +77,19 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("views/Login.fxml"));
             BorderPane Login = loader.load();
+
+
+            /*calculateButton = new Button();
+            calculateButton.setText("Lancer le truc");
+            calculateButton.setOnAction((ActionEvent t) -> doAuthenticate());
+            StackPane center = new StackPane();
+            center.getChildren().add(calculateButton);
+
+            final BorderPane root = new BorderPane();
+            root.setCenter(center);
+            scene = new Scene(root, 300, 250);
+            primaryStage.setScene(scene);
+            primaryStage.show();*/
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(Login);

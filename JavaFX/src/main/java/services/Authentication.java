@@ -20,36 +20,51 @@ import java.net.URL;
 public class Authentication {
 
     public String whenPostJsonUsingHttpClient_thenCorrect(String login, String password) throws ClientProtocolException, IOException {
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://api-node-parc.herokuapp.com/utilisateur/login");
 
-        StringEntity params = new StringEntity("{"+/*'id':0," +
+        CloseableHttpClient client = null;
+        try {
+            client = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost("https://wastemart-api.herokuapp.com/user/login");
+
+            StringEntity params = new StringEntity("{"+
+                    "\"mail\":\"testemail@email.com\","+
+                    "\"mdp\":\"toto\"}");
+
+                    /*"{" +'id':0," +
                 "'nom':''" +
                 "'prenom':''" +
                 "'date_de_naissance':''" +
-                "'tel':''" +*/
-                "'mail':'"+ login +"'" +
-                /*"'adresse':''" +
+                "'tel':''" +
+                    "\"mail\":\"" + login + "\"" +
+                "'adresse':''" +
                 "'cp':''" +
                 "'ville':''" +
-                "'type':''" +*/
-                "'mot_de_passe':'"+ password +"'}");
+                "'type':''" +
+                    "\"mdp\":\"" + password + "\"}"*/
 
-        httpPost.setHeader("accept", "application/json");
-        httpPost.setHeader("content-type", "application/json");
-        httpPost.setEntity(params);
 
-        CloseableHttpResponse response = client.execute(httpPost);
-        client.close();
 
-        return Integer.toString(response.getStatusLine().getStatusCode());
+            httpPost.setHeader("accept", "application/json");
+            httpPost.setHeader("content-type", "application/json");
+            httpPost.setEntity(params);
+
+            CloseableHttpResponse response = client.execute(httpPost);
+            client.close();
+
+            //TODO Renvoyer le code directement
+            return Integer.toString(response.getStatusLine().getStatusCode());
+        } catch (IOException e) {
+            e.printStackTrace();
+            client.close();
+            return "Internal error";
+        }
 
 
     }
     public String Authenticate(){
         try {
             System.out.println("Yo");
-            URL url = new URL("https://api-node-parc.herokuapp.com/login");
+            URL url = new URL("http://51.75.143.205:/login");
 
             NodeParkUser newUser;
             newUser = new NodeParkUser(1, "CHAMPAUD", "Alexandre", "13/10/1998",
