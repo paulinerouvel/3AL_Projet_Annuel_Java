@@ -1,5 +1,3 @@
-package controllers;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
@@ -10,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -17,6 +16,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import services.Authentication;
 
 import java.io.IOException;
@@ -26,9 +27,10 @@ import java.util.concurrent.CompletableFuture;
 import javafx.concurrent.Worker;
 
 public class LoginController {
-    private Scene scene;
 
-    public void setScene(Scene scene) { this.scene = scene; }
+    private BorderPane rootLayout;
+
+    //public void setScene(Scene scene) { this.scene = scene; }
 
     @FXML
     public TextField login;
@@ -52,7 +54,7 @@ public class LoginController {
     }
     */
 
-    public void authenticate(ActionEvent actionEvent){
+    public void authenticate(ActionEvent actionEvent) throws Exception {
 
         connectionStatus.setText("Trying to connect...");
         Authentication Authentifier = new Authentication();
@@ -61,8 +63,21 @@ public class LoginController {
             infoText.setText(connResult);
             if(connResult.equals("400")){
                 connectionStatus.setText("Identifiant ou mot de passe incorrect.");
+
+
+
             } else {
                 connectionStatus.setText(connResult);
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("views/Main.fxml"));
+                rootLayout = loader.load();
+                Scene scene = new Scene(rootLayout);
+
+                Stage stageNodeRoot = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+                stageNodeRoot.setScene(scene);
+                stageNodeRoot.show();
             }
         } catch (IOException e) {
             e.printStackTrace();

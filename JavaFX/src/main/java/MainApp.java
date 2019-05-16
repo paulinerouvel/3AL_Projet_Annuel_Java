@@ -4,6 +4,7 @@ import java.util.Stack;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
@@ -11,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -37,9 +40,13 @@ public class MainApp extends Application {
 
     }
 
-
+    // Point d'entrée, récupère le primaryStage créé par JavaFX
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        /*
+        Code pour application JavaFX.
+        (Stage, scene, scene graph)
+        */
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("WasteMart");
 
@@ -48,15 +55,25 @@ public class MainApp extends Application {
         showLogin();
     }
 
+    // Appelle start() en interne
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     /**
      * Initializes the root layout.
      */
     public void initRootLayout() {
         try {
-            // Load root layout from fxml file.
+             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("views/RootLayout.fxml"));
             rootLayout = loader.load();
+
+            // This is the usual method
+            //Parent root = FXMLLoader.load(getClass().getResource("views/RootLayout.fxml"));
+            //Scene scene = new Scene(root,600,400);
+
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -106,7 +123,5 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 }
