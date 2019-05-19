@@ -69,6 +69,7 @@ public class LoginController {
             } else {
                 connectionStatus.setText(connResult);
 
+                /*
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("views/Main.fxml"));
                 rootLayout = loader.load();
@@ -78,6 +79,7 @@ public class LoginController {
 
                 stageNodeRoot.setScene(scene);
                 stageNodeRoot.show();
+                */
             }
         } catch (IOException e) {
             e.printStackTrace();
