@@ -11,27 +11,23 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import models.User;
 import services.Authentication;
 
 import java.io.IOException;
 
 public class LoginController {
 
-    private Authentication Authentifier;
+    private UserInstance instance;
+
+    private Authentication authentifier = new Authentication();
 
     private BorderPane rootLayout;
 
-    @FXML
-    public TextField login;
-
-    @FXML
-    public PasswordField password;
-
-    @FXML
-    public Label connectionStatus;
-
-    @FXML
-    public TextArea infoText;
+    @FXML public TextField login;
+    @FXML public PasswordField password;
+    @FXML public Label connectionStatus;
+    @FXML public TextArea infoText;
 
     /*
     public void loadScene(){
@@ -42,17 +38,30 @@ public class LoginController {
         this.setScene(scene);
     }
     */
-    public void setUserInstance(UserAuthentifier Instance) {
-        this.Authentifier = Instance ;
+
+    public void setInstance(UserInstance instance) {
+        this.instance = instance;
     }
+
     public void authenticate(ActionEvent actionEvent) throws Exception {
 
+        String token = null;
         connectionStatus.setText("Trying to connect...");
-        Authentication stageNodeAuthentifier = (Authentication)((Node))
-        this.Authentifier = new Authentication();
+
         try {
-            boolean connStatus = Authentifier.login(login.getText(), password.getText());
-            if (connStatus) {
+
+
+            setInstance(new UserInstance());
+
+
+            token = this.authentifier.login(
+                    login.getText(), password.getText()
+            );
+
+            this.instance.setToken(token);
+
+            if(this.instance.tokenIsValid()){
+
                 infoText.setText("You are connected !");
 
                 FXMLLoader loader = new FXMLLoader();
@@ -65,7 +74,7 @@ public class LoginController {
                 stageNodeRoot.setScene(scene);
                 stageNodeRoot.show();
             }
-            if (!connStatus) {
+            else {
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");
             }
 

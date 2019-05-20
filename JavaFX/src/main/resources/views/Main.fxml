@@ -10,14 +10,4 @@
    <center>
       <Label text="Félicitations! :)" BorderPane.alignment="CENTER" />
    </center>
-   <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="LoginController.disconnect" text="Disconnect" />
-         </children>
-         <BorderPane.margin>
-            <Insets right="30.0" />
-         </BorderPane.margin>
-      </HBox>
-   </top>
 </BorderPane>

@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.Stack;
 
+import controllers.LoginController;
+import controllers.RootLayoutController;
+import controllers.UserInstance;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,14 +24,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import models.User;
 import services.Authentication;
 
 public class MainApp extends Application {
 
-    Authentication Authentifier;
+    private UserInstance instance = new UserInstance();
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private Scene scene;
 
     /*/**
      * The data as an observable list of Persons.
@@ -51,9 +54,9 @@ public class MainApp extends Application {
         */
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("WasteMart");
+        primaryStage.setResizable(false);
 
         initRootLayout();
-
         showLogin();
     }
 
@@ -72,10 +75,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("views/RootLayout.fxml"));
             rootLayout = loader.load();
 
-            // This is the usual method
-            //Parent root = FXMLLoader.load(getClass().getResource("views/RootLayout.fxml"));
-            //Scene scene = new Scene(root,600,400);
-
+            RootLayoutController controller = loader.getController();
+            controller.setInstance(instance);
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -86,7 +87,6 @@ public class MainApp extends Application {
         }
     }
 
-    private Button calculateButton;
     /**
      * Shows the person overview inside the root layout.
      */
@@ -97,18 +97,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("views/Login.fxml"));
             BorderPane Login = loader.load();
 
-
-            /*calculateButton = new Button();
-            calculateButton.setText("Lancer le truc");
-            calculateButton.setOnAction((ActionEvent t) -> doAuthenticate());
-            StackPane center = new StackPane();
-            center.getChildren().add(calculateButton);
-
-            final BorderPane root = new BorderPane();
-            root.setCenter(center);
-            scene = new Scene(root, 300, 250);
-            primaryStage.setScene(scene);
-            primaryStage.show();*/
+            LoginController controller = loader.getController();
+            controller.setInstance(instance);
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(Login);

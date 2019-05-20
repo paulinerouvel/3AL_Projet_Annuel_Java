@@ -21,26 +21,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Authentication {
 
-
-    public boolean tokenIsValid() throws JWTVerificationException {
-        String token = getToken();
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(" SFGQDFB54QSDF5G4W5XV43QGREgdfg54214542sdf24242sf424bjksgdfsqfgZR");
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .acceptLeeway(15)
-                    .build(); //Reusable verifier instance
-            DecodedJWT jwt = verifier.verify(token);
-            //Date expiresAt = jwt.getExpiresAt();
-            return true;
-        } catch (JWTVerificationException exception) {
-            System.out.println("Token is incorrect!\n" +
-                    "Time is : "+ java.time.LocalDateTime.now() +"\n" +
-                    "Exception : "+exception);
-            return false;
-        }
-    }
-
-    public boolean login(String login, String password) throws ClientProtocolException, IOException {
+    public String login(String login, String password) throws ClientProtocolException, IOException {
 
         CloseableHttpClient client = null;
         try {
@@ -75,22 +56,12 @@ public class Authentication {
 
             // Form returned token and verify it
             JSONObject obj = new JSONObject(buffReader.toString());
-            this.token = obj.getString("token");
-            System.out.println("Token is : "+ getToken());
-            return tokenIsValid();
+            return obj.getString("token");
 
         } catch (IOException e) {
             e.printStackTrace();
             client.close();
-            return false;
+            return e.toString();
         }
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }
