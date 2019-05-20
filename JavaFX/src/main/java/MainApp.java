@@ -21,9 +21,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import services.Authentication;
 
 public class MainApp extends Application {
 
+    Authentication Authentifier;
     private Stage primaryStage;
     private BorderPane rootLayout;
     private Scene scene;
