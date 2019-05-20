@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import services.UserInstance;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class RootLayoutController {
@@ -37,10 +38,10 @@ public class RootLayoutController {
         alert.showAndWait();
     }
 
+
     public void disconnect(ActionEvent actionEvent) throws Exception {
         try {
-            this.instance.setToken(null);
-
+            instance.disconnect();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/views/Login.fxml"));

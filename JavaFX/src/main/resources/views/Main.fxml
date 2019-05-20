@@ -29,5 +29,6 @@
             <Button mnemonicParsing="false" prefHeight="291.0" prefWidth="508.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
+      <Label fx:id="test" layoutX="499.0" layoutY="75.0" text="Test" />
    </children>
 </AnchorPane>

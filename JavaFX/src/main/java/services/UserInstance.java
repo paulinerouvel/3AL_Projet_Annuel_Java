@@ -5,10 +5,17 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import services.Authentication;
+
+import java.io.IOException;
 
 public class UserInstance {
 
+    public boolean isConnected = false;
     private String token = null;
 
     public boolean tokenIsValid() throws JWTVerificationException {
@@ -29,6 +36,10 @@ public class UserInstance {
         }
     }
 
+    public void disconnect(){
+            this.setToken(null);
+    }
+
     public String getToken() {
         return token;
     }
@@ -37,5 +48,11 @@ public class UserInstance {
         this.token = token;
     }
 
-// other properties as needed...
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean Connected) {
+        isConnected = Connected;
+    }
 }

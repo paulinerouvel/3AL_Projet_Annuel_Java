@@ -51,7 +51,6 @@ public class LoginController {
 
         try {
 
-
             setInstance(new UserInstance());
 
 
@@ -61,19 +60,33 @@ public class LoginController {
 
             this.instance.setToken(token);
 
-            if(this.instance.tokenIsValid()){
-
-                infoText.setText("You are connected !");
-
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/views/Main.fxml"));
-                rootLayout = loader.load();
-                Scene scene = new Scene(rootLayout);
+            if(this.instance.tokenIsValid()) {
 
                 Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-                stageNodeRoot.setScene(scene);
+                this.instance.setConnected(true);
+
+                // Load root layout from fxml file.
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(this.getClass().getResource("/views/RootLayout.fxml"));
+                rootLayout = loader.load();
+
+                // Show the scene containing the root layout.
+                Scene rootScene = new Scene(rootLayout);
+                stageNodeRoot.setScene(rootScene);
+
                 stageNodeRoot.show();
+
+                loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/views/Main.fxml"));
+
+                MainController controller = new MainController();
+                controller.setInstance(this.instance);
+                loader.setController(controller);
+
+                AnchorPane main = loader.load();
+
+                rootLayout.getChildren().add(main);
             }
             else {
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");
