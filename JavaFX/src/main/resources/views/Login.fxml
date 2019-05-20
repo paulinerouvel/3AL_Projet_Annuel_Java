@@ -6,27 +6,24 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
-   <center>
-      <VBox alignment="CENTER" fillWidth="false" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+
          <children>
-            <Label text="Bienvenue à Wastemart" />
-            <Label text="Identifiant" />
-            <TextField fx:id="login" prefHeight="25.0" prefWidth="200.0" promptText="Identifiant" text="testemail@email.com" />
-            <Label text="Mot de passe" />
-            <PasswordField fx:id="password" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" text="toto" />
-            <ButtonBar prefHeight="40.0" prefWidth="200.0">
-              <buttons>
-                <Button mnemonicParsing="false" onAction="#authenticate" text="Login" />
-              </buttons>
+            <Label layoutX="238.0" layoutY="86.0" text="Bienvenue à Wastemart" />
+            <Label layoutX="152.0" layoutY="155.0" text="Identifiant" />
+            <TextField fx:id="login" layoutX="237.0" layoutY="151.0" prefHeight="25.0" prefWidth="200.0" promptText="Identifiant" text="testemail@email.com" />
+            <Label layoutX="152.0" layoutY="190.0" text="Mot de passe" />
+            <PasswordField fx:id="password" layoutX="237.0" layoutY="186.0" prefHeight="25.0" prefWidth="200.0" promptText="Mot de passe" text="toto" />
+            <ButtonBar layoutX="160.0" layoutY="219.0" prefHeight="40.0" prefWidth="282.0">
+         <buttons>
+                <Button mnemonicParsing="false" onAction="#authenticate" prefHeight="25.0" prefWidth="72.0" text="Login" />
+         </buttons>
             </ButtonBar>
             <Label fx:id="connectionStatus" />
-            <Label text="Info:" />
-            <TextArea fx:id="infoText" editable="false" prefHeight="51.0" prefWidth="282.0" />
+            <Label layoutX="288.0" layoutY="287.0" text="Info:" />
+            <TextArea fx:id="infoText" editable="false" layoutX="159.0" layoutY="315.0" prefHeight="51.0" prefWidth="282.0" />
          </children>
-      </VBox>
-   </center>
-</BorderPane>
+
+</AnchorPane>

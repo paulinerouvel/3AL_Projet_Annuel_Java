@@ -1,42 +1,21 @@
 import java.io.IOException;
-import java.util.Stack;
 
 import controllers.LoginController;
 import controllers.RootLayoutController;
-import controllers.UserInstance;
+import javafx.scene.layout.AnchorPane;
+import services.UserInstance;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import models.User;
-import services.Authentication;
+
 
 public class MainApp extends Application {
 
     private UserInstance instance = new UserInstance();
     private Stage primaryStage;
-    private BorderPane rootLayout;
-
-    /*/**
-     * The data as an observable list of Persons.
-     */
-    /*private ObservableList<Person> personData = FXCollections.observableArrayList();*/
+    private AnchorPane rootLayout;
 
     /**
      * Constructor
@@ -45,13 +24,12 @@ public class MainApp extends Application {
 
     }
 
-    // Point d'entrée, récupère le primaryStage créé par JavaFX
+    /**
+     * Entry point, gets primaryStage created by JavaFX
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        /*
-        Code pour application JavaFX.
-        (Stage, scene, scene graph)
-        */
+
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("WasteMart");
         primaryStage.setResizable(false);
@@ -60,7 +38,9 @@ public class MainApp extends Application {
         showLogin();
     }
 
-    // Appelle start() en interne
+    /**
+     * Calls start() internally
+     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -88,20 +68,20 @@ public class MainApp extends Application {
     }
 
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the login overview inside the root layout.
      */
     public void showLogin() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("views/Login.fxml"));
-            BorderPane Login = loader.load();
+            AnchorPane Login = loader.load();
 
             LoginController controller = loader.getController();
             controller.setInstance(instance);
 
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(Login);
+            rootLayout.getChildren().add(Login);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,7 +89,6 @@ public class MainApp extends Application {
 
     /**
      * Returns the main stage.
-     * @return
      */
     public Stage getPrimaryStage() {
         return primaryStage;

@@ -1,11 +1,8 @@
-controllers\LoaderFX.class
 MainApp.class
 controllers\RootLayoutController.class
 models\User.class
 controllers\ProductListController.class
-models\Person.class
 services\Authentication.class
 controllers\LoginController.class
+services\UserInstance.class
 controllers\MainController.class
-models\NodeParkUser.class
-controllers\UserInstance.class
