@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RootLayoutController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RootLayoutController">
    <children>
-     <MenuBar prefHeight="25.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+     <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" style="-fx-background-color: #e1dbc4;" AnchorPane.topAnchor="50.0" BorderPane.alignment="CENTER">
        <menus>
-         <Menu mnemonicParsing="false" text="File">
+         <Menu mnemonicParsing="false" style="-fx-background-color: #878658;" text="File">
            <items>
              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
              <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
@@ -27,6 +28,10 @@
            </items>
          </Menu>
        </menus>
+         <styleClass>
+            <String fx:value="hover" />
+            <String fx:value="showing" />
+         </styleClass>
      </MenuBar>
    </children>
 </AnchorPane>

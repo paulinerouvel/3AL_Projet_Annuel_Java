@@ -20,10 +20,7 @@ import java.io.IOException;
 public class LoginController {
 
     private UserInstance instance;
-
     private Authentication authentifier = new Authentication();
-
-    private AnchorPane rootLayout;
 
     @FXML public TextField login;
     @FXML public PasswordField password;
@@ -69,24 +66,30 @@ public class LoginController {
                 // Load root layout from fxml file.
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(this.getClass().getResource("/views/RootLayout.fxml"));
-                rootLayout = loader.load();
+                AnchorPane rootLayout = loader.load();
+
+                // Set user instance of the root layout
+                RootLayoutController rootLayoutController = loader.getController();
+                rootLayoutController.setInstance(this.instance);
 
                 // Show the scene containing the root layout.
                 Scene rootScene = new Scene(rootLayout);
                 stageNodeRoot.setScene(rootScene);
-
                 stageNodeRoot.show();
 
+                // Load main from fxml file
                 loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/views/Main.fxml"));
-
-                MainController controller = new MainController();
-                controller.setInstance(this.instance);
-                loader.setController(controller);
-
                 AnchorPane main = loader.load();
 
+                // Set user instance of the main layout
+                MainController mainController = loader.getController();
+                mainController.setInstance(this.instance);
+                //rootLayoutController.getInstance()
+
+                // Setting main as a child of rootLayout
                 rootLayout.getChildren().add(main);
+
             }
             else {
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");

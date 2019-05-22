@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -18,10 +19,16 @@ import java.io.IOException;
 public class RootLayoutController {
 
     private UserInstance instance;
-    private BorderPane rootLayout;
+    private AnchorPane rootLayout;
+    @FXML public MenuBar menuBar;
+
 
     public void setInstance(UserInstance instance) {
         this.instance = instance;
+    }
+
+    public UserInstance getInstance() {
+        return instance;
     }
 
     @FXML
@@ -41,14 +48,14 @@ public class RootLayoutController {
 
     public void disconnect(ActionEvent actionEvent) throws Exception {
         try {
-            instance.disconnect();
+            this.instance.disconnect();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/views/Login.fxml"));
             rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
 
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
 
             stageNodeRoot.setScene(scene);
             stageNodeRoot.show();

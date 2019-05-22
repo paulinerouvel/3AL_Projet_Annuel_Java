@@ -11,7 +11,7 @@ public class MainController {
     @FXML private Label test;
 
     @FXML private void initialize(){
-        test.setText("Initialized. Your token is : "+instance.getToken());
+        test.setText("Initialized. Your token is: nothing for now");
     }
     
     public void init() throws Exception {
