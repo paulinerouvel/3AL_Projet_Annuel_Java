@@ -23,6 +23,9 @@ public class User {
     private String ville;
     private Integer codePostal;
 
+    public User() {
+    }
+
     public User(Integer id, String libelle, String nom, String prenom, String mail, String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo, String desc, Integer tailleOrganisme, String statut, String siret, LocalDate dateDeNaissance, Integer nbPointsSourire) {
         this.id = id;
         this.libelle = libelle;

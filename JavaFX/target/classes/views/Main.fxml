@@ -26,9 +26,9 @@
             <Button mnemonicParsing="false" prefHeight="228.0" prefWidth="491.0" text="Button" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Button" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" prefHeight="249.0" prefWidth="468.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="291.0" prefWidth="508.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label fx:id="test" layoutX="499.0" layoutY="75.0" text="Test" />
+      <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="472.0" layoutY="60.0" text="[LabelEmployé]" textAlignment="CENTER" />
    </children>
 </AnchorPane>

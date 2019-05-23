@@ -1,11 +1,5 @@
 package services;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONObject;
 
@@ -21,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Authentication {
 
-    public String login(String login, String password) throws ClientProtocolException, IOException {
+    public JSONObject login(String login, String password) throws IOException {
 
         CloseableHttpClient client = null;
         try {
@@ -55,13 +49,12 @@ public class Authentication {
             in.close();
 
             // Form returned token and verify it
-            JSONObject obj = new JSONObject(buffReader.toString());
-            return obj.getString("token");
+            return new JSONObject(buffReader.toString());
 
         } catch (IOException e) {
             e.printStackTrace();
             client.close();
-            return e.toString();
+            return new JSONObject("{null}");
         }
     }
 }
