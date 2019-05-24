@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainEmployeeController">
+   <children>
+      <Label layoutX="445.0" layoutY="43.0" text="Bienvenue sur Wastemart" />
+      <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="472.0" layoutY="60.0" text="[LabelEmployé]" textAlignment="CENTER" />
+      <Pane layoutX="304.0" layoutY="90.0" prefHeight="425.0" prefWidth="417.0" />
+      <TextArea layoutX="204.0" layoutY="151.0" prefHeight="31.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

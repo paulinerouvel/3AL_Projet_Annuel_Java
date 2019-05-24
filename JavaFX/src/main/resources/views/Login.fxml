@@ -21,9 +21,8 @@
                 <Button mnemonicParsing="false" onAction="#authenticate" prefHeight="25.0" prefWidth="72.0" text="Login" />
          </buttons>
             </ButtonBar>
-            <Label fx:id="connectionStatus" />
             <Label layoutX="288.0" layoutY="287.0" text="Info:" />
-            <TextArea fx:id="infoText" editable="false" layoutX="159.0" layoutY="315.0" prefHeight="51.0" prefWidth="282.0" />
+            <TextArea fx:id="connectionStatus" editable="false" layoutX="159.0" layoutY="315.0" prefHeight="51.0" prefWidth="282.0" />
          </children>
 
 </AnchorPane>

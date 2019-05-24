@@ -1,8 +1,9 @@
+controllers\UserInfoController.class
 MainApp.class
 controllers\RootLayoutController.class
 models\User.class
 controllers\ProductListController.class
+controllers\MainEmployeeController.class
 services\Authentication.class
 controllers\LoginController.class
 services\UserInstance.class
-controllers\MainController.class

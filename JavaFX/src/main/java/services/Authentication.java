@@ -15,8 +15,9 @@ import java.nio.charset.StandardCharsets;
 
 public class Authentication {
 
-    public JSONObject login(String login, String password) throws IOException {
-
+    public JSONObject login(String login, String password){
+        HttpURLConnection http = null;
+        System.out.println("Logging in");
         CloseableHttpClient client = null;
         try {
             // Form url and json for login
@@ -28,7 +29,7 @@ public class Authentication {
             // Instantiate connection
             URLConnection con = url.openConnection();
             con.setDoOutput(true);
-            HttpURLConnection http = (HttpURLConnection) con;
+            http = (HttpURLConnection) con;
 
             // Form request, connect and send json
             http.setFixedLengthStreamingMode(length);
@@ -38,23 +39,35 @@ public class Authentication {
                 os.write(out);
             }
 
+
             // Get the input stream returned
+            System.out.println("Getting input stream");
             BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
             String inputLine;
             StringBuilder buffReader = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 buffReader.append(inputLine);
             }
-
             in.close();
+
+            System.out.println("Finished");
+
 
             // Form returned token and verify it
             return new JSONObject(buffReader.toString());
 
         } catch (IOException e) {
             e.printStackTrace();
-            client.close();
-            return new JSONObject("{null}");
+            try {
+                if (http != null && http.getResponseCode() > 299) {
+                    return new JSONObject("{\"error\":" + http.getResponseCode() + "}");
+                } else {
+                    return new JSONObject("{\"error\":\"internal\"}");
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return new JSONObject("{\"error\":\"internal\"}");
+            }
         }
     }
 }

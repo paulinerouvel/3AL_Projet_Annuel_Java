@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,53 +30,43 @@ public class LoginController {
 
     @FXML public TextField login;
     @FXML public PasswordField password;
-    @FXML public Label connectionStatus;
-    @FXML public TextArea infoText;
+    @FXML public TextArea connectionStatus;
 
-    /*
-    public void loadScene(){
-        // loading code
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        AnchorPane root = (AnchorPane) fxmlLoader.load(getClass().getResource("views/Login.fxml"));
-        controllers.LoginController myController = (controllers.LoginController) fxmlLoader.getController();
-        this.setScene(scene);
-    }
-    */
 
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void authenticate(ActionEvent actionEvent) throws Exception {
-
-        JSONObject token = null;
+    public void authenticate(ActionEvent actionEvent) {
         connectionStatus.setText("Trying to connect...");
 
-        try {
+        new Thread(() -> {
+            JSONObject token = getAuthentifier().login(login.getText(), password.getText());
+            Platform.runLater(() -> {
+                processLoginAttempt(token, actionEvent);
+            });
+        }).start();
+    }
 
-            token = this.authentifier.login(login.getText(), password.getText());
-            this.instance = new UserInstance(token);
+    public void processLoginAttempt(JSONObject token, ActionEvent actionEvent){
+        if(token.has("error")){
+            if(token.getInt("error") == 503){
+                connectionStatus.setText("Timeout");
+            } else if(token.getInt("error") == 400){
+                connectionStatus.setText("Identifiant ou mot de passe incorrect");
+            } else if(token.getString("error").equals("internal")) {
+                connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
+            }
+        } else {
+            setInstance(new UserInstance(token));
             //getInstance().setToken(token);
 
             if(instance.tokenIsValid()) {
                 instance.initUser();
                 instance.setConnected(true);
                 loadMainEmployeePage(actionEvent);
-
             }
             else {
-                connectionStatus.setText("Identifiant ou mot de passe incorrect");
+                connectionStatus.setText("Token incorrect. Re-essayez.");
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
-
     private void loadMainEmployeePage(ActionEvent actionEvent){
         // Load the Root Layout fxml
         setParentRootLayout(loadBorderPane("/views/RootLayout.fxml"));
@@ -89,11 +80,11 @@ public class LoginController {
         showBorderPane(stageNodeRoot, parentRootLayout);
 
         // Load the Main fxml
-        setParentMain(loadAnchorPane("/views/Main.fxml"));
+        setParentMain(loadAnchorPane("/views/MainEmployee.fxml"));
 
         // Init Main Controller
-        MainController mainController = loader.getController();
-        mainController.init(this.parentRootLayout, this.instance);
+        MainEmployeeController mainEmployeeController = loader.getController();
+        mainEmployeeController.init(this.parentRootLayout, this.instance);
 
         // Display the Main in center of Root Layout
         parentRootLayout.setCenter(parentMain);
@@ -138,16 +129,29 @@ public class LoginController {
     }
 
 
+    public void setInstance(UserInstance instance) {
+        this.instance = instance;
+    }
+
+    public UserInstance getInstance() {
+        return instance;
+    }
 
     public void setParentRootLayout(BorderPane parentRootLayout) {
         this.parentRootLayout = parentRootLayout;
     }
 
-    public void setParentMain(AnchorPane parentMain) {
-        this.parentMain = parentMain;
-    }
+    public void setParentMain(AnchorPane parentMain) { this.parentMain = parentMain; }
 
     public void setLoader(FXMLLoader loader) {
         this.loader = loader;
+    }
+
+    public Authentication getAuthentifier() {
+        return authentifier;
+    }
+
+    public void setAuthentifier(Authentication authentifier) {
+        this.authentifier = authentifier;
     }
 }
