@@ -21,9 +21,7 @@ import services.UserInstance;
 import java.io.IOException;
 
 public class LoginController {
-    private BorderPane parentRootLayout;
-    private AnchorPane parentMain;
-    private FXMLLoader loader;
+    private StageManager stageManager;
 
     private UserInstance instance;
     private Authentication authentifier = new Authentication();
@@ -50,7 +48,7 @@ public class LoginController {
                 connectionStatus.setText("Timeout");
             } else if(token.getInt("error") == 400){
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");
-            } else if(token.getString("error").equals("internal")) {
+            } else {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
@@ -60,72 +58,15 @@ public class LoginController {
             if(instance.tokenIsValid()) {
                 instance.initUser();
                 instance.setConnected(true);
-                loadMainEmployeePage(actionEvent);
+                stageManager.loadPage(actionEvent,
+                        "/views/RootLayout.fxml",
+                        "/views/MainEmployee.fxml",
+                        instance);
             }
             else {
                 connectionStatus.setText("Token incorrect. Re-essayez.");
             }
         }
-    }
-    private void loadMainEmployeePage(ActionEvent actionEvent){
-        // Load the Root Layout fxml
-        setParentRootLayout(loadBorderPane("/views/RootLayout.fxml"));
-
-        // Set user instance of the Root Layout
-        RootLayoutController rootLayoutController = loader.getController();
-        rootLayoutController.setInstance(this.instance);
-
-        // Display the Root Layout
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        showBorderPane(stageNodeRoot, parentRootLayout);
-
-        // Load the Main fxml
-        setParentMain(loadAnchorPane("/views/MainEmployee.fxml"));
-
-        // Init Main Controller
-        MainEmployeeController mainEmployeeController = loader.getController();
-        mainEmployeeController.init(this.parentRootLayout, this.instance);
-
-        // Display the Main in center of Root Layout
-        parentRootLayout.setCenter(parentMain);
-
-    }
-
-    // Load Border Pane from fxml file.
-    private BorderPane loadBorderPane(String fxml) {
-        FXMLLoader loader = new FXMLLoader();
-        BorderPane borderPane = new BorderPane();
-        try {
-            loader.setLocation(this.getClass().getResource(fxml));
-            borderPane = loader.load();
-            setLoader(loader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return borderPane;
-    }
-
-
-    private void showBorderPane(Stage stage, Parent rootLayout){
-        // Show the scene containing the root layout.
-        Scene rootScene = new Scene(rootLayout);
-        stage.setScene(rootScene);
-        stage.show();
-
-    }
-
-    // Load Border Pane from fxml file.
-    private AnchorPane loadAnchorPane(String fxml) {
-        FXMLLoader loader = new FXMLLoader();
-        AnchorPane anchorPane = new AnchorPane();
-        try {
-            loader.setLocation(this.getClass().getResource(fxml));
-            anchorPane = loader.load();
-            setLoader(loader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return anchorPane;
     }
 
 
@@ -137,21 +78,19 @@ public class LoginController {
         return instance;
     }
 
-    public void setParentRootLayout(BorderPane parentRootLayout) {
-        this.parentRootLayout = parentRootLayout;
-    }
-
-    public void setParentMain(AnchorPane parentMain) { this.parentMain = parentMain; }
-
-    public void setLoader(FXMLLoader loader) {
-        this.loader = loader;
-    }
-
     public Authentication getAuthentifier() {
         return authentifier;
     }
 
     public void setAuthentifier(Authentication authentifier) {
         this.authentifier = authentifier;
+    }
+
+    public StageManager getStageManager() {
+        return stageManager;
+    }
+
+    public void setStageManager(StageManager stageManager) {
+        this.stageManager = stageManager;
     }
 }

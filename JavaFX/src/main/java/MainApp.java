@@ -2,6 +2,7 @@ import java.io.IOException;
 
 import controllers.LoginController;
 import controllers.RootLayoutController;
+import controllers.StageManager;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import services.UserInstance;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     private UserInstance instance;
+    private StageManager stageManager;
     private AnchorPane rootLayout; // AnchorPane overrides Parent
     private AnchorPane login;
     private Stage stage;
@@ -87,6 +89,7 @@ public class MainApp extends Application {
 
             LoginController controller = loader.getController();
             controller.setInstance(instance);
+            controller.setStageManager(new StageManager());
 
             // Set person overview into the center of root layout.
             //rootLayout.getChildren().add(Login);

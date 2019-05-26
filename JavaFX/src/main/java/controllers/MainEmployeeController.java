@@ -2,9 +2,13 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import models.User;
 import services.UserInstance;
 
@@ -12,7 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainEmployeeController implements Initializable {
-    @FXML private BorderPane parentRootLayout;
+
+    private StageManager stageManager;
     @FXML private UserInstance instance;
     @FXML private LoginController loginController;
     @FXML private ProductListController productListController;
@@ -22,11 +27,10 @@ public class MainEmployeeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources){
     }
 
-    public void init(BorderPane rootLayout, UserInstance instance) {
+    public void init(UserInstance instance) {
 
 
         try {
-            setRootLayout(rootLayout);
             setInstance(instance);
             employeeName.setText(this.instance.getUser().getNom());
         } catch (Exception e) {
@@ -39,7 +43,10 @@ public class MainEmployeeController implements Initializable {
         userInfoController.displayUserInfos(actionEvent, instance.getUser());
     }
 
-
+    public void displayPlugins(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml",
+                instance);
+    }
 
     public UserInstance getInstance() {
         return instance;
@@ -49,11 +56,11 @@ public class MainEmployeeController implements Initializable {
         this.instance = instance;
     }
 
-    public BorderPane getRootLayout() {
-        return parentRootLayout;
+    public StageManager getStageManager() {
+        return stageManager;
     }
 
-    public void setRootLayout(BorderPane rootLayout) {
-        this.parentRootLayout = rootLayout;
+    public void setStageManager(StageManager stageManager) {
+        this.stageManager = stageManager;
     }
 }
