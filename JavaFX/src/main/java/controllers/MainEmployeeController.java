@@ -19,8 +19,6 @@ public class MainEmployeeController implements Initializable {
 
     private StageManager stageManager;
     @FXML private UserInstance instance;
-    @FXML private LoginController loginController;
-    @FXML private ProductListController productListController;
     @FXML private Label employeeName;
 
     @FXML @Override
@@ -28,8 +26,6 @@ public class MainEmployeeController implements Initializable {
     }
 
     public void init(UserInstance instance) {
-
-
         try {
             setInstance(instance);
             employeeName.setText(this.instance.getUser().getNom());

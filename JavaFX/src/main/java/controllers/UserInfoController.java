@@ -23,14 +23,14 @@ public class UserInfoController {
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         showBorderPane(stageNodeRoot, parentRootLayout);
 
-        // Load the Main fxml
+        // Load the Menu fxml
         setParentMain(loadAnchorPane("/views/MainEmployee.fxml"));
 
-        // Init Main Controller
+        // Init Menu Controller
         MainEmployeeController mainEmployeeController = loader.getController();
         mainEmployeeController.init(this.parentRootLayout, this.instance);
 
-        // Display the Main in center of Root Layout
+        // Display the Menu in center of Root Layout
         parentRootLayout.setCenter(parentMain);
 
     }*/

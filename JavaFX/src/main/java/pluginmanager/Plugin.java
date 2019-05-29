@@ -1,4 +1,4 @@
-package plugin;
+package pluginmanager;
 
 public abstract class Plugin {
 	public abstract void run();

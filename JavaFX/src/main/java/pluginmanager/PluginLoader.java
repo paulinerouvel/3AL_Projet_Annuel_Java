@@ -1,18 +1,16 @@
-package plugin;
+package pluginmanager;
+
+import pluginmanager.Plugin;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import java.lang.Class;
 
 public class PluginLoader {
 
@@ -72,12 +70,12 @@ public class PluginLoader {
 		jarFile.close();
 
 
-		//TODO Main a changer !
+		//TODO Menu a changer !
 		/**Reflexivité ici, on analyse la classe "main" grace à la classe Class*/
 		/**La JVM creer des instances au chargement de la classe*/
 		//For Name : Returns the Class object associated with the class or interface with the given string name, using the given class loader.
 		//CLassLoader : A class loader is an object that is responsible for loading classes.
-		return Class.forName(confTab.get("Main"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
+		return Class.forName(confTab.get("Menu"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
 	}
 
 
@@ -96,7 +94,7 @@ public class PluginLoader {
 		        System.out.println(e);
             }
 
-		
+
 		return plugins;
 	}
 

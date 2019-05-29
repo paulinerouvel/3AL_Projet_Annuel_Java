@@ -17,7 +17,7 @@ public class Authentication {
 
     public JSONObject login(String login, String password){
         HttpURLConnection http = null;
-        System.out.println("Logging in");
+        //System.out.println("Logging in");
         CloseableHttpClient client = null;
         try {
             // Form url and json for login
@@ -26,10 +26,14 @@ public class Authentication {
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
 
+            //System.out.println("Opening connection");
+
             // Instantiate connection
             URLConnection con = url.openConnection();
             con.setDoOutput(true);
             http = (HttpURLConnection) con;
+
+            //System.out.println("Connected");
 
             // Form request, connect and send json
             http.setFixedLengthStreamingMode(length);
@@ -39,9 +43,8 @@ public class Authentication {
                 os.write(out);
             }
 
-
             // Get the input stream returned
-            System.out.println("Getting input stream");
+            //System.out.println("Getting input stream");
             BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
             String inputLine;
             StringBuilder buffReader = new StringBuilder();
@@ -50,7 +53,7 @@ public class Authentication {
             }
             in.close();
 
-            System.out.println("Finished");
+            //System.out.println("Finished");
 
 
             // Form returned token and verify it

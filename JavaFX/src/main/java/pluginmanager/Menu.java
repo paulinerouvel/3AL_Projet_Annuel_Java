@@ -1,24 +1,24 @@
+package pluginmanager;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import plugin.Plugin;
-import plugin.PluginLoader;
+import pluginmanager.Plugin;
+import pluginmanager.PluginLoader;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.zip.ZipFile;
-import java.util.zip.*;
 
 
-public class Main {
+public class Menu {
 
     private static Plugin[] plugins;
     private static String[] pluginsName;
-    private static String path = "src/main/ressources/plugins";
-    private static String confFile = "src/main/activatedPlugins.conf";
+    private static String path = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
+    private static String confFile = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/activatedPlugins.conf";
 
 
 	public static void main(String[] args) {
@@ -74,9 +74,6 @@ public class Main {
             choice = sc.nextLine();
         }
 
-
-
-		
 	}
 
 	public static void initialization(){
@@ -104,10 +101,7 @@ public class Main {
     }
 
 	public static void loadPlugins(){
-
-
         try {
-
             /**Chargement des plugins*/
             Class<?>[] pluginsClasses = PluginLoader.loadPluginsDirectory(path);
 
@@ -117,15 +111,7 @@ public class Main {
 
             pluginsName = PluginLoader.getPluginsNames(path);
 
-
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InstantiationException | IllegalAccessException | IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -3,23 +3,15 @@ package controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import services.UserInstance;
-
-import javax.swing.*;
-import java.io.IOException;
 
 public class RootLayoutController {
 
     private UserInstance instance;
-    private AnchorPane rootLayout;
+    private StageManager stageManager;
     @FXML public MenuBar menuBar;
 
 
@@ -46,8 +38,8 @@ public class RootLayoutController {
     }
 
 
-    public void disconnect(ActionEvent actionEvent) throws Exception {
-        try {
+    public void disconnect() throws Exception {
+        /*try {
             this.instance.disconnect();
 
             FXMLLoader loader = new FXMLLoader();
@@ -62,6 +54,15 @@ public class RootLayoutController {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        stageManager.loadLoginPageFromMenuBar(instance, menuBar);
+    }
+
+    public StageManager getStageManager() {
+        return stageManager;
+    }
+
+    public void setStageManager(StageManager stageManager) {
+        this.stageManager = stageManager;
     }
 }

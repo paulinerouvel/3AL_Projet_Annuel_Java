@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.time.LocalDate;
 
@@ -90,7 +88,7 @@ public class UserInstance {
     }
 
     public void setUser(JSONObject user) {
-        System.out.println(user);
+        //System.out.println(user);
         this.user = new User();
         this.user.setId(user.getInt("id"));
         this.user.setLibelle("employee");

@@ -2,10 +2,13 @@ models/User.class
 services/Authentication.class
 MainApp.class
 controllers/LoginController.class
+pluginmanager/PluginLoader.class
 controllers/PluginPageController.class
 services/UserInstance.class
 controllers/MainEmployeeController.class
 controllers/ProductListController.class
 controllers/RootLayoutController.class
 controllers/StageManager.class
+pluginmanager/Menu.class
 controllers/UserInfoController.class
+pluginmanager/Plugin.class

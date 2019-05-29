@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -18,23 +19,29 @@ public class StageManager {
     private AnchorPane parentMain;
 
     public void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
+        if(!instance.tokenIsValid()){
+            loadLoginPage(actionEvent, instance);
+        }
+
         // Load the Root Layout fxml
         setParentRootLayout(loadBorderPane(rootLayout));
 
         // Set user instance of the Root Layout
         RootLayoutController rootLayoutController = getLoader().getController();
         rootLayoutController.setInstance(instance);
+        rootLayoutController.setStageManager(this);
 
         // Display the Root Layout
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         showBorderPane(stageNodeRoot, getParentRootLayout());
 
-        // Load the Main fxml
+        // Load the Menu fxml
         setParentMain(loadAnchorPane(mainView));
 
-        // Init Main Controller
+        // Init Menu Controller
         Class<?> controllerClassType = getLoader().getController().getClass();
         if(controllerClassType == MainEmployeeController.class){
+
             MainEmployeeController mainEmployeeController = getLoader().getController();
             mainEmployeeController.setStageManager(this);
             mainEmployeeController.init(instance);
@@ -42,11 +49,10 @@ public class StageManager {
         } else if (controllerClassType == PluginPageController.class){
             PluginPageController pluginPageController = getLoader().getController();
             pluginPageController.setStageManager(this);
-            pluginPageController.setInstance(instance);
+            pluginPageController.init(instance);
         }
 
-
-        // Display the Main in center of Root Layout
+        // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());
 
     }
@@ -87,6 +93,52 @@ public class StageManager {
             e.printStackTrace();
         }
         return anchorPane;
+    }
+
+    public void loadLoginPage(ActionEvent actionEvent, UserInstance instance){
+        try {
+            instance.disconnect();
+            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            AnchorPane rootLayout = loader.load();
+            Scene scene = new Scene(rootLayout);
+
+            LoginController loginController = loader.getController();
+            loginController.setStageManager(this);
+
+            //Stage stageNodeRoot = (Stage) rootLayout.getScene().getWindow();
+
+            stageNodeRoot.setScene(scene);
+            stageNodeRoot.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadLoginPageFromMenuBar(UserInstance instance, MenuBar menuBar){
+        try {
+            instance.disconnect();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            AnchorPane rootLayout = loader.load();
+            Scene scene = new Scene(rootLayout);
+
+            Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
+
+            LoginController loginController = loader.getController();
+            loginController.setStageManager(this);
+
+
+            stageNodeRoot.setScene(scene);
+            stageNodeRoot.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLoader(FXMLLoader loader) {
