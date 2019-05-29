@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="3AL_Projet_Annuel_Java" target="11" />
       <module name="parent" target="11" />
     </bytecodeTargetLevel>
   </component>
