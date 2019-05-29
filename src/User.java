@@ -1,15 +1,23 @@
-package models;
-
 import java.time.LocalDate;
+import Annotations.*;
 
 public class User {
-
     private Integer id;
+
+    @Documentation.JsonField("libelle")
     private String libelle;
+
+    @Documentation.JsonField("nom")
     private String nom;
+
+    @Documentation.JsonField("prenom")
     private String prenom;
+
+    @Documentation.JsonField("mail")
     private String mail;
+    @Documentation.JsonField("pseudo")
     private String pseudo;
+
     private String mdp;
     private String photo;
     private String desc;
@@ -23,12 +31,7 @@ public class User {
     private String ville;
     private Integer codePostal;
 
-    public User() {
-    }
-
-    public User(Integer id, String libelle, String nom, String prenom, String mail, String tel, String adresse,
-                String ville, Integer codePostal, String pseudo, String mdp, String photo, String desc,
-                Integer tailleOrganisme, String statut, String siret, LocalDate dateDeNaissance, Integer nbPointsSourire){
+    public User(Integer id, String libelle, String nom, String prenom, String mail, String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo, String desc, Integer tailleOrganisme, String statut, String siret, LocalDate dateDeNaissance, Integer nbPointsSourire) {
         this.id = id;
         this.libelle = libelle;
         this.nom = nom;

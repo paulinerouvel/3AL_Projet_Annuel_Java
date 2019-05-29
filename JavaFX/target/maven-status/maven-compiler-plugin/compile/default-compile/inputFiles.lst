@@ -1,11 +1,11 @@
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/services/Authentication.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/ProductListController.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/models/User.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/PluginPageController.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/StageManager.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/services/UserInstance.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/MainApp.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/MainEmployeeController.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/RootLayoutController.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/LoginController.java
-/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/java/controllers/UserInfoController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\services\Authentication.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\services\UserInstance.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\MainEmployeeController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\ProductListController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\PluginPageController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\RootLayoutController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\MainApp.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\StageManager.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\LoginController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\controllers\UserInfoController.java
+C:\Users\grego\OneDrive\Desktop\Cours ESGI\Projet Annuel - WasteMart\Java WasteMart\3AL_Projet_Annuel_Java\JavaFX\src\main\java\models\User.java

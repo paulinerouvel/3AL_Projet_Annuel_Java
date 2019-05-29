@@ -43,7 +43,13 @@ public class StageManager {
             PluginPageController pluginPageController = getLoader().getController();
             pluginPageController.setStageManager(this);
             pluginPageController.setInstance(instance);
+        } else if (controllerClassType == UserInfoController.class) {
+            UserInfoController userInfoController = getLoader().getController();
+            userInfoController.setStageManager(this);
+            userInfoController.setInstance(instance);
+            userInfoController.init(instance);
         }
+
 
 
         // Display the Main in center of Root Layout

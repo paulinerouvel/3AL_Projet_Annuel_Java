@@ -39,8 +39,10 @@ public class MainEmployeeController implements Initializable {
     }
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
-        UserInfoController userInfoController = new UserInfoController();
-        userInfoController.displayUserInfos(actionEvent, instance.getUser());
+        //UserInfoController userInfoController = new UserInfoController();
+        //userInfoController.displayUserInfos(actionEvent, instance.getUser());
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
+                instance);
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
