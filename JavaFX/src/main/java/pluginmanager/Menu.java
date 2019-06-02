@@ -17,8 +17,8 @@ public class Menu {
 
     private static Plugin[] plugins;
     private static String[] pluginsName;
-    private static String path = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
-    private static String confFile = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/activatedPlugins.conf";
+    private static String path = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
+    private static String confFile = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/activatedPlugins.conf";
 
 
 	public static void main(String[] args) {

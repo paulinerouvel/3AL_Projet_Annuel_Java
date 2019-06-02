@@ -27,8 +27,8 @@ public class PluginPageController {
     private StageManager stageManager;
     private UserInstance instance;
 
-    private String pluginPath = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
-    //private String pluginPath = "/plugins/";
+    //private String pluginPath = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
+    private String pluginPath = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
     private static String[] localPlugins;
     private static ArrayList<String> onlinePlugins;
 
