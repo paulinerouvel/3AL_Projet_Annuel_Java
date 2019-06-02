@@ -26,6 +26,7 @@ public class LoginController {
 
         new Thread(() -> {
             JSONObject token = getAuthentifier().login(login.getText(), password.getText());
+            setInstance(new UserInstance(token));
             Platform.runLater(() -> {
                 processLoginAttempt(token, actionEvent);
             });
@@ -43,7 +44,6 @@ public class LoginController {
             }
         } else {
             setInstance(new UserInstance(token));
-            //getInstance().setToken(token);
 
             if(instance.tokenIsValid()) {
                 instance.initUser();

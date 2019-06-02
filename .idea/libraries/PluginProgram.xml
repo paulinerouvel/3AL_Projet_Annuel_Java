@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="PluginProgram">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../3AL_ProjetAnnuel_PluginLoader/out/artifacts/PluginProgram_jar/PluginProgram.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
