@@ -1,5 +1,4 @@
 models/User.class
-services/Authentication.class
 MainApp.class
 controllers/LoginController.class
 pluginmanager/PluginLoader.class

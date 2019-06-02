@@ -6,14 +6,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import models.User;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 public class UserInstance {
@@ -21,10 +21,6 @@ public class UserInstance {
     public boolean isConnected = false;
     private JSONObject token;
     private User user;
-
-    public UserInstance(JSONObject token){
-        setToken(token);
-    }
 
     public boolean tokenIsValid() throws JWTVerificationException {
         String token = getTokenValue();
@@ -108,6 +104,56 @@ public class UserInstance {
         this.user.setSiret(user.getString("siret"));
         this.user.setDateDeNaissance(user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance")));
         this.user.setNbPointsSourire(user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire"));
+    }
+
+    public JSONObject login(String login, String password){
+        HttpURLConnection http = null;
+        CloseableHttpClient client = null;
+        try {
+            // Form url and json for login
+            URL url = new URL("https://wastemart-api.herokuapp.com/user/login");
+            String jsonBody =  "{\"mail\":\""+ login +"\",\"mdp\":\""+ password +"\"}";
+            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+            // Instantiate connection
+            URLConnection con = url.openConnection();
+            con.setDoOutput(true);
+            http = (HttpURLConnection) con;
+
+            // Form request, connect and send json
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+
+            // Get the input stream returned
+            BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
+            String inputLine;
+            StringBuilder buffReader = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                buffReader.append(inputLine);
+            }
+            in.close();
+
+            // Form returned token and verify it
+            return new JSONObject(buffReader.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                if (http != null && http.getResponseCode() > 299) {
+                    return new JSONObject("{\"error\":" + http.getResponseCode() + "}");
+                } else {
+                    return new JSONObject("{\"error\":\"internal\"}");
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return new JSONObject("{\"error\":\"internal\"}");
+            }
+        }
     }
 
     public void disconnect(){

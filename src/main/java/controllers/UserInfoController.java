@@ -17,7 +17,7 @@ public class UserInfoController {
 
         // Set user instance of the Root Layout
         RootLayoutController rootLayoutController = loader.getController();
-        rootLayoutController.setInstance(this.instance);
+        rootLayoutController.setUserInstance(this.instance);
 
         // Display the Root Layout
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

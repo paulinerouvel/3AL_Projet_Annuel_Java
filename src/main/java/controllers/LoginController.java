@@ -6,15 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import models.User;
 import org.json.JSONObject;
-import services.Authentication;
 import services.UserInstance;
 
 public class LoginController {
 
     private StageManager stageManager;
-    private UserInstance instance;
-    private Authentication authentifier = new Authentication();
+    private UserInstance userInstance;
 
     @FXML public TextField login;
     @FXML public PasswordField password;
@@ -23,10 +22,10 @@ public class LoginController {
 
     public void authenticate(ActionEvent actionEvent) {
         connectionStatus.setText("Trying to connect...");
-
+        userInstance = new UserInstance();
         new Thread(() -> {
-            JSONObject token = getAuthentifier().login(login.getText(), password.getText());
-            setInstance(new UserInstance(token));
+            JSONObject token = userInstance.login(login.getText(), password.getText());
+
             Platform.runLater(() -> {
                 processLoginAttempt(token, actionEvent);
             });
@@ -43,15 +42,15 @@ public class LoginController {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
-            setInstance(new UserInstance(token));
+            userInstance.setToken(token);
 
-            if(instance.tokenIsValid()) {
-                instance.initUser();
-                instance.setConnected(true);
+            if(userInstance.tokenIsValid()) {
+                userInstance.initUser();
+                userInstance.setConnected(true);
                 stageManager.loadPage(actionEvent,
                         "/views/RootLayout.fxml",
                         "/views/MainEmployee.fxml",
-                        instance);
+                        userInstance);
             }
             else {
                 connectionStatus.setText("Token incorrect. Re-essayez.");
@@ -60,20 +59,12 @@ public class LoginController {
     }
 
 
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
+    public void setUserInstance(UserInstance userInstance) {
+        this.userInstance = userInstance;
     }
 
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public Authentication getAuthentifier() {
-        return authentifier;
-    }
-
-    public void setAuthentifier(Authentication authentifier) {
-        this.authentifier = authentifier;
+    public UserInstance getUserInstance() {
+        return userInstance;
     }
 
     public StageManager getStageManager() {
