@@ -3,10 +3,10 @@ MainApp.class
 controllers/LoginController.class
 pluginmanager/PluginLoader.class
 controllers/PluginPageController.class
-services/UserInstance.class
 controllers/MainEmployeeController.class
 controllers/ProductListController.class
 controllers/RootLayoutController.class
+services/UserInstance.class
 controllers/StageManager.class
 pluginmanager/Menu.class
 controllers/UserInfoController.class

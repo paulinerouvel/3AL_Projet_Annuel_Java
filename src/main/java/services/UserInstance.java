@@ -168,6 +168,8 @@ public class UserInstance {
         return token.getInt("userId");
     }
 
+    public Integer getTokenUserCategory() { return token.getInt("userCategory"); }
+
 
     public void setToken(JSONObject token) {
         this.token = token;

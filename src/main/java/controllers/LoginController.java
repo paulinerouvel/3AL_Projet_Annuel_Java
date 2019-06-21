@@ -1,5 +1,6 @@
 package controllers;
 
+//import fr.wastemart.maven.annotationprocessor.annotation.AutoImplement;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import models.User;
 import org.json.JSONObject;
 import services.UserInstance;
 
+//@AutoImplement(as = "User", builder = true)
 public class LoginController {
 
     private StageManager stageManager;
@@ -47,10 +49,24 @@ public class LoginController {
             if(userInstance.tokenIsValid()) {
                 userInstance.initUser();
                 userInstance.setConnected(true);
-                stageManager.loadPage(actionEvent,
-                        "/views/RootLayout.fxml",
-                        "/views/MainEmployee.fxml",
-                        userInstance);
+
+                if(userInstance.getTokenUserCategory().equals("employee")){
+                    stageManager.loadPage(actionEvent,
+                            "/views/RootLayout.fxml",
+                            "/views/MainEmployee.fxml",
+                            userInstance);
+                } else if(userInstance.getTokenUserCategory().equals("admin")){
+                    stageManager.loadPage(actionEvent,
+                            "/views/RootLayout.fxml",
+                            "/views/MainAdmin.fxml",
+                            userInstance);
+                } else if(userInstance.getTokenUserCategory().equals("professionnal")) {
+                    stageManager.loadPage(actionEvent,
+                            "/views/RootLayout.fxml",
+                            "/views/MainProfessionnal.fxml",
+                            userInstance);
+                }
+
             }
             else {
                 connectionStatus.setText("Token incorrect. Re-essayez.");
