@@ -4,28 +4,31 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PluginPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PluginPageController">
    <children>
-      <Label layoutX="490.0" layoutY="27.0" text="Plug-ins">
+      <Label layoutX="470.0" layoutY="20.0" style="-fx-font-size: 25;" text="Plug-ins">
          <font>
             <Font name="Khmer OS System" size="18.0" />
          </font></Label>
-      <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="472.0" layoutY="60.0" text="[LabelEmployé]" textAlignment="CENTER" />
-      <ListView fx:id="localPluginsList" layoutX="214.0" layoutY="109.0" prefHeight="381.0" prefWidth="296.0" />
+      <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="214.0" layoutY="60.0" prefHeight="21.0" prefWidth="604.0" text="[LabelEmployé]" textAlignment="CENTER" />
+      <ListView fx:id="localPluginsList" layoutX="214.0" layoutY="194.0" prefHeight="296.0" prefWidth="296.0" />
       <ButtonBar layoutX="412.0" layoutY="309.0" prefHeight="40.0" prefWidth="200.0" />
-      <ListView fx:id="onlinePluginsList" layoutX="523.0" layoutY="109.0" prefHeight="381.0" prefWidth="296.0" />
-      <ButtonBar layoutX="407.0" layoutY="489.0" prefHeight="40.0" prefWidth="200.0">
+      <ListView fx:id="onlinePluginsList" layoutX="523.0" layoutY="194.0" prefHeight="296.0" prefWidth="296.0" />
+      <ButtonBar layoutX="205.0" layoutY="489.0" prefHeight="40.0" prefWidth="604.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#uninstallPlugin" prefHeight="26.0" prefWidth="112.0" text="Désinstaller" />
+          <Button mnemonicParsing="false" onAction="#uninstallPlugin" prefHeight="29.0" prefWidth="366.0" text="Désinstaller" />
             <Button mnemonicParsing="false" onAction="#installPlugin" text="Installer" />
         </buttons>
       </ButtonBar>
-      <Label layoutX="312.0" layoutY="93.0" text="Plug-ins installés" />
-      <Label layoutX="617.0" layoutY="93.0" text="Plug-ins en ligne" />
-      <Button layoutX="14.0" layoutY="38.0" mnemonicParsing="false" onAction="#displayMainEmployee" text="Retour" />
+      <Label layoutX="306.0" layoutY="167.0" text="Plug-ins installés" />
+      <Label layoutX="615.0" layoutY="167.0" text="Plug-ins en ligne" />
+      <Button layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#displayMainEmployee" text="Retour" />
+      <TextField layoutX="329.0" layoutY="103.0" prefHeight="37.0" prefWidth="455.0" />
+      <Button layoutX="214.0" layoutY="107.0" mnemonicParsing="false" onAction="#selectFolder" text="Parcourir" />
       <!--<Button layoutX="55.0" layoutY="96.0" mnemonicParsing="false" onAction="#disconnect" text="disconnect" />-->
    </children>
 </AnchorPane>

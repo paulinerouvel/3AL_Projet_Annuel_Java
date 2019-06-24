@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="JavaFX" target="11" />
+      <module name="parent" target="11" />
+      <module name="parent (1)" target="11" />
+      <module name="parent (2)" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

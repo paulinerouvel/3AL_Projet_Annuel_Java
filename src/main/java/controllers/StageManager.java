@@ -20,7 +20,7 @@ public class StageManager {
 
     public void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
         if(!instance.tokenIsValid()){
-            loadLoginPage(actionEvent, instance);
+            loadRootlessPage(actionEvent, "/views/MainEmployee.fxml");
         }
 
         // Load the Root Layout fxml
@@ -41,7 +41,6 @@ public class StageManager {
         // Init Menu Controller
         Class<?> controllerClassType = getLoader().getController().getClass();
         if(controllerClassType == MainEmployeeController.class){
-
             MainEmployeeController mainEmployeeController = getLoader().getController();
             mainEmployeeController.setStageManager(this);
             mainEmployeeController.init(instance);
@@ -50,11 +49,62 @@ public class StageManager {
             PluginPageController pluginPageController = getLoader().getController();
             pluginPageController.setStageManager(this);
             pluginPageController.init(instance);
-        }
+
+        } else if (controllerClassType == UserInfoController.class) {
+            UserInfoController userInfoController = getLoader().getController();
+            userInfoController.setStageManager(this);
+            userInfoController.setInstance(instance);
+            userInfoController.init(instance);
+    }
 
         // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());
 
+    }
+
+    // Loads a page without root (register, login)
+    public void loadRootlessPage(ActionEvent actionEvent, String mainView) {
+        //instance.disconnect();
+        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        setParentMain(loadAnchorPane(mainView));
+
+        Class<?> controllerClassType = getLoader().getController().getClass();
+        if(controllerClassType == RegisterController.class) {
+            RegisterController registerController = loader.getController();
+            registerController.setStageManager(this);
+        } else if (controllerClassType == LoginController.class){
+            LoginController loginController = loader.getController();
+            loginController.setStageManager(this);
+        }
+
+        showBorderPane(stageNodeRoot, getParentMain());
+        stageNodeRoot.show();
+
+    }
+
+    // Loads login page from the menu bar
+    public void loadLoginPageFromMenuBar(UserInstance instance, MenuBar menuBar){
+        try {
+            instance.disconnect();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            AnchorPane rootLayout = loader.load();
+            Scene scene = new Scene(rootLayout);
+
+            Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
+
+            LoginController loginController = loader.getController();
+            loginController.setStageManager(this);
+
+
+            stageNodeRoot.setScene(scene);
+            stageNodeRoot.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -95,51 +145,6 @@ public class StageManager {
         return anchorPane;
     }
 
-    public void loadLoginPage(ActionEvent actionEvent, UserInstance instance){
-        try {
-            instance.disconnect();
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/Login.fxml"));
-            AnchorPane rootLayout = loader.load();
-            Scene scene = new Scene(rootLayout);
-
-            LoginController loginController = loader.getController();
-            loginController.setStageManager(this);
-
-            //Stage stageNodeRoot = (Stage) rootLayout.getScene().getWindow();
-
-            stageNodeRoot.setScene(scene);
-            stageNodeRoot.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadLoginPageFromMenuBar(UserInstance instance, MenuBar menuBar){
-        try {
-            instance.disconnect();
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/Login.fxml"));
-            AnchorPane rootLayout = loader.load();
-            Scene scene = new Scene(rootLayout);
-
-            Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
-
-            LoginController loginController = loader.getController();
-            loginController.setStageManager(this);
-
-
-            stageNodeRoot.setScene(scene);
-            stageNodeRoot.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setLoader(FXMLLoader loader) {
         this.loader = loader;

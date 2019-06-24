@@ -3,8 +3,12 @@ package controllers;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +32,9 @@ public class PluginPageController {
     private UserInstance instance;
 
     //private String pluginPath = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
-    private String pluginPath = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
+    //private String pluginPath = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
+    @FXML private TextField pluginPath;
+
     private static String[] localPlugins;
     private static ArrayList<String> onlinePlugins;
 
@@ -66,6 +72,32 @@ public class PluginPageController {
         }
     }
 
+
+    private void fetchInstalledPlugins(){
+        try {
+            localPlugins = getPluginsNames(pluginPath.getText());
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchOnlinePlugins(){
+        String urlPlugin = "http://51.75.143.205:8000";
+        onlinePlugins = new ArrayList<String>();
+
+        try {
+            Document document = Jsoup.connect(urlPlugin).get();
+
+            Elements link = document.select("a[href]");
+            for (Element links : link) {
+                onlinePlugins.add(links.text());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void installPlugin(ActionEvent actionEvent) throws Exception {
         ObservableList<Integer> selectedIndices = onlinePluginsList.getSelectionModel().getSelectedIndices();
 
@@ -95,7 +127,7 @@ public class PluginPageController {
         ObservableList<Integer> selectedIndices = localPluginsList.getSelectionModel().getSelectedIndices();
         System.out.println(selectedIndices);
 
-        File dir = new File(pluginPath);
+        File dir = new File(pluginPath.getText());
 
         final File[] pluginsList = dir.listFiles();
 
@@ -120,42 +152,30 @@ public class PluginPageController {
             //infoText.setText("Erreur");
 
         }
-
-
-
     }
 
-    private void fetchInstalledPlugins(){
-        try {
-            localPlugins = getPluginsNames(pluginPath);
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void fetchOnlinePlugins(){
-        String urlPlugin = "http://51.75.143.205:8000";
-        onlinePlugins = new ArrayList<String>();
-
-        try {
-            Document document = Jsoup.connect(urlPlugin).get();
-
-            Elements link = document.select("a[href]");
-            for (Element links : link) {
-                onlinePlugins.add(links.text());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Return button
     public void displayMainEmployee(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent,"/views/RootLayout.fxml","/views/MainEmployee.fxml", instance);
     }
 
 
     public void disconnect(ActionEvent actionEvent) {
-        stageManager.loadLoginPage(actionEvent, instance);
+        stageManager.loadRootlessPage(actionEvent, "/views/MainEmployee.fxml");
+    }
+
+    public void selectFolder(ActionEvent actionEvent) {
+        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(stageNodeRoot);
+
+        if(selectedDirectory == null){
+            //No Directory selected
+        }else{
+            pluginPath.setText(selectedDirectory.getAbsolutePath().toString());
+            System.out.println(selectedDirectory.getAbsolutePath());
+        }
     }
 
     public UserInstance getInstance() {

@@ -27,7 +27,7 @@ public class UserInstance {
         try {
             Algorithm algorithm = Algorithm.HMAC256(" SFGQDFB54QSDF5G4W5XV43QGREgdfg54214542sdf24242sf424bjksgdfsqfgZR");
             JWTVerifier verifier = JWT.require(algorithm)
-                    .acceptLeeway(15)
+                    .acceptLeeway(30)
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
             //Date expiresAt = jwt.getExpiresAt();
@@ -104,6 +104,69 @@ public class UserInstance {
         this.user.setSiret(user.getString("siret"));
         this.user.setDateDeNaissance(user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance")));
         this.user.setNbPointsSourire(user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire"));
+    }
+
+    public void setUser(User user){
+        this.user.setAdresse(user.getAdresse());
+        this.user.setCodePostal(user.getCodePostal());
+        this.user.setMail(user.getMail());
+        this.user.setMdp(user.getMdp());
+        this.user.setTel(user.getTel());
+        this.user.setVille(user.getVille());
+    }
+
+    public boolean saveUser(User user) {
+        HttpURLConnection http = null;
+        CloseableHttpClient client = null;
+        try {
+            // Form url and json for login
+            URL url = new URL("https://wastemart-api.herokuapp.com/user/");
+
+            String jsonBody =
+                    "{\n" +
+                            "\t\"id\": \""+user.getId()+"\",\n" +
+                            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
+                            "\t\"nom\": \""+user.getNom()+"\",\n" +
+                            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
+                            "\t\"mail\":\""+user.getMail()+"\",\n" +
+                            "\t\"tel\":\""+user.getTel()+"\",\n" +
+                            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+                            "\t\"ville\":\""+user.getVille()+"\",\n" +
+                            "\t\"codePostal\":\""+user.getCodePostal()+"\",\n" +
+                            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+                            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+                            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
+                            "\t\"desc\":\""+user.getDesc()+"\",\n" +
+                            "\t\"tailleOrganisme\":\""+user.getTailleOrganisme()+"\",\n" +
+                            "\t\"statut\":\""+user.getStatut()+"\",\n" +
+                            "\t\"siret\":\""+user.getSiret()+"\",\n" +
+                            "\t\"dateNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+                            "\t\"nbPointsSourire\":\""+user.getNbPointsSourire()+"\"\n" +
+                            "}";
+            System.out.println(jsonBody);
+            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+            // Instantiate connection
+            URLConnection con = url.openConnection();
+            con.setDoOutput(true);
+            http = (HttpURLConnection) con;
+            ((HttpURLConnection) con).setRequestMethod("PUT");
+
+            // Form request, connect and send json
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+            // Form returned token and verify it
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public JSONObject login(String login, String password){
