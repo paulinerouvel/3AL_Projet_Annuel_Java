@@ -59,7 +59,6 @@ public class StageManager {
 
         // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());
-
     }
 
     // Loads a page without root (register, login)

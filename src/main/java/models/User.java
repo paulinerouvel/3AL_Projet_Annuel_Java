@@ -14,7 +14,7 @@ public class User {
     private String photo;
     private String desc;
     private Integer tailleOrganisme;
-    private String statut;
+    //private String statut;
     private String Siret;
     private LocalDate dateDeNaissance;
     private Integer nbPointsSourire;
@@ -41,7 +41,7 @@ public class User {
         this.photo = photo;
         this.desc = desc;
         this.tailleOrganisme = tailleOrganisme;
-        this.statut = statut;
+        //this.statut = statut;
         this.Siret = siret;
         this.dateDeNaissance = dateDeNaissance;
         this.nbPointsSourire = nbPointsSourire;
@@ -103,9 +103,9 @@ public class User {
         return tailleOrganisme;
     }
 
-    public String getStatut() {
+    /*public String getStatut() {
         return statut;
-    }
+    }*/
 
     public String getSiret() {
         return Siret;
@@ -176,9 +176,9 @@ public class User {
         this.tailleOrganisme = tailleOrganisme;
     }
 
-    public void setStatut(String statut) {
+    /*public void setStatut(String statut) {
         this.statut = statut;
-    }
+    }*/
 
     public void setSiret(String siret) {
         Siret = siret;

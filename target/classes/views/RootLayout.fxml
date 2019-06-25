@@ -6,13 +6,12 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RootLayoutController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="1024.0" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RootLayoutController">
    <top>
-     <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" style="-fx-background-color: #e1dbc4;" AnchorPane.topAnchor="50.0" BorderPane.alignment="CENTER">
+     <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" scaleShape="false" style="-fx-background-color: #292929;" AnchorPane.topAnchor="50.0" BorderPane.alignment="CENTER">
        <menus>
-         <Menu mnemonicParsing="false" style="-fx-background-color: #878658;" text="File">
+         <Menu mnemonicParsing="false" style="-fx-background-color: #292929;" text="File">
            <items>
              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
              <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
