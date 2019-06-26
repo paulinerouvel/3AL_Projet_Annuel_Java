@@ -100,7 +100,7 @@ public class UserInstance {
         this.user.setPhoto(user.isNull("desc") ? null : user.getString("photo"));
         this.user.setDesc(user.isNull("desc") ? null : user.getString("desc"));
         this.user.setTailleOrganisme(user.getInt("tailleOrganisme"));
-        //this.user.setStatut(user.getString("statut"));
+        this.user.setEstValide(user.getInt("estValide"));
         this.user.setSiret(user.getString("siret"));
         this.user.setDateDeNaissance(user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance")));
         this.user.setNbPointsSourire(user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire"));
@@ -138,7 +138,7 @@ public class UserInstance {
                             "\t\"photo\":\""+user.getPhoto()+"\",\n" +
                             "\t\"desc\":\""+user.getDesc()+"\",\n" +
                             "\t\"tailleOrganisme\":\""+user.getTailleOrganisme()+"\",\n" +
-                            //"\t\"statut\":\""+user.getStatut()+"\",\n" +
+                            "\t\"estValide\":\""+user.getEstValide()+"\",\n" +
                             "\t\"siret\":\""+user.getSiret()+"\",\n" +
                             "\t\"dateNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
                             "\t\"nbPointsSourire\":\""+user.getNbPointsSourire()+"\"\n" +

@@ -7,7 +7,6 @@ controllers/PluginPageController.class
 controllers/MainEmployeeController.class
 controllers/ProductListController.class
 controllers/RootLayoutController.class
-MainConsole.class
 controllers/RegisterController.class
 services/UserInstance.class
 controllers/StageManager.class

@@ -49,7 +49,7 @@ public class LoginController {
                 userInstance.initUser();
                 userInstance.setConnected(true);
 
-                StageManager.displayMainEmployee(userInstance, actionEvent);
+                StageManager.displayMainPage(userInstance, actionEvent);
 
             }
             else {

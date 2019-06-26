@@ -6,10 +6,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="482.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
+<AnchorPane prefHeight="679.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
    <children>
       <Label layoutX="235.0" layoutY="22.0" style="-fx-font-size: 25;" text="Inscription" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Retour" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour" />
       <ChoiceBox layoutX="160.0" layoutY="70.0" prefWidth="150.0" />
       <Label layoutX="39.0" layoutY="116.0" prefHeight="19.0" prefWidth="86.0" text="Nom :" />
       <TextField layoutX="160.0" layoutY="109.0" prefHeight="32.0" prefWidth="412.0" promptText="Nom" />
@@ -21,5 +21,13 @@
       <TextField layoutX="160.0" layoutY="232.0" prefHeight="32.0" prefWidth="412.0" promptText="Tél" />
       <Label layoutX="37.0" layoutY="280.0" text="Adresse :" />
       <TextField layoutX="160.0" layoutY="273.0" prefHeight="32.0" prefWidth="412.0" promptText="Adresse" />
+      <TextField layoutX="160.0" layoutY="314.0" prefHeight="32.0" prefWidth="412.0" promptText="Ville" />
+      <TextField layoutX="160.0" layoutY="356.0" prefHeight="32.0" prefWidth="412.0" promptText="Code Postal" />
+      <TextField layoutX="160.0" layoutY="398.0" prefHeight="32.0" prefWidth="412.0" promptText="Pseudo" />
+      <TextField layoutX="160.0" layoutY="440.0" prefHeight="32.0" prefWidth="412.0" promptText="Mot de passe" />
+      <TextField layoutX="280.0" layoutY="482.0" prefHeight="32.0" prefWidth="292.0" promptText="Photo" />
+      <TextField layoutX="160.0" layoutY="524.0" prefHeight="32.0" prefWidth="412.0" promptText="Description" />
+      <TextField layoutX="160.0" layoutY="566.0" prefHeight="32.0" prefWidth="412.0" promptText="Taille de l'organisme" />
+      <TextField layoutX="160.0" layoutY="607.0" prefHeight="32.0" prefWidth="412.0" promptText="sirt" />
    </children>
 </AnchorPane>

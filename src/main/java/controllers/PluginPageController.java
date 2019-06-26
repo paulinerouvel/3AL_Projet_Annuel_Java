@@ -44,56 +44,31 @@ public class PluginPageController {
 
     public void init(UserInstance instance) {
         try {
-            pluginPath.setText("/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/");
+            pluginPath.setText("/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/resources/plugins");
             setInstance(instance);
             fetchInstalledPlugins();
             fetchOnlinePlugins();
 
-            for (String localPlugin : localPlugins) {
-                this.localPluginsList.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/")+1, localPlugin.length()));
-            }
-
-            for (int i = 0; i < onlinePlugins.size(); i++) {
-                this.onlinePluginsList.getItems().add(onlinePlugins.get(i));
-            }
-
-            if (!localPluginsList.getItems().isEmpty()) {
-                localPluginsList.getSelectionModel().select(0);
-
-            }
-            if (!onlinePluginsList.getItems().isEmpty()) {
-                onlinePluginsList.getSelectionModel().select(0);
-            }
         } catch (Exception e) {
             localPluginsList.getItems().add("Error");
         }
     }
 
+    public void selectFolder(ActionEvent actionEvent) {
+        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-    private void fetchInstalledPlugins(){
-        try {
-            localPlugins = getPluginsNames(pluginPath.getText());
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(stageNodeRoot);
+
+        if(selectedDirectory == null){
+            //No Directory selected
+        }else{
+            pluginPath.setText(selectedDirectory.getAbsolutePath());
+            System.out.println(selectedDirectory.getAbsolutePath());
         }
+        fetchInstalledPlugins();
+        fetchOnlinePlugins();
     }
-
-    private void fetchOnlinePlugins(){
-        String urlPlugin = "http://51.75.143.205:8000";
-        onlinePlugins = new ArrayList<String>();
-
-        try {
-            Document document = Jsoup.connect(urlPlugin).get();
-
-            Elements link = document.select("a[href]");
-            for (Element links : link) {
-                onlinePlugins.add(links.text());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void installPlugin(ActionEvent actionEvent) throws Exception {
         ObservableList<Integer> selectedIndices = onlinePluginsList.getSelectionModel().getSelectedIndices();
@@ -102,7 +77,7 @@ public class PluginPageController {
             String url = "http://51.75.143.205:8000/" + onlinePlugins.get(selectedIndices.get(0));
 
             try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-                 FileOutputStream fileOS = new FileOutputStream(pluginPath + onlinePlugins.get(selectedIndices.get(0)))) {
+                 FileOutputStream fileOS = new FileOutputStream(pluginPath.getText() + "/" + onlinePlugins.get(selectedIndices.get(0)))) {
                 //infoText.setText("Installing : "+ pluginPath + onlinePlugins.get(selectedIndices.get(0)));
                 byte data[] = new byte[1024];
                 int byteContent;
@@ -113,10 +88,30 @@ public class PluginPageController {
                 // handles IO exceptions
             }
 
-            reloadPage(actionEvent);
+            fetchInstalledPlugins();
+            fetchOnlinePlugins();
+            //reloadPage(actionEvent);
         }
         else{
             //infoText.setText("Erreur");
+        }
+    }
+
+    private void fetchInstalledPlugins(){
+        localPluginsList.getItems().clear();
+
+        try {
+            localPlugins = getPluginsNames(pluginPath.getText());
+
+            for (String localPlugin : localPlugins) {
+                this.localPluginsList.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/")+1, localPlugin.length()));
+            }
+            if (!localPluginsList.getItems().isEmpty()) {
+                localPluginsList.getSelectionModel().select(0);
+
+            }
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -138,8 +133,9 @@ public class PluginPageController {
 
             if(pluginToDelete.delete()){
                 //infoText.setText("Plugin correctement désinstallé");
-
-                reloadPage(actionEvent);
+                fetchInstalledPlugins();
+                fetchOnlinePlugins();
+                //reloadPage(actionEvent);
             }
             else{
                 //infoText.setText("Le plugin n'a pas pu être correctement désinstallé");
@@ -151,24 +147,41 @@ public class PluginPageController {
         }
     }
 
-    // Return button
-    public void displayMainEmployee(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainEmployee(instance, actionEvent);
-    }
+    private void fetchOnlinePlugins(){
+        String urlPlugin = "http://51.75.143.205:8000";
+        onlinePlugins = new ArrayList<String>();
+        onlinePluginsList.getItems().clear();
+        try {
+            Document document = Jsoup.connect(urlPlugin).get();
 
-    public void selectFolder(ActionEvent actionEvent) {
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Elements link = document.select("a[href]");
+            for (Element links : link) {
+                onlinePlugins.add(links.text());
+            }
 
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(stageNodeRoot);
+            for (String onlinePlugin : onlinePlugins) {
+                this.onlinePluginsList.getItems().add(onlinePlugin);
+            }
 
-        if(selectedDirectory == null){
-            //No Directory selected
-        }else{
-            pluginPath.setText(selectedDirectory.getAbsolutePath());
-            System.out.println(selectedDirectory.getAbsolutePath());
+            if (!onlinePluginsList.getItems().isEmpty()) {
+                onlinePluginsList.getSelectionModel().select(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
+
+
+    public void enablePlugin(ActionEvent actionEvent) throws Exception {}
+    public void disablePlugin(ActionEvent actionEvent) throws Exception {}
+
+    // Return button
+    public void displayMainPage(ActionEvent actionEvent) throws Exception {
+        StageManager.displayMainPage(instance, actionEvent);
+    }
+
+
 
     public UserInstance getInstance() {
         return instance;
@@ -187,6 +200,6 @@ public class PluginPageController {
     }
 
     public void reloadPage(ActionEvent actionEvent){
-        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml", instance);
+        StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml", instance);
     }
 }

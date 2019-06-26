@@ -19,8 +19,9 @@ public class StageManager {
     private static AnchorPane parentMain;
 
     public static void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
-        if(!instance.tokenIsValid()){
-            displayMainEmployee(instance, actionEvent);
+        if(!instance.tokenIsValid() || instance.getUser().getEstValide().equals(0)){
+            loadRootlessPage(actionEvent, "/views/Login.fxml");
+
         }
         // Load the Root Layout fxml
         parentRootLayout = loadBorderPane(rootLayout);
@@ -157,7 +158,7 @@ public class StageManager {
         return anchorPane;
     }
 
-    public static void displayMainEmployee(UserInstance userInstance, ActionEvent actionEvent) {
+    public static void displayMainPage(UserInstance userInstance, ActionEvent actionEvent) {
         if (userInstance.getTokenUserCategory().equals(4)) {
             StageManager.loadPage(actionEvent,
                     "/views/RootLayout.fxml",

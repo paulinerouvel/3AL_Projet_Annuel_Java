@@ -19,7 +19,7 @@
             <Font name="System Bold" size="24.0" />
          </font></Label>
             <Label layoutX="288.0" layoutY="287.0" text="Info:" />
-            <TextArea fx:id="connectionStatus" editable="false" layoutX="130.0" layoutY="312.0" prefHeight="53.0" prefWidth="346.0" />
+            <TextArea fx:id="connectionStatus" editable="false" layoutX="130.0" layoutY="312.0" prefHeight="53.0" prefWidth="346.0" text="Veuillez vous connecter." />
       <AnchorPane layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
          <children>
                   <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="testemail@email.com" />

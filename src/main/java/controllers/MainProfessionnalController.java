@@ -32,14 +32,15 @@ public class MainProfessionnalController implements Initializable {
     public void displayProducts(ActionEvent actionEvent) throws Exception {}
     public void displayAdminContact(ActionEvent actionEvent) throws Exception {}
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
-        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
+        StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
                 instance);
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
-        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml",
+        StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml",
                 instance);
     }
+
 
     public UserInstance getInstance() {
         return instance;

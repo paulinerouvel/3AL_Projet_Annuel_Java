@@ -34,6 +34,9 @@ public class MainEmployeeController implements Initializable {
         }
     }
 
+
+    public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
+
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
                 instance);
