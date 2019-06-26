@@ -14,45 +14,58 @@ import services.UserInstance;
 import java.io.IOException;
 
 public class StageManager {
-    private FXMLLoader loader;
-    private BorderPane parentRootLayout;
-    private AnchorPane parentMain;
+    private static FXMLLoader loader;
+    private static BorderPane parentRootLayout;
+    private static AnchorPane parentMain;
 
-    public void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
+    public static void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
         if(!instance.tokenIsValid()){
-            loadRootlessPage(actionEvent, "/views/MainEmployee.fxml");
+            displayMainEmployee(instance, actionEvent);
         }
-
         // Load the Root Layout fxml
-        setParentRootLayout(loadBorderPane(rootLayout));
+        parentRootLayout = loadBorderPane(rootLayout);
 
         // Set user instance of the Root Layout
-        RootLayoutController rootLayoutController = getLoader().getController();
+        RootLayoutController rootLayoutController = loader.getController();
         rootLayoutController.setInstance(instance);
-        rootLayoutController.setStageManager(this);
+        //-----rootLayoutController.setStageManager(this);
 
         // Display the Root Layout
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        showBorderPane(stageNodeRoot, getParentRootLayout());
+
+        if(stageNodeRoot != null){
+            showBorderPane(stageNodeRoot, parentRootLayout);
+        }
+
 
         // Load the Menu fxml
-        setParentMain(loadAnchorPane(mainView));
+        parentMain = loadAnchorPane(mainView);
 
         // Init Menu Controller
-        Class<?> controllerClassType = getLoader().getController().getClass();
-        if(controllerClassType == MainEmployeeController.class){
-            MainEmployeeController mainEmployeeController = getLoader().getController();
-            mainEmployeeController.setStageManager(this);
+        Class<?> controllerClassType = loader.getController().getClass();
+        if(controllerClassType == MainEmployeeController.class) {
+            MainEmployeeController mainEmployeeController = loader.getController();
+            //-----mainEmployeeController.setStageManager(this);
             mainEmployeeController.init(instance);
 
+        } else if(controllerClassType == MainAdminController.class){
+            MainAdminController mainAdminController = loader.getController();
+            //-----mainAdminController.setStageManager(this);
+            mainAdminController.init(instance);
+
+        } else if(controllerClassType == MainProfessionnalController.class){
+            MainProfessionnalController mainProfessionnalController = loader.getController();
+            //-----mainProfessionnalController.setStageManager(this);
+            mainProfessionnalController.init(instance);
+
         } else if (controllerClassType == PluginPageController.class){
-            PluginPageController pluginPageController = getLoader().getController();
-            pluginPageController.setStageManager(this);
+            PluginPageController pluginPageController = loader.getController();
+            //-----pluginPageController.setStageManager(this);
             pluginPageController.init(instance);
 
         } else if (controllerClassType == UserInfoController.class) {
-            UserInfoController userInfoController = getLoader().getController();
-            userInfoController.setStageManager(this);
+            UserInfoController userInfoController = loader.getController();
+            //-----userInfoController.setStageManager(this);
             userInfoController.setInstance(instance);
             userInfoController.init(instance);
     }
@@ -62,19 +75,19 @@ public class StageManager {
     }
 
     // Loads a page without root (register, login)
-    public void loadRootlessPage(ActionEvent actionEvent, String mainView) {
+    public static void loadRootlessPage(ActionEvent actionEvent, String mainView) {
         //instance.disconnect();
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-        setParentMain(loadAnchorPane(mainView));
+        parentMain = loadAnchorPane(mainView);
 
-        Class<?> controllerClassType = getLoader().getController().getClass();
+        Class<?> controllerClassType = loader.getController().getClass();
         if(controllerClassType == RegisterController.class) {
             RegisterController registerController = loader.getController();
-            registerController.setStageManager(this);
+            //-----registerController.setStageManager(this);
         } else if (controllerClassType == LoginController.class){
             LoginController loginController = loader.getController();
-            loginController.setStageManager(this);
+            //-----loginController.setStageManager(this);
         }
 
         showBorderPane(stageNodeRoot, getParentMain());
@@ -87,7 +100,7 @@ public class StageManager {
         try {
             instance.disconnect();
 
-            FXMLLoader loader = new FXMLLoader();
+            loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/views/Login.fxml"));
             AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
@@ -108,13 +121,13 @@ public class StageManager {
 
 
     // Load Border Pane from fxml file.
-    public BorderPane loadBorderPane(String fxml) {
-        FXMLLoader loader = new FXMLLoader();
+    public static BorderPane loadBorderPane(String fxml) {
         BorderPane borderPane = new BorderPane();
         try {
-            loader.setLocation(this.getClass().getResource(fxml));
+            loader = new FXMLLoader();
+            loader.setLocation(StageManager.class.getResource(fxml));
             borderPane = loader.load();
-            setLoader(loader);
+            //-----setLoader(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,7 +135,7 @@ public class StageManager {
     }
 
 
-    public void showBorderPane(Stage stage, Parent rootLayout){
+    public static void showBorderPane(Stage stage, Parent rootLayout){
         // Show the scene containing the root layout.
         Scene rootScene = new Scene(rootLayout);
         stage.setScene(rootScene);
@@ -131,41 +144,59 @@ public class StageManager {
     }
 
     // Load Border Pane from fxml file.
-    public AnchorPane loadAnchorPane(String fxml) {
-        FXMLLoader loader = new FXMLLoader();
+    public static AnchorPane loadAnchorPane(String fxml) {
         AnchorPane anchorPane = new AnchorPane();
         try {
-            loader.setLocation(this.getClass().getResource(fxml));
+            loader = new FXMLLoader();
+            loader.setLocation(StageManager.class.getResource(fxml));
             anchorPane = loader.load();
-            setLoader(loader);
+            //-----setLoader(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return anchorPane;
     }
 
-
-    public void setLoader(FXMLLoader loader) {
-        this.loader = loader;
+    public static void displayMainEmployee(UserInstance userInstance, ActionEvent actionEvent) {
+        if (userInstance.getTokenUserCategory().equals(4)) {
+            StageManager.loadPage(actionEvent,
+                    "/views/RootLayout.fxml",
+                    "/views/MainEmployee.fxml",
+                    userInstance);
+        } else if (userInstance.getTokenUserCategory().equals(5)) {
+            StageManager.loadPage(actionEvent,
+                    "/views/RootLayout.fxml",
+                    "/views/MainAdmin.fxml",
+                    userInstance);
+        } else if (userInstance.getTokenUserCategory().equals(2)) {
+            StageManager.loadPage(actionEvent,
+                    "/views/RootLayout.fxml",
+                    "/views/MainProfessionnal.fxml",
+                    userInstance);
+        }
     }
 
-    public FXMLLoader getLoader() {
+    public static void setLoader(FXMLLoader loader) {
+        loader = loader;
+    }
+
+    public static FXMLLoader getLoader() {
         return loader;
     }
 
-    public BorderPane getParentRootLayout() {
+    public static BorderPane getParentRootLayout() {
         return parentRootLayout;
     }
 
-    public void setParentRootLayout(BorderPane parentRootLayout) {
-        this.parentRootLayout = parentRootLayout;
+    public static void setParentRootLayout(BorderPane parentRootLayout) {
+        parentRootLayout = parentRootLayout;
     }
 
-    public AnchorPane getParentMain() {
+    public static AnchorPane getParentMain() {
         return parentMain;
     }
 
-    public void setParentMain(AnchorPane parentMain) {
-        this.parentMain = parentMain;
+    public static void setParentMain(AnchorPane parentMain) {
+        parentMain = parentMain;
     }
 }

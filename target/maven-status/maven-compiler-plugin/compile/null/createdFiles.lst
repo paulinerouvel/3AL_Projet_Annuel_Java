@@ -1,5 +1,6 @@
 models/User.class
 MainApp.class
+controllers/MainAdminController.class
 controllers/LoginController.class
 pluginmanager/PluginLoader.class
 controllers/PluginPageController.class
@@ -13,3 +14,4 @@ controllers/StageManager.class
 pluginmanager/Menu.class
 controllers/UserInfoController.class
 pluginmanager/Plugin.class
+controllers/MainProfessionnalController.class

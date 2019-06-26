@@ -49,22 +49,7 @@ public class LoginController {
                 userInstance.initUser();
                 userInstance.setConnected(true);
 
-                if(userInstance.getTokenUserCategory().equals(4)){
-                    stageManager.loadPage(actionEvent,
-                            "/views/RootLayout.fxml",
-                            "/views/MainEmployee.fxml",
-                            userInstance);
-                } else if(userInstance.getTokenUserCategory().equals(5)){
-                    stageManager.loadPage(actionEvent,
-                            "/views/RootLayout.fxml",
-                            "/views/MainAdmin.fxml",
-                            userInstance);
-                } else if(userInstance.getTokenUserCategory().equals(2)) {
-                    stageManager.loadPage(actionEvent,
-                            "/views/RootLayout.fxml",
-                            "/views/MainProfessionnal.fxml",
-                            userInstance);
-                }
+                StageManager.displayMainEmployee(userInstance, actionEvent);
 
             }
             else {

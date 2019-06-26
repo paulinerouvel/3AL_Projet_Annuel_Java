@@ -1,17 +1,20 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 import services.UserInstance;
 
 import java.util.Scanner;
 
 public class MainConsole {
-    private UserInstance userInstance;
+    private static UserInstance userInstance;
 
-    public void main(String[] args){
+    public static void main(String[] args) {
         login();
-
     }
 
-    public void login(){
+
+
+    private static void login(){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
 
         System.out.println("Enter username :");
@@ -26,7 +29,7 @@ public class MainConsole {
         processLoginAttempt(token);
     }
 
-    public void processLoginAttempt(JSONObject token){
+    private static void processLoginAttempt(JSONObject token){
         if(token.has("error")){
             if(token.getInt("error") == 503){
                 System.out.println("Timeout");
@@ -57,14 +60,16 @@ public class MainConsole {
         }
     }
 
-    private void displayMainProfessionnal() {
+    private static void displayMainProfessionnal() {
+        System.out.println("Bienvenue sur la vue principale de Professionnel");
     }
 
-    private void displayMainEmployee(){
-
+    private static void displayMainEmployee(){
+        System.out.println("Bienvenue sur la vue principale d'Employé");
     }
 
-    private void displayMainAdmin() {
+    private static void displayMainAdmin() {
+        System.out.println("Bienvenue sur la vue principale d'Administrateur");
     }
 
 }

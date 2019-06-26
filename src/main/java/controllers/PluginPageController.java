@@ -40,17 +40,14 @@ public class PluginPageController {
 
     @FXML private ListView<String> localPluginsList;
     @FXML private ListView<String> onlinePluginsList;
-    @FXML private Label employeeName;
-
 
 
     public void init(UserInstance instance) {
         try {
-
+            pluginPath.setText("/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/");
             setInstance(instance);
             fetchInstalledPlugins();
             fetchOnlinePlugins();
-            employeeName.setText(this.instance.getUser().getNom());
 
             for (String localPlugin : localPlugins) {
                 this.localPluginsList.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/")+1, localPlugin.length()));
@@ -156,12 +153,7 @@ public class PluginPageController {
 
     // Return button
     public void displayMainEmployee(ActionEvent actionEvent) throws Exception {
-        stageManager.loadPage(actionEvent,"/views/RootLayout.fxml","/views/MainEmployee.fxml", instance);
-    }
-
-
-    public void disconnect(ActionEvent actionEvent) {
-        stageManager.loadRootlessPage(actionEvent, "/views/MainEmployee.fxml");
+        StageManager.displayMainEmployee(instance, actionEvent);
     }
 
     public void selectFolder(ActionEvent actionEvent) {
@@ -173,7 +165,7 @@ public class PluginPageController {
         if(selectedDirectory == null){
             //No Directory selected
         }else{
-            pluginPath.setText(selectedDirectory.getAbsolutePath().toString());
+            pluginPath.setText(selectedDirectory.getAbsolutePath());
             System.out.println(selectedDirectory.getAbsolutePath());
         }
     }
