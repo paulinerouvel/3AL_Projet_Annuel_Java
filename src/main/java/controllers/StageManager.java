@@ -66,9 +66,13 @@ public class StageManager {
 
         } else if (controllerClassType == UserInfoController.class) {
             UserInfoController userInfoController = loader.getController();
-            //-----userInfoController.setStageManager(this);
             userInfoController.setInstance(instance);
             userInfoController.init(instance);
+
+        } else if (controllerClassType == ProductListController.class) {
+            ProductListController productListController = loader.getController();
+            productListController.setInstance(instance);
+            productListController.init();
         }
 
 

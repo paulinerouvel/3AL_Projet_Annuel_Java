@@ -29,7 +29,10 @@ public class MainProfessionnalController implements Initializable {
     }
 
 
-    public void displayProducts(ActionEvent actionEvent) throws Exception {}
+    public void displayProducts(ActionEvent actionEvent) throws Exception {
+        StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/ProductList.fxml",
+                instance);
+    }
     public void displayAdminContact(ActionEvent actionEvent) throws Exception {}
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",

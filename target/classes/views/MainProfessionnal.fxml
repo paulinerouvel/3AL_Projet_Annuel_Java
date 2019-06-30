@@ -21,7 +21,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="217.0" prefWidth="389.0" text="Listes de produits" />
+            <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Listes de produits" />
             <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Enregist" GridPane.columnIndex="1" />
             <Button mnemonicParsing="false" prefHeight="228.0" prefWidth="491.0" text="Button" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Contacter Administration" GridPane.rowIndex="1" />

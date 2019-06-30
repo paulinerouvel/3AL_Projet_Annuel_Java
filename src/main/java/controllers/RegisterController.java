@@ -116,6 +116,14 @@ public class RegisterController {
             user.setEstValide(0);
 
             Integer saveResult = instance.saveUser(user, "reg");
+            if(saveResult > 299) {
+                info.setText("Demande d'inscription échouée : "+ saveResult);
+            }
+
+            Integer categoryUser = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
+                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 1;
+
+            Integer addCategoryResult = instance.initNewUser(mail.getText(), categoryUser);
             if(saveResult < 299){
                 info.setText("Demande d'inscription faite");
             } else {

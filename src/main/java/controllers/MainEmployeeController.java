@@ -34,7 +34,6 @@ public class MainEmployeeController implements Initializable {
         }
     }
 
-
     public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
