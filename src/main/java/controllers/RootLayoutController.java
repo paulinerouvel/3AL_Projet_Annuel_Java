@@ -39,23 +39,8 @@ public class RootLayoutController {
 
 
     public void disconnect() throws Exception {
-        /*try {
-            this.instance.disconnect();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/Login.fxml"));
-            rootLayout = loader.load();
-            Scene scene = new Scene(rootLayout);
-
-            Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
-
-            stageNodeRoot.setScene(scene);
-            stageNodeRoot.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        stageManager.loadLoginPageFromMenuBar(instance, menuBar);
+        StageManager.loadLoginPageFromMenuBar(instance, menuBar);
     }
 
     public StageManager getStageManager() {

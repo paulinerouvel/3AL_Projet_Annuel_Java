@@ -115,12 +115,20 @@ public class UserInstance {
         this.user.setVille(user.getVille());
     }
 
-    public boolean saveUser(User user) {
+    public Integer saveUser(User user, String operation) {
         HttpURLConnection http = null;
         CloseableHttpClient client = null;
+        URL url = null;
         try {
             // Form url and json for login
-            URL url = new URL("https://wastemart-api.herokuapp.com/user/");
+            if(operation.equals("reg")){
+                url = new URL("https://wastemart-api.herokuapp.com/user/register");
+                System.out.println(url);
+            } else if (operation.equals("sav")){
+                url = new URL("https://wastemart-api.herokuapp.com/user/") ;
+
+            }
+            
 
             String jsonBody =
                     "{\n" +
@@ -132,16 +140,16 @@ public class UserInstance {
                             "\t\"tel\":\""+user.getTel()+"\",\n" +
                             "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
                             "\t\"ville\":\""+user.getVille()+"\",\n" +
-                            "\t\"codePostal\":\""+user.getCodePostal()+"\",\n" +
+                            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
                             "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
                             "\t\"mdp\":\""+user.getMdp()+"\",\n" +
                             "\t\"photo\":\""+user.getPhoto()+"\",\n" +
                             "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                            "\t\"tailleOrganisme\":\""+user.getTailleOrganisme()+"\",\n" +
-                            "\t\"estValide\":\""+user.getEstValide()+"\",\n" +
+                            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+                            "\t\"estValide\":"+user.getEstValide()+",\n" +
                             "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                            "\t\"dateNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                            "\t\"nbPointsSourire\":\""+user.getNbPointsSourire()+"\"\n" +
+                            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+                            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
                             "}";
             System.out.println(jsonBody);
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
@@ -151,7 +159,10 @@ public class UserInstance {
             URLConnection con = url.openConnection();
             con.setDoOutput(true);
             http = (HttpURLConnection) con;
-            ((HttpURLConnection) con).setRequestMethod("PUT");
+            if(operation.equals("sav")){
+                ((HttpURLConnection) con).setRequestMethod("PUT");
+            }
+
 
             // Form request, connect and send json
             http.setFixedLengthStreamingMode(length);
@@ -161,11 +172,19 @@ public class UserInstance {
                 os.write(out);
             }
             // Form returned token and verify it
-            return true;
+            return http.getResponseCode();
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            try {
+                if (http != null) {
+                    return http.getResponseCode();
+                }
+                return 299;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return 299;
+            }
         }
     }
 

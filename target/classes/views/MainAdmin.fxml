@@ -22,13 +22,13 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="217.0" prefWidth="389.0" text="Liste de produits en vente" />
+            <Button mnemonicParsing="false" prefHeight="217.0" prefWidth="389.0" text="Liste de produits en vente" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="216.0" prefWidth="443.0" text="Utilisateurs" GridPane.columnIndex="1" />
             <Button mnemonicParsing="false" prefHeight="228.0" prefWidth="491.0" text="Demandes d'inscription" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Entrepots" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" prefHeight="242.0" prefWidth="705.0" text="Liste des commandes" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" prefHeight="242.0" prefWidth="705.0" text="Gérer les commandes" />
          </children>
       </GridPane>
       <Label fx:id="adminName" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="71.0" prefHeight="19.0" prefWidth="333.0" text="[LabelAdmin]" textAlignment="CENTER" />

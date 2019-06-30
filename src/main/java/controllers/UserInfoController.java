@@ -28,6 +28,8 @@ public class UserInfoController {
     private TextField employeePostalCode;
     @FXML
     private TextField employeeNumber;
+    @FXML
+    private Label info;
 
     private StageManager stageManager;
     private UserInstance instance;
@@ -78,12 +80,12 @@ public class UserInfoController {
             System.out.println("address set)");
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(instance.saveUser(instance.getUser())) {
+            if(instance.saveUser(instance.getUser(), "sav") < 299) {
                 // FAIRE UN POP UP
-                System.out.println("Modification réussie");
+                info.setText("Modification réussie");
             }
             else {
-                System.out.println("Modification échouée");
+                info.setText("Modification échouée");
             }
         }
         catch (Exception ex) {
@@ -95,7 +97,7 @@ public class UserInfoController {
     }
     // Return button
     public void displayMainEmployee(ActionEvent actionEvent) throws Exception {
-        stageManager.loadPage(actionEvent,"/views/RootLayout.fxml","/views/MainEmployee.fxml", instance);
+        StageManager.displayMainPage(instance, actionEvent);
     }
 }
 

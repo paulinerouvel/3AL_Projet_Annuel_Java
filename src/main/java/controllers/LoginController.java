@@ -58,8 +58,8 @@ public class LoginController {
         }
     }
 
-    public void register(ActionEvent actionEvent) {
-        stageManager.loadRootlessPage(actionEvent,"/views/Register.fxml");
+    public void displayRegister(ActionEvent actionEvent) {
+        StageManager.loadRootlessPage(actionEvent,"/views/Register.fxml");
     }
 
     public void setUserInstance(UserInstance userInstance) {

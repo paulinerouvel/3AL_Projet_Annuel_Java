@@ -38,7 +38,7 @@ public class MainAdminController implements Initializable {
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
-        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml",
+        StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/Plugins.fxml",
                 instance);
     }
 

@@ -69,7 +69,8 @@ public class StageManager {
             //-----userInfoController.setStageManager(this);
             userInfoController.setInstance(instance);
             userInfoController.init(instance);
-    }
+        }
+
 
         // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());
@@ -85,7 +86,7 @@ public class StageManager {
         Class<?> controllerClassType = loader.getController().getClass();
         if(controllerClassType == RegisterController.class) {
             RegisterController registerController = loader.getController();
-            //-----registerController.setStageManager(this);
+            registerController.init();
         } else if (controllerClassType == LoginController.class){
             LoginController loginController = loader.getController();
             //-----loginController.setStageManager(this);
@@ -97,19 +98,19 @@ public class StageManager {
     }
 
     // Loads login page from the menu bar
-    public void loadLoginPageFromMenuBar(UserInstance instance, MenuBar menuBar){
+    public static void loadLoginPageFromMenuBar(UserInstance instance, MenuBar menuBar){
         try {
             instance.disconnect();
 
             loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            loader.setLocation(StageManager.class.getResource("/views/Login.fxml"));
             AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
 
             Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
 
             LoginController loginController = loader.getController();
-            loginController.setStageManager(this);
+            //loginController.setStageManager(this);
 
 
             stageNodeRoot.setScene(scene);
