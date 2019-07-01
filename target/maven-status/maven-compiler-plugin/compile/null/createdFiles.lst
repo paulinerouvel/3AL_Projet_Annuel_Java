@@ -6,7 +6,9 @@ pluginmanager/PluginLoader.class
 controllers/PluginPageController.class
 controllers/MainEmployeeController.class
 controllers/ProductListController.class
+models/List.class
 controllers/RootLayoutController.class
+models/Product.class
 controllers/RegisterController.class
 services/UserInstance.class
 controllers/StageManager.class

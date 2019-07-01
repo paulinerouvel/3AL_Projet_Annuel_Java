@@ -1,8 +1,13 @@
 package controllers;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import models.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -21,8 +27,10 @@ public class ProductListController {
     private UserInstance instance;
     private JSONArray lists;
 
+    @FXML TableView listsTable;
     @FXML TableColumn productLists;
     @FXML TableColumn numberInProductLists;
+
     @FXML TableColumn productName;
     @FXML TableColumn productDesc;
     @FXML TableColumn productPrice;
@@ -43,19 +51,35 @@ public class ProductListController {
         for (int i=0;i<jArray.length();i++){
             listdata.add(jArray.get(i).toString());
         }
+
+        productLists.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        numberInProductLists.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+
+
+        System.out.println("Listdata =" +listdata);
+
+
+        for (Object productList : lists) {
+
+            JsonElement obj = new JsonParser().parse(productList.toString());
+            List list = new List(obj.getAsJsonObject().get("id").getAsInt(),
+                    obj.getAsJsonObject().get("libelle").getAsString(),
+                    LocalDate.of(2019,10,13));
+            listsTable.getItems().add(list);
+
+        }
     }
 
     private JSONArray fetchLists(Integer idUser) {
         URL url;
         try {
-            url = new URL("https://wastemart-api.herokuapp.com/list?idUser=" + idUser);
+            url = new URL("https://wastemart-api.herokuapp.com/list/?idUser=" + idUser);
             // /list/products?id=1
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
             int status = con.getResponseCode();
-            System.out.println(status);
             Reader streamReader;
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());

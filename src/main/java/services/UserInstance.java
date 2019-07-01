@@ -45,11 +45,11 @@ public class UserInstance {
     public void initUser(){
         JSONObject fetchedUser = fetchUser(1, "");
 
-        //JSONObject fetchedCategory = fetchCategory(fetchedUser.getInt("id")); // TODO modifier API pour renvoyer Json correct
-        JSONObject fetchedCategory = new JSONObject();
-        fetchedCategory.put("Category_user_id", "2");
+        Integer fetchedUserCategory = fetchCategory(fetchedUser.getInt("id")); // TODO modifier API pour renvoyer Json correct
+        //JSONObject fetchedCategory = new JSONObject();
+        //fetchedCategory.put("Category_user_id", "2");
 
-        fetchedUser.put("libelle", fetchedCategory.getString("Category_user_id"));
+        fetchedUser.put("libelle", fetchedUserCategory);
         setUser(fetchedUser);
     }
 
@@ -64,7 +64,7 @@ public class UserInstance {
 
             String jsonBody =
                     "{\n" +
-                            "\t\"userId\": \""+userId+"\",\n" +
+                            "\t\"userId\":"+userId+",\n" +
                             "\t\"categoryUserId\":"+categoryUserId+"\n" +
                             "}";
 
@@ -84,6 +84,7 @@ public class UserInstance {
                 os.write(out);
             }
             // Form returned token and verify it
+
             return http.getResponseCode();
 
         } catch (Exception e) {
@@ -101,7 +102,7 @@ public class UserInstance {
     }
 
     // Fetch user Category (Get)
-    public JSONObject fetchCategory(Integer userId){
+    public Integer fetchCategory(Integer userId){
         URL url;
         try {
             url = new URL("https://wastemart-api.herokuapp.com/user/category?userId=" + userId);
@@ -127,14 +128,11 @@ public class UserInstance {
             in.close();
             con.disconnect();
 
-            System.out.println(con.getResponseCode());
-            JSONObject result = new JSONObject(content.toString());
-            System.out.println(result);
-            return new JSONObject(content.toString());
+            return Integer.valueOf(content.toString());
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new JSONObject("{null}");
+            return 0;
         }
     }
 
@@ -147,7 +145,6 @@ public class UserInstance {
             // Form url and json for login
             if(operation.equals("reg")){
                 url = new URL("https://wastemart-api.herokuapp.com/user/register");
-                System.out.println(url);
             } else if (operation.equals("sav")){
                 url = new URL("https://wastemart-api.herokuapp.com/user/") ;
 
@@ -174,7 +171,6 @@ public class UserInstance {
                             "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
                             "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
                             "}";
-            System.out.println(jsonBody);
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
 
@@ -276,7 +272,6 @@ public class UserInstance {
             con.setRequestMethod("GET");
 
             int status = con.getResponseCode();
-            System.out.println(status);
             Reader streamReader;
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
@@ -359,7 +354,6 @@ public class UserInstance {
     }
 
     public Integer getTokenUserCategory() { return token.getInt("userCategory"); }
-
 
     public void setToken(JSONObject token) {
         this.token = token;
