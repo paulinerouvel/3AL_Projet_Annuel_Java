@@ -62,6 +62,8 @@ public class LoginController {
         StageManager.loadRootlessPage(actionEvent,"/views/Register.fxml");
     }
 
+    public void setInfo(String info){ connectionStatus.setText(info); }
+
     public void setUserInstance(UserInstance userInstance) {
         this.userInstance = userInstance;
     }

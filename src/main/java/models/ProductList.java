@@ -2,12 +2,12 @@ package models;
 
 import java.time.LocalDate;
 
-public class List {
+public class ProductList {
     private Integer id;
     private String libelle;
     private LocalDate dateMiseEnRayon;
 
-    public List(Integer id, String libelle, LocalDate dateMiseEnRayon){
+    public ProductList(Integer id, String libelle, LocalDate dateMiseEnRayon){
         this.id = id;
         this.libelle = libelle;
         this.dateMiseEnRayon = dateMiseEnRayon;

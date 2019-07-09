@@ -14,7 +14,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" prefHeight="488.0" prefWidth="300.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickItem" prefHeight="488.0" prefWidth="300.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
                       <TableColumn fx:id="productLists" prefWidth="146.0" text="Liste" />
                       <TableColumn fx:id="numberInProductLists" prefWidth="144.0" text="Nb" />
@@ -35,7 +35,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Détails de la liste" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <TableView layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="704.0">
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="704.0">
                     <columns>
                       <TableColumn fx:id="productName" prefWidth="93.0" text="Nom" />
                       <TableColumn fx:id="productDesc" prefWidth="96.0" text="Desc" />
@@ -45,7 +45,7 @@
                         <TableColumn fx:id="productDate" prefWidth="297.0" text="Mise en rayon" />
                     </columns>
                   </TableView>
-                  <ButtonBar layoutX="343.0" layoutY="344.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                  <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
                       <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="156.0" text="Ajouter" />
                         <Button mnemonicParsing="false" text="Modifier" />

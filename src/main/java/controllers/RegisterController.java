@@ -84,7 +84,7 @@ public class RegisterController {
     public void register(ActionEvent actionEvent) {
 
         for (Object registerField : registerFields) {
-            ((Control) registerField).setStyle("-fx-background-color: #FFFFFF");
+            ((Control) registerField).setStyle("-fx-background-color: #FFCCCC");
         }
 
         Integer indexFieldVerif = areTextFieldsValid(registerFields);

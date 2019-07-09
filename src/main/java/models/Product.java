@@ -1,6 +1,8 @@
 package models;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Product {
     private Integer id;
@@ -8,24 +10,26 @@ public class Product {
     private String desc;
     private String photo;
     private Float prix;
-    private Float reduction;
+    private Float prixInitial;
+    private Integer quantite;
     private LocalDate dlc;
     private String codeBarre;
     private Integer enRayon;
     private LocalDate dateMiseEnRayon;
 
-    public Product(Integer id, String libelle, String desc, String photo, Float prix, Float reduction, LocalDate dlc,
-                   String codeBarre, Integer enRayon, LocalDate dateMiseEnRayon) {
+    public Product(Integer id, String libelle, String desc, String photo, Float prix, Float prixInitial, Integer quantite, String dlc,
+                   String codeBarre, Integer enRayon, String dateMiseEnRayon) {
         this.id = id;
         this.libelle = libelle;
         this.desc = desc;
         this.photo = photo;
         this.prix = prix;
-        this.reduction = reduction;
-        this.dlc = dlc;
+        this.prixInitial = prixInitial;
+        this.quantite = quantite;
+        this.dlc = LocalDate.from(OffsetDateTime.parse(dlc, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
         this.codeBarre = codeBarre;
         this.enRayon = enRayon;
-        this.dateMiseEnRayon = dateMiseEnRayon;
+        this.dateMiseEnRayon = LocalDate.from(OffsetDateTime.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
     }
 
     public Integer getId() {
@@ -68,12 +72,20 @@ public class Product {
         this.prix = prix;
     }
 
-    public Float getReduction() {
-        return reduction;
+    public Float getPrixInitial() {
+        return prixInitial;
     }
 
-    public void setReduction(Float reduction) {
-        this.reduction = reduction;
+    public void setPrixInitial(Float prixInitial) {
+        this.prixInitial = prixInitial;
+    }
+
+    public Integer getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(Integer quantite) {
+        this.quantite = quantite;
     }
 
     public LocalDate getDlc() {

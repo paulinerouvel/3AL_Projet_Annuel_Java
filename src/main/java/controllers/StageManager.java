@@ -93,6 +93,7 @@ public class StageManager {
             registerController.init();
         } else if (controllerClassType == LoginController.class){
             LoginController loginController = loader.getController();
+            loginController.setInfo("User error");
             //-----loginController.setStageManager(this);
         }
 
