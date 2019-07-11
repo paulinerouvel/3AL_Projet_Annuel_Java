@@ -73,6 +73,11 @@ public class StageManager {
             ProductListController productListController = loader.getController();
             productListController.setInstance(instance);
             productListController.init();
+
+        } else if (controllerClassType == ProSuggestionListController.class) {
+            ProSuggestionListController proSuggestionListController = loader.getController();
+            proSuggestionListController.setInstance(instance);
+            proSuggestionListController.init();
         }
 
 

@@ -1,7 +1,9 @@
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/UserInfoController.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/services/ProductList.java
+/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/ProSuggestionListController.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/pluginmanager/Menu.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/MainAdminController.java
+/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/ManageProductController.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/StageManager.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/services/Product.java
 /mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/java/controllers/PluginPageController.java

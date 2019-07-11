@@ -6,6 +6,7 @@ public class User {
 
     private Integer id;
     private String libelle;
+    private Integer userCategory;
     private String nom;
     private String prenom;
     private String mail;
@@ -24,15 +25,14 @@ public class User {
     private LocalDate dateDeNaissance;
     private Integer nbPointsSourire;
 
-    public User() {
-    }
 
-    public User(Integer id, String libelle, String nom, String prenom, String mail, String tel, String adresse,
+    public User(Integer id, String libelle, Integer userCategory, String nom, String prenom, String mail, String tel, String adresse,
                 String ville, Integer codePostal, String pseudo, String mdp, String photo, String desc,
                 Integer tailleOrganisme, Integer estValide, String siret, LocalDate dateDeNaissance,
                 Integer nbPointsSourire) {
         this.id = id;
         this.libelle = libelle;
+        this.userCategory = userCategory;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -193,5 +193,13 @@ public class User {
 
     public void setNbPointsSourire(Integer nbPointsSourire) {
         this.nbPointsSourire = nbPointsSourire;
+    }
+
+    public Integer getUserCategory() {
+        return userCategory;
+    }
+
+    public void setUserCategory(Integer userCategory) {
+        this.userCategory = userCategory;
     }
 }

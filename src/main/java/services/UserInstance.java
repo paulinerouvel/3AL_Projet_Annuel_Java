@@ -45,11 +45,11 @@ public class UserInstance {
     public void initUser(){
         JSONObject fetchedUser = fetchUser(1, "");
 
-        Integer fetchedUserCategory = fetchCategory(fetchedUser.getInt("id")); // TODO modifier API pour renvoyer Json correct
+        Integer fetchedUserCategory = fetchCategory(fetchedUser.getInt("id"));
         //JSONObject fetchedCategory = new JSONObject();
         //fetchedCategory.put("Category_user_id", "2");
 
-        fetchedUser.put("libelle", fetchedUserCategory);
+        fetchedUser.put("userCategory", fetchedUserCategory);
         setUser(fetchedUser);
     }
 
@@ -240,6 +240,7 @@ public class UserInstance {
             }
             in.close();
 
+            System.out.println(new JSONObject(buffReader.toString()));
             // Form returned token and verify it
             return new JSONObject(buffReader.toString());
 
@@ -301,30 +302,33 @@ public class UserInstance {
         return user;
     }
 
-    public void setUserCategory(JSONObject userCategory){
+    /*public void setUserCategory(JSONObject userCategory){
         this.user.setLibelle(userCategory.getString("libelle"));
-    }
+    }*/
 
     public void setUser(JSONObject user) {
-        //System.out.println(user);
-        this.user = new User();
-        this.user.setId(user.getInt("id"));
-        this.user.setNom(user.getString("nom"));
-        this.user.setPrenom(user.getString("prenom"));
-        this.user.setMail(user.getString("mail"));
-        this.user.setTel(user.getString("tel"));
-        this.user.setAdresse(user.getString("adresse"));
-        this.user.setVille(user.getString("ville"));
-        this.user.setCodePostal(user.getInt("codePostal"));
-        this.user.setPseudo(user.getString("pseudo"));
-        this.user.setMdp(user.getString("mdp"));
-        this.user.setPhoto(user.isNull("photo") ? null : user.getString("photo"));
-        this.user.setDesc(user.isNull("desc") ? null : user.getString("desc"));
-        this.user.setTailleOrganisme(user.getInt("tailleOrganisme"));
-        this.user.setEstValide(user.getInt("estValide"));
-        this.user.setSiret(user.getString("siret"));
-        this.user.setDateDeNaissance(user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
-        this.user.setNbPointsSourire(user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire"));
+        System.out.println(user);
+        this.user = new User(
+        user.getInt("id"),
+        user.getString("libelle"),
+        user.getInt("userCategory"),
+        user.getString("nom"),
+        user.getString("prenom"),
+        user.getString("mail"),
+        user.getString("tel"),
+        user.getString("adresse"),
+        user.getString("ville"),
+        user.getInt("codePostal"),
+        user.getString("pseudo"),
+        user.getString("mdp"),
+        user.isNull("photo") ? null : user.getString("photo"),
+        user.isNull("desc") ? null : user.getString("desc"),
+        user.getInt("tailleOrganisme"),
+        user.getInt("estValide"),
+        user.getString("siret"),
+        user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
+        user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
+        );
     }
 
     public Integer initNewUser(String mail, Integer userCategory) {

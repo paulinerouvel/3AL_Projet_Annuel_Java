@@ -9,10 +9,12 @@ controllers/MainEmployeeController.class
 controllers/ProductListController.class
 controllers/RootLayoutController.class
 models/Product.class
+controllers/ProSuggestionListController.class
 models/ProductList.class
 controllers/RegisterController.class
 services/UserInstance.class
 services/Product.class
+controllers/ManageProductController.class
 controllers/StageManager.class
 pluginmanager/Menu.class
 controllers/UserInfoController.class

@@ -28,12 +28,13 @@ public class MainProfessionnalController implements Initializable {
         }
     }
 
-
     public void displayProducts(ActionEvent actionEvent) throws Exception {
         StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/ProductList.fxml",
                 instance);
     }
+
     public void displayAdminContact(ActionEvent actionEvent) throws Exception {}
+
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         StageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
                 instance);
@@ -44,6 +45,9 @@ public class MainProfessionnalController implements Initializable {
                 instance);
     }
 
+    public void displayListesProduits(ActionEvent actionEvent) throws Exception {
+
+    }
 
     public UserInstance getInstance() {
         return instance;

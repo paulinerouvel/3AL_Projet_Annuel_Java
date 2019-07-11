@@ -24,7 +24,7 @@
          <children>
             <Button mnemonicParsing="false" prefHeight="217.0" prefWidth="389.0" text="Gérer les commandes" textAlignment="CENTER" wrapText="true" />
             <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Propositions de particuliers" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" />
-            <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="228.0" prefWidth="491.0" text="Propositions de professionnels" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
+            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProfessionnalSuggestion" prefHeight="228.0" prefWidth="491.0" text="Propositions de professionnels" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />

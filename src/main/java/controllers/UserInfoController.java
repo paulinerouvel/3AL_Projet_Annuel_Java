@@ -96,7 +96,7 @@ public class UserInfoController {
         }
     }
     // Return button
-    public void displayMainEmployee(ActionEvent actionEvent) throws Exception {
+    public void displayMainPage(ActionEvent actionEvent) throws Exception {
         StageManager.displayMainPage(instance, actionEvent);
     }
 }

@@ -14,7 +14,6 @@ public class ProductList {
         URL url;
         try {
             url = new URL("https://wastemart-api.herokuapp.com/list/?idUser=" + idUser);
-            // /list/products?id=1
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
@@ -45,8 +44,52 @@ public class ProductList {
         }
     }
 
+    public static JSONArray fetchAllProductLists() {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/list/");
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                System.out.println(con.getResponseCode());
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream());
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+            System.out.println(content.toString());
+            return new JSONArray(content.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
     public static void createList() {
+        System.out.println("Create product List TODO"); //TODO
 
     }
 
+    public static void removeProductList(Integer listId){
+        System.out.println("Remove product List TODO");
+    } //TODO
+
+
+    public static void validateList(Integer listId) {
+
+    }
 }

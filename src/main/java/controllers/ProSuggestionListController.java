@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import static services.Product.deleteProduct;
 
 
-public class ProductListController {
+public class ProSuggestionListController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;
@@ -36,6 +36,9 @@ public class ProductListController {
     TableColumn<Object, Object> listId;
     @FXML
     TableColumn<Object, Object> listName;
+    @FXML
+    TableColumn<Object, Object> listUser;
+
     @FXML
     TableView<Product> productsTable;
     @FXML
@@ -61,20 +64,22 @@ public class ProductListController {
 
     private void displayProductLists() {
         listsTable.getItems().clear();
-        lists = services.ProductList.fetchProductLists(instance.getUser().getId());
+        lists = services.ProductList.fetchAllProductLists();
 
 
         System.out.println("Listdata =" +lists);
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
 
         for(int i = 0; i < lists.length(); i++){
             JSONObject list = lists.getJSONObject(i);
             ProductList listElement = new ProductList(list.getInt("id"),
                     list.getString("libelle"),
                     list.getString("date"),
-                    instance.getUser().getId(),
+                    list.getInt("Utilisateur_id"),
                     list.getInt("estArchive"));
             listsTable.getItems().add(listElement);
         }
@@ -106,12 +111,12 @@ public class ProductListController {
                         product.getInt("quantite"),
                         ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
                         product.getString("codeBarre"),
-                        product.isNull("enRayon") ? -1 : product.getInt("enRayon"),
-                        product.isNull("dateMiseEnRayon") ? "" : product.getString("dateMiseEnRayon"),
+                        product.getInt("enRayon"),
+                        product.getString("dateMiseEnRayon"),
                         product.getInt("categorieProduit_id"),
                         product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                        product.getInt("entrepotwm_id"),
+                        product.getInt("destinataire")
                         );
 
             productsTable.getItems().add(productElement);
@@ -127,27 +132,81 @@ public class ProductListController {
         }
     }
 
-    public void removeList(ActionEvent event) {
+    @FXML
+    public void validateProduct(ActionEvent event){
+        refreshSelectedIndices();
+
+        if(indexOfListSelected != -1) {
+            try {
+                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
+                Product productElement = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        1,
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
+                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                );
+
+                System.out.println(services.Product.updateProduct(productElement));
+
+                displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void refuseProduct(ActionEvent event) {
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
-            services.ProductList.removeProductList(indexOfListSelected);
-        }
+            try {
+                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
+                Product productElement = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        0,
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
+                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                );
+
+                System.out.println(services.Product.updateProduct(productElement));
+
+                displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }        }
     }
 
-    public void removeProduct(ActionEvent event) {
+    public void submitList(ActionEvent event) {
         refreshSelectedIndices();
 
         if (indexOfProductSelected != -1){
-            deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"));
+            services.ProductList.validateList(products.getJSONObject(indexOfProductSelected).getInt("id"));
         }
 
         displayProducts(lists.getJSONObject(0).getInt("id"));
-    }
-
-    // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
     }
 
     public void displayAddProduct(ActionEvent actionEvent) throws Exception {
@@ -202,13 +261,13 @@ public class ProductListController {
                     product.getFloat("prixInitial"),
                     product.getInt("quantite"),
                     ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.isNull("codeBarre") ? "" : product.getString("codeBarre"),
-                    product.isNull("enRayon") ? -1 : product.getInt("enRayon"),
+                    product.getString("codeBarre"),
+                    product.getInt("enRayon"),
                     product.getString("dateMiseEnRayon"),
                     product.getInt("categorieProduit_id"),
                     product.getInt("listProduct_id"),
-                    product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                    product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                    product.getInt("entrepotwm_id"),
+                    product.getInt("destinataire")
             );
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
@@ -229,6 +288,11 @@ public class ProductListController {
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
         this.indexOfListSelected = listsTable.getSelectionModel().getSelectedIndex();
 
+    }
+
+    // Return button
+    public void displayMainPage(ActionEvent actionEvent) throws Exception {
+        StageManager.displayMainPage(instance, actionEvent);
     }
 
     public UserInstance getInstance() {

@@ -34,6 +34,12 @@ public class MainEmployeeController implements Initializable {
         }
     }
 
+    public void displayProfessionnalSuggestion(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/ProSuggestionList.fxml",
+                instance);
+
+    }
+
     public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {

@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import models.User;
@@ -13,7 +12,6 @@ import services.UserInstance;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class RegisterController {
 
@@ -84,29 +82,35 @@ public class RegisterController {
     public void register(ActionEvent actionEvent) {
 
         for (Object registerField : registerFields) {
-            ((Control) registerField).setStyle("-fx-background-color: #FFCCCC");
+            ((Control) registerField).setStyle("-fx-background-color: #FFFFFF");
         }
 
         Integer indexFieldVerif = areTextFieldsValid(registerFields);
         if(indexFieldVerif == -1) {
 
-            User user = new User();
-            user.setId(-1);
-            user.setLibelle(userType.getSelectionModel().getSelectedItem());
-            user.setNom(nom.getText());
-            user.setPrenom(prenom.getText());
-            user.setMail(mail.getText());
-            user.setTel(tel.getText());
-            user.setAdresse(adresse.getText());
-            user.setVille(ville.getText());
-            user.setCodePostal(codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0);
-            user.setPseudo(pseudo.getText());
-            user.setMdp(mdp.getText());
-            user.setPhoto(photo.getText().isEmpty() ? null : uploadPicture(photo.getText()));
-            user.setDesc(description.getText().isEmpty() ? null : description.getText());
-            user.setDateDeNaissance(dateNaissance.getValue());
-            user.setTailleOrganisme((userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? 0 : Integer.valueOf(tailleOrganisme.getText()) );
-            user.setSiret((userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "null" : siret.getText() );
+            Integer userCategory = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
+                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 1;
+
+            User user = new User(-1,
+            userType.getSelectionModel().getSelectedItem(),
+            userCategory,
+            nom.getText(),
+            prenom.getText(),
+            mail.getText(),
+            tel.getText(),
+            adresse.getText(),
+            ville.getText(),
+            codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0,
+            pseudo.getText(),
+            mdp.getText(),
+            photo.getText().isEmpty() ? null : uploadPicture(photo.getText()),
+            description.getText().isEmpty() ? null : description.getText(),
+            (userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? 0 : Integer.valueOf(tailleOrganisme.getText()),
+            0,
+            (userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "null" : siret.getText(),
+            dateNaissance.getValue(),
+            0
+            );
 
             if(userType.getSelectionModel().getSelectedIndex() != 0) {
                 user.setSiret(siret.getText());
@@ -120,10 +124,7 @@ public class RegisterController {
                 info.setText("Demande d'inscription échouée : "+ saveResult);
             }
 
-            Integer categoryUser = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
-                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 1;
-
-            Integer addCategoryResult = instance.initNewUser(mail.getText(), categoryUser);
+            Integer addCategoryResult = instance.initNewUser(mail.getText(), userCategory);
             if(addCategoryResult < 299){
                 info.setText("Demande d'inscription faite");
             } else {
