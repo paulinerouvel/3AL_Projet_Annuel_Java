@@ -1,12 +1,13 @@
 package models;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class User {
 
     private Integer id;
     private String libelle;
-    private Integer userCategory;
+    private Integer categorieUtilisateur;
     private String nom;
     private String prenom;
     private String mail;
@@ -26,13 +27,13 @@ public class User {
     private Integer nbPointsSourire;
 
 
-    public User(Integer id, String libelle, Integer userCategory, String nom, String prenom, String mail, String tel, String adresse,
-                String ville, Integer codePostal, String pseudo, String mdp, String photo, String desc,
-                Integer tailleOrganisme, Integer estValide, String siret, LocalDate dateDeNaissance,
+    public User(Integer id, String libelle, Integer categorieUtilisateur, String nom, String prenom, String mail,
+                String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo,
+                String desc, Integer tailleOrganisme, Integer estValide, String siret, String dateDeNaissance,
                 Integer nbPointsSourire) {
         this.id = id;
         this.libelle = libelle;
-        this.userCategory = userCategory;
+        this.categorieUtilisateur = categorieUtilisateur;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -47,7 +48,11 @@ public class User {
         this.tailleOrganisme = tailleOrganisme;
         this.estValide = estValide;
         this.siret = siret;
-        this.dateDeNaissance = dateDeNaissance;
+        this.dateDeNaissance = dateDeNaissance.equals("") ? null : dateDeNaissance.length() > 16 ?
+                LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")) :
+                dateDeNaissance.length() > 10 ?
+                        LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) :
+                        LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.nbPointsSourire = nbPointsSourire;
     }
 
@@ -195,11 +200,11 @@ public class User {
         this.nbPointsSourire = nbPointsSourire;
     }
 
-    public Integer getUserCategory() {
-        return userCategory;
+    public Integer getCategorieUtilisateur() {
+        return categorieUtilisateur;
     }
 
-    public void setUserCategory(Integer userCategory) {
-        this.userCategory = userCategory;
+    public void setCategorieUtilisateur(Integer categorieUtilisateur) {
+        this.categorieUtilisateur = categorieUtilisateur;
     }
 }

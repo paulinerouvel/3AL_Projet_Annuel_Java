@@ -80,7 +80,7 @@ public class UserInfoController {
             System.out.println("address set)");
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(instance.saveUser(instance.getUser(), "sav") < 299) {
+            if(services.User.updateUser(instance.getUser()) < 299) {
                 // FAIRE UN POP UP
                 info.setText("Modification réussie");
             }

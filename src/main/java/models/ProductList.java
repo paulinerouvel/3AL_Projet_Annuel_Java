@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 public class ProductList {
     private Integer id;
     private String libelle;
-    private LocalDate dateMiseEnRayon;
+    private LocalDate date;
     private Integer userId;
     private Integer estArchive;
 
-    public ProductList(Integer id, String libelle, String dateMiseEnRayon, Integer userId, Integer estArchive){
+    public ProductList(Integer id, String libelle, String date, Integer userId, Integer estArchive){
         this.id = id;
         this.libelle = libelle;
-        this.dateMiseEnRayon = LocalDate.from(OffsetDateTime.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
+        this.date = LocalDate.from(OffsetDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
         this.userId = userId;
         this.estArchive = estArchive;
     }
@@ -35,12 +35,12 @@ public class ProductList {
         this.libelle = libelle;
     }
 
-    public LocalDate getDateMiseEnRayon() {
-        return dateMiseEnRayon;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateMiseEnRayon(LocalDate dateMiseEnRayon) {
-        this.dateMiseEnRayon = dateMiseEnRayon;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Integer getUserId() {

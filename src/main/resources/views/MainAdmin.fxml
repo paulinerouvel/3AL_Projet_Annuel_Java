@@ -22,9 +22,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#displayListesProduits" prefHeight="217.0" prefWidth="389.0" text="Liste de produits en vente" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Liste de produits en vente" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="216.0" prefWidth="443.0" text="Utilisateurs" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" onAction="#demandeInscription" prefHeight="228.0" prefWidth="491.0" text="Demandes d'inscription" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" onAction="#displayRegisterRequests" prefHeight="228.0" prefWidth="491.0" text="Demandes d'inscription" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Entrepots" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" GridPane.rowIndex="1" />

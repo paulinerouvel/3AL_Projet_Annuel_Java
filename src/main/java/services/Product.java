@@ -1,5 +1,6 @@
 package services;
 
+import models.User;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 
 public class Product {
 
@@ -42,18 +44,18 @@ public class Product {
             JSONArray result = new JSONArray(content.toString());
             System.out.println("result"+ result);
             for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
+                /*if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
                     result.getJSONObject(i).put("dateMiseEnRayon", "");
-                }
+                }*/
                 if (result.getJSONObject(i).isNull("enRayon")) {
                     result.getJSONObject(i).put("enRayon", "0");
                 }
-                if (result.getJSONObject(i).isNull("entrepotwm_id")) {
+                /*if (result.getJSONObject(i).isNull("entrepotwm_id")) {
                     result.getJSONObject(i).put("entrepotwm_id", "0");
-                }
-                if (result.getJSONObject(i).isNull("destinataire")) {
+                }*/
+                /*if (result.getJSONObject(i).isNull("destinataire")) {
                     result.getJSONObject(i).put("destinataire", "0");
-                }
+                }*/
 
             }
 
@@ -101,6 +103,7 @@ public class Product {
             return new JSONArray("{null}");
         }
     }
+
     public static Integer addProductToList(models.Product product){
         HttpURLConnection http = null;
         CloseableHttpClient client = null;
@@ -170,8 +173,8 @@ public class Product {
         try {
             url = new URL("https://wastemart-api.herokuapp.com/product/");
 
-            String dateMiseEnRayon = product.getDateMiseEnRayon() == null
-                    ? null : "\""+product.getDateMiseEnRayon()+"\"";
+            String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
+            String codeBarre = product.getCodeBarre() == null ? null : "\""+product.getCodeBarre()+"\"";
 
             String jsonBody =
                     "{\n" +
@@ -183,7 +186,7 @@ public class Product {
                             "\t\"prixInitial\":"+product.getPrixInitial()+",\n" +
                             "\t\"quantite\":"+product.getQuantite()+",\n" +
                             "\t\"dlc\":\""+product.getDlc()+"\",\n" +
-                            "\t\"codeBarre\":\""+product.getCodeBarre()+"\",\n" +
+                            "\t\"codeBarre\":"+codeBarre+",\n" +
                             "\t\"enRayon\":"+product.getEnRayon()+",\n" +
                             "\t\"dateMiseEnRayon\":"+dateMiseEnRayon+",\n" +
                             "\t\"categorieProduit_id\":"+product.getCategorieProduit()+",\n" +
@@ -226,5 +229,26 @@ public class Product {
                 return 299;
             }
         }
+    }
+
+    public static models.Product jsonToProduct(JSONObject product) {
+        System.out.println(product);
+        return new models.Product(
+                product.getInt("id"),
+                product.getString("libelle"),
+                product.getString("desc"),
+                product.getString("photo"),
+                product.getFloat("prix"),
+                product.getFloat("prixInitial"),
+                product.getInt("quantite"),
+                product.isNull("dlc") ? null : ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                product.isNull("codeBarre") ? null : product.getString("codeBarre"),
+                product.isNull("enRayon") ? 0 : product.getInt("enRayon"),
+                product.isNull("dateMiseEnRayon") ? "" : product.getString("dateMiseEnRayon"),
+                product.getInt("categorieProduit_id"),
+                product.isNull("listProduct_id") ? null : product.getInt("listProduct_id"),
+                product.isNull("entrepotwm_id") ? null : product.getInt("entrepotwm_id"),
+                product.isNull("destinataire") ? null : product.getInt("destinataire")
+        );
     }
 }

@@ -36,8 +36,10 @@ public class Product {
         this.codeBarre = codeBarre;
         this.enRayon = enRayon;
         this.dateMiseEnRayon = dateMiseEnRayon.equals("") ? null : dateMiseEnRayon.length() > 16 ?
-                ZonedDateTime.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")).toLocalDate() :
-                ZonedDateTime.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")).toLocalDate(); // LocalDate.from(OffsetDateTime.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));;/*ZonedDateTime.parse(dateMiseEnRayon).toLocalDate();*/ //TODO Ne pas mettre dlc
+                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")) :
+                dateMiseEnRayon.length() > 10 ?
+                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) :
+                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.categorieProduit = categorieProduit;
         this.listProduct = listProduct;
         this.entrepotwm = entrepotwm;

@@ -38,7 +38,7 @@ public class RegisterController {
     @FXML private TextField tailleOrganisme;
 
     public void init(){
-        userType.setItems(FXCollections.observableArrayList("Employé", "Professionnel", "Association"));
+        userType.setItems(FXCollections.observableArrayList("Employé", "Professionnel", "Admin"));
 
         registerFields = new Object[15];
         registerFields[0] = prenom;
@@ -89,7 +89,7 @@ public class RegisterController {
         if(indexFieldVerif == -1) {
 
             Integer userCategory = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
-                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 1;
+                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 5;
 
             User user = new User(-1,
             userType.getSelectionModel().getSelectedItem(),
@@ -108,7 +108,7 @@ public class RegisterController {
             (userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? 0 : Integer.valueOf(tailleOrganisme.getText()),
             0,
             (userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "null" : siret.getText(),
-            dateNaissance.getValue(),
+            dateNaissance.getValue().toString(),
             0
             );
 
@@ -119,12 +119,12 @@ public class RegisterController {
             user.setNbPointsSourire(0);
             user.setEstValide(0);
 
-            Integer saveResult = instance.saveUser(user, "reg");
+            Integer saveResult = services.User.createUser(user);
             if(saveResult > 299) {
                 info.setText("Demande d'inscription échouée : "+ saveResult);
             }
 
-            Integer addCategoryResult = instance.initNewUser(mail.getText(), userCategory);
+            Integer addCategoryResult = services.User.initNewUser(mail.getText(), userCategory);
             if(addCategoryResult < 299){
                 info.setText("Demande d'inscription faite");
             } else {

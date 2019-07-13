@@ -43,168 +43,14 @@ public class UserInstance {
     }
 
     public void initUser(){
-        JSONObject fetchedUser = fetchUser(1, "");
+        JSONObject fetchedUser = services.User.fetchUser("id", String.valueOf(token.getInt("userId")));
 
-        Integer fetchedUserCategory = fetchCategory(fetchedUser.getInt("id"));
+        //Integer fetchedUserCategory = services.User.fetchCategory(fetchedUser.getInt("id"));
         //JSONObject fetchedCategory = new JSONObject();
         //fetchedCategory.put("Category_user_id", "2");
 
-        fetchedUser.put("userCategory", fetchedUserCategory);
-        setUser(fetchedUser);
-    }
-
-    // Add a category between User and userType (Post)
-    public Integer addCategory(Integer userId, Integer categoryUserId){
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
-        URL url = null;
-        try {
-            // Form url and json for adding category
-            url = new URL("https://wastemart-api.herokuapp.com/user/category");
-
-            String jsonBody =
-                    "{\n" +
-                            "\t\"userId\":"+userId+",\n" +
-                            "\t\"categoryUserId\":"+categoryUserId+"\n" +
-                            "}";
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            // Form returned token and verify it
-
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
-    }
-
-    // Fetch user Category (Get)
-    public Integer fetchCategory(Integer userId){
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/category?userId=" + userId);
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-
-            return Integer.valueOf(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    // Register or Save a user (Post | Put)
-    public Integer saveUser(User user, String operation) {
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
-        URL url = null;
-        try {
-            // Form url and json for login
-            if(operation.equals("reg")){
-                url = new URL("https://wastemart-api.herokuapp.com/user/register");
-            } else if (operation.equals("sav")){
-                url = new URL("https://wastemart-api.herokuapp.com/user/") ;
-
-            }
-
-            String jsonBody =
-                    "{\n" +
-                            "\t\"id\": \""+user.getId()+"\",\n" +
-                            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                            "\t\"nom\": \""+user.getNom()+"\",\n" +
-                            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                            "\t\"mail\":\""+user.getMail()+"\",\n" +
-                            "\t\"tel\":\""+user.getTel()+"\",\n" +
-                            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                            "\t\"ville\":\""+user.getVille()+"\",\n" +
-                            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                            "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                            "\t\"estValide\":"+user.getEstValide()+",\n" +
-                            "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                            "}";
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-            if(operation.equals("sav")){
-                ((HttpURLConnection) con).setRequestMethod("PUT");
-            }
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            // Form returned token and verify it
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
+        //fetchedUser.put("userCategory", fetchedUserCategory);
+        setUser(services.User.jsonToUser(fetchedUser));
     }
 
     // Login (Post)
@@ -259,91 +105,12 @@ public class UserInstance {
         }
     }
 
-    // Get User By id : 1, by mail : 2 (Get)
-    public JSONObject fetchUser(Integer operation, String data) {
-        URL url;
-        try {
-
-            if(operation.equals(1)){
-                url = new URL("https://wastemart-api.herokuapp.com/user/?id=" + getTokenUserId().toString());
-            } else {
-                url = new URL("https://wastemart-api.herokuapp.com/user/?mail=" + data);
-            }
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-
-            return new JSONObject(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONObject("{null}");
-        }
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    /*public void setUserCategory(JSONObject userCategory){
+    /*public void setCategorieUtilisateur(JSONObject userCategory){
         this.user.setLibelle(userCategory.getString("libelle"));
     }*/
 
-    public void setUser(JSONObject user) {
-        System.out.println(user);
-        this.user = new User(
-        user.getInt("id"),
-        user.getString("libelle"),
-        user.getInt("userCategory"),
-        user.getString("nom"),
-        user.getString("prenom"),
-        user.getString("mail"),
-        user.getString("tel"),
-        user.getString("adresse"),
-        user.getString("ville"),
-        user.getInt("codePostal"),
-        user.getString("pseudo"),
-        user.getString("mdp"),
-        user.isNull("photo") ? null : user.getString("photo"),
-        user.isNull("desc") ? null : user.getString("desc"),
-        user.getInt("tailleOrganisme"),
-        user.getInt("estValide"),
-        user.getString("siret"),
-        user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
-        user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
-        );
-    }
 
-    public Integer initNewUser(String mail, Integer userCategory) {
-        JSONObject fetchedUser = fetchUser(2, mail);
-        return addCategory(fetchedUser.getInt("id"), userCategory);
-    }
 
-    public void setUser(User user){
-        this.user.setAdresse(user.getAdresse());
-        this.user.setCodePostal(user.getCodePostal());
-        this.user.setMail(user.getMail());
-        this.user.setMdp(user.getMdp());
-        this.user.setTel(user.getTel());
-        this.user.setVille(user.getVille());
-    }
 
     public void disconnect(){
             this.setToken(null);
@@ -370,4 +137,13 @@ public class UserInstance {
     public void setConnected(boolean Connected) {
         isConnected = Connected;
     }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
 }

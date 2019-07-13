@@ -10,33 +10,39 @@
 
 <AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProSuggestionListController">
    <children>
-      <SplitPane dividerPositions="0.2607421875" layoutX="123.0" layoutY="64.0" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.3134765625" layoutX="123.0" layoutY="64.0" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
                   <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickItem" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
+                      <TableColumn fx:id="listUser" prefWidth="81.0" text="Id User" />
                       <TableColumn fx:id="listId" prefWidth="81.0" text="Id Liste" />
                         <TableColumn fx:id="listName" prefWidth="161.0" text="Libelle" />
-                      <TableColumn fx:id="listUser" prefWidth="81.0" text="Id User" />
+                        <TableColumn fx:id="listEstArchive" prefWidth="81.0" text="Postée" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
+                  <ButtonBar layoutX="15.0" layoutY="529.0" prefHeight="40.0" prefWidth="287.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#submitList" text="Poster liste" />
+                    </buttons>
+                  </ButtonBar>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Détails de la liste" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="726.0">
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="692.0">
                     <columns>
                       <TableColumn fx:id="productName" prefWidth="93.0" text="Nom" />
                       <TableColumn fx:id="productDesc" prefWidth="96.0" text="Desc" />
-                        <TableColumn fx:id="productPrice" prefWidth="85.0" text="Prix" />
-                        <TableColumn fx:id="productInitialPrice" prefWidth="85.0" text="Prix Initial" />
-                        <TableColumn fx:id="productDlc" prefWidth="82.0" text="DLC" />
+                        <TableColumn fx:id="productPrice" prefWidth="62.0" text="Prix" />
+                        <TableColumn fx:id="productInitialPrice" prefWidth="94.0" text="Prix Initial" />
+                        <TableColumn fx:id="productDlc" prefWidth="96.0" text="DLC" />
                         <TableColumn fx:id="productAvailable" prefWidth="121.0" text="Dispo" />
                         <TableColumn fx:id="productDate" prefWidth="297.0" text="Mise en rayon" />
                     </columns>
@@ -45,7 +51,6 @@
                     <buttons>
                       <Button mnemonicParsing="false" onAction="#validateProduct" prefHeight="29.0" prefWidth="156.0" text="Valider" />
                         <Button mnemonicParsing="false" onAction="#refuseProduct" text="Refuser" />
-                        <Button mnemonicParsing="false" onAction="#submitList" text="Poster" />
                     </buttons>
                   </ButtonBar>
                </children>

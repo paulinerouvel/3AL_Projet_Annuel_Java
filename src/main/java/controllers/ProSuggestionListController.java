@@ -19,6 +19,8 @@ import services.UserInstance;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static services.Product.deleteProduct;
 
@@ -38,6 +40,8 @@ public class ProSuggestionListController {
     TableColumn<Object, Object> listName;
     @FXML
     TableColumn<Object, Object> listUser;
+    @FXML
+    TableColumn<Object, Object> listEstArchive;
 
     @FXML
     TableView<Product> productsTable;
@@ -72,15 +76,12 @@ public class ProSuggestionListController {
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
 
 
         for(int i = 0; i < lists.length(); i++){
             JSONObject list = lists.getJSONObject(i);
-            ProductList listElement = new ProductList(list.getInt("id"),
-                    list.getString("libelle"),
-                    list.getString("date"),
-                    list.getInt("Utilisateur_id"),
-                    list.getInt("estArchive"));
+            ProductList listElement = services.ProductList.jsonToProductList(list);
             listsTable.getItems().add(listElement);
         }
     }
@@ -101,23 +102,7 @@ public class ProSuggestionListController {
 
         for(int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.getInt("enRayon"),
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.getInt("entrepotwm_id"),
-                        product.getInt("destinataire")
-                        );
+            Product productElement = services.Product.jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }
@@ -138,23 +123,8 @@ public class ProSuggestionListController {
 
         if(indexOfListSelected != -1) {
             try {
-                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        1,
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-                );
+                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 1);
+                Product productElement = services.Product.jsonToProduct(product);
 
                 System.out.println(services.Product.updateProduct(productElement));
 
@@ -173,22 +143,7 @@ public class ProSuggestionListController {
         if(indexOfListSelected != -1){
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        0,
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-                );
+                Product productElement = services.Product.jsonToProduct(product);
 
                 System.out.println(services.Product.updateProduct(productElement));
 
@@ -202,11 +157,32 @@ public class ProSuggestionListController {
     public void submitList(ActionEvent event) {
         refreshSelectedIndices();
 
-        if (indexOfProductSelected != -1){
-            services.ProductList.validateList(products.getJSONObject(indexOfProductSelected).getInt("id"));
-        }
+        if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1){
 
-        displayProducts(lists.getJSONObject(0).getInt("id"));
+            JSONObject list = lists.getJSONObject(indexOfListSelected);
+            ProductList listElement = services.ProductList.jsonToProductList(list);
+
+            ArrayList<Product> productList = new ArrayList<Product>();
+            for(int i = 0; i < products.length(); i++) {
+                JSONObject product = products.getJSONObject(i);
+                productList.add(services.Product.jsonToProduct(product));
+            }
+
+            // Affecte la liste de produits à un entrepot
+            Integer affectProductListToWarehouseRes = services.ProductList.affectProductListToWarehouse(productList, instance.getUser().getVille());
+            System.out.println("affectProductListToWarehouseRes res : " +affectProductListToWarehouseRes);
+            if(affectProductListToWarehouseRes == 0){ // Aucune place de libre
+                System.out.println("No space available");
+            }else if (affectProductListToWarehouseRes > 299){ // Erreur
+                System.out.println("Error : "+ affectProductListToWarehouseRes);
+            } else { // Réussite
+                System.out.println("Reussite");
+                listElement.setEstArchive(1);
+                listElement.setDate(LocalDate.now());
+                services.ProductList.updateList(listElement);
+            }
+        }
+        displayProductLists();
     }
 
     public void displayAddProduct(ActionEvent actionEvent) throws Exception {
@@ -252,23 +228,7 @@ public class ProSuggestionListController {
 
             ManageProductController controller = loader.getController();
             JSONObject product = products.getJSONObject(indexOfProductSelected);
-
-            Product productToModify = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.getString("codeBarre"),
-                    product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.getInt("entrepotwm_id"),
-                    product.getInt("destinataire")
-            );
+            Product productToModify = services.Product.jsonToProduct(product);
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
 

@@ -28,8 +28,14 @@ public class MainAdminController implements Initializable {
         }
     }
     public void displayProducts(ActionEvent actionEvent) throws Exception {}
-    public void displayUsers(ActionEvent actionEvent) throws Exception {}
-    public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
+    public void displayUsers(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserList.fxml",
+                instance);
+    }
+    public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {
+        //stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserRegistrationList.fxml",
+        //        instance);
+    }
     public void displayWarehouses(ActionEvent actionEvent) throws Exception {}
     public void displayCommandList(ActionEvent actionEvent) throws Exception {}
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {

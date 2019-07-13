@@ -5,15 +5,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.Product;
+import models.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class ManageProductController {
+public class ManageUserController {
 
     private Integer listId;
     private String operation;
-    private Product product;
+    private User user;
 
     @FXML private TextField libelle;
     @FXML private TextField desc;
@@ -26,9 +26,8 @@ public class ManageProductController {
     @FXML private ChoiceBox<String> categorieProduit;
     @FXML private Label info;
 
-    public void init(Integer productList, String operation, Product product){
-        //JSONArray productCategories = services.Product.fetchProductCategories();
-        this.product = product;
+    public void init(Integer productList, String operation, User user){
+        this.user = user;
         this.operation = operation;
         categorieProduit.setItems(FXCollections.observableArrayList("Légumes/Fruits", "Viandes/Poissons/Oeufs",
                 "Produits Laitiers", "Meubles", "Electroniques", "Electroménagers", "Jouets", "Céréales/Féculents",
@@ -40,7 +39,7 @@ public class ManageProductController {
             clearFields();
             categorieProduit.getSelectionModel().selectFirst();
         } else if(operation.equals("Modify")){
-            setFields(product);
+            setFields(user);
         }
 
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
@@ -86,7 +85,7 @@ public class ManageProductController {
             }
         } else {
 
-            Product newProduct = new Product(product == null ? -1 : product.getId(),
+          /*  User newUser = new User(user == null ? -1 : user.getId(),
                     libelle.getText(),
                     desc.getText(),
                     photo.getText(),
@@ -96,23 +95,24 @@ public class ManageProductController {
                     dlc.getValue(),
                     codeBarre.getText(),
                     0,
-                    product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
+                    user == null ? null : user.getDateMiseEnRayon().toString(),
                     categorieProduit.getSelectionModel().getSelectedIndex()+1,
                     listId,
-                    product == null ? null : product.getEntrepotwm(),
-                    product == null ? null : product.getDestinataire()
+                    user == null ? null : user.getEntrepotwm(),
+                    user == null ? null : user.getDestinataire()
             );
+                    // TODO CATEGORIE PRODUIT
 
             String result = null;
             if(operation.equals("Add")) {
                 //result = services.Product.addProductToList(newProduct) == 201 ? "Produit Ajouté" : "L'ajout a échoué";
-                System.out.println(services.Product.addProductToList(newProduct));
+                System.out.println(services.User.addUser(newUser));
 
             } else if(operation.equals("Modify")){
                 //result = services.Product.updateProduct(newProduct) == 201 ? "Produit Ajouté" : "L'ajout a échoué";
-                System.out.println(services.Product.updateProduct(newProduct));
+                System.out.println(services.User.updateUser(newUser));
             }
-            info.setText(result);
+            info.setText(result);*/
         }
     }
 
@@ -138,17 +138,17 @@ public class ManageProductController {
         info.setText("");
     }
 
-    private void setFields(Product product) {
-        libelle.setText(product.getLibelle());
-        desc.setText(product.getDesc());
-        photo.setText(product.getPhoto());
-        prix.setText(String.valueOf(product.getPrix()));
-        prixInitial.setText(String.valueOf(product.getPrixInitial()));
-        quantite.setText(String.valueOf(product.getQuantite()));
-        dlc.setValue(product.getDlc());
-        codeBarre.setText(product.getCodeBarre());
-        categorieProduit.getSelectionModel().select(product.getCategorieProduit()-1);
-        info.setText("");
+    private void setFields(User user) {
+        /*libelle.setText(user.getLibelle());
+        desc.setText(user.getDesc());
+        photo.setText(user.getPhoto());
+        prix.setText(String.valueOf(user.getPrix()));
+        prixInitial.setText(String.valueOf(user.getPrixInitial()));
+        quantite.setText(String.valueOf(user.getQuantite()));
+        dlc.setValue(user.getDlc());
+        codeBarre.setText(user.getCodeBarre());
+        categorieProduit.getSelectionModel().select(user.getCategorieProduit()-1);
+        info.setText("");*/
     }
 
     public void setListId(Integer id) { this.listId = id; }

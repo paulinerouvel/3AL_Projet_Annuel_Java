@@ -96,23 +96,7 @@ public class ProductListController {
 
         for(int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.isNull("enRayon") ? -1 : product.getInt("enRayon"),
-                        product.isNull("dateMiseEnRayon") ? "" : product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-                        );
+            Product productElement = services.Product.jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }
@@ -153,27 +137,31 @@ public class ProductListController {
     public void displayAddProduct(ActionEvent actionEvent) throws Exception {
         refreshSelectedIndices();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageProduct.fxml"));
+        if(indexOfListSelected != -1) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageProduct.fxml"));
 
-        Scene newScene;
-        try {
-            newScene = new Scene(loader.load());
-        } catch (IOException ex) {
-            // TODO: handle error
-            return;
+            Scene newScene;
+            try {
+                newScene = new Scene(loader.load());
+            } catch (IOException ex) {
+                // TODO: handle error
+                return;
+            }
+
+            ManageProductController controller = loader.getController();
+            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
+
+            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            Stage inputStage = new Stage();
+            inputStage.initOwner(stageNodeRoot);
+            inputStage.setScene(newScene);
+            inputStage.showAndWait();
+
         }
 
-        ManageProductController controller = loader.getController();
-        controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
-
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-        Stage inputStage = new Stage();
-        inputStage.initOwner(stageNodeRoot);
-        inputStage.setScene(newScene);
-        inputStage.showAndWait();
-
         displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+
     }
 
     public void displayModifyProduct(ActionEvent actionEvent) throws Exception {
@@ -193,23 +181,7 @@ public class ProductListController {
 
             ManageProductController controller = loader.getController();
             JSONObject product = products.getJSONObject(indexOfProductSelected);
-
-            Product productToModify = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.isNull("codeBarre") ? "" : product.getString("codeBarre"),
-                    product.isNull("enRayon") ? -1 : product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                    product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-            );
+            Product productToModify = services.Product.jsonToProduct(product);
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
 
