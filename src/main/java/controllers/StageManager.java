@@ -125,12 +125,13 @@ public class StageManager {
         parentMain = loadAnchorPane(mainView);
 
         // Init Menu Controller
-        Class<?> controllerClassType = loader.getController().getClass();
-        if (controllerClassType == CustomerDetailController.class) {
-            CustomerDetailController customerDetailController= loader.getController();
-            customerDetailController.setInstance(instance);
-            customerDetailController.init(idUser);
-        }
+
+        CustomerDetailController customerDetailController= loader.getController();
+        customerDetailController.setInstance(instance);
+        customerDetailController.init(idUser);
+
+        // Display the Menu in center of Root Layout
+        getParentRootLayout().setCenter(getParentMain());
     }
 
     // Loads a page without root (register, login)

@@ -31,3 +31,4 @@ models\Product.class
 controllers\PluginPageController.class
 services\Warehouse.class
 controllers\WarehouseListController.class
+services\User.class

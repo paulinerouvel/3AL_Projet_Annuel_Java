@@ -15,6 +15,8 @@ import services.UserInstance;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
+import static java.lang.Integer.parseInt;
+
 
 public class CustomerDetailController {
     @FXML
@@ -37,38 +39,17 @@ public class CustomerDetailController {
     private UserInstance instance;
     private Integer idUser;
     public void init(Integer idUser) {
-
-
         try {
-            users = services.UserInstance.fetchUsersByID(idUser);
-            JSONObject userFound = users.getJSONObject(0);
-            User user = new User(
-                    userFound.getInt("id"),
-                    userFound.getString("libelle"),
-                    userFound.getInt("userCategory"),
-                    userFound.getString("nom"),
-                    userFound.getString("prenom"),
-                    userFound.getString("mail"),
-                    userFound.getString("tel"),
-                    userFound.getString("adresse"),
-                    userFound.getString("ville"),
-                    userFound.getInt("codePostal"),
-                    userFound.getString("pseudo"),
-                    userFound.getString("mdp"),
-                    userFound.getString("photo"),
-                    userFound.getString("desc"),
-                    userFound.getInt("tailleOrganisme"),
-                    userFound.getInt("estValide"),
-                    userFound.getString("siret"),
-                    ZonedDateTime.parse(userFound.getString("dlc")).toLocalDate(),
-                    userFound.getInt("nbPointsSourire")
-            );
-            customerName.setText(instance.getUser().getNom());
-            customerEmail.setText(instance.getUser().getMail());
-            customerNumber.setText(instance.getUser().getTel());
-            customerAddress.setText(instance.getUser().getAdresse());
-            customerCity.setText(instance.getUser().getVille());
-            customerPostalCode.setText(instance.getUser().getCodePostal().toString());
+            setidUser(idUser);
+            services.User userService = new services.User();
+            User userFound = userService.getUser(userService.fetchUserById(idUser));
+            System.out.println("Je suis bien dans CustomerDetailController");
+            customerName.setText(userFound.getNom());
+            customerEmail.setText(userFound.getMail());
+            customerNumber.setText(userFound.getTel());
+            customerAddress.setText(userFound.getAdresse());
+            customerCity.setText(userFound.getVille());
+            customerPostalCode.setText(userFound.getCodePostal().toString());
         } catch (Exception e) {
             System.out.println("error : " + e);
         }
@@ -89,23 +70,21 @@ public class CustomerDetailController {
     public void save(ActionEvent actionEvent) {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
-            User user = instance.getUser();
+            services.User userService = new services.User();
+            User userModified = userService.getUser(userService.fetchUserById(idUser));
 
-            //user.setVille(employeeCity.getText() == null ? null : employeeCity.getText());
-            //System.out.println("city set)");
-            //user.setTel(employeeNumber.getText() == null ? null : employeeNumber.getText());
-            //System.out.println("number set)");
-            //user.setMdp(employeePWD.getText() == null ? null : employeePWD.getText());
-            //System.out.println(" pwd set)");
-            //user.setMail(employeeEmail.getText() == null ? null : employeeEmail.getText());
-            //System.out.println("mail set)");
-            //user.setCodePostal(employeePostalCode.getText() == null ? null : Integer.valueOf(employeePostalCode.getText()));
-            //System.out.println("CP set)");
-            //user.setAdresse(employeeAddress.getText() == null ? null : employeeAddress.getText());
-            System.out.println("address set)");
+
+
+            userModified.setAdresse(customerAddress.getText() == null ? null : customerAddress.getText());
+            userModified.setMail(customerEmail.getText() == null ? null : customerEmail.getText());
+            userModified.setTel(customerNumber.getText() == null ? null : customerNumber.getText());
+            userModified.setCodePostal(customerPostalCode.getText() == null ? null : Integer.valueOf(customerPostalCode.getText()));
+            userModified.setVille(customerCity.getText() == null ? null : customerCity.getText());
+            
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(instance.saveUser(instance.getUser(), "sav") < 299) {
+
+            if(userService.saveUser(userModified, "sav") < 299) {
                 // FAIRE UN POP UP
                 info.setText("Modification réussie");
             }

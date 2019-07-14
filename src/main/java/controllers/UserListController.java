@@ -152,8 +152,6 @@ public class UserListController {
 
     }
 
-
-
     @FXML
     public void clickItem(MouseEvent event) {
         refreshSelectedIndices();
