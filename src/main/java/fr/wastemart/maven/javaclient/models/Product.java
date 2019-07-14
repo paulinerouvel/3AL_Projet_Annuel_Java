@@ -33,7 +33,7 @@ public class Product {
         this.dlc = dlc;
         this.codeBarre = codeBarre;
         this.enRayon = enRayon;
-        this.dateMiseEnRayon = dateMiseEnRayon.equals("") ? null : dateMiseEnRayon.length() > 16 ?
+        this.dateMiseEnRayon = dateMiseEnRayon == null || dateMiseEnRayon.equals("") ? null : dateMiseEnRayon.length() > 16 ?
                 LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")) :
                 dateMiseEnRayon.length() > 10 ?
                 LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) :

@@ -176,7 +176,7 @@ public class ProSuggestionListController {
                 System.out.println("Reussite");
                 listElement.setEstArchive(1);
                 listElement.setDate(LocalDate.now());
-                fr.wastemart.maven.javaclient.services.ProductList.updateList(listElement);
+                fr.wastemart.maven.javaclient.services.ProductList.updateProductList(listElement);
             }
         }
         displayProductLists();

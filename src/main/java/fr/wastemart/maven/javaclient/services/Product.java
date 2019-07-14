@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 public class Product {
 
@@ -42,7 +43,7 @@ public class Product {
             con.disconnect();
 
             JSONArray result = new JSONArray(content.toString());
-            System.out.println("result"+ result);
+            System.out.println("Fetched Product : "+ result);
             for(int i = 0; i < result.length(); i++) {
                 /*if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
                     result.getJSONObject(i).put("dateMiseEnRayon", "");
@@ -58,9 +59,6 @@ public class Product {
                 }*/
 
             }
-
-            System.out.println("result2"+ result);
-
             return result;
 
         } catch (IOException e) {
@@ -69,7 +67,7 @@ public class Product {
         }
     }
 
-    public static JSONArray deleteProduct(Integer productId){
+    public static Integer deleteProduct(Integer productId){
         URL url;
         try {
             url = new URL("https://wastemart-api.herokuapp.com/product/?id=" + productId);
@@ -81,7 +79,7 @@ public class Product {
             int status = con.getResponseCode();
             Reader streamReader;
             if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
+                return con.getResponseCode();
             } else {
                 streamReader = new InputStreamReader(con.getInputStream());
             }
@@ -96,13 +94,33 @@ public class Product {
             in.close();
             con.disconnect();
 
-            return new JSONArray(content.toString());
+            return con.getResponseCode();
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new JSONArray("{null}");
+            return 503;
         }
     }
+
+
+    public static Integer deleteProductsInList(Integer listId) {
+        System.out.println("listId : "+ listId);
+
+        JSONArray products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(listId);
+
+        System.out.println("ABOUT TO ENTER DELETING ZONE :");
+        for(int i = 0; i < products.length(); i++) {
+            JSONObject product = products.getJSONObject(i);
+            System.out.println("DELETING : "+ product);
+            Integer deleteProductRes = deleteProduct(product.getInt("id"));
+            if(deleteProductRes > 299){
+                System.out.println("DELETED : " + deleteProductRes);
+                return 0;
+            }
+        }
+        return 1;
+    }
+
 
     public static Integer addProductToList(fr.wastemart.maven.javaclient.models.Product product){
         HttpURLConnection http = null;
@@ -150,6 +168,9 @@ public class Product {
             try(OutputStream os = http.getOutputStream()) {
                 os.write(out);
             }
+
+            System.out.println("addProduct to list response "+ http.getResponseCode());
+
             return http.getResponseCode();
 
         } catch (Exception e) {
@@ -230,7 +251,6 @@ public class Product {
             }
         }
     }
-
     public static fr.wastemart.maven.javaclient.models.Product jsonToProduct(JSONObject product) {
         System.out.println(product);
         return new fr.wastemart.maven.javaclient.models.Product(
@@ -251,4 +271,6 @@ public class Product {
                 product.isNull("destinataire") ? null : product.getInt("destinataire")
         );
     }
+
+
 }

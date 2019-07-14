@@ -1,24 +1,28 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import fr.wastemart.maven.javaclient.models.Product;
-import fr.wastemart.maven.javaclient.models.ProductList;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static fr.wastemart.maven.javaclient.services.Product.deleteProduct;
+import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
 
 
 public class ProductListController {
@@ -28,12 +32,16 @@ public class ProductListController {
     private Integer indexOfProductSelected;
     private Integer indexOfListSelected;
 
+    @FXML CheckBox listArchiveCheckBox;
     @FXML
     TableView<ProductList> listsTable;
     @FXML
     TableColumn<Object, Object> listId;
     @FXML
     TableColumn<Object, Object> listName;
+    @FXML
+    TableColumn<Object, Object> listEstArchive;
+
     @FXML
     TableView<Product> productsTable;
     @FXML
@@ -52,11 +60,13 @@ public class ProductListController {
     TableColumn<Object, Object> productDate;
 
     public void init(){
+        listArchiveCheckBox.setSelected(false);
         displayProductLists();
         displayProducts(lists.getJSONObject(0).getInt("id"));
         listsTable.getSelectionModel().selectFirst();
     }
 
+    @FXML
     private void displayProductLists() {
         listsTable.getItems().clear();
         lists = fr.wastemart.maven.javaclient.services.ProductList.fetchProductLists(instance.getUser().getId());
@@ -66,15 +76,16 @@ public class ProductListController {
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
+
 
         for(int i = 0; i < lists.length(); i++){
-            JSONObject list = lists.getJSONObject(i);
-            ProductList listElement = new ProductList(list.getInt("id"),
-                    list.getString("libelle"),
-                    list.getString("date"),
-                    instance.getUser().getId(),
-                    list.getInt("estArchive"));
-            listsTable.getItems().add(listElement);
+            if(listArchiveCheckBox.isSelected() || lists.getJSONObject(i).getInt("estArchive") != 1){
+                JSONObject list = lists.getJSONObject(i).put("Utilisateur_id", instance.getUser().getId());
+                ProductList listElement = jsonToProductList(list);
+                listsTable.getItems().add(listElement);
+            }
+
         }
     }
 
@@ -113,8 +124,26 @@ public class ProductListController {
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
-            fr.wastemart.maven.javaclient.services.ProductList.removeProductList(indexOfListSelected);
+            Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
+            Integer removeProductListRes = fr.wastemart.maven.javaclient.services.ProductList.removeProductsList(listToRemoveId);
+            System.out.println(removeProductListRes);
         }
+
+        displayProducts(lists.getJSONObject(0).getInt("id"));
+        displayProductLists();
+
+    }
+
+    public void createList(ActionEvent event) {
+        refreshSelectedIndices();
+        ProductList productList = new ProductList(-1,
+                "Test",
+                LocalDate.now(),
+                instance.getUser().getId(),
+                0);
+
+        System.out.println(fr.wastemart.maven.javaclient.services.ProductList.createProductList(productList));
+        displayProductLists();
     }
 
     public void removeProduct(ActionEvent event) {
@@ -124,7 +153,7 @@ public class ProductListController {
             deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"));
         }
 
-        displayProducts(lists.getJSONObject(0).getInt("id"));
+        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
     }
 
     // Return button

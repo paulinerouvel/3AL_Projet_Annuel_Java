@@ -11,10 +11,10 @@ public class ProductList {
     private Integer userId;
     private Integer estArchive;
 
-    public ProductList(Integer id, String libelle, String date, Integer userId, Integer estArchive){
+    public ProductList(Integer id, String libelle, LocalDate date, Integer userId, Integer estArchive){
         this.id = id;
         this.libelle = libelle;
-        this.date = LocalDate.from(OffsetDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
+        this.date = date;
         this.userId = userId;
         this.estArchive = estArchive;
     }
