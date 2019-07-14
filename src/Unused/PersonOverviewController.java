@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import models.Person;
+import fr.wastemart.maven.javaclient.models.Person;
 
 
 public class PersonOverviewController {

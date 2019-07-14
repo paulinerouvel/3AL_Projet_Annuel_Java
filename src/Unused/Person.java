@@ -1,4 +1,4 @@
-package models;
+package fr.wastemart.maven.javaclient.models;
 
 import java.time.LocalDate;
 import javafx.beans.property.IntegerProperty;

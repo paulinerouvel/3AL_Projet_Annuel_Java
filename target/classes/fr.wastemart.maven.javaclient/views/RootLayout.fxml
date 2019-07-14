@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="1024.0" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.RootLayoutController">
+   <top>
+     <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" scaleShape="false" style="-fx-background-color: #292929;" AnchorPane.topAnchor="50.0" BorderPane.alignment="CENTER">
+       <menus>
+         <Menu mnemonicParsing="false" style="-fx-background-color: #292929;" text="File">
+           <items>
+             <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
+             <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
+           </items>
+         </Menu>
+         <Menu disable="true" mnemonicParsing="false" text="Edit">
+           <items>
+             <MenuItem mnemonicParsing="false" text="Delete" />
+           </items>
+         </Menu>
+         <Menu mnemonicParsing="false" text="Help">
+           <items>
+             <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
+           </items>
+         </Menu>
+       </menus>
+       <styleClass>
+         <String fx:value="hover" />
+         <String fx:value="showing" />
+       </styleClass>
+     </MenuBar>
+   </top>
+</BorderPane>

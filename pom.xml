@@ -24,11 +24,11 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>
+        <dependency>
             <groupId>fr.wastemart.maven.annotationprocessing</groupId>
             <artifactId>generate-code-processor</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -39,11 +39,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>11</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>11</version>
-        </dependency>-->
 
         <!-- Make http request -->
         <dependency>
@@ -107,7 +102,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.2</version>
                 <configuration>
-                    <mainClass>MainApp</mainClass>
+                    <mainClass>fr.wastemart.maven.javaclient.MainApp</mainClass>
                 </configuration>
                 <executions><execution>
                     <id>run-hellofx</id>

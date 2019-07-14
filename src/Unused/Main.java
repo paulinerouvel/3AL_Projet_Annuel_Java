@@ -1,4 +1,4 @@
-import models.User;
+import fr.wastemart.maven.javaclient.models.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/views/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fr.wastemart.maven.javaclient/views/Login.fxml"));
 
         primaryStage.setTitle("WasteMart 0.2");
 

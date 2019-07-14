@@ -1,4 +1,4 @@
-package controllers;
+package fr.wastemart.maven.javaclient.controllers;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

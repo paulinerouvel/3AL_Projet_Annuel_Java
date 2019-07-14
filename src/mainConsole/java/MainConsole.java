@@ -1,6 +1,6 @@
 
 import org.json.JSONObject;
-import services.UserInstance;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 
 import java.util.Scanner;
 
