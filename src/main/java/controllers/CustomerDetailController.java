@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -11,6 +12,11 @@ import models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import services.UserInstance;
+
+
+import java.io.UnsupportedEncodingException;
+
+import java.security.SecureRandom;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -32,7 +38,8 @@ public class CustomerDetailController {
     @FXML
     private TextField customerPostalCode;
     @FXML
-
+    private PasswordField pwField;
+    @FXML
     private Label info;
     private JSONArray users;
     private StageManager stageManager;
@@ -72,7 +79,7 @@ public class CustomerDetailController {
         try {
             services.User userService = new services.User();
             User userModified = userService.getUser(userService.fetchUserById(idUser));
-
+            String pwd = pwField.getText();
 
 
             userModified.setAdresse(customerAddress.getText() == null ? null : customerAddress.getText());
@@ -80,11 +87,13 @@ public class CustomerDetailController {
             userModified.setTel(customerNumber.getText() == null ? null : customerNumber.getText());
             userModified.setCodePostal(customerPostalCode.getText() == null ? null : Integer.valueOf(customerPostalCode.getText()));
             userModified.setVille(customerCity.getText() == null ? null : customerCity.getText());
-            
+            if(pwd != null || pwd != "") {
+                userModified.setMdp(pwd);
+            }
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
 
-            if(userService.saveUser(userModified, "sav") < 299) {
+            if(userService.saveUser(userModified, "sav") < 299 && userModified.getMdp().length() >= 2) {
                 // FAIRE UN POP UP
                 info.setText("Modification réussie");
             }

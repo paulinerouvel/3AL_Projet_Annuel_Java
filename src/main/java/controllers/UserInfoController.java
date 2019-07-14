@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -30,6 +31,8 @@ public class UserInfoController {
     private TextField employeeNumber;
     @FXML
     private Label info;
+    @FXML
+    private PasswordField pwField;
 
     private StageManager stageManager;
     private UserInstance instance;
@@ -65,22 +68,20 @@ public class UserInfoController {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
             User user = instance.getUser();
-
+            String pwd = pwField.getText();
             user.setVille(employeeCity.getText() == null ? null : employeeCity.getText());
-            System.out.println("city set)");
             user.setTel(employeeNumber.getText() == null ? null : employeeNumber.getText());
-            System.out.println("number set)");
             //user.setMdp(employeePWD.getText() == null ? null : employeePWD.getText());
             //System.out.println(" pwd set)");
             user.setMail(employeeEmail.getText() == null ? null : employeeEmail.getText());
-            System.out.println("mail set)");
             user.setCodePostal(employeePostalCode.getText() == null ? null : Integer.valueOf(employeePostalCode.getText()));
-            System.out.println("CP set)");
             user.setAdresse(employeeAddress.getText() == null ? null : employeeAddress.getText());
-            System.out.println("address set)");
+            if(pwd != null || pwd != "") {
+                user.setMdp(pwd);
+            }
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(instance.saveUser(instance.getUser(), "sav") < 299) {
+            if(instance.saveUser(instance.getUser(), "sav") < 299 && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP
                 info.setText("Modification réussie");
             }
