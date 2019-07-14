@@ -57,14 +57,20 @@ public class ProSuggestionListController {
     TableColumn<Object, Object> productDate;
 
     public void init(){
-        displayProductLists();
-        displayProducts(lists.getJSONObject(0).getInt("id"));
-        listsTable.getSelectionModel().selectFirst();
+        try {
+            displayProductLists();
+            displayProducts(lists.getJSONObject(0).getInt("id"));
+            listsTable.getSelectionModel().selectFirst();
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void displayProductLists() {
         listsTable.getItems().clear();
-        lists = services.ProductList.fetchAllProductLists();
+        //lists = services.ProductList.fetchAllProductLists();
+        lists = services.ProductList.fetchAllProductListsByUserCategory(2);
 
 
         System.out.println("Listdata =" +lists);

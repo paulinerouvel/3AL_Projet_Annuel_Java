@@ -22,13 +22,13 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="217.0" prefWidth="389.0" text="Gérer les commandes" textAlignment="CENTER" wrapText="true" />
-            <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Propositions de particuliers" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#displayOrderList" prefHeight="217.0" prefWidth="389.0" text="Voir les commandes" textAlignment="CENTER" wrapText="true" />
+            <Button mnemonicParsing="false" onAction="#displayConsumerSuggestion" prefHeight="216.0" prefWidth="443.0" text="Propositions de particuliers" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" />
             <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProfessionnalSuggestion" prefHeight="228.0" prefWidth="491.0" text="Propositions de professionnels" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
-            <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#displayWarehouseList" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#displayRegisterRequests" prefHeight="249.0" prefWidth="480.0" text="Demandes d'inscriptions" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#displayUserList" prefHeight="249.0" prefWidth="480.0" text="Clients" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="342.0" layoutY="66.0" prefHeight="19.0" prefWidth="339.0" text="[LabelEmployé]" textAlignment="CENTER" />

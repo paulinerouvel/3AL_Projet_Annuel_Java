@@ -2,12 +2,12 @@ package models;
 
 import java.time.LocalDate;
 
-public class Command {
+public class Order {
     private Integer id;
     private LocalDate date;
     private Integer idUser;
 
-    public Command(Integer id, LocalDate date, Integer idUser) {
+    public Order(Integer id, LocalDate date, Integer idUser) {
         this.id = id;
         this.date = date;
         this.idUser = idUser;

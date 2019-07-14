@@ -22,8 +22,8 @@
             <TextArea fx:id="connectionStatus" editable="false" layoutX="130.0" layoutY="312.0" prefHeight="53.0" prefWidth="346.0" text="Veuillez vous connecter." />
       <AnchorPane layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
          <children>
-                  <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="alex.bis8@hotmail.fr" />
-                  <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" />
+                  <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="testemploye@email.com" />
+                  <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" text="toto" />
                   <ButtonBar layoutX="7.0" layoutY="132.0" prefHeight="40.0" prefWidth="346.0">
                <buttons>
                   <Button mnemonicParsing="false" onAction="#displayRegister" prefHeight="33.0" prefWidth="176.0" text="S'inscrire" />

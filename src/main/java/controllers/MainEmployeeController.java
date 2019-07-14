@@ -40,10 +40,38 @@ public class MainEmployeeController implements Initializable {
 
     }
 
+    public void displayConsumerSuggestion(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/ConsSuggestionList.fxml",
+                instance);
+
+    }
+
+    public void displayWarehouseList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/WarehouseList.fxml",
+                instance);
+
+    }
+    public void displayOrderList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/OrderList.fxml",
+                instance);
+
+    }
+
+    public void displayUserList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserList.fxml",
+                instance);
+
+    }
+
     public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/UserInfo.fxml",
+                instance);
+    }
+
+    public void displayCustomerDetail(ActionEvent actionEvent, Integer userID) throws Exception {
+        stageManager.loadPage(actionEvent, "/views/RootLayout.fxml","/views/CustomerDetail.fxml",
                 instance);
     }
 

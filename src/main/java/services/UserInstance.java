@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import models.User;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -135,6 +136,7 @@ public class UserInstance {
             return 0;
         }
     }
+
 
     // Register or Save a user (Post | Put)
     public Integer saveUser(User user, String operation) {
@@ -277,7 +279,7 @@ public class UserInstance {
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
             }
 
             BufferedReader in = new BufferedReader(streamReader);
@@ -295,6 +297,132 @@ public class UserInstance {
         } catch (IOException e) {
             e.printStackTrace();
             return new JSONObject("{null}");
+        }
+    }
+
+    public static JSONArray fetchUsers() {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/user");
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            return new JSONArray(content.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
+    public static JSONArray fetchUsersByCategory(String libelle) {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/user/AllValidByCategory?type="+libelle);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            JSONArray result = new JSONArray(content.toString());
+            System.out.println("result"+ result);
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("desc")) {
+                    result.getJSONObject(i).put("desc", "");
+                }
+
+
+            }
+
+            System.out.println("result2"+ result);
+
+            return result;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
+    public static JSONArray fetchUsersByID(Integer idUser) {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/user?id="+idUser);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            JSONArray result = new JSONArray(content.toString());
+            System.out.println("result"+ result);
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("desc")) {
+                    result.getJSONObject(i).put("desc", "");
+                }
+
+
+            }
+
+            System.out.println("result2"+ result);
+
+            return result;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
         }
     }
 

@@ -16,7 +16,6 @@ public class User {
     private Integer codePostal;
     private String pseudo;
     private String mdp;
-
     private String photo;
     private String desc;
     private Integer tailleOrganisme;

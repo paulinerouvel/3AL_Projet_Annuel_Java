@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class ProductList {
     public static JSONArray fetchProductLists(Integer idUser) {
@@ -23,7 +24,7 @@ public class ProductList {
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
             }
 
             BufferedReader in = new BufferedReader(streamReader);
@@ -58,7 +59,42 @@ public class ProductList {
                 System.out.println(con.getResponseCode());
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+            System.out.println(content.toString());
+            return new JSONArray(content.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
+    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory) {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/list/?idUserCategory="+idUserCategory);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                System.out.println(con.getResponseCode());
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
             }
 
             BufferedReader in = new BufferedReader(streamReader);

@@ -26,7 +26,7 @@ public class Product {
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
             }
 
             BufferedReader in = new BufferedReader(streamReader);
@@ -53,6 +53,126 @@ public class Product {
                 }
                 if (result.getJSONObject(i).isNull("destinataire")) {
                     result.getJSONObject(i).put("destinataire", "0");
+                }
+                if(result.getJSONObject(i).isNull("codeBarre")) {
+                    result.getJSONObject(i).put("codeBarre", "");
+                }
+
+            }
+
+            System.out.println("result2"+ result);
+
+            return result;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
+
+    public static JSONArray fetchProductsByWarehouse(Integer idWareHhouse){
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/product/warehouse?id=" + idWareHhouse);
+            // /list/products?id=1
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            JSONArray result = new JSONArray(content.toString());
+            System.out.println("result"+ result);
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
+                    result.getJSONObject(i).put("dateMiseEnRayon", "");
+                }
+                if (result.getJSONObject(i).isNull("enRayon")) {
+                    result.getJSONObject(i).put("enRayon", "0");
+                }
+                if (result.getJSONObject(i).isNull("entrepotwm_id")) {
+                    result.getJSONObject(i).put("entrepotwm_id", "0");
+                }
+                if (result.getJSONObject(i).isNull("destinataire")) {
+                    result.getJSONObject(i).put("destinataire", "0");
+                }
+                if(result.getJSONObject(i).isNull("codeBarre")) {
+                    result.getJSONObject(i).put("codeBarre", "");
+                }
+
+            }
+
+            System.out.println("result2"+ result);
+
+            return result;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
+    public static JSONArray fetchProductsByOrder(Integer idOrder){
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/product/warehouse?idOrder=" + idOrder);
+            // /list/products?id=1
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            JSONArray result = new JSONArray(content.toString());
+            System.out.println("result"+ result);
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
+                    result.getJSONObject(i).put("dateMiseEnRayon", "");
+                }
+                if (result.getJSONObject(i).isNull("enRayon")) {
+                    result.getJSONObject(i).put("enRayon", "0");
+                }
+                if (result.getJSONObject(i).isNull("entrepotwm_id")) {
+                    result.getJSONObject(i).put("entrepotwm_id", "0");
+                }
+                if (result.getJSONObject(i).isNull("destinataire")) {
+                    result.getJSONObject(i).put("destinataire", "0");
+                }
+                if(result.getJSONObject(i).isNull("codeBarre")) {
+                    result.getJSONObject(i).put("codeBarre", "");
                 }
 
             }
@@ -203,6 +323,52 @@ public class Product {
             http = (HttpURLConnection) con;
             ((HttpURLConnection) con).setRequestMethod("PUT");
 
+
+
+            // Form request, connect and send json
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+            return http.getResponseCode();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                if (http != null) {
+                    return http.getResponseCode();
+                }
+                return 299;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return 299;
+            }
+        }
+    }
+
+    public static Integer updateProductWarehouse(Integer idProduct, Integer idWarehouse) {
+        HttpURLConnection http = null;
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/product/warehouse/");
+            String jsonBody =
+                    "{\n" +
+                            "\t\"idProduct\": "+idProduct+",\n" +
+                            "\t\"idWarehouse\" : "+idWarehouse+"\n" +
+                            "}";
+
+            System.out.println(jsonBody);
+
+            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+            // Instantiate connection
+            URLConnection con = url.openConnection();
+            con.setDoOutput(true);
+            http = (HttpURLConnection) con;
+            ((HttpURLConnection) con).setRequestMethod("PUT");
 
 
             // Form request, connect and send json

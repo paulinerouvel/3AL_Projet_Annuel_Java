@@ -6,9 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import models.User;
 import services.UserInstance;
 
 import java.io.IOException;
@@ -78,11 +80,57 @@ public class StageManager {
             ProSuggestionListController proSuggestionListController = loader.getController();
             proSuggestionListController.setInstance(instance);
             proSuggestionListController.init();
+
+        }  else if (controllerClassType == ConsSuggestionListController.class) {
+            ConsSuggestionListController consSuggestionListController = loader.getController();
+            consSuggestionListController.setInstance(instance);
+            consSuggestionListController.init();
+
+        }  else if (controllerClassType == WarehouseListController.class) {
+            WarehouseListController warehouseListController= loader.getController();
+            warehouseListController.setInstance(instance);
+            warehouseListController.init();
+
+        }  else if (controllerClassType == OrderListController.class) {
+            OrderListController orderListController= loader.getController();
+            orderListController.setInstance(instance);
+            orderListController.init();
+
+        }  else if (controllerClassType == UserListController.class) {
+            UserListController userListController= loader.getController();
+            userListController.setInstance(instance);
+            userListController.init();
+
         }
 
 
         // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());
+    }
+
+    public static void loadPageCustomerDetailPage(MouseEvent mouseEvent, String rootLayout, String mainView, UserInstance instance, Integer idUser) {
+
+        // Load the Root Layout fxml
+        parentRootLayout = loadBorderPane(rootLayout);
+        // Set user instance of the Root Layout
+        RootLayoutController rootLayoutController = loader.getController();
+        rootLayoutController.setInstance(instance);
+        //-----rootLayoutController.setStageManager(this);
+        // Display the Root Layout
+        Stage stageNodeRoot = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        if(stageNodeRoot != null){
+            showBorderPane(stageNodeRoot, parentRootLayout);
+        }
+        // Load the Menu fxml
+        parentMain = loadAnchorPane(mainView);
+
+        // Init Menu Controller
+        Class<?> controllerClassType = loader.getController().getClass();
+        if (controllerClassType == CustomerDetailController.class) {
+            CustomerDetailController customerDetailController= loader.getController();
+            customerDetailController.setInstance(instance);
+            customerDetailController.init(idUser);
+        }
     }
 
     // Loads a page without root (register, login)
