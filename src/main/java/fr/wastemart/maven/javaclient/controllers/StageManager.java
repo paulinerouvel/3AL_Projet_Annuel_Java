@@ -83,6 +83,9 @@ public class StageManager {
             UserListController userListController = loader.getController();
             userListController.setInstance(instance);
             userListController.init();
+        } else if (controllerClassType == MessageController.class){
+            MessageController messageController = loader.getController();
+            messageController.setInstance(instance);
         }
 
 

@@ -371,21 +371,19 @@ public class User {
         );
     }
 
-    public static Integer notifyByMailUser(fr.wastemart.maven.javaclient.models.User user) {
+    public static Integer sendMail(String mail, String objet, String message) {
         HttpURLConnection http = null;
         CloseableHttpClient client = null;
         URL url = null;
         try {
             url = new URL("https://wastemart-api.herokuapp.com/mail");
 
-
             String jsonBody =
                     "{\n" +
                         "\t\"sender\": \"wastemart@gmail.com\",\n" +
-                        "\t\"destination\": \""+user.getMail()+"\",\n" +
-                        "\t\"subject\": \"Compte Validé !\",\n" +
-                        "\t\"message\": \"Bonjour, <br/> Votre compte à été validé, vous pouvez désormais vous" +
-                            " connecter sur WasteMart ! <br/> Cordialement, <br/> L'équipe WasteMart\",\n" +
+                        "\t\"destination\": \""+mail+"\",\n" +
+                        "\t\"subject\": \""+objet+"\",\n" +
+                        "\t\"message\": \""+message+"\",\n" +
                     "}";
 
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
@@ -420,4 +418,5 @@ public class User {
             }
         }
     }
+
 }

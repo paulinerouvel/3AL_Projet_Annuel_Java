@@ -37,8 +37,9 @@
                         <TableColumn fx:id="nbPointsSourire" prefWidth="94.0" text="Points sourire" />
                     </columns>
                   </TableView>
-                  <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="614.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
+                  <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="1113.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#contactUser" text="Contacter" />
                         <Button mnemonicParsing="false" onAction="#displayAddUser" text="Ajouter" />
                         <Button mnemonicParsing="false" onAction="#displayModifyUser" text="Modifier" />
                         <Button mnemonicParsing="false" text="Supprimer" />

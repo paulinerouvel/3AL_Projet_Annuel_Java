@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
+import static fr.wastemart.maven.javaclient.services.User.jsonToUser;
+
 import java.io.IOException;
 
 
@@ -141,28 +143,15 @@ public class UserListController {
         if(indexOfUserSelected != -1) {
             try {
                 JSONObject user = users.getJSONObject(indexOfUserSelected);
-                User userElement = new User(user.getInt("id"),
-                        user.getString("Libelle"),
-                        user.getInt("categorieUtilisateur"),
-                        user.getString("nom"),
-                        user.getString("prenom"),
-                        user.getString("mail"),
-                        user.getString("tel"),
-                        user.getString("adresse"),
-                        user.getString("ville"),
-                        user.getInt("codePostal"),
-                        user.getString("prenom"),
-                        user.getString("mdp"),
-                        user.getString("photo"),
-                        user.getString("desc"),
-                        user.getInt("tailleOrganisme"),
-                        1,
-                        user.getString("siret"),
-                        user.getString("dateDeNaissance"),
-                        user.getInt("nbPointsSourire"));
+                User userElement = jsonToUser(user);
+                userElement.setEstValide(1);
 
                 if(fr.wastemart.maven.javaclient.services.User.updateUser(userElement) < 299){
-                    System.out.println(fr.wastemart.maven.javaclient.services.User.notifyByMailUser(userElement));
+                    String objet = "Compte Validé !";
+                    String message = "Bonjour, <br/> Votre compte à été validé, vous pouvez désormais vous" +
+                    " connecter sur WasteMart ! <br/> Cordialement, <br/> L'équipe WasteMart";
+
+                    System.out.println(fr.wastemart.maven.javaclient.services.User.sendMail(userElement.getMail(), objet, message));
                 }
 
                 displayUsers();
@@ -222,6 +211,7 @@ public class UserListController {
         displayUsers();
 
     }
+
     public void displayModifyUser(ActionEvent actionEvent) throws Exception {
         refreshSelectedIndices();
 
@@ -273,6 +263,35 @@ public class UserListController {
 
         displayUsers();
 
+    }
+
+    public void contactUser(ActionEvent actionEvent) {
+        refreshSelectedIndices();
+
+        if(indexOfUserSelected != -1) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/Message.fxml"));
+
+            Scene newScene;
+            try {
+                newScene = new Scene(loader.load());
+            } catch (IOException ex) {
+                System.out.println(ex);
+                return;
+            }
+
+            MessageController controller = loader.getController();
+            JSONObject user = users.getJSONObject(indexOfUserSelected);
+
+            controller.init(user.getString("mail"));
+
+            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            Stage inputStage = new Stage();
+            inputStage.initOwner(stageNodeRoot);
+            inputStage.setScene(newScene);
+            inputStage.showAndWait();
+        }
     }
 
     public void refreshSelectedIndices() {

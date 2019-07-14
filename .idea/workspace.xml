@@ -10,23 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="36b13061-f50c-470f-afce-fd66f8bac85a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/MessageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/ProductList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/ProductList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/ProductList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/ProductList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/ProductList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/ProductList.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/ProductListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/ProductListController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/models/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/models/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/models/ProductList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/models/ProductList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/ProductList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/ProductList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/Message.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/Message.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/UserList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr.wastemart.maven.javaclient/views/UserList.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/StageManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/StageManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/UserListController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/controllers/UserListController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/wastemart/maven/javaclient/services/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -87,8 +84,8 @@
           <file leaf-file-name="ProSuggestionListController.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1170">
-                  <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
+                <state relative-caret-position="-270">
+                  <caret line="24" column="31" selection-start-line="24" selection-end-line="25" />
                   <folding>
                     <element signature="method#displayAddProduct#0;class#ProSuggestionListController#0" />
                   </folding>
@@ -99,7 +96,7 @@
           <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/LoginController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="825">
+                <state relative-caret-position="735">
                   <caret line="55" column="44" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -118,12 +115,46 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ProductList.fxml" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ProductList.fxml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml">
-              <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-              <provider editor-type-id="text-editor">
-                <state relative-caret-position="480">
-                  <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+              <provider editor-type-id="JavaFX-Scene-Builder" />
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="300">
+                  <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="UserListController.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="371">
+                  <caret line="285" column="27" selection-start-line="285" selection-start-column="23" selection-end-line="285" selection-end-column="27" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="method#displayAddUser#0;class#UserListController#0" />
+                    <element signature="e#10845#10846#0" expanded="true" />
+                    <element signature="e#10876#10877#0" expanded="true" />
+                    <element signature="e#10930#10931#0" expanded="true" />
+                    <element signature="e#10970#10971#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MessageController.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/MessageController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="3">
+                  <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
+                  <folding>
+                    <element signature="e#559#560#0" expanded="true" />
+                    <element signature="e#607#608#0" expanded="true" />
+                    <element signature="e#2374#2375#0" expanded="true" />
+                    <element signature="e#2405#2406#0" expanded="true" />
+                    <element signature="e#2459#2460#0" expanded="true" />
+                    <element signature="e#2499#2500#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -132,10 +163,29 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="UserList.fxml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml">
+              <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+              <provider editor-type-id="text-editor">
+                <state relative-caret-position="495">
+                  <caret line="33" column="59" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="StageManager.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="3">
+                  <caret line="73" column="56" lean-forward="true" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="ProductList.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/ProductList.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1290">
+                <state relative-caret-position="1335">
                   <caret line="154" column="62" selection-start-line="154" selection-start-column="61" selection-end-line="154" selection-end-column="62" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -146,13 +196,12 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ProductListController.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ProductListController.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="67">
-                  <caret line="64" column="31" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
+                <state relative-caret-position="360">
+                  <caret line="24" column="74" selection-start-line="24" selection-end-line="25" />
                   <folding>
-                    <element signature="imports" expanded="true" />
                     <element signature="method#displayAddProduct#0;class#ProductListController#0" />
                     <element signature="method#displayModifyProduct#0;class#ProductListController#0" />
                     <element signature="method#refreshSelectedIndices#0;class#ProductListController#0" />
@@ -161,58 +210,26 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="251">
+                  <caret line="386" column="24" selection-start-line="386" selection-start-column="24" selection-end-line="386" selection-end-column="24" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="method#fetchAllUsers#0;class#User#0" />
+                    <element signature="method#fetchUser#0;class#User#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="Message.fxml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml">
-              <provider editor-type-id="JavaFX-Scene-Builder" />
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="14" selection-start-line="14" selection-end-line="14" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Product.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="105" column="38" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="38" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pom.xml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="118">
-                  <caret line="101" column="22" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="22" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Order.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/target/generated-sources/annotations/fr/wastemart/maven/javaclient/services/Order.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-                  <folding>
-                    <element signature="e#363#364#0" expanded="true" />
-                    <element signature="e#382#383#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="IOrder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/IOrder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="135">
-                  <caret line="9" selection-start-line="9" selection-end-line="9" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
+              <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+              <provider editor-type-id="text-editor">
+                <state relative-caret-position="180">
+                  <caret line="12" selection-start-line="12" selection-end-line="12" />
                 </state>
               </provider>
             </entry>
@@ -294,11 +311,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/controllers/RootLayoutController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/Register.fxml" />
-        <option value="$PROJECT_DIR$/src/mainConsole/java/MainConsole.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/views/MainProfessionnal.fxml" />
-        <option value="$PROJECT_DIR$/src/main/java/models/List.java" />
         <option value="$PROJECT_DIR$/src/main/resources/views/Login.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/css/Wastemart.css" />
@@ -340,11 +352,16 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/ProductList.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ManageProductController.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/Product.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/ProductList.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml" />
+        <option value="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/MessageController.java" />
       </list>
     </option>
   </component>
@@ -370,11 +387,10 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="2" />
-    <option name="y" value="85" />
-    <option name="width" value="3838" />
-    <option name="height" value="1033" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="27" />
+    <option name="width" value="1920" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -481,7 +497,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562140306998" />
     <property name="extract.method.default.visibility" value="public" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../PluginA" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Gregory_Work" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -492,10 +508,12 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views" />
       <recent name="$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services" />
       <recent name="$PROJECT_DIR$/src/main/resources/views" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="fr.wastemart.maven.javaclient.controllers" />
       <recent name="controllers" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -683,12 +701,12 @@
       <workItem from="1562835683991" duration="35408000" />
       <workItem from="1562919861695" duration="31349000" />
       <workItem from="1563008050265" duration="34183000" />
-      <workItem from="1563092839255" duration="21041000" />
+      <workItem from="1563092839255" duration="26179000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="411875000" />
+    <option name="totallyTimeSpent" value="417013000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -700,8 +718,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="85" width="3838" height="1033" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3290735" />
@@ -713,13 +730,13 @@
       <window_info anchor="right" id="Maven Projects" order="8" weight="0.16862327" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49924126" visible="true" weight="0.45515695" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49924126" visible="true" weight="0.28179824" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.32785088" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.121308014" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24546425" />
       <window_info anchor="right" id="Database" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.2379386" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.23766816" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -784,13 +801,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/pluginmanager/PluginLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Plugins.fxml">
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
       <provider editor-type-id="text-editor">
@@ -947,14 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="59" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/MainProfessionnal.fxml">
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
       <provider editor-type-id="text-editor">
@@ -969,16 +971,6 @@
           <caret line="55" column="47" selection-start-line="55" selection-start-column="47" selection-end-line="55" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2535">
-          <caret line="185" column="77" selection-start-line="185" selection-start-column="77" selection-end-line="185" selection-end-column="77" />
-          <folding>
-            <element signature="method#displayAddUser#0;class#UserListController#0" />
           </folding>
         </state>
       </provider>
@@ -1046,13 +1038,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1056">
-          <caret line="84" column="38" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/artifacts/Wastermart.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1098,18 +1083,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="192" column="9" lean-forward="true" selection-start-line="132" selection-start-column="8" selection-end-line="192" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#fetchAllUsers#0;class#User#0" />
-            <element signature="method#fetchUser#0;class#User#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/Product.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -1140,10 +1113,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/ProductList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="105" column="38" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="38" />
+        <state relative-caret-position="195">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1158,10 +1131,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/models/ProductList.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+        <state relative-caret-position="735">
+          <caret line="55" column="44" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/Product.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="105" column="38" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1169,16 +1160,58 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/Message.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="360">
+          <caret line="24" column="74" selection-start-line="24" selection-end-line="25" />
+          <folding>
+            <element signature="method#displayAddProduct#0;class#ProductListController#0" />
+            <element signature="method#displayModifyProduct#0;class#ProductListController#0" />
+            <element signature="method#refreshSelectedIndices#0;class#ProductListController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="386" column="24" selection-start-line="386" selection-start-column="24" selection-end-line="386" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#fetchAllUsers#0;class#User#0" />
+            <element signature="method#fetchUser#0;class#User#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/UserList.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="59" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="24" column="31" selection-start-line="24" selection-end-line="25" />
+          <folding>
+            <element signature="method#displayAddProduct#0;class#ProSuggestionListController#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/services/ProductList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
+        <state relative-caret-position="1335">
           <caret line="154" column="62" selection-start-line="154" selection-start-column="61" selection-end-line="154" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1188,44 +1221,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProSuggestionListController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/UserListController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
-          <folding>
-            <element signature="method#displayAddProduct#0;class#ProSuggestionListController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/LoginController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="44" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+        <state relative-caret-position="371">
+          <caret line="285" column="27" selection-start-line="285" selection-start-column="23" selection-end-line="285" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#displayAddUser#0;class#UserListController#0" />
+            <element signature="e#10845#10846#0" expanded="true" />
+            <element signature="e#10876#10877#0" expanded="true" />
+            <element signature="e#10930#10931#0" expanded="true" />
+            <element signature="e#10970#10971#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/ProductListController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/MessageController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="64" column="31" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
+        <state relative-caret-position="3">
+          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#displayAddProduct#0;class#ProductListController#0" />
-            <element signature="method#displayModifyProduct#0;class#ProductListController#0" />
-            <element signature="method#refreshSelectedIndices#0;class#ProductListController#0" />
+            <element signature="e#559#560#0" expanded="true" />
+            <element signature="e#607#608#0" expanded="true" />
+            <element signature="e#2374#2375#0" expanded="true" />
+            <element signature="e#2405#2406#0" expanded="true" />
+            <element signature="e#2459#2460#0" expanded="true" />
+            <element signature="e#2499#2500#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/fr.wastemart.maven.javaclient/views/ProductList.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/wastemart/maven/javaclient/controllers/StageManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3">
+          <caret line="73" column="56" lean-forward="true" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
         </state>
       </provider>
     </entry>
