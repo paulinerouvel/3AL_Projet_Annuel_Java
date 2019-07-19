@@ -1,4 +1,3 @@
-fr/wastemart/maven/javaclient/services/IOrder.class
 fr/wastemart/maven/javaclient/services/Warehouse.class
 fr/wastemart/maven/javaclient/controllers/UserListController.class
 fr/wastemart/maven/javaclient/pluginmanager/Plugin.class
@@ -8,14 +7,20 @@ fr/wastemart/maven/javaclient/pluginmanager/PluginLoader.class
 fr/wastemart/maven/javaclient/controllers/ProductListController.class
 fr/wastemart/maven/javaclient/services/Product.class
 fr/wastemart/maven/javaclient/models/Warehouse.class
+fr/wastemart/maven/javaclient/models/UserCategory.class
 fr/wastemart/maven/javaclient/controllers/MainAdminController.class
 fr/wastemart/maven/javaclient/controllers/MainEmployeeController.class
 fr/wastemart/maven/javaclient/models/User.class
 fr/wastemart/maven/javaclient/services/UserInstance.class
 fr/wastemart/maven/javaclient/controllers/ManageProductController.class
+fr/wastemart/maven/javaclient/controllers/CustomerDetailController.class
+fr/wastemart/maven/javaclient/models/Order.class
 fr/wastemart/maven/javaclient/services/User.class
+fr/wastemart/maven/javaclient/services/UserCategories.class
 fr/wastemart/maven/javaclient/models/ProductList.class
+fr/wastemart/maven/javaclient/controllers/WarehouseListController.class
 fr/wastemart/maven/javaclient/controllers/PluginPageController.class
+fr/wastemart/maven/javaclient/controllers/OrderListController.class
 fr/wastemart/maven/javaclient/services/Order.class
 fr/wastemart/maven/javaclient/controllers/MainProfessionnalController.class
 fr/wastemart/maven/javaclient/controllers/MessageController.class
@@ -24,7 +29,7 @@ fr/wastemart/maven/javaclient/pluginmanager/Menu.class
 fr/wastemart/maven/javaclient/controllers/LoginController.class
 fr/wastemart/maven/javaclient/controllers/RootLayoutController.class
 fr/wastemart/maven/javaclient/controllers/RegisterController.class
-fr/wastemart/maven/javaclient/controllers/ManageUserController.class
+fr/wastemart/maven/javaclient/controllers/ConsSuggestionListController.class
 fr/wastemart/maven/javaclient/controllers/StageManager.class
 fr/wastemart/maven/javaclient/services/ProductList.class
 fr/wastemart/maven/javaclient/models/Product.class

@@ -39,14 +39,13 @@ public class AutoGenerateProcessor extends AbstractProcessor {
             AutoImplement autoImplement = element.getAnnotation(AutoImplement.class);
 
             if (element.getKind() != ElementKind.INTERFACE) {
-                error("The annotation @AutoImplement can only be applied on interfaces: ",
-                        element);
+                System.out.println("The annotation @AutoImplement can only be used on interfaces: " + element);
 
             } else {
                 boolean error = false;
 
                 if (uniqueIdCheckList.contains(autoImplement.as())) {
-                    error("AutoImplement#as should be uniquely defined", element);
+                    System.out.println("AutoImplement \"as\" should be uniquely defined" + element);
                     error = true;
                 }
 
@@ -57,7 +56,7 @@ public class AutoGenerateProcessor extends AbstractProcessor {
                     try {
                         generateClass(autoImplement, element);
                     } catch (Exception e) {
-                        error(e.getMessage(), null);
+                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -70,13 +69,13 @@ public class AutoGenerateProcessor extends AbstractProcessor {
 
         String pkg = getPackageName(element);
 
-        //delegate some processing to our FieldInfo class
+        //delegate some processing to FieldInfo class
         FieldInfo fieldInfo = FieldInfo.get(element);
 
         //the target interface name
         String interfaceName = getTypeName(element);
 
-        //using our JClass to delegate most of the string appending there
+        //using JClass to delegate most of the string appending there
         JClass implClass = new JClass();
         implClass.definePackage(pkg);
         implClass.defineClass("public class ", autoImplement.as(), "implements " + interfaceName);
@@ -185,6 +184,7 @@ public class AutoGenerateProcessor extends AbstractProcessor {
         generateClass(pkg + "." + autoImplement.as(), implClass.end());
     }
 
+    //
     private String getPackageName(Element element) {
         List<PackageElement> packageElements =
                 ElementFilter.packagesIn(Arrays.asList(element.getEnclosingElement()));
@@ -195,6 +195,7 @@ public class AutoGenerateProcessor extends AbstractProcessor {
 
     }
 
+    // Create the class file
     private void generateClass(String qfn, String end) throws IOException {
         JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(qfn);
         Writer writer = sourceFile.openWriter();
@@ -202,36 +203,27 @@ public class AutoGenerateProcessor extends AbstractProcessor {
         writer.close();
     }
 
-    /**
-     * Checking if the class to be generated is a valid java identifier
-     * Also the name should be not same as the target interface
-     */
+    // Check if the class to be generated is a valid java id and the name is not the same as interface
     private boolean checkIdValidity(String name, Element e) {
         boolean valid = true;
         for (int i = 0; i < name.length(); i++) {
             if (i == 0 ? !Character.isJavaIdentifierStart(name.charAt(i)) :
                     !Character.isJavaIdentifierPart(name.charAt(i))) {
-                error("AutoImplement#as should be valid java " +
-                        "identifier for code generation: " + name, e);
+                System.out.println("AutoImplement as should be valid java identifier: " + name + e);
                 valid = false;
             }
         }
         if (name.equals(getTypeName(e))) {
-            error("AutoImplement#as should be different than the Interface name ", e);
+            System.out.println("AutoImplement as should be different than the Interface name "+ e);
         }
         return valid;
     }
 
-    /**
-     * Get the simple name of the TypeMirror
-     */
+
+    // Get the type name (ex : Java.lang.String -> String)
     private static String getTypeName(Element e) {
         TypeMirror typeMirror = e.asType();
-        String[] split = typeMirror.toString().split("\\.");
-        return split.length > 0 ? split[split.length - 1] : null;
-    }
-
-    private void error(String msg, Element e) {
-        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, msg, e);
+        String[] splitedTypeName = typeMirror.toString().split("\\.");
+        return splitedTypeName.length > 0 ? splitedTypeName[splitedTypeName.length - 1] : null;
     }
 }

@@ -31,10 +31,32 @@ public class MainEmployeeController implements Initializable {
     public void displayProfessionnalSuggestion(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/ProSuggestionList.fxml",
                 instance);
-
     }
 
-    public void displayRegisterRequests(ActionEvent actionEvent) throws Exception {}
+    public void displayConsumerSuggestion(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/ConsSuggestionList.fxml",
+                instance);
+    }
+
+    public void displayWarehouseList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/WarehouseList.fxml",
+                instance);
+    }
+
+    public void displayOrderList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/OrderList.fxml",
+                instance);
+    }
+
+    public void displayUserList(ActionEvent actionEvent) throws Exception {
+        stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/UserList.fxml",
+                instance);
+    }
+
+    public void displayCustomerDetail(ActionEvent actionEvent, Integer userID) throws Exception {
+        stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml",
+                instance);
+    }
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",

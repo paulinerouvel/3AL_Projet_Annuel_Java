@@ -104,12 +104,10 @@ public class ManageProductController {
 
             String result = null;
             if(operation.equals("Add")) {
-                //result = fr.wastemart.maven.javaclient.services.Product.addProductToList(newProduct) == 201 ? "Produit Ajouté" : "L'ajout a échoué";
-                System.out.println(fr.wastemart.maven.javaclient.services.Product.addProductToList(newProduct));
+                fr.wastemart.maven.javaclient.services.Product.addProductToList(newProduct);
 
             } else if(operation.equals("Modify")){
-                //result = fr.wastemart.maven.javaclient.services.Product.updateProduct(newProduct) == 201 ? "Produit Ajouté" : "L'ajout a échoué";
-                System.out.println(fr.wastemart.maven.javaclient.services.Product.updateProduct(newProduct));
+                fr.wastemart.maven.javaclient.services.Product.updateProduct(newProduct);
             }
             info.setText(result);
         }

@@ -39,7 +39,6 @@ public class User {
             con.disconnect();
 
             JSONArray users = new JSONArray(content.toString());
-            System.out.println("UsersFetched: "+ users);
 
             for(int i = 0; i < users.length(); i++) {
 
@@ -74,7 +73,6 @@ public class User {
 
             }
 
-            System.out.println("result2"+ users);
 
             return users;
 
@@ -100,7 +98,6 @@ public class User {
             int status = con.getResponseCode();
             Reader streamReader;
 
-            System.out.println("Data : " + (data == null ? "nodata": data) + ", Status : " +status);
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
@@ -119,7 +116,6 @@ public class User {
 
             JSONObject user =  new JSONObject(content.toString());
             user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
-            System.out.println("THE USER WITH CATEGORY IS: "+ user);
             return user;
 
         } catch (IOException e) {
@@ -157,7 +153,6 @@ public class User {
                             "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
                             "}";
 
-            System.out.println(jsonBody);
 
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
@@ -314,7 +309,6 @@ public class User {
             con.setRequestMethod("GET");
 
             int status = con.getResponseCode();
-            System.out.println("fetchCategory : url -> "+ url +", status -> "+ status +", userId -> "+ userId);
             Reader streamReader;
             if (status > 299) {
                 return status;
@@ -346,7 +340,6 @@ public class User {
     }
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
-        System.out.println(user);
         return new fr.wastemart.maven.javaclient.models.User(
                 user.getInt("id"),
                 user.getString("libelle"),

@@ -22,11 +22,9 @@
         </rowConstraints>
          <children>
             <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Listes de produits" />
-            <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Enregist" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="228.0" prefWidth="491.0" text="Button" GridPane.columnIndex="2" />
             <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Contacter Administration" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Enregist" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="proName" alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="75.0" prefHeight="19.0" prefWidth="338.0" text="[LabelProfessionnel]" textAlignment="CENTER" />

@@ -25,14 +25,7 @@ public class FieldInfo {
         this.mandatoryFields = mandatoryFields;
     }
 
-    public LinkedHashMap<String, String> getFields() {
-        return fields;
-    }
-
-    public List<String> getMandatoryFields() {
-        return mandatoryFields;
-    }
-
+    // Processes method element and return constructed info
     public static FieldInfo get(Element element) {
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         List<String> mandatoryFields = new ArrayList<>();
@@ -64,6 +57,7 @@ public class FieldInfo {
         return new FieldInfo(fields, mandatoryFields);
     }
 
+    // Sets method name to get
     private static String methodToFieldName(String methodName) {
         if (methodName.startsWith("get")) {
             String str = methodName.substring(3);
@@ -76,5 +70,13 @@ public class FieldInfo {
             }
         }
         return null;
+    }
+
+    public List<String> getMandatoryFields() {
+        return mandatoryFields;
+    }
+
+    public LinkedHashMap<String, String> getFields() {
+        return fields;
     }
 }

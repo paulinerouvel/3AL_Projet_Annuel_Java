@@ -9,11 +9,11 @@ import java.time.LocalDate;
 public interface IOrder {
 
     @Mandatory
-    String getId();
+    Integer getId();
 
     @Mandatory
-    String getDate();
+    LocalDate getDate();
 
     @Mandatory
-    LocalDate getUserId();
+    Integer getUserId();
 }

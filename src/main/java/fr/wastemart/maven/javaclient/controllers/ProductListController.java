@@ -71,9 +71,6 @@ public class ProductListController {
         listsTable.getItems().clear();
         lists = fr.wastemart.maven.javaclient.services.ProductList.fetchProductLists(instance.getUser().getId());
 
-
-        System.out.println("Listdata =" +lists);
-
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
@@ -92,8 +89,6 @@ public class ProductListController {
     private void displayProducts(Integer id) {
         productsTable.getItems().clear();
         products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(id);
-
-        System.out.println("Productdata =" +products);
 
         productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
@@ -126,7 +121,6 @@ public class ProductListController {
         if(indexOfListSelected != -1){
             Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
             Integer removeProductListRes = fr.wastemart.maven.javaclient.services.ProductList.removeProductsList(listToRemoveId);
-            System.out.println(removeProductListRes);
         }
 
         displayProducts(lists.getJSONObject(0).getInt("id"));
@@ -142,7 +136,7 @@ public class ProductListController {
                 instance.getUser().getId(),
                 0);
 
-        System.out.println(fr.wastemart.maven.javaclient.services.ProductList.createProductList(productList));
+        fr.wastemart.maven.javaclient.services.ProductList.createProductList(productList);
         displayProductLists();
     }
 

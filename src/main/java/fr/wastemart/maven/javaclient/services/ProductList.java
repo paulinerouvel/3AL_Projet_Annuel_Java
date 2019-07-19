@@ -60,7 +60,6 @@ public class ProductList {
             int status = con.getResponseCode();
             Reader streamReader;
             if (status > 299) {
-                System.out.println(con.getResponseCode());
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
                 streamReader = new InputStreamReader(con.getInputStream());
@@ -75,7 +74,6 @@ public class ProductList {
 
             in.close();
             con.disconnect();
-            System.out.println(content.toString());
             return new JSONArray(content.toString());
 
         } catch (IOException e) {
@@ -83,6 +81,40 @@ public class ProductList {
             return new JSONArray("{null}");
         }
     }
+
+    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory) {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/list/?idUserCategory="+idUserCategory);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+            return new JSONArray(content.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
+
 
     // POST a new list
     public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList) {
@@ -98,8 +130,6 @@ public class ProductList {
                             "\t\"Utilisateur_id\":"+productList.getUserId()+",\n" +
                             "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
                             "}";
-
-            System.out.println(jsonBody);
 
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
@@ -137,7 +167,6 @@ public class ProductList {
 
     public static Integer removeProductsList(Integer listId){
         Integer deleteProductsInList = fr.wastemart.maven.javaclient.services.Product.deleteProductsInList(listId);
-        System.out.println("Delete product result : "+ deleteProductsInList);
         if(deleteProductsInList == 1){
             URL url;
             try {
@@ -161,8 +190,6 @@ public class ProductList {
                 while ((inputLine = in.readLine()) != null) {
                     content.append(inputLine);
                 }
-
-                System.out.println("Response code remove list : "+ con.getResponseCode());
 
                 in.close();
                 con.disconnect();
@@ -193,8 +220,6 @@ public class ProductList {
                             "\t\"Utilisateur_id\": "+list.getUserId()+",\n" +
                             "\t\"estArchive\":"+list.getEstArchive()+"\n" +
                             "}";
-
-            System.out.println(jsonBody);
 
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
@@ -241,7 +266,6 @@ public class ProductList {
             if(product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
                 Integer affectRes = affectProductToWareHouse(product, city);
 
-                System.out.println("DEBUG - affectProductListToWarehouse : "+affectRes);
                 processed += 1;
 
                 if(affectRes > 200){
@@ -261,9 +285,7 @@ public class ProductList {
             cityWarehouse = fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse(fetchedWareHouse);
         }
 
-        System.out.println("DEBUG - affectProductToWareHouse");
         if(cityWarehouse != null && cityWarehouse.getPlaceLibre() > 0){
-            System.out.println("DEBUG - affectProductToWareHouse CITY WAREHOUSE!");
             product.setEntrepotwm(cityWarehouse.getId());
             cityWarehouse.setPlaceLibre(cityWarehouse.getPlaceLibre()-1);
             return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(cityWarehouse);
@@ -273,7 +295,6 @@ public class ProductList {
             for(int i = 0; i < wareHouses.length(); i++){
                 fr.wastemart.maven.javaclient.models.Warehouse availableWareHouse = fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse(wareHouses.getJSONObject(i));
                 if (availableWareHouse.getPlaceLibre() > 0){
-                    System.out.print("DEBUG - affectProductToWareHouse OTHER WAREHOUSE!");
                     product.setEntrepotwm(availableWareHouse.getId());
                     availableWareHouse.setPlaceLibre(availableWareHouse.getPlaceLibre()-1);
                     return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(availableWareHouse);
@@ -288,7 +309,6 @@ public class ProductList {
         Integer productUpdateRes = 600;
         for(int i = 0; i < productList.size(); i++){
             fr.wastemart.maven.javaclient.models.Product product = productList.get(i);
-            System.out.println("DEBUG - affectProductToReceiver : "+ product);
 
             if(product.getEnRayon().equals(1) && product.getEntrepotwm() != null) {
                 count += 1;
@@ -306,7 +326,6 @@ public class ProductList {
 
 
     public static fr.wastemart.maven.javaclient.models.ProductList jsonToProductList(JSONObject productList) {
-        System.out.println(productList);
         return new fr.wastemart.maven.javaclient.models.ProductList(
             productList.getInt("id"),
             productList.getString("libelle"),

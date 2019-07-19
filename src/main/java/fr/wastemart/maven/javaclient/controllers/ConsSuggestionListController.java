@@ -1,5 +1,8 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,18 +13,21 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import fr.wastemart.maven.javaclient.models.Product;
-import fr.wastemart.maven.javaclient.models.ProductList;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import fr.wastemart.maven.javaclient.services.UserInstance;
+
+import static fr.wastemart.maven.javaclient.services.Product.fetchProducts;
+import static fr.wastemart.maven.javaclient.services.Product.updateProduct;
+import static fr.wastemart.maven.javaclient.services.ProductList.fetchAllProductListsByUserCategory;
+import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 
-public class ProSuggestionListController {
+public class ConsSuggestionListController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;
@@ -36,8 +42,6 @@ public class ProSuggestionListController {
     TableColumn<Object, Object> listName;
     @FXML
     TableColumn<Object, Object> listUser;
-    @FXML
-    TableColumn<Object, Object> listEstArchive;
 
     @FXML
     TableView<Product> productsTable;
@@ -55,48 +59,79 @@ public class ProSuggestionListController {
     TableColumn<Object, Object> productAvailable;
     @FXML
     TableColumn<Object, Object> productDate;
+    @FXML
+    TableColumn<Object, Object> productQuantity;
 
     public void init(){
-        displayProductLists();
-        displayProducts(lists.getJSONObject(0).getInt("id"));
-        listsTable.getSelectionModel().selectFirst();
+
+        try {
+            displayProductLists();
+            displayProducts(lists.getJSONObject(0).getInt("id"));
+            listsTable.getSelectionModel().selectFirst();
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void displayProductLists() {
         listsTable.getItems().clear();
-        lists = fr.wastemart.maven.javaclient.services.ProductList.fetchAllProductLists();
+        //lists = services.ProductList.fetchAllProductLists();
+        lists = fetchAllProductListsByUserCategory(3);
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
 
 
         for(int i = 0; i < lists.length(); i++){
             JSONObject list = lists.getJSONObject(i);
-            ProductList listElement = fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList(list);
-            listsTable.getItems().add(listElement);
+            ProductList listElement = jsonToProductList(list);
 
+            listsTable.getItems().add(listElement);
         }
     }
 
     private void displayProducts(Integer id) {
-        productsTable.getItems().clear();
-        products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(id);
+        try {
+            productsTable.getItems().clear();
+            products = fetchProducts(id);
 
-        productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-        productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
-        productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
-        productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
-        productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+            productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+            productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+            productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
+            productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
+            productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
+            productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
-        for(int i = 0; i < products.length(); i++) {
-            JSONObject product = products.getJSONObject(i);
-            Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
 
-            productsTable.getItems().add(productElement);
+            for (int i = 0; i < products.length(); i++) {
+                JSONObject product = products.getJSONObject(i);
+
+                Product productElement = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        product.getInt("enRayon"),
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.getInt("entrepotwm_id"),
+                        product.getInt("destinataire")
+                );
+
+                productsTable.getItems().add(productElement);
+            }
+        }
+        catch(Exception ex) {
+            System.out.println(ex);
         }
     }
 
@@ -115,10 +150,25 @@ public class ProSuggestionListController {
 
         if(indexOfListSelected != -1) {
             try {
-                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 1);
-                Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+                JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
+                Product productElement = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        1,
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
+                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                );
 
-                fr.wastemart.maven.javaclient.services.Product.updateProduct(productElement);
+                updateProduct(productElement);
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -135,9 +185,24 @@ public class ProSuggestionListController {
         if(indexOfListSelected != -1){
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+                Product productElement = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        0,
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
+                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
+                );
 
-                fr.wastemart.maven.javaclient.services.Product.updateProduct(productElement);
+                updateProduct(productElement);
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -162,7 +227,8 @@ public class ProSuggestionListController {
 
             // Affecte la liste de produits à un entrepot
             Integer affectProductListToWarehouseRes = fr.wastemart.maven.javaclient.services.ProductList.affectProductListToWarehouse(productList, instance.getUser().getVille());
-            if(affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299){ // Réussite
+
+            if(affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299){ // Erreur
                 listElement.setEstArchive(1);
                 listElement.setDate(LocalDate.now());
                 fr.wastemart.maven.javaclient.services.ProductList.updateProductList(listElement);
@@ -174,7 +240,7 @@ public class ProSuggestionListController {
     public void displayAddProduct(ActionEvent actionEvent) throws Exception {
         refreshSelectedIndices();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/ManageProduct.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageProduct.fxml"));
 
         Scene newScene;
         try {
@@ -202,7 +268,7 @@ public class ProSuggestionListController {
 
         if(indexOfProductSelected != -1) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/ManageProduct.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ManageProduct.fxml"));
 
             Scene newScene;
             try {
@@ -214,7 +280,23 @@ public class ProSuggestionListController {
 
             ManageProductController controller = loader.getController();
             JSONObject product = products.getJSONObject(indexOfProductSelected);
-            Product productToModify = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+
+            Product productToModify = new Product(product.getInt("id"),
+                    product.getString("libelle"),
+                    product.getString("desc"),
+                    product.getString("photo"),
+                    product.getFloat("prix"),
+                    product.getFloat("prixInitial"),
+                    product.getInt("quantite"),
+                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                    product.getString("codeBarre"),
+                    product.getInt("enRayon"),
+                    product.getString("dateMiseEnRayon"),
+                    product.getInt("categorieProduit_id"),
+                    product.getInt("listProduct_id"),
+                    product.getInt("entrepotwm_id"),
+                    product.getInt("destinataire")
+            );
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
 

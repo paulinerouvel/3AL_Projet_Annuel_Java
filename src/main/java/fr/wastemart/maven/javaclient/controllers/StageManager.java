@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -46,22 +47,18 @@ public class StageManager {
         Class<?> controllerClassType = loader.getController().getClass();
         if(controllerClassType == MainEmployeeController.class) {
             MainEmployeeController mainEmployeeController = loader.getController();
-            //-----mainEmployeeController.setStageManager(this);
             mainEmployeeController.init(instance);
 
         } else if(controllerClassType == MainAdminController.class){
             MainAdminController mainAdminController = loader.getController();
-            //-----mainAdminController.setStageManager(this);
             mainAdminController.init(instance);
 
         } else if(controllerClassType == MainProfessionnalController.class){
             MainProfessionnalController mainProfessionnalController = loader.getController();
-            //-----mainProfessionnalController.setStageManager(this);
             mainProfessionnalController.init(instance);
 
         } else if (controllerClassType == PluginPageController.class){
             PluginPageController pluginPageController = loader.getController();
-            //-----pluginPageController.setStageManager(this);
             pluginPageController.init(instance);
 
         } else if (controllerClassType == UserInfoController.class) {
@@ -83,9 +80,26 @@ public class StageManager {
             UserListController userListController = loader.getController();
             userListController.setInstance(instance);
             userListController.init();
+
         } else if (controllerClassType == MessageController.class){
             MessageController messageController = loader.getController();
             messageController.setInstance(instance);
+
+        }  else if (controllerClassType == ConsSuggestionListController.class) {
+            ConsSuggestionListController consSuggestionListController = loader.getController();
+            consSuggestionListController.setInstance(instance);
+            consSuggestionListController.init();
+
+        }  else if (controllerClassType == WarehouseListController.class) {
+            WarehouseListController warehouseListController = loader.getController();
+            warehouseListController.setInstance(instance);
+            warehouseListController.init();
+
+        }  else if (controllerClassType == OrderListController.class) {
+            OrderListController orderListController = loader.getController();
+            orderListController.setInstance(instance);
+            orderListController.init();
+
         }
 
 
@@ -107,7 +121,6 @@ public class StageManager {
         } else if (controllerClassType == LoginController.class){
             LoginController loginController = loader.getController();
             loginController.setInfo("User error");
-            //-----loginController.setStageManager(this);
         }
 
         showBorderPane(stageNodeRoot, getParentMain());
@@ -128,8 +141,6 @@ public class StageManager {
             Stage stageNodeRoot = (Stage) menuBar.getScene().getWindow();
 
             LoginController loginController = loader.getController();
-            //loginController.setStageManager(this);
-
 
             stageNodeRoot.setScene(scene);
             stageNodeRoot.show();
@@ -147,7 +158,6 @@ public class StageManager {
             loader = new FXMLLoader();
             loader.setLocation(StageManager.class.getResource(fxml));
             borderPane = loader.load();
-            //-----setLoader(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,7 +180,6 @@ public class StageManager {
             loader = new FXMLLoader();
             loader.setLocation(StageManager.class.getResource(fxml));
             anchorPane = loader.load();
-            //-----setLoader(loader);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -195,6 +204,33 @@ public class StageManager {
                     userInstance);
         }
     }
+
+    public static void loadPageCustomerDetailPage(MouseEvent mouseEvent, String rootLayout, String mainView, UserInstance instance, Integer idUser) {
+
+        // Load the Root Layout fxml
+        parentRootLayout = loadBorderPane(rootLayout);
+        // Set user instance of the Root Layout
+        RootLayoutController rootLayoutController = loader.getController();
+        rootLayoutController.setInstance(instance);
+        //-----rootLayoutController.setStageManager(this);
+        // Display the Root Layout
+        Stage stageNodeRoot = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        if(stageNodeRoot != null){
+            showBorderPane(stageNodeRoot, parentRootLayout);
+        }
+        // Load the Menu fxml
+        parentMain = loadAnchorPane(mainView);
+
+        // Init Menu Controller
+
+        CustomerDetailController customerDetailController= loader.getController();
+        customerDetailController.setInstance(instance);
+        customerDetailController.init(idUser);
+
+        // Display the Menu in center of Root Layout
+        getParentRootLayout().setCenter(getParentMain());
+    }
+
 
     public static void setLoader(FXMLLoader loader) {
         loader = loader;

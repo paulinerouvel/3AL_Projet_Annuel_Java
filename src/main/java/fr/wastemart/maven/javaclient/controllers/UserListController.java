@@ -1,303 +1,153 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.User;
+import fr.wastemart.maven.javaclient.models.UserCategory;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import fr.wastemart.maven.javaclient.models.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
-import static fr.wastemart.maven.javaclient.services.User.jsonToUser;
-
-import java.io.IOException;
+import java.time.ZonedDateTime;
 
 
 public class UserListController {
     private UserInstance instance;
+    private JSONArray lists;
     private JSONArray users;
+    private Integer indexOfProductSelected;
+    private Integer indexOfListSelected;
 
-    private Integer indexOfUserSelected;
+    // category
+    @FXML TableView<UserCategory> userCategoryTable;
+    @FXML TableColumn<Object, Object> category;
+
+    // users
+    @FXML TableView<User> usersTable;
+    @FXML TableColumn<Object, Object> userID;
+    @FXML TableColumn<Object, Object> userFirstName;
+    @FXML TableColumn<Object, Object> userLastName;
+    @FXML TableColumn<Object, Object> userNumber;
+    @FXML TableColumn<Object, Object> userEmail;
+    @FXML TableColumn<Object, Object> userCity;
+    @FXML TableColumn<Object, Object> userAddress;
+    @FXML TableColumn<Object, Object> userPostalCode;
 
     @FXML
-    TableView<User> usersTable;
-    @FXML
-    TableColumn<Object, Object> id;
-    @FXML
-    TableColumn<Object, Object> libelle;
-    @FXML
-    TableColumn<Object, Object> categorieUtilisateur;
-    @FXML
-    TableColumn<Object, Object> nom;
-    @FXML
-    TableColumn<Object, Object> prenom;
-    @FXML
-    TableColumn<Object, Object> dateDeNaissance;
-    @FXML
-    TableColumn<Object, Object> mail;
-    @FXML
-    TableColumn<Object, Object> tel;
-    @FXML
-    TableColumn<Object, Object> adresse;
-    @FXML
-    TableColumn<Object, Object> ville;
-    @FXML
-    TableColumn<Object, Object> codePostal;
-    @FXML
-    TableColumn<Object, Object> pseudo;
-    @FXML
-    TableColumn<Object, Object> photo;
-    @FXML
-    TableColumn<Object, Object> desc;
-    @FXML
-    TableColumn<Object, Object> tailleOrganisme;
-    @FXML
-    TableColumn<Object, Object> estValide;
-    @FXML
-    TableColumn<Object, Object> siret;
-    @FXML
-    TableColumn<Object, Object> nbPointsSourire;
-
+    Label saveLabel;
 
     public void init(){
-        displayUsers();
-        usersTable.getSelectionModel().selectFirst();
+
+        try{
+            displayCategoryLists();
+            displayUsersByCategory(lists.getJSONObject(0).getString("libelle"));
+            userCategoryTable.getSelectionModel().selectFirst();
+        }
+        catch (Exception ex) {
+            System.out.println("Problème init" + ex);
+        }
     }
 
-    private void displayUsers() {
-        usersTable.getItems().clear();
-        users = fr.wastemart.maven.javaclient.services.User.fetchAllUsers();
+    private void displayCategoryLists() {
+
+        try {
+            userCategoryTable.getItems().clear();
+            lists = fr.wastemart.maven.javaclient.services.UserCategories.fetchCategories();
 
 
-        System.out.println("Listdata =" + users);
 
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        libelle.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-        categorieUtilisateur.setCellValueFactory(new PropertyValueFactory<>("categorieUtilisateur"));
-        nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        dateDeNaissance.setCellValueFactory(new PropertyValueFactory<>("dateDeNaissance"));
-        mail.setCellValueFactory(new PropertyValueFactory<>("mail"));
-        tel.setCellValueFactory(new PropertyValueFactory<>("tel"));
-        adresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
-        ville.setCellValueFactory(new PropertyValueFactory<>("ville"));
-        codePostal.setCellValueFactory(new PropertyValueFactory<>("codePostal"));
-        pseudo.setCellValueFactory(new PropertyValueFactory<>("pseudo"));
-        photo.setCellValueFactory(new PropertyValueFactory<>("photo"));
-        desc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        tailleOrganisme.setCellValueFactory(new PropertyValueFactory<>("tailleOrganisme"));
-        estValide.setCellValueFactory(new PropertyValueFactory<>("estValide"));
-        siret.setCellValueFactory(new PropertyValueFactory<>("siret"));
-        nbPointsSourire.setCellValueFactory(new PropertyValueFactory<>("nbPointsSourire"));
+            category.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+            for (int i = 0; i < lists.length(); i++) {
+                JSONObject list = lists.getJSONObject(i);
+                UserCategory userCategory = new UserCategory(list.getString("libelle")
+                );
+                userCategoryTable.getItems().add(userCategory);
 
-        for(int i = 0; i < users.length(); i++){
-            JSONObject user = users.getJSONObject(i);
-            User userElement = new User(user.getInt("id"),
-                    user.getString("Libelle"),
-                    user.getInt("categorieUtilisateur"),
-                    user.getString("nom"),
-                    user.getString("prenom"),
-                    user.getString("mail"),
-                    user.getString("tel"),
-                    user.getString("adresse"),
-                    user.getString("ville"),
-                    user.getInt("codePostal"),
-                    user.getString("prenom"),
-                    user.getString("mdp"),
-                    user.getString("photo"),
-                    user.getString("desc"),
-                    user.getInt("tailleOrganisme"),
-                    user.getInt("estValide"),
-                    user.getString("siret"),
-                    user.isNull("dateDeNaissance") ? "" : user.getString("dateDeNaissance"),
+            }
 
-                    //LocalDate.parse(user.getString("dateDeNaissance")),
-                    user.getInt("nbPointsSourire"));
+        }
+        catch (Exception ex) {
+            System.out.println("displayCategoryLists" + ex);
+        }
 
-            usersTable.getItems().add(userElement);
+
+    }
+
+
+    private void displayUsersByCategory(String libelle) {
+        try {
+            usersTable.getItems().clear();
+            users = UserInstance.fetchUsersByCategory(libelle);
+
+            userID.setCellValueFactory(new PropertyValueFactory<>("id"));
+            userFirstName.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            userLastName.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
+            userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+            userCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
+            userAddress.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+            userPostalCode.setCellValueFactory(new PropertyValueFactory<>("codePostal"));
+
+            for (int i = 0; i < users.length(); i++) {
+                JSONObject user = users.getJSONObject(i);
+                //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
+                User userElement = new User(user.getInt("Utilisateur_id"),
+                        user.getString("libelle"),
+                        user.getInt("Categorie_utilisateur_id"),
+                        user.getString("nom"),
+                        user.getString("prenom"),
+                        user.getString("mail"),
+                        user.getString("tel"),
+                        user.getString("adresse"),
+                        user.getString("ville"),
+                        user.getInt("codePostal"),
+                        user.getString("pseudo"),
+                        user.getString("mdp"),
+                        user.getString("photo"),
+                        user.getString("desc"),
+                        user.getInt("tailleOrganisme"),
+                        user.getInt("estValide"),
+                        user.getString("siret"),
+                        user.getString("dateDeNaissance"),
+                        user.getInt("nbPointsSourire")
+
+                );
+                usersTable.getItems().add(userElement);
+            }
+        }
+        catch(Exception ex) {
+            System.out.println("probleme displayUsersByCategory " + ex);
+        }
+
+    }
+
+    @FXML
+    public void clickItem(MouseEvent event) {
+        refreshSelectedIndices();
+
+        if(indexOfListSelected != -1){
+            displayUsersByCategory(lists.getJSONObject(indexOfListSelected).getString("libelle"));
         }
     }
 
     @FXML
-    public void clickItem(MouseEvent mouseEvent) {
-        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-            if(mouseEvent.getClickCount() == 2){
-                System.out.println("Double clicked");
-            }
-        }
-    }
+    public void modifyUser(MouseEvent event) {
+        // UPDATE entrepot du produit
 
+        StageManager.loadPageCustomerDetailPage(event, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
 
-    @FXML
-    public void activateUser(ActionEvent event){
-        refreshSelectedIndices();
-
-        if(indexOfUserSelected != -1) {
-            try {
-                JSONObject user = users.getJSONObject(indexOfUserSelected);
-                User userElement = jsonToUser(user);
-                userElement.setEstValide(1);
-
-                if(fr.wastemart.maven.javaclient.services.User.updateUser(userElement) < 299){
-                    String objet = "Compte Validé !";
-                    String message = "Bonjour, <br/> Votre compte à été validé, vous pouvez désormais vous" +
-                    " connecter sur WasteMart ! <br/> Cordialement, <br/> L'équipe WasteMart";
-
-                    System.out.println(fr.wastemart.maven.javaclient.services.User.sendMail(userElement.getMail(), objet, message));
-                }
-
-                displayUsers();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    public void refuseProduct(ActionEvent event) {
-        refreshSelectedIndices();
-
-        if(indexOfUserSelected != -1) {
-            try {
-                JSONObject user = users.getJSONObject(indexOfUserSelected);
-                User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
-                userElement.setEstValide(0);
-
-                Integer updateResult = fr.wastemart.maven.javaclient.services.User.updateUser(userElement);
-
-                displayUsers();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void displayAddUser(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
-
-        if(indexOfUserSelected != -1) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/ManageUser.fxml"));
-
-            Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                // TODO: handle error
-                return;
-            }
-
-            ManageProductController controller = loader.getController();
-            controller.init(users.getJSONObject(indexOfUserSelected).getInt("id"), "Add", null);
-
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
-
-        }
-
-        displayUsers();
-
-    }
-
-    public void displayModifyUser(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
-
-        if(indexOfUserSelected != -1) {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/ManageUser.fxml"));
-
-            Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                System.out.println(ex);
-                return;
-            }
-
-            ManageUserController controller = loader.getController();
-            JSONObject user = users.getJSONObject(indexOfUserSelected);
-
-            User userToModify = new User(user.getInt("id"),
-                    user.getString("Libelle"),
-                    user.getInt("categorieUtilisateur"),
-                    user.getString("nom"),
-                    user.getString("prenom"),
-                    user.getString("mail"),
-                    user.getString("tel"),
-                    user.getString("adresse"),
-                    user.getString("ville"),
-                    user.getInt("codePostal"),
-                    user.getString("prenom"),
-                    user.getString("mdp"),
-                    user.getString("photo"),
-                    user.getString("desc"),
-                    user.getInt("tailleOrganisme"),
-                    user.getInt("estValide"),
-                    user.getString("siret"),
-                    user.getString("dateDeNaissance"),
-                    user.getInt("nbPointsSourire")
-            );
-
-            controller.init(users.getJSONObject(indexOfUserSelected).getInt("id"), "Modify", userToModify);
-
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
-        }
-
-        displayUsers();
-
-    }
-
-    public void contactUser(ActionEvent actionEvent) {
-        refreshSelectedIndices();
-
-        if(indexOfUserSelected != -1) {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/Message.fxml"));
-
-            Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                System.out.println(ex);
-                return;
-            }
-
-            MessageController controller = loader.getController();
-            JSONObject user = users.getJSONObject(indexOfUserSelected);
-
-            controller.init(user.getString("mail"));
-
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
-        }
     }
 
     public void refreshSelectedIndices() {
-        this.indexOfUserSelected = usersTable.getSelectionModel().getSelectedIndex();
-
+        this.indexOfProductSelected = usersTable.getSelectionModel().getSelectedIndex();
+        this.indexOfListSelected = userCategoryTable.getSelectionModel().getSelectedIndex();
     }
+
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) throws Exception {

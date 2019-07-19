@@ -2,10 +2,7 @@ package fr.wastemart.maven.javaclient.processor;
 
 import java.util.*;
 
-/**
- * This class only works if we add elements in proper sequence.
- */
-
+// Class generated
 public class JClass {
     public static final String LINE_BREAK = System.getProperty("line.separator");
     private StringBuilder builder = new StringBuilder();
@@ -13,30 +10,19 @@ public class JClass {
     private Map<String, String> fields = new LinkedHashMap<>();
 
     public JClass() {
-
     }
-
 
     public JClass definePackage(String packageName) {
         if (packageName != null) {
-            builder.append("package ")
-                    .append(packageName)
-                    .append(";")
-                    .append(LINE_BREAK);
+            builder.append("package ").append(packageName).append(";").append(LINE_BREAK);
         }
-        return this;
-    }
-
-    public JClass addImport(String importPackage) {
-        builder.append("import ")
-                .append(importPackage)
-                .append(";");
         return this;
     }
 
     public JClass defineClass(String startPart, String name, String extendPart) {
         className = name;
-        builder.append(LINE_BREAK).append(LINE_BREAK)
+        builder.append(LINE_BREAK)
+                .append(LINE_BREAK)
                 .append(startPart)
                 .append(" ")
                 .append(name);

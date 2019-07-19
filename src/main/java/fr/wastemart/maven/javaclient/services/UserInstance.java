@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import fr.wastemart.maven.javaclient.models.User;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -29,7 +30,6 @@ public class UserInstance {
                     .acceptLeeway(30)
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
-            //Date expiresAt = jwt.getExpiresAt();
 
             return true;
         } catch (JWTVerificationException exception) {
@@ -42,12 +42,6 @@ public class UserInstance {
 
     public void initUser(){
         JSONObject fetchedUser = fr.wastemart.maven.javaclient.services.User.fetchUser("id", String.valueOf(token.getInt("userId")));
-
-        //Integer fetchedUserCategory = fr.wastemart.maven.javaclient.services.User.fetchCategory(fetchedUser.getInt("id"));
-        //JSONObject fetchedCategory = new JSONObject();
-        //fetchedCategory.put("Category_user_id", "2");
-
-        //fetchedUser.put("userCategory", fetchedUserCategory);
         setUser(fr.wastemart.maven.javaclient.services.User.jsonToUser(fetchedUser));
     }
 
@@ -84,7 +78,6 @@ public class UserInstance {
             }
             in.close();
 
-            System.out.println(new JSONObject(buffReader.toString()));
             // Form returned token and verify it
             return new JSONObject(buffReader.toString());
 
@@ -103,10 +96,52 @@ public class UserInstance {
         }
     }
 
-    /*public void setCategorieUtilisateur(JSONObject userCategory){
-        this.user.setLibelle(userCategory.getString("libelle"));
-    }*/
 
+    public static JSONArray fetchUsersByCategory(String libelle) {
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/user/AllValidByCategory?type="+libelle);
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            int status = con.getResponseCode();
+            Reader streamReader;
+            if (status > 299) {
+                streamReader = new InputStreamReader(con.getErrorStream());
+            } else {
+                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+            }
+
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            in.close();
+            con.disconnect();
+
+            JSONArray result = new JSONArray(content.toString());
+            System.out.println("result"+ result);
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("desc")) {
+                    result.getJSONObject(i).put("desc", "");
+                }
+
+
+            }
+
+            System.out.println("result2"+ result);
+
+            return result;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new JSONArray("{null}");
+        }
+    }
 
 
 

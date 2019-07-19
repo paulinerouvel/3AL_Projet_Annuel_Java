@@ -22,7 +22,6 @@ public class Warehouse {
             int status = con.getResponseCode();
             Reader streamReader;
             if (status > 299) {
-                System.out.println(con.getResponseCode());
                 streamReader = new InputStreamReader(con.getErrorStream());
             } else {
                 streamReader = new InputStreamReader(con.getInputStream());
@@ -37,8 +36,28 @@ public class Warehouse {
 
             in.close();
             con.disconnect();
-            System.out.println(content.toString());
-            return new JSONArray(content.toString());
+
+            JSONArray result = new JSONArray(content.toString());
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("libelle")) {
+                    result.getJSONObject(i).put("libelle", "");
+                }
+                if (result.getJSONObject(i).isNull("adresse")) {
+                    result.getJSONObject(i).put("adresse", "Adresse non renseignée");
+                }
+                if (result.getJSONObject(i).isNull("ville")) {
+                    result.getJSONObject(i).put("ville", "Ville non renseignée");
+                }
+                if (result.getJSONObject(i).isNull("codePostal")) {
+                    result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
+                }
+                if(result.getJSONObject(i).isNull("photo")) {
+                    result.getJSONObject(i).put("photo", "");
+                }
+
+            }
+
+            return result;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,7 +123,6 @@ public class Warehouse {
                             "\t\"placeLibre\":"+warehouse.getPlaceLibre()+"\n" +
                             "}";
 
-            System.out.println(jsonBody);
 
             byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
             int length = out.length;
@@ -139,10 +157,55 @@ public class Warehouse {
             }
         }
 
+
+
+    }
+    public static Integer updateProductWarehouse(Integer idProduct, Integer idWarehouse) {
+        HttpURLConnection http = null;
+        URL url;
+        try {
+            url = new URL("https://wastemart-api.herokuapp.com/product/warehouse/");
+            String jsonBody =
+                    "{\n" +
+                            "\t\"idProduct\": "+idProduct+",\n" +
+                            "\t\"idWarehouse\" : "+idWarehouse+"\n" +
+                            "}";
+
+
+            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+            // Instantiate connection
+            URLConnection con = url.openConnection();
+            con.setDoOutput(true);
+            http = (HttpURLConnection) con;
+            ((HttpURLConnection) con).setRequestMethod("PUT");
+
+
+            // Form request, connect and send json
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+            return http.getResponseCode();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                if (http != null) {
+                    return http.getResponseCode();
+                }
+                return 299;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return 299;
+            }
+        }
     }
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
-        System.out.println(warehouse);
         return new fr.wastemart.maven.javaclient.models.Warehouse(
                 warehouse.getInt("id"),
                 warehouse.isNull("libelle") ? null : warehouse.getString("libelle"),
