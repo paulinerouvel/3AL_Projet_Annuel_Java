@@ -25,10 +25,14 @@ public class LoginController {
         connectionStatus.setText("Trying to connect...");
         userInstance = new UserInstance();
         new Thread(() -> {
-            JSONObject token = userInstance.login(login.getText(), password.getText());
+            //JSONObject token = userInstance.login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
-                processLoginAttempt(token, actionEvent);
+                StageManager.loadPage(actionEvent,
+                        "/fr.wastemart.maven.javaclient/views/RootLayout.fxml",
+                        "/fr.wastemart.maven.javaclient/views/MainEmployee.fxml",
+                        userInstance);
+                //processLoginAttempt(token, actionEvent);
             });
         }).start();
     }

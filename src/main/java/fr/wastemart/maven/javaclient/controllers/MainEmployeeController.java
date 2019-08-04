@@ -9,18 +9,14 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainEmployeeController implements Initializable {
+public class MainEmployeeController extends GenericController {
 
     private StageManager stageManager;
-    @FXML private UserInstance instance;
     @FXML private Label employeeName;
-
-    @FXML @Override
-    public void initialize(URL location, ResourceBundle resources){
-    }
 
     public void init(UserInstance instance) {
         try {
+            System.out.println("Init mainEmployee");
             setInstance(instance);
             employeeName.setText(this.instance.getUser().getNom());
         } catch (Exception e) {
@@ -66,14 +62,6 @@ public class MainEmployeeController implements Initializable {
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
         stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
                 instance);
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
     }
 
     public StageManager getStageManager() {

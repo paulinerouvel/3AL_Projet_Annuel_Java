@@ -20,10 +20,9 @@ public class StageManager {
     private static AnchorPane parentMain;
 
     public static void loadPage(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance){
-        if(!instance.tokenIsValid() || instance.getUser().getEstValide().equals(0)){
-            loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Login.fxml");
-
-        }
+        //if(!instance.tokenIsValid() || instance.getUser().getEstValide().equals(0)){
+        //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Login.fxml");
+        //}
         // Load the Root Layout fxml
         parentRootLayout = loadBorderPane(rootLayout);
 
@@ -43,8 +42,11 @@ public class StageManager {
         // Load the Menu fxml
         parentMain = loadAnchorPane(mainView);
 
+        GenericController genericController = loader.getController();
+        genericController.init(instance);
+
         // Init Menu Controller
-        Class<?> controllerClassType = loader.getController().getClass();
+        /*Class<?> controllerClassType = loader.getController().getClass();
         if(controllerClassType == MainEmployeeController.class) {
             MainEmployeeController mainEmployeeController = loader.getController();
             mainEmployeeController.init(instance);
@@ -100,7 +102,7 @@ public class StageManager {
             orderListController.setInstance(instance);
             orderListController.init();
 
-        }
+        }*/
 
 
         // Display the Menu in center of Root Layout
