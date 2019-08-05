@@ -15,8 +15,8 @@ public class MainEmployeeController extends GenericController {
     @FXML private Label employeeName;
 
     public void init(UserInstance instance) {
+        System.out.println("Init mainEmployee");
         try {
-            System.out.println("Init mainEmployee");
             setInstance(instance);
             employeeName.setText(this.instance.getUser().getNom());
         } catch (Exception e) {

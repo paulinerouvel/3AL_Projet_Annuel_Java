@@ -20,7 +20,7 @@ import static fr.wastemart.maven.javaclient.services.Order.fetchProductsByOrder;
 import static fr.wastemart.maven.javaclient.services.Order.jsonToOrder;
 
 
-public class OrderListController {
+public class OrderListController extends GenericController {
     private UserInstance instance;
     private JSONArray orders;
     private JSONArray products;
@@ -49,7 +49,6 @@ public class OrderListController {
     Label saveLabel;
 
     public void init(){
-
         try{
             displayOrderList();
             displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
