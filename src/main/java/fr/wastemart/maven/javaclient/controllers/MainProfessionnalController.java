@@ -9,15 +9,11 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainProfessionnalController implements Initializable {
+public class MainProfessionnalController extends GenericController {
 
     private StageManager stageManager;
     @FXML private UserInstance instance;
     @FXML private Label proName;
-
-    @FXML @Override
-    public void initialize(URL location, ResourceBundle resources){
-    }
 
     public void init(UserInstance instance) {
         try {

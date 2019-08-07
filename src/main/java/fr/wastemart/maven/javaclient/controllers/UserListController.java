@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.time.ZonedDateTime;
 
 
-public class UserListController {
+public class UserListController extends GenericController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray users;

@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 
 import java.time.LocalDate;
 
-public class MessageController {
+public class MessageController extends GenericController {
     private UserInstance instance;
     private String destinataire = null;
 

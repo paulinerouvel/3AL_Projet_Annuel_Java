@@ -25,7 +25,7 @@ import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse
 import static fr.wastemart.maven.javaclient.services.Warehouse.updateProductWarehouse;
 
 
-public class WarehouseListController {
+public class WarehouseListController extends GenericController {
     private UserInstance instance;
     private JSONArray warehouses;
     private JSONArray products;

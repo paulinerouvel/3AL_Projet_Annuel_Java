@@ -25,7 +25,7 @@ import static fr.wastemart.maven.javaclient.pluginmanager.PluginLoader.getPlugin
 
 
 
-public class PluginPageController {
+public class PluginPageController extends GenericController {
 
     private StageManager stageManager;
     private UserInstance instance;

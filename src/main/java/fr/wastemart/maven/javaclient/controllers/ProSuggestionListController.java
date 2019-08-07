@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class ProSuggestionListController {
+public class ProSuggestionListController extends GenericController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;

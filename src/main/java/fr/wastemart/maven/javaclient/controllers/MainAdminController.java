@@ -9,15 +9,11 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainAdminController implements Initializable {
+public class MainAdminController extends GenericController {
 
     private StageManager stageManager;
     @FXML private UserInstance instance;
     @FXML private Label adminName;
-
-    @FXML @Override
-    public void initialize(URL location, ResourceBundle resources){
-    }
 
     public void init(UserInstance instance) {
         try {

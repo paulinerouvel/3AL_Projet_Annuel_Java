@@ -9,7 +9,7 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
 
-public class UserInfoController {
+public class UserInfoController extends GenericController {
     @FXML
     private Label employeeName;
     @FXML

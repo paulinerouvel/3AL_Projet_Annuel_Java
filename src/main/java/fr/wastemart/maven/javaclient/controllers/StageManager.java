@@ -38,72 +38,11 @@ public class StageManager {
             showBorderPane(stageNodeRoot, parentRootLayout);
         }
 
-
         // Load the Menu fxml
         parentMain = loadAnchorPane(mainView);
 
         GenericController genericController = loader.getController();
         genericController.init(instance);
-
-        // Init Menu Controller
-        /*Class<?> controllerClassType = loader.getController().getClass();
-        if(controllerClassType == MainEmployeeController.class) {
-            MainEmployeeController mainEmployeeController = loader.getController();
-            mainEmployeeController.init(instance);
-
-        } else if(controllerClassType == MainAdminController.class){
-            MainAdminController mainAdminController = loader.getController();
-            mainAdminController.init(instance);
-
-        } else if(controllerClassType == MainProfessionnalController.class){
-            MainProfessionnalController mainProfessionnalController = loader.getController();
-            mainProfessionnalController.init(instance);
-
-        } else if (controllerClassType == PluginPageController.class){
-            PluginPageController pluginPageController = loader.getController();
-            pluginPageController.init(instance);
-
-        } else if (controllerClassType == UserInfoController.class) {
-            UserInfoController userInfoController = loader.getController();
-            userInfoController.setInstance(instance);
-            userInfoController.init(instance);
-
-        } else if (controllerClassType == ProductListController.class) {
-            ProductListController productListController = loader.getController();
-            productListController.setInstance(instance);
-            productListController.init();
-
-        } else if (controllerClassType == ProSuggestionListController.class) {
-            ProSuggestionListController proSuggestionListController = loader.getController();
-            proSuggestionListController.setInstance(instance);
-            proSuggestionListController.init();
-
-        } else if (controllerClassType == UserListController.class){
-            UserListController userListController = loader.getController();
-            userListController.setInstance(instance);
-            userListController.init();
-
-        } else if (controllerClassType == MessageController.class){
-            MessageController messageController = loader.getController();
-            messageController.setInstance(instance);
-
-        }  else if (controllerClassType == ConsSuggestionListController.class) {
-            ConsSuggestionListController consSuggestionListController = loader.getController();
-            consSuggestionListController.setInstance(instance);
-            consSuggestionListController.init();
-
-        }  else if (controllerClassType == WarehouseListController.class) {
-            WarehouseListController warehouseListController = loader.getController();
-            warehouseListController.setInstance(instance);
-            warehouseListController.init();
-
-        }  else if (controllerClassType == OrderListController.class) {
-            OrderListController orderListController = loader.getController();
-            orderListController.setInstance(instance);
-            orderListController.init();
-
-        }*/
-
 
         // Display the Menu in center of Root Layout
         getParentRootLayout().setCenter(getParentMain());

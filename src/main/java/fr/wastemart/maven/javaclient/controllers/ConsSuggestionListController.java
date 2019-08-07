@@ -27,7 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 
-public class ConsSuggestionListController {
+public class ConsSuggestionListController extends GenericController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;

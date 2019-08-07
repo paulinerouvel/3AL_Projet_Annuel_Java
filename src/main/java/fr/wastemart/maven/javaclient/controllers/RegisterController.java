@@ -13,7 +13,7 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import java.io.File;
 import java.time.LocalDate;
 
-public class RegisterController {
+public class RegisterController extends GenericController {
 
     private StageManager stageManager;
     private UserInstance instance = new UserInstance();

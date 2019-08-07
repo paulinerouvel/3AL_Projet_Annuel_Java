@@ -12,7 +12,7 @@ import static fr.wastemart.maven.javaclient.services.User.*;
 
 import org.json.JSONArray;
 
-public class CustomerDetailController {
+public class CustomerDetailController extends GenericController {
     @FXML
     private Label customerName;
     @FXML

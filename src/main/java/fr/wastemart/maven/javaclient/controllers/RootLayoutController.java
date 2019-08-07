@@ -7,7 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
-public class RootLayoutController {
+public class RootLayoutController extends GenericController {
 
     private UserInstance instance;
     private StageManager stageManager;

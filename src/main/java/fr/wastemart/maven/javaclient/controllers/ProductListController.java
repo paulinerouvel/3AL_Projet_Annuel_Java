@@ -25,7 +25,7 @@ import static fr.wastemart.maven.javaclient.services.Product.deleteProduct;
 import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
 
 
-public class ProductListController {
+public class ProductListController extends GenericController {
     private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;

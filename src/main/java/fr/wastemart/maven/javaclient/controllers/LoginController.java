@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
 //@AutoImplement(as = "User", builder = true)
-public class LoginController {
+public class LoginController extends GenericController {
 
     private StageManager stageManager;
     private UserInstance userInstance;
