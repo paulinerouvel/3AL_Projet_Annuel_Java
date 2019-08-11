@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import fr.wastemart.maven.javaclient.controllers.LoginController;
 import fr.wastemart.maven.javaclient.controllers.StageManager;
+import fr.wastemart.maven.javaclient.services.Logger;
 import javafx.scene.layout.AnchorPane;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,6 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         this.stage = primaryStage;
         this.stage.setTitle("WasteMart");
         stage.setResizable(false);
@@ -62,7 +62,8 @@ public class MainApp extends Application {
             stage.setScene(actualScene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getInstance().reportError(e);
+            //e.printStackTrace();
         }
     }
 

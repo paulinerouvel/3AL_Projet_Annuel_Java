@@ -1,6 +1,7 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 //import fr.wastemart.maven.annotationprocessor.annotation.AutoImplement;
+import fr.wastemart.maven.javaclient.services.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,10 +29,15 @@ public class LoginController extends GenericController {
             //JSONObject token = userInstance.login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
-                StageManager.loadPage(actionEvent,
-                        "/fr.wastemart.maven.javaclient/views/RootLayout.fxml",
-                        "/fr.wastemart.maven.javaclient/views/MainEmployee.fxml",
-                        userInstance);
+                try {
+                    StageManager.loadPage(actionEvent,
+                            "/fr.wastemart.maven.javaclient/views/RootLayout.fxml",
+                            "/fr.wastemart.maven.javaclient/views/MainnEmployee.fxml",
+                            userInstance);
+                } catch (Exception e) {
+                    System.out.println("------------------------------------");
+                    Logger.getInstance().reportError(e);
+                }
                 //processLoginAttempt(token, actionEvent);
             });
         }).start();
