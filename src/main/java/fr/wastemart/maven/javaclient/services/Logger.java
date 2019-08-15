@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -14,7 +13,14 @@ public class Logger {
     private File logFile;
 
     /** Constructeur privé */
-    private Logger(){}
+    private Logger(){
+        try {
+            sendOfflineLogFile();
+        } catch (Exception e){
+            // TODO Fail, will retry in a few minutes
+
+        }
+    }
 
     /** Instance unique pré-initialisée */
     private static Logger INSTANCE = new Logger();
@@ -33,28 +39,32 @@ public class Logger {
             File createdLogFile = createLogFile(ex);
             if(createdLogFile != null){
                 setLogFile(createdLogFile);
-                System.out.println("File created");
             } else {
                 System.out.println("Failed creating File");
                 return;
             }
+
         }
+
+        writeErrorInLogFile(ex);
 
         try {
             System.out.println("About to send it");
             sendLogFile(logFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Failed to send, will send later");
+            getLogFile().renameTo(new File("offline_" + getLogFile().getName()));
         }
-
     }
 
-    public File createLogFile(Exception ex) {
+    private File createLogFile(Exception ex) {
         LocalDateTime ldt = LocalDateTime.now();
-        String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.FRANCE).format(ldt);
-
-        File file = new File("<"+formatedDate+"> Java : " + ex.getCause());
+        String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss", Locale.FRANCE).format(ldt);
+        System.out.println("Date formated");
+        File file = new File(formatedDate + "-Java-" + ex.getCause() + ".log");
+        System.out.println("File object created");
         try {
+            System.out.println("Trying to create file in path: "+file.getAbsolutePath());
             if(file.createNewFile()){
                 System.out.println("File created, path is : "+file.getAbsolutePath());
                 return file;
@@ -63,11 +73,30 @@ public class Logger {
             return null;
 
         } catch (IOException e) {
+            System.out.println("IOException error during file creation, formatedDate = "+formatedDate);
             return null;
         }
     }
 
-    public void sendLogFile(File logFile) throws Exception{
+    private void writeErrorInLogFile(Exception ex) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(getLogFile()));
+            writer.write(LocalDateTime.now() +" : "+ ex.getMessage() + System.getProperty("line.separator"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void sendLogFile(File logFile) throws Exception{
         String url = "http://51.75.143.205:8080/logs/javaclient";
         String charset = "UTF-8";
         String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
@@ -79,19 +108,19 @@ public class Logger {
 
         try (
                 OutputStream output = connection.getOutputStream();
-                PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
+                PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true)
         ) {
             // Send text file.
             writer.append("--").append(boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"textFile\"; filename=\"" + logFile.getName() + "\"").append(CRLF);
-            writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF); // Text file itself must be saved in this charset!
+            writer.append("Content-Disposition: form-data; name=\"textFile\"; filename=\"").append(logFile.getName()).append("\"").append(CRLF);
+            writer.append("Content-Type: text/plain; charset=").append(charset).append(CRLF); // Text file itself must be saved in this charset!
             writer.append(CRLF).flush();
             Files.copy(logFile.toPath(), output);
             output.flush(); // Important before continuing with writer!
             writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
 
             // End of multipart/form-data.
-            writer.append("--" + boundary + "--").append(CRLF).flush();
+            writer.append("--").append(boundary).append("--").append(CRLF).flush();
         }
 
         // Request is lazily fired whenever you need to obtain information about response.
@@ -100,11 +129,20 @@ public class Logger {
 
     }
 
-    public File getLogFile() {
+    private void sendOfflineLogFile() throws Exception {
+        //TODO
+        // Récupérer chaque fichiers avec offline_ dans le nom
+        //       for(File file in files){
+        //           sendLogFile(file);
+        //       }
+        // Une fois tout envoyé, changer le nom enlever offline_
+    }
+
+    private File getLogFile() {
         return logFile;
     }
 
-    public void setLogFile(File logFile) {
+    private void setLogFile(File logFile) {
         this.logFile = logFile;
     }
 }
