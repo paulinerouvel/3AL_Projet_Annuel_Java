@@ -26,12 +26,8 @@ import static fr.wastemart.maven.javaclient.pluginmanager.PluginLoader.getPlugin
 
 
 public class PluginPageController extends GenericController {
-
-    private StageManager stageManager;
     private UserInstance instance;
 
-    //private String pluginPath = "/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
-    //private String pluginPath = "/run/media/alexandrebis-x220/Elements/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/JavaFX/src/main/resources/plugins/";
     @FXML private TextField pluginPath;
 
     private static String[] localPlugins;
@@ -175,12 +171,14 @@ public class PluginPageController extends GenericController {
     public void enablePlugin(ActionEvent actionEvent) throws Exception {}
     public void disablePlugin(ActionEvent actionEvent) throws Exception {}
 
-    // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void reloadPage(ActionEvent actionEvent){
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml", instance);
     }
 
-
+    // Return button
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
+    }
 
     public UserInstance getInstance() {
         return instance;
@@ -188,17 +186,5 @@ public class PluginPageController extends GenericController {
 
     public void setInstance(UserInstance instance) {
         this.instance = instance;
-    }
-
-    public StageManager getStageManager() {
-        return stageManager;
-    }
-
-    public void setStageManager(StageManager stageManager) {
-        this.stageManager = stageManager;
-    }
-
-    public void reloadPage(ActionEvent actionEvent){
-        StageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml", instance);
     }
 }

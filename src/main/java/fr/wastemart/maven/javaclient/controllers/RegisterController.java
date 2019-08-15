@@ -14,8 +14,6 @@ import java.io.File;
 import java.time.LocalDate;
 
 public class RegisterController extends GenericController {
-
-    private StageManager stageManager;
     private UserInstance instance = new UserInstance();
     private Object[] registerFields;
     private Integer registerFieldsLength = 10;
@@ -160,8 +158,6 @@ public class RegisterController extends GenericController {
         return -1;
     }
 
-
-
     private void clearFields(Object[] registerFields) {
         for (int i = 0; i < registerFieldsLength; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
@@ -189,14 +185,12 @@ public class RegisterController extends GenericController {
         }
     }
 
-
-
     private String uploadPicture(String text) {
         String onlineLocation = "";
         return onlineLocation;
     }
 
-    public void displayLoginPage(ActionEvent actionEvent) throws Exception {
-        StageManager.loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Login.fxml");
+    public void displayLoginPage(ActionEvent actionEvent) {
+        StageManager.getInstance().loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Login.fxml");
     }
 }

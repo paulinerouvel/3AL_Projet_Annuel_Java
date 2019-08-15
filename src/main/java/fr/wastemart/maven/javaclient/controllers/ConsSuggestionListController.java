@@ -319,8 +319,8 @@ public class ConsSuggestionListController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
     }
 
     public UserInstance getInstance() {

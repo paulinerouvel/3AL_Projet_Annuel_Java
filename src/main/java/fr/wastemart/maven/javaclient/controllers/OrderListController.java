@@ -1,5 +1,8 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.Order;
+import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -7,17 +10,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import fr.wastemart.maven.javaclient.models.Order;
-import fr.wastemart.maven.javaclient.models.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
 import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Order.fetchOrder;
 import static fr.wastemart.maven.javaclient.services.Order.fetchProductsByOrder;
-import static fr.wastemart.maven.javaclient.services.Order.jsonToOrder;
 
 
 public class OrderListController extends GenericController {
@@ -148,8 +147,8 @@ public class OrderListController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
     }
 
     public UserInstance getInstance() {

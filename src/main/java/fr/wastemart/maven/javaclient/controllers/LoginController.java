@@ -1,6 +1,5 @@
 package fr.wastemart.maven.javaclient.controllers;
 
-//import fr.wastemart.maven.annotationprocessor.annotation.AutoImplement;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +9,7 @@ import javafx.scene.control.TextField;
 import org.json.JSONObject;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
-//@AutoImplement(as = "User", builder = true)
 public class LoginController extends GenericController {
-
-    private StageManager stageManager;
     private UserInstance userInstance;
 
     @FXML public TextField login;
@@ -28,11 +24,11 @@ public class LoginController extends GenericController {
             //JSONObject token = userInstance.login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
-                StageManager.loadPage(actionEvent,
+                StageManager.getInstance().loadPage(actionEvent,
                         "/fr.wastemart.maven.javaclient/views/RootLayout.fxml",
                         "/fr.wastemart.maven.javaclient/views/MainEmployee.fxml",
                         userInstance);
-                //processLoginAttempt(token, actionEvent);
+                //processLoginAttempt(token, actionEvent); // TODO WIP uncomment
             });
         }).start();
     }
@@ -53,7 +49,7 @@ public class LoginController extends GenericController {
                 userInstance.initUser();
                 userInstance.setConnected(true);
 
-                StageManager.displayMainPage(userInstance, actionEvent);
+                StageManager.getInstance().displayMainPage(userInstance, actionEvent);
 
             }
             else {
@@ -63,7 +59,7 @@ public class LoginController extends GenericController {
     }
 
     public void displayRegister(ActionEvent actionEvent) {
-        StageManager.loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Register.fxml");
+        StageManager.getInstance().loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Register.fxml");
     }
 
     public void setInfo(String info){ connectionStatus.setText(info); }
@@ -74,13 +70,5 @@ public class LoginController extends GenericController {
 
     public UserInstance getUserInstance() {
         return userInstance;
-    }
-
-    public StageManager getStageManager() {
-        return stageManager;
-    }
-
-    public void setStageManager(StageManager stageManager) {
-        this.stageManager = stageManager;
     }
 }

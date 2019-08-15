@@ -1,13 +1,10 @@
 package fr.wastemart.maven.javaclient.controllers;
 
-import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import java.time.LocalDate;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class MessageController extends GenericController {
     private UserInstance instance;

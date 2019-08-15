@@ -8,7 +8,7 @@ import fr.wastemart.maven.javaclient.models.Product;
 
 import java.time.LocalDate;
 
-public class ManageProductController extends GenericController {
+public class ManageProductController extends GenericController { //WIP Where is disaplyMain ?
 
     private Integer listId;
     private String operation;

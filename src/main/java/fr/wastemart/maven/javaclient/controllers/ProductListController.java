@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static fr.wastemart.maven.javaclient.services.Product.deleteProduct;
 import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
@@ -150,11 +149,6 @@ public class ProductListController extends GenericController {
         displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
     }
 
-    // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
-    }
-
     public void displayAddProduct(ActionEvent actionEvent) throws Exception {
         refreshSelectedIndices();
 
@@ -224,6 +218,11 @@ public class ProductListController extends GenericController {
 
     }
 
+    // Return button
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
+    }
+
     public UserInstance getInstance() {
         return instance;
     }
@@ -231,5 +230,4 @@ public class ProductListController extends GenericController {
     public void setInstance(UserInstance instance) {
         this.instance = instance;
     }
-
 }

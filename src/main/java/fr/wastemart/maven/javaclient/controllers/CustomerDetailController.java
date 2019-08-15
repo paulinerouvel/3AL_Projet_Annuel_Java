@@ -29,7 +29,6 @@ public class CustomerDetailController extends GenericController {
 
     private Label info;
     private JSONArray users;
-    private StageManager stageManager;
     private UserInstance instance;
     private Integer idUser;
     public void init(Integer idUser) {
@@ -45,18 +44,6 @@ public class CustomerDetailController extends GenericController {
         } catch (Exception e) {
             System.out.println("error : " + e);
         }
-    }
-
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-    public void setidUser(Integer idUser) {
-        this.idUser = idUser;
-    }
-
-    public void setStageManager(StageManager stageManager) {
-        this.stageManager = stageManager;
     }
 
     public void save(ActionEvent actionEvent) {
@@ -82,7 +69,16 @@ public class CustomerDetailController extends GenericController {
         }
     }
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
+
+    }
+
+    public void setInstance(UserInstance instance) {
+        this.instance = instance;
+    }
+
+    public void setidUser(Integer idUser) {
+        this.idUser = idUser;
     }
 }

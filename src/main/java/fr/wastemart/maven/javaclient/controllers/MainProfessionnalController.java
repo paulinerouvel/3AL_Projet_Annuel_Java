@@ -1,17 +1,11 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import fr.wastemart.maven.javaclient.services.UserInstance;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class MainProfessionnalController extends GenericController {
-
-    private StageManager stageManager;
     @FXML private UserInstance instance;
     @FXML private Label proName;
 
@@ -25,19 +19,19 @@ public class MainProfessionnalController extends GenericController {
     }
 
     public void displayProducts(ActionEvent actionEvent) throws Exception {
-        StageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/ProductList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/ProductList.fxml",
                 instance);
     }
 
     public void displayAdminContact(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
-        StageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
                 instance);
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
-        StageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
                 instance);
     }
 
@@ -51,13 +45,5 @@ public class MainProfessionnalController extends GenericController {
 
     public void setInstance(UserInstance instance) {
         this.instance = instance;
-    }
-
-    public StageManager getStageManager() {
-        return stageManager;
-    }
-
-    public void setStageManager(StageManager stageManager) {
-        this.stageManager = stageManager;
     }
 }

@@ -13,9 +13,6 @@ import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.ZonedDateTime;
-
-
 public class UserListController extends GenericController {
     private UserInstance instance;
     private JSONArray lists;
@@ -138,9 +135,7 @@ public class UserListController extends GenericController {
     @FXML
     public void modifyUser(MouseEvent event) {
         // UPDATE entrepot du produit
-
-        StageManager.loadPageCustomerDetailPage(event, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
-
+        StageManager.getInstance().loadPageCustomerDetailPage(event, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
     }
 
     public void refreshSelectedIndices() {
@@ -150,8 +145,8 @@ public class UserListController extends GenericController {
 
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
     }
 
     public UserInstance getInstance() {

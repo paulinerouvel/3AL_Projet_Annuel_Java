@@ -29,7 +29,6 @@ public class UserInfoController extends GenericController {
     @FXML
     private PasswordField pwField;
 
-    private StageManager stageManager;
     private UserInstance instance;
 
     public void init(UserInstance instance) {
@@ -46,17 +45,6 @@ public class UserInfoController extends GenericController {
         } catch (Exception e) {
             employeeName.setText("<Error, please disconnect>");
         }
-    }
-
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
-
-    public void setStageManager(StageManager stageManager) {
-        this.stageManager = stageManager;
-
     }
 
     public void save(ActionEvent actionEvent) {
@@ -91,9 +79,14 @@ public class UserInfoController extends GenericController {
 
         }
     }
+
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) throws Exception {
-        StageManager.displayMainPage(instance, actionEvent);
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(instance, actionEvent);
+    }
+
+    public void setInstance(UserInstance instance) {
+        this.instance = instance;
     }
 }
 
