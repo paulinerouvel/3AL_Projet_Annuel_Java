@@ -133,9 +133,9 @@ public class UserListController extends GenericController {
     }
 
     @FXML
-    public void modifyUser(MouseEvent event) {
+    public void modifyUser(ActionEvent event) {
         // UPDATE entrepot du produit
-        StageManager.getInstance().loadPageCustomerDetailPage(event, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
+        StageManager.getInstance().loadPageWithDetails(event, "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
     }
 
     public void refreshSelectedIndices() {

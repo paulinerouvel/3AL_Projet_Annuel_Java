@@ -21,7 +21,7 @@ public class MainAdminController extends GenericController {
     public void displayProducts(ActionEvent actionEvent) throws Exception {}
 
     public void displayUsers(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/UserList.fxml",
                 instance);
     }
 
@@ -35,12 +35,12 @@ public class MainAdminController extends GenericController {
     public void displayCommandList(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
                 instance);
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
                 instance);
     }
 

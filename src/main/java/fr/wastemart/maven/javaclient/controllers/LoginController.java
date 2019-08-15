@@ -25,7 +25,6 @@ public class LoginController extends GenericController {
 
             Platform.runLater(() -> {
                 StageManager.getInstance().loadPage(actionEvent,
-                        "/fr.wastemart.maven.javaclient/views/RootLayout.fxml",
                         "/fr.wastemart.maven.javaclient/views/MainEmployee.fxml",
                         userInstance);
                 //processLoginAttempt(token, actionEvent); // TODO WIP uncomment

@@ -5,6 +5,10 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 public abstract class   GenericController {
     protected UserInstance instance;
 
+    public void init(UserInstance instance, Integer data) {
+        setInstance(instance);
+    }
+
     public void init(UserInstance instance) {
         setInstance(instance);
     }

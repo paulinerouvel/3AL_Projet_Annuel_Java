@@ -31,8 +31,9 @@ public class CustomerDetailController extends GenericController {
     private JSONArray users;
     private UserInstance instance;
     private Integer idUser;
-    public void init(Integer idUser) {
+    public void init(UserInstance userInstance, Integer idUser) {
         try {
+            setInstance(userInstance);
             setidUser(idUser);
             User userFound = jsonToUser(fetchUser("id", idUser.toString()));
             customerName.setText(userFound.getNom());

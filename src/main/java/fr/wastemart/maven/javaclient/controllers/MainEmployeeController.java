@@ -19,42 +19,42 @@ public class MainEmployeeController extends GenericController {
     }
 
     public void displayProfessionnalSuggestion(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/ProSuggestionList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/ProSuggestionList.fxml",
                 instance);
     }
 
     public void displayConsumerSuggestion(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/ConsSuggestionList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/ConsSuggestionList.fxml",
                 instance);
     }
 
     public void displayWarehouseList(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/WarehouseList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/WarehouseList.fxml",
                 instance);
     }
 
     public void displayOrderList(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/OrderList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/OrderList.fxml",
                 instance);
     }
 
     public void displayUserList(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/UserList.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/UserList.fxml",
                 instance);
     }
 
     public void displayCustomerDetail(ActionEvent actionEvent, Integer userID) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml","/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/CustomerDetail.fxml",
                 instance);
     }
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/UserInfo.fxml",
                 instance);
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Plugins.fxml",
                 instance);
     }
 }

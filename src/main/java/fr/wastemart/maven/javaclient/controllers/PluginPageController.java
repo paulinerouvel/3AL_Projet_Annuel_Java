@@ -172,7 +172,7 @@ public class PluginPageController extends GenericController {
     public void disablePlugin(ActionEvent actionEvent) throws Exception {}
 
     public void reloadPage(ActionEvent actionEvent){
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/RootLayout.fxml", "/fr.wastemart.maven.javaclient/views/Plugins.fxml", instance);
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/Plugins.fxml", instance);
     }
 
     // Return button
