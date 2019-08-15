@@ -53,10 +53,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/fr.wastemart.maven.javaclient/views/Login.fxml"));
             login = loader.load();
-
-            LoginController controller = loader.getController();
-            controller.setStageManager(new StageManager());
-
+            
             // Set person overview into the center of root layout.
             actualScene = new Scene(login);
             stage.setScene(actualScene);
