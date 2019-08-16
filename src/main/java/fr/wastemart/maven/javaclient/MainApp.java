@@ -2,8 +2,6 @@ package fr.wastemart.maven.javaclient;
 
 import java.io.IOException;
 
-import fr.wastemart.maven.javaclient.controllers.LoginController;
-import fr.wastemart.maven.javaclient.controllers.StageManager;
 import javafx.scene.layout.AnchorPane;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +49,7 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/fr.wastemart.maven.javaclient/views/Login.fxml"));
+            loader.setLocation(MainApp.class.getResource("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml"));
             login = loader.load();
 
             // Set person overview into the center of root layout.
