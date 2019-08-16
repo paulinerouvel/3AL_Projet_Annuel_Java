@@ -18,7 +18,6 @@ public class Logger {
             sendOfflineLogFile();
         } catch (Exception e){
             // TODO Fail, will retry in a few minutes
-
         }
     }
 
@@ -79,10 +78,19 @@ public class Logger {
     }
 
     private void writeErrorInLogFile(Exception ex) {
+        System.out.println("Writing error in file");
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(getLogFile()));
-            writer.write(LocalDateTime.now() +" : "+ ex.getMessage() + System.getProperty("line.separator"));
+            writer.write( LocalDateTime.now() +" : "+ ex.getMessage() + "\nExecution Details :\n");
+
+            for(int i = 0; i < ex.getStackTrace().length; i += 1){
+                writer.write("Line "+ex.getStackTrace()[i].getLineNumber() +
+                        " in File \"" + ex.getStackTrace()[i].getFileName() + "\"" +
+                        " -> \"" + ex.getStackTrace()[i].getMethodName() +"\" method\n");
+            }
+            writer.write( System.getProperty("line.separator"));
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -97,7 +105,7 @@ public class Logger {
     }
 
     private void sendLogFile(File logFile) throws Exception{
-        String url = "http://51.75.143.205:8080/logs/javaclient";
+        String url = "http://51.75.143.205:8080/logs/javaclient/";
         String charset = "UTF-8";
         String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
         String CRLF = "\r\n"; // Line separator required by multipart/form-data.
