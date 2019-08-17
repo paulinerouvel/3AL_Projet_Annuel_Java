@@ -9,6 +9,10 @@ public abstract class GenericController {
         setInstance(instance);
     }
 
+    public void init(UserInstance instance, String data) {
+        setInstance(instance);
+    }
+
     public void init(UserInstance instance) {
         setInstance(instance);
     }

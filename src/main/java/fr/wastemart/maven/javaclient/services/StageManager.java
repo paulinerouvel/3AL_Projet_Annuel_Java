@@ -2,7 +2,6 @@ package fr.wastemart.maven.javaclient.services;
 
 import fr.wastemart.maven.javaclient.controllers.GenericController;
 import fr.wastemart.maven.javaclient.controllers.GlobalLoginController;
-import fr.wastemart.maven.javaclient.controllers.GlobalRegisterController;
 import fr.wastemart.maven.javaclient.controllers.GlobalRootLayoutController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,14 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class StageManager {
     private FXMLLoader loader;
-    private BorderPane parentRootLayout;
-    private AnchorPane parentMain;
+    private BorderPane rootLayout;
+    private AnchorPane mainPane;
 
     /** Constructeur privé */
     private StageManager(){}
@@ -35,51 +35,28 @@ public class StageManager {
         return INSTANCE;
     }
 
+    // Loads a page with root
     public void loadPage(ActionEvent actionEvent, String mainView, UserInstance instance){
         //if(userInstanceIsValid(instance)){
         //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
         //} // TODO WIP uncoment
-        GenericController genericController = loadController(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml", mainView, instance);
+        GenericController genericController = loadController(actionEvent, mainView, instance);
         genericController.init(instance);
 
-        // Display the Menu in center of Root Layout
-        getParentRootLayout().setCenter(getParentMain());
+        // Display the Page
+        rootLayout.setCenter(mainPane);
     }
 
+    // Loads a page with details and root
     public void loadPageWithDetails(ActionEvent actionEvent, String mainView, UserInstance instance, Integer data) {
         //if(userInstanceIsValid(instance)){
         //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
         //} // TODO WIP uncoment
-        GenericController genericController = loadController(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml", mainView, instance);
+        GenericController genericController = loadController(actionEvent, mainView, instance);
         genericController.init(instance, data);
 
-        // Display the Menu in center of Root Layout
-        getParentRootLayout().setCenter(getParentMain());
-    }
-
-    public Boolean userInstanceIsValid(UserInstance instance){
-        return instance.tokenIsValid() && instance.getUser().getEstValide().equals(1);
-    }
-
-    private GenericController loadController(ActionEvent actionEvent, String rootLayout, String mainView, UserInstance instance) {
-        // Load the Root Layout fxml
-        parentRootLayout = loadBorderPane(rootLayout);
-
-        // Set user instance of the Root Layout
-        GlobalRootLayoutController globalRootLayoutController = loader.getController();
-        globalRootLayoutController.setInstance(instance);
-
-        // Display the Root Layout
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-        if(stageNodeRoot != null){
-            showBorderPane(stageNodeRoot, parentRootLayout);
-        }
-
-        // Load the Menu fxml
-        parentMain = loadAnchorPane(mainView);
-
-        return loader.getController();
+        // Display the Page
+        rootLayout.setCenter(mainPane);
     }
 
     // Loads a page without root (register, login)
@@ -87,18 +64,10 @@ public class StageManager {
         //instance.disconnect();
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-        parentMain = loadAnchorPane(mainView);
+        GenericController genericController = loadController(actionEvent, mainView, null);
+        genericController.init();
 
-        Class<?> controllerClassType = loader.getController().getClass();
-        if(controllerClassType == GlobalRegisterController.class) {
-            GlobalRegisterController globalRegisterController = loader.getController();
-            globalRegisterController.init();
-        } else if (controllerClassType == GlobalLoginController.class){
-            GlobalLoginController globalLoginController = loader.getController();
-            globalLoginController.setInfo("User error");
-        }
-
-        showBorderPane(stageNodeRoot, getParentMain());
+        showBorderPane(stageNodeRoot, mainPane);
         stageNodeRoot.show();
 
     }
@@ -125,20 +94,43 @@ public class StageManager {
         }
     }
 
+    // Loads a controller from ressource with fxml (with root if there is instance)
+    private GenericController loadController(ActionEvent actionEvent, String mainView, UserInstance instance) {
+        // Display the Root Layout if there is an instance
+        if(instance != null){
+            loadRootLayoutController(instance);
+            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            showBorderPane(stageNodeRoot, rootLayout);
+        }
 
-    // Load Border Pane from fxml file.
-    private BorderPane loadBorderPane(String fxml) {
-        BorderPane borderPane = new BorderPane();
+        mainPane = (AnchorPane) loadResource(mainView);
+        return loader.getController();
+    }
+
+    // Loads the rootLayout controller
+    private void loadRootLayoutController(UserInstance instance){
+        // Load the Root Layout fxml into local variable
+        rootLayout = new BorderPane();
+
+        rootLayout = (BorderPane) loadResource("/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml");
+
+
+        // Set user instance of the Root Layout
+        GlobalRootLayoutController globalRootLayoutController = loader.getController();
+        globalRootLayoutController.setInstance(instance);
+    }
+
+    // Loads resource from fxml
+    private Pane loadResource(String fxml){
         try {
             loader = new FXMLLoader();
             loader.setLocation(StageManager.class.getResource(fxml));
-            borderPane = loader.load();
+            return loader.load();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return borderPane;
     }
-
 
     private void showBorderPane(Stage stage, Parent rootLayout){
         // Show the scene containing the root layout.
@@ -146,19 +138,6 @@ public class StageManager {
         stage.setScene(rootScene);
         stage.show();
 
-    }
-
-    // Load Border Pane from fxml file.
-    private AnchorPane loadAnchorPane(String fxml) {
-        AnchorPane anchorPane = new AnchorPane();
-        try {
-            loader = new FXMLLoader();
-            loader.setLocation(StageManager.class.getResource(fxml));
-            anchorPane = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return anchorPane;
     }
 
     public void displayMainPage(UserInstance userInstance, ActionEvent actionEvent) {
@@ -177,11 +156,8 @@ public class StageManager {
         }
     }
 
-    private BorderPane getParentRootLayout() {
-        return parentRootLayout;
+    public Boolean userInstanceIsValid(UserInstance instance){
+        return instance.tokenIsValid() && instance.getUser().getEstValide().equals(1);
     }
 
-    private AnchorPane getParentMain() {
-        return parentMain;
-    }
 }

@@ -17,6 +17,9 @@ public class GlobalLoginController extends GenericController {
     @FXML public PasswordField password;
     @FXML public TextArea connectionStatus;
 
+    public void init(UserInstance instance, String data) {
+        connectionStatus.setText(data);
+    }
 
     public void authenticate(ActionEvent actionEvent) {
         connectionStatus.setText("Trying to connect...");
@@ -60,15 +63,5 @@ public class GlobalLoginController extends GenericController {
 
     public void displayRegister(ActionEvent actionEvent) {
         StageManager.getInstance().loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalRegister.fxml");
-    }
-
-    public void setInfo(String info){ connectionStatus.setText(info); }
-
-    public void setUserInstance(UserInstance userInstance) {
-        this.userInstance = userInstance;
-    }
-
-    public UserInstance getUserInstance() {
-        return userInstance;
     }
 }
