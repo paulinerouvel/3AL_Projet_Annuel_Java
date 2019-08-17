@@ -7,9 +7,26 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public class ProductList {
+        // --- POST --- //
+
+    // POST a new list
+    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList) {
+        String json = "{\n" +
+                "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
+                "\t\"date\":\""+productList.getDate()+"\",\n" +
+                "\t\"Utilisateur_id\":"+productList.getUserId()+",\n" +
+                "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
+                "}";
+
+        return Requester.sendPostRequest("list/", json);
+    }
+
+
+        // --- GET --- //
+
     // GET all lists of User
     public static JSONArray fetchProductLists(Integer idUser) {
-      return Requester.sendGetRequest("list/?idUser=" + idUser);
+        return Requester.sendGetRequest("list/?idUser=" + idUser);
     }
 
     // GET all lists
@@ -22,17 +39,24 @@ public class ProductList {
         return Requester.sendGetRequest("list/?idUserCategory="+idUserCategory);
     }
 
-    // POST a new list
-    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList) {
-        String json = "{\n" +
-            "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
-            "\t\"date\":\""+productList.getDate()+"\",\n" +
-            "\t\"Utilisateur_id\":"+productList.getUserId()+",\n" +
-            "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
-            "}";
 
-        return Requester.sendPostRequest("list/", json);
+        // --- PUT --- //
+
+    // PUT a list (update)
+    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list) {
+        String json = "{\n" +
+                "\t\"id\": "+list.getId()+",\n" +
+                "\t\"libelle\" : \""+list.getLibelle()+"\",\n" +
+                "\t\"date\": \""+list.getDate()+"\",\n" +
+                "\t\"Utilisateur_id\": "+list.getUserId()+",\n" +
+                "\t\"estArchive\":"+list.getEstArchive()+"\n" +
+                "}";
+
+        return Requester.sendPutRequest("list/", json);
     }
+
+
+        // --- DELETE ---//
 
     // DELETE a list of products
     public static Integer removeProductsList(Integer listId){
@@ -43,18 +67,6 @@ public class ProductList {
         return 0;
     }
 
-    // PUT a list
-    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list) {
-        String json = "{\n" +
-            "\t\"id\": "+list.getId()+",\n" +
-            "\t\"libelle\" : \""+list.getLibelle()+"\",\n" +
-            "\t\"date\": \""+list.getDate()+"\",\n" +
-            "\t\"Utilisateur_id\": "+list.getUserId()+",\n" +
-            "\t\"estArchive\":"+list.getEstArchive()+"\n" +
-            "}";
-
-        return Requester.sendPutRequest("list/", json);
-    }
 
     // Affects a list of product to a Warehouse
     public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city) {
@@ -120,7 +132,6 @@ public class ProductList {
 
         return productUpdateRes;
     }
-
 
     public static fr.wastemart.maven.javaclient.models.ProductList jsonToProductList(JSONObject productList) {
         return new fr.wastemart.maven.javaclient.models.ProductList(

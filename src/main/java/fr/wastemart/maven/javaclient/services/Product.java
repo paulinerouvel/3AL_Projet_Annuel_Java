@@ -1,18 +1,42 @@
 package fr.wastemart.maven.javaclient.services;
 
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 
 public class Product {
+        // --- POST --- //
 
+    // POST a new Product in a List
+    public static Integer addProductToList(fr.wastemart.maven.javaclient.models.Product product){
+        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
+
+        String json =
+                "{\n" +
+                        "\t\"libelle\" : \""+product.getLibelle()+"\",\n" +
+                        "\t\"desc\": \""+product.getDesc()+"\",\n" +
+                        "\t\"photo\": \""+product.getPhoto()+"\",\n" +
+                        "\t\"prix\":"+product.getPrix()+",\n" +
+                        "\t\"prixInitial\":"+product.getPrixInitial()+",\n" +
+                        "\t\"quantite\":"+product.getQuantite()+",\n" +
+                        "\t\"dlc\":\""+product.getDlc()+"\",\n" +
+                        "\t\"codeBarre\":\""+product.getCodeBarre()+"\",\n" +
+                        "\t\"enRayon\":"+product.getEnRayon()+",\n" +
+                        "\t\"dateMiseEnRayon\":"+dateMiseEnRayon+",\n" +
+                        "\t\"categorieProduit_id\":"+product.getCategorieProduit()+",\n" +
+                        "\t\"listProduct_id\":"+product.getListProduct()+",\n" +
+                        "\t\"entrepotwm_id\":"+product.getEntrepotwm()+",\n" +
+                        "\t\"destinataire\":"+product.getDestinataire()+"\n" +
+                        "}";
+
+        return Requester.sendPostRequest("product/", json);
+    }
+
+
+        // --- GET --- //
+
+    // GET all the products of a list
     public static JSONArray fetchProducts(Integer idList){
         JSONArray result = Requester.sendGetRequest("list/products?id=" + idList);
 
@@ -25,6 +49,7 @@ public class Product {
         return result;
     }
 
+    // GET all Products of a Warehouse
     public static JSONArray fetchProductsByWarehouse(Integer idWareHhouse){
         JSONArray result = Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse);
 
@@ -40,7 +65,7 @@ public class Product {
             }
             if (result.getJSONObject(i).isNull("destinataire")) {
                 result.getJSONObject(i).put("destinataire", "0");
-             }
+            }
             if(result.getJSONObject(i).isNull("codeBarre")) {
                 result.getJSONObject(i).put("codeBarre", "");
             }
@@ -49,11 +74,45 @@ public class Product {
         return result;
     }
 
+
+        // --- PUT --- //
+
+    // PUT a Product (update)
+    public static Integer updateProduct(fr.wastemart.maven.javaclient.models.Product product) {
+        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
+        String codeBarre = product.getCodeBarre() == null ? null : "\""+product.getCodeBarre()+"\"";
+
+        String json =
+                "{\n" +
+                        "\t\"id\": "+product.getId()+",\n" +
+                        "\t\"libelle\" : \""+product.getLibelle()+"\",\n" +
+                        "\t\"desc\": \""+product.getDesc()+"\",\n" +
+                        "\t\"photo\": \""+product.getPhoto()+"\",\n" +
+                        "\t\"prix\":"+product.getPrix()+",\n" +
+                        "\t\"prixInitial\":"+product.getPrixInitial()+",\n" +
+                        "\t\"quantite\":"+product.getQuantite()+",\n" +
+                        "\t\"dlc\":\""+product.getDlc()+"\",\n" +
+                        "\t\"codeBarre\":"+codeBarre+",\n" +
+                        "\t\"enRayon\":"+product.getEnRayon()+",\n" +
+                        "\t\"dateMiseEnRayon\":"+dateMiseEnRayon+",\n" +
+                        "\t\"categorieProduit_id\":"+product.getCategorieProduit()+",\n" +
+                        "\t\"listProduct_id\":"+product.getListProduct()+",\n" +
+                        "\t\"entrepotwm_id\":"+product.getEntrepotwm()+",\n" +
+                        "\t\"destinataire\":"+product.getDestinataire()+"\n" +
+                        "}";
+
+        return Requester.sendPutRequest("product/", json);
+    }
+
+
+        // --- DELETE ---//
+
+    // DELETE a Product
     public static Integer deleteProduct(Integer productId){
         return Requester.sendDeleteRequest("product/?id=" + productId);
     }
 
-
+    // DELETE all the Products in a List
     public static Integer deleteProductsInList(Integer listId) {
         JSONArray products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(listId);
 
@@ -68,75 +127,23 @@ public class Product {
     }
 
 
-    public static Integer addProductToList(fr.wastemart.maven.javaclient.models.Product product){
-            String dateMiseEnRayon = product.getDateMiseEnRayon() == null
-                    ? null : "\""+product.getDateMiseEnRayon()+"\"";
-
-            String json =
-                    "{\n" +
-                            "\t\"libelle\" : \""+product.getLibelle()+"\",\n" +
-                            "\t\"desc\": \""+product.getDesc()+"\",\n" +
-                            "\t\"photo\": \""+product.getPhoto()+"\",\n" +
-                            "\t\"prix\":"+product.getPrix()+",\n" +
-                            "\t\"prixInitial\":"+product.getPrixInitial()+",\n" +
-                            "\t\"quantite\":"+product.getQuantite()+",\n" +
-                            "\t\"dlc\":\""+product.getDlc()+"\",\n" +
-                            "\t\"codeBarre\":\""+product.getCodeBarre()+"\",\n" +
-                            "\t\"enRayon\":"+product.getEnRayon()+",\n" +
-                            "\t\"dateMiseEnRayon\":"+dateMiseEnRayon+",\n" +
-                            "\t\"categorieProduit_id\":"+product.getCategorieProduit()+",\n" +
-                            "\t\"listProduct_id\":"+product.getListProduct()+",\n" +
-                            "\t\"entrepotwm_id\":"+product.getEntrepotwm()+",\n" +
-                            "\t\"destinataire\":"+product.getDestinataire()+"\n" +
-                            "}";
-
-            return Requester.sendPostRequest("product/", json);
-    }
-
-
-    public static Integer updateProduct(fr.wastemart.maven.javaclient.models.Product product) {
-            String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
-            String codeBarre = product.getCodeBarre() == null ? null : "\""+product.getCodeBarre()+"\"";
-
-            String json =
-                    "{\n" +
-                            "\t\"id\": "+product.getId()+",\n" +
-                            "\t\"libelle\" : \""+product.getLibelle()+"\",\n" +
-                            "\t\"desc\": \""+product.getDesc()+"\",\n" +
-                            "\t\"photo\": \""+product.getPhoto()+"\",\n" +
-                            "\t\"prix\":"+product.getPrix()+",\n" +
-                            "\t\"prixInitial\":"+product.getPrixInitial()+",\n" +
-                            "\t\"quantite\":"+product.getQuantite()+",\n" +
-                            "\t\"dlc\":\""+product.getDlc()+"\",\n" +
-                            "\t\"codeBarre\":"+codeBarre+",\n" +
-                            "\t\"enRayon\":"+product.getEnRayon()+",\n" +
-                            "\t\"dateMiseEnRayon\":"+dateMiseEnRayon+",\n" +
-                            "\t\"categorieProduit_id\":"+product.getCategorieProduit()+",\n" +
-                            "\t\"listProduct_id\":"+product.getListProduct()+",\n" +
-                            "\t\"entrepotwm_id\":"+product.getEntrepotwm()+",\n" +
-                            "\t\"destinataire\":"+product.getDestinataire()+"\n" +
-                            "}";
-
-            return Requester.sendPutRequest("product/", json);
-    }
-
     public static fr.wastemart.maven.javaclient.models.Product jsonToProduct(JSONObject product) {
         return new fr.wastemart.maven.javaclient.models.Product(
-                product.getInt("id"),
-                product.getString("libelle"),
-                product.getString("desc"),
-                product.getString("photo"),
-                product.getFloat("prix"),
-                product.getFloat("prixInitial"),
-                product.getInt("quantite"),
-                product.isNull("dlc") ? null : ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                product.isNull("codeBarre") ? null : product.getString("codeBarre"),
-                product.isNull("enRayon") ? 0 : product.getInt("enRayon"),
-                product.isNull("dateMiseEnRayon") ? "" : product.getString("dateMiseEnRayon"),
-                product.getInt("categorieProduit_id"),
-                product.isNull("listProduct_id") ? null : product.getInt("listProduct_id"),
-                product.isNull("entrepotwm_id") ? null : product.getInt("entrepotwm_id"),
-                product.isNull("destinataire") ? null : product.getInt("destinataire")
+            product.getInt("id"),
+            product.getString("libelle"),
+            product.getString("desc"),
+            product.getString("photo"),
+            product.getFloat("prix"),
+            product.getFloat("prixInitial"),
+            product.getInt("quantite"),
+            product.isNull("dlc") ? null : ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+            product.isNull("codeBarre") ? null : product.getString("codeBarre"),
+            product.isNull("enRayon") ? 0 : product.getInt("enRayon"),
+            product.isNull("dateMiseEnRayon") ? "" : product.getString("dateMiseEnRayon"),
+            product.getInt("categorieProduit_id"),
+            product.isNull("listProduct_id") ? null : product.getInt("listProduct_id"),
+            product.isNull("entrepotwm_id") ? null : product.getInt("entrepotwm_id"),
+            product.isNull("destinataire") ? null : product.getInt("destinataire")
         );
     }
 

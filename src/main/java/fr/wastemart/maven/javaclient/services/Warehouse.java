@@ -3,13 +3,11 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-
 public class Warehouse {
+        // --- POST --- //
+
+        // --- GET --- //
+
     // GET all warehouses
     public static JSONArray fetchAllWarehouse() {
         JSONArray result = Requester.sendGetRequest("warehouse/");
@@ -41,34 +39,41 @@ public class Warehouse {
         return Requester.sendGetRequest("warehouse/?city=" + city).getJSONObject(0);
     }
 
-    // PUT a warehouse
+
+        // --- PUT --- //
+
+    // PUT a Warehouse (update)
     public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse) {
         String json =
-            "{\n" +
-                "\t\"id\": "+warehouse.getId()+",\n" +
-                "\t\"libelle\" : \""+warehouse.getLibelle()+"\",\n" +
-                "\t\"adresse\": \""+warehouse.getAdresse()+"\",\n" +
-                "\t\"ville\": \""+warehouse.getVille()+"\",\n" +
-                "\t\"codePostal\":"+warehouse.getCodePostal()+",\n" +
-                "\t\"desc\":\""+warehouse.getDesc()+"\",\n" +
-                "\t\"photo\":\""+warehouse.getPhoto()+"\",\n" +
-                "\t\"placeTotal\":"+warehouse.getPlaceTotal()+",\n" +
-                "\t\"placeLibre\":"+warehouse.getPlaceLibre()+"\n" +
-            "}";
+                "{\n" +
+                        "\t\"id\": "+warehouse.getId()+",\n" +
+                        "\t\"libelle\" : \""+warehouse.getLibelle()+"\",\n" +
+                        "\t\"adresse\": \""+warehouse.getAdresse()+"\",\n" +
+                        "\t\"ville\": \""+warehouse.getVille()+"\",\n" +
+                        "\t\"codePostal\":"+warehouse.getCodePostal()+",\n" +
+                        "\t\"desc\":\""+warehouse.getDesc()+"\",\n" +
+                        "\t\"photo\":\""+warehouse.getPhoto()+"\",\n" +
+                        "\t\"placeTotal\":"+warehouse.getPlaceTotal()+",\n" +
+                        "\t\"placeLibre\":"+warehouse.getPlaceLibre()+"\n" +
+                        "}";
 
         return Requester.sendPutRequest("warehouse/", json);
     }
 
-    // PUT
+    // PUT the Warehouse of a Product (update)
     public static Integer updateProductWarehouse(Integer idProduct, Integer idWarehouse) {
         String json =
-            "{\n" +
-                "\t\"idProduct\": "+idProduct+",\n" +
-                "\t\"idWarehouse\" : "+idWarehouse+"\n" +
-            "}";
+                "{\n" +
+                        "\t\"idProduct\": "+idProduct+",\n" +
+                        "\t\"idWarehouse\" : "+idWarehouse+"\n" +
+                        "}";
 
         return Requester.sendPutRequest("product/warehouse/", json);
     }
+
+
+    // --- DELETE ---//
+
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
         return new fr.wastemart.maven.javaclient.models.Warehouse(

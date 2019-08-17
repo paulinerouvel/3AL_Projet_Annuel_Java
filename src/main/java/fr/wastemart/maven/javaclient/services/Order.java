@@ -6,10 +6,16 @@ import org.json.JSONObject;
 import java.time.ZonedDateTime;
 
 public class Order {
+        // --- POST --- //
+
+        // --- GET --- //
+
+    // GET all orders
     public static JSONArray fetchOrder() {
         return Requester.sendGetRequest("order/");
     }
 
+    // GET all Products of an Order
     public static JSONArray fetchProductsByOrder(Integer idOrder) {
         JSONArray result = Requester.sendGetRequest("product/warehouse?idOrder="+idOrder);
 
@@ -33,6 +39,12 @@ public class Order {
 
         return result;
     }
+
+
+        // --- PUT --- //
+
+     // --- DELETE ---//
+
 
     public static fr.wastemart.maven.javaclient.models.Order jsonToOrder(JSONObject order) {
         return new fr.wastemart.maven.javaclient.models.Order(

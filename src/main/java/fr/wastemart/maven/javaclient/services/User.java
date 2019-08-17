@@ -4,6 +4,116 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class User {
+        // --- POST --- //
+
+    // POST a user (Register)
+    public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) {
+        String json = "{\n" +
+                "\t\"id\": \""+user.getId()+"\",\n" +
+                "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
+                "\t\"nom\": \""+user.getNom()+"\",\n" +
+                "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
+                "\t\"mail\":\""+user.getMail()+"\",\n" +
+                "\t\"tel\":\""+user.getTel()+"\",\n" +
+                "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+                "\t\"ville\":\""+user.getVille()+"\",\n" +
+                "\t\"codePostal\":"+user.getCodePostal()+",\n" +
+                "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+                "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+                "\t\"photo\":\""+user.getPhoto()+"\",\n" +
+                "\t\"desc\":\""+user.getDesc()+"\",\n" +
+                "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+                "\t\"estValide\":"+user.getEstValide()+",\n" +
+                "\t\"siret\":\""+user.getSiret()+"\",\n" +
+                "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+                "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+                "}";
+
+        return Requester.sendPostRequest("user/register", json);
+    }
+
+    // POST a category between User and userType
+    public static Integer addCategory(Integer userId, Integer categoryUserId){
+        String json =
+                "{\n" +
+                        "\t\"userId\":"+userId+",\n" +
+                        "\t\"categoryUserId\":"+categoryUserId+"\n" +
+                        "}";
+
+        return Requester.sendPostRequest("user/category", json);
+    }
+
+
+
+    // POST mail
+    public static Integer sendMail(String mail, String objet, String message) {
+        String json =
+                "{\n" +
+                        "\t\"sender\": \"wastemart@gmail.com\",\n" +
+                        "\t\"destination\": \""+mail+"\",\n" +
+                        "\t\"subject\": \""+objet+"\",\n" +
+                        "\t\"message\": \""+message+"\",\n" +
+                        "}";
+
+        return Requester.sendPostRequest("mail", json);
+    }
+
+
+        // --- GET --- //
+
+    // GET User By id : 1, by mail : 2
+    public static JSONObject fetchUser(String operation, String data) {
+        String url = null;
+        if(operation.equals("id")){
+            url = "user/?id=" + data;
+        } else if(operation.equals("mail")) {
+            url = "user/?mail=" + data;
+        }
+
+        JSONObject user = Requester.sendGetRequest(url).getJSONObject(0); // TODO Test it, not sure it works (JsonOBJECT was initially returned)
+
+        user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
+        return user;
+    }
+
+    // GET user Category
+    public static Integer fetchCategory(Integer userId){
+        return Requester.sendGetRequest("user/category?userId=" + userId).getJSONObject(0).getInt("user_category");
+        // TODO Test : Initially return Integer.valueOf(content.toString());
+    }
+
+
+        // --- PUT --- //
+
+    // PUT a user (Update)
+    public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) {
+        String json =
+                "{\n" +
+                        "\t\"id\": \""+user.getId()+"\",\n" +
+                        "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
+                        "\t\"nom\": \""+user.getNom()+"\",\n" +
+                        "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
+                        "\t\"mail\":\""+user.getMail()+"\",\n" +
+                        "\t\"tel\":\""+user.getTel()+"\",\n" +
+                        "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+                        "\t\"ville\":\""+user.getVille()+"\",\n" +
+                        "\t\"codePostal\":"+user.getCodePostal()+",\n" +
+                        "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+                        "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+                        "\t\"photo\":\""+user.getPhoto()+"\",\n" +
+                        "\t\"desc\":\""+user.getDesc()+"\",\n" +
+                        "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+                        "\t\"estValide\":"+user.getEstValide()+",\n" +
+                        "\t\"siret\":\""+user.getSiret()+"\",\n" +
+                        "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+                        "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+                        "}";
+
+        return Requester.sendPutRequest("user/", json);
+    }
+
+
+        // --- DELETE ---//
     public static JSONArray fetchAllUsers() {
         JSONArray users = Requester.sendGetRequest("user/");
 
@@ -42,103 +152,6 @@ public class User {
         return users;
     }
 
-    // GET User By id : 1, by mail : 2
-    public static JSONObject fetchUser(String operation, String data) {
-        String url = null;
-            if(operation.equals("id")){
-                url = "user/?id=" + data;
-            } else if(operation.equals("mail")) {
-                url = "user/?mail=" + data;
-            }
-
-            JSONObject user = Requester.sendGetRequest(url).getJSONObject(0); // TODO Test it, not sure it works (JsonOBJECT was initially returned)
-
-        user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
-            return user;
-    }
-
-    // PUT a user (Update)
-    public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) {
-        String json =
-            "{\n" +
-                "\t\"id\": \""+user.getId()+"\",\n" +
-                "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                "\t\"nom\": \""+user.getNom()+"\",\n" +
-                "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                "\t\"mail\":\""+user.getMail()+"\",\n" +
-                "\t\"tel\":\""+user.getTel()+"\",\n" +
-                "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                "\t\"ville\":\""+user.getVille()+"\",\n" +
-                "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                "\t\"estValide\":"+user.getEstValide()+",\n" +
-                "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                "}";
-
-        return Requester.sendPutRequest("user/", json);
-    }
-
-    // POST a user (Register)
-    public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) {
-        String json = "{\n" +
-            "\t\"id\": \""+user.getId()+"\",\n" +
-            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-            "\t\"nom\": \""+user.getNom()+"\",\n" +
-            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-            "\t\"mail\":\""+user.getMail()+"\",\n" +
-            "\t\"tel\":\""+user.getTel()+"\",\n" +
-            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-            "\t\"ville\":\""+user.getVille()+"\",\n" +
-            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-            "\t\"desc\":\""+user.getDesc()+"\",\n" +
-            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-            "\t\"estValide\":"+user.getEstValide()+",\n" +
-            "\t\"siret\":\""+user.getSiret()+"\",\n" +
-            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-            "}";
-
-        return Requester.sendPostRequest("user/register", json);
-    }
-
-    // POST a category between User and userType
-    public static Integer addCategory(Integer userId, Integer categoryUserId){
-        String json =
-            "{\n" +
-                "\t\"userId\":"+userId+",\n" +
-                "\t\"categoryUserId\":"+categoryUserId+"\n" +
-                "}";
-
-        return Requester.sendPostRequest("user/category", json);
-    }
-
-    // GET user Category
-    public static Integer fetchCategory(Integer userId){
-        return Requester.sendGetRequest("user/category?userId=" + userId).getJSONObject(0).getInt("user_category");
-        // TODO Test : Initially return Integer.valueOf(content.toString());
-    }
-
-    // POST mail
-    public static Integer sendMail(String mail, String objet, String message) {
-        String json =
-                "{\n" +
-                        "\t\"sender\": \"wastemart@gmail.com\",\n" +
-                        "\t\"destination\": \""+mail+"\",\n" +
-                        "\t\"subject\": \""+objet+"\",\n" +
-                        "\t\"message\": \""+message+"\",\n" +
-                        "}";
-
-        return Requester.sendPostRequest("mail", json);
-    }
 
     public static Integer initNewUser(String mail, Integer userCategory) {
         JSONObject fetchedUser = fetchUser("mail", mail);
