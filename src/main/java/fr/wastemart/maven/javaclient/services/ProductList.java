@@ -3,272 +3,69 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductList {
     // GET all lists of User
     public static JSONArray fetchProductLists(Integer idUser) {
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/list/?idUser=" + idUser);
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-
-            return new JSONArray(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONArray("{null}");
-        }
+      return Requester.sendGetRequest("list/?idUser=" + idUser);
     }
 
     // GET all lists
     public static JSONArray fetchAllProductLists() {
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/list/");
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-            return new JSONArray(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONArray("{null}");
-        }
+        return Requester.sendGetRequest("list/");
     }
 
+    // GET all lists by user category
     public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory) {
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/list/?idUserCategory="+idUserCategory);
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-            return new JSONArray(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONArray("{null}");
-        }
+        return Requester.sendGetRequest("list/?idUserCategory="+idUserCategory);
     }
-
 
     // POST a new list
     public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList) {
-        HttpURLConnection http = null;
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/list/");
+        String json = "{\n" +
+            "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
+            "\t\"date\":\""+productList.getDate()+"\",\n" +
+            "\t\"Utilisateur_id\":"+productList.getUserId()+",\n" +
+            "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
+            "}";
 
-            String jsonBody =
-                    "{\n" +
-                            "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
-                            "\t\"date\":\""+productList.getDate()+"\",\n" +
-                            "\t\"Utilisateur_id\":"+productList.getUserId()+",\n" +
-                            "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
-                            "}";
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-            ((HttpURLConnection) con).setRequestMethod("POST");
-
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
+        return Requester.sendPostRequest("list/", json);
     }
 
+    // DELETE a list of products
     public static Integer removeProductsList(Integer listId){
         Integer deleteProductsInList = fr.wastemart.maven.javaclient.services.Product.deleteProductsInList(listId);
         if(deleteProductsInList == 1){
-            URL url;
-            try {
-                url = new URL("https://wastemart-api.herokuapp.com/list/?id=" + listId);
-                // /list/products?id=1
-
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("DELETE");
-
-                int status = con.getResponseCode();
-                Reader streamReader;
-                if (status > 299) {
-                    return con.getResponseCode();
-                } else {
-                    streamReader = new InputStreamReader(con.getInputStream());
-                }
-
-                BufferedReader in = new BufferedReader(streamReader);
-                String inputLine;
-                StringBuffer content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-
-                in.close();
-                con.disconnect();
-
-                return con.getResponseCode();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return 503;
-            }
-
+            return Requester.sendDeleteRequest("list/?id=" + listId);
         }
         return 0;
     }
 
     // PUT a list
     public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list) {
-        HttpURLConnection http = null;
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/list/");
+        String json = "{\n" +
+            "\t\"id\": "+list.getId()+",\n" +
+            "\t\"libelle\" : \""+list.getLibelle()+"\",\n" +
+            "\t\"date\": \""+list.getDate()+"\",\n" +
+            "\t\"Utilisateur_id\": "+list.getUserId()+",\n" +
+            "\t\"estArchive\":"+list.getEstArchive()+"\n" +
+            "}";
 
-            String jsonBody =
-                    "{\n" +
-                            "\t\"id\": "+list.getId()+",\n" +
-                            "\t\"libelle\" : \""+list.getLibelle()+"\",\n" +
-                            "\t\"date\": \""+list.getDate()+"\",\n" +
-                            "\t\"Utilisateur_id\": "+list.getUserId()+",\n" +
-                            "\t\"estArchive\":"+list.getEstArchive()+"\n" +
-                            "}";
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-            ((HttpURLConnection) con).setRequestMethod("PUT");
-
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
-
+        return Requester.sendPutRequest("list/", json);
     }
 
-
+    // Affects a list of product to a Warehouse
     public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city) {
         Integer processed = 0;
-        for(int i = 0; i < productList.size(); i++){
-        //for (fr.wastemart.maven.javaclient.models.Product product : productList){
-            fr.wastemart.maven.javaclient.models.Product product = productList.get(i);
-
-            if(product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
+        for (fr.wastemart.maven.javaclient.models.Product product : productList) {
+            if (product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
                 Integer affectRes = affectProductToWareHouse(product, city);
 
                 processed += 1;
 
-                if(affectRes > 200){
+                if (affectRes > 200) {
                     return affectRes;
                 }
             }
@@ -277,6 +74,7 @@ public class ProductList {
         return affectProductToReceiver(productList, processed);
     }
 
+    // Affect one product to a Warehouse
     public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city) {
         JSONObject fetchedWareHouse = fr.wastemart.maven.javaclient.services.Warehouse.fetchWarehouseByCity(city);
 
@@ -304,20 +102,19 @@ public class ProductList {
         return 0;
     }
 
+    // Affect one product to a Receiver
     public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size){
         Integer count = 0;
         Integer productUpdateRes = 600;
-        for(int i = 0; i < productList.size(); i++){
-            fr.wastemart.maven.javaclient.models.Product product = productList.get(i);
-
-            if(product.getEnRayon().equals(1) && product.getEntrepotwm() != null) {
+        for (fr.wastemart.maven.javaclient.models.Product product : productList) {
+            if (product.getEnRayon().equals(1) && product.getEntrepotwm() != null) {
                 count += 1;
                 if (count > size / 2) {
                     product.setDestinataire(3);
                 } else {
                     product.setDestinataire(1);
                 }
-                productUpdateRes = fr.wastemart.maven.javaclient.services.Product.updateProduct(product);
+                productUpdateRes = Product.updateProduct(product);
             }
         }
 

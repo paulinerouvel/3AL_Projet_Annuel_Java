@@ -1,337 +1,143 @@
 package fr.wastemart.maven.javaclient.services;
 
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-
 public class User {
     public static JSONArray fetchAllUsers() {
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/");
-            // /list/products?id=1
+        JSONArray users = Requester.sendGetRequest("user/");
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+        for(int i = 0; i < users.length(); i++) {
 
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+            Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
+
+            users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
+
+            if (users.getJSONObject(i).isNull("Libelle")) {
+                users.getJSONObject(i).put("Libelle", "");
             }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            if (users.getJSONObject(i).isNull("nom")) {
+                users.getJSONObject(i).put("nom", "");
             }
-
-            in.close();
-            con.disconnect();
-
-            JSONArray users = new JSONArray(content.toString());
-
-            for(int i = 0; i < users.length(); i++) {
-
-                Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
-
-                users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
-
-                if (users.getJSONObject(i).isNull("Libelle")) {
-                    users.getJSONObject(i).put("Libelle", "");
-                }
-                if (users.getJSONObject(i).isNull("nom")) {
-                    users.getJSONObject(i).put("nom", "");
-                }
-                if (users.getJSONObject(i).isNull("prenom ")) {
-                    users.getJSONObject(i).put("prenom", "");
-                }
-                if (users.getJSONObject(i).isNull("photo")) {
-                    users.getJSONObject(i).put("photo", "");
-                }
-                if (users.getJSONObject(i).isNull("desc")) {
-                    users.getJSONObject(i).put("desc", "");
-                }
-                if (users.getJSONObject(i).isNull("tailleOrganisme")) {
-                    users.getJSONObject(i).put("tailleOrganisme", 0);
-                }
-                if (users.getJSONObject(i).isNull("dateDeNaissance")) {
-                    users.getJSONObject(i).put("destinataire", "");
-                }
-                if (users.getJSONObject(i).isNull("nbPointsSourire")) {
-                    users.getJSONObject(i).put("nbPointsSourire", 0);
-                }
-
+            if (users.getJSONObject(i).isNull("prenom ")) {
+                users.getJSONObject(i).put("prenom", "");
             }
-
-
-            return users;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONArray("{null}");
+            if (users.getJSONObject(i).isNull("photo")) {
+                users.getJSONObject(i).put("photo", "");
+            }
+            if (users.getJSONObject(i).isNull("desc")) {
+                users.getJSONObject(i).put("desc", "");
+            }
+            if (users.getJSONObject(i).isNull("tailleOrganisme")) {
+                users.getJSONObject(i).put("tailleOrganisme", 0);
+            }
+            if (users.getJSONObject(i).isNull("dateDeNaissance")) {
+                users.getJSONObject(i).put("destinataire", "");
+            }
+            if (users.getJSONObject(i).isNull("nbPointsSourire")) {
+                users.getJSONObject(i).put("nbPointsSourire", 0);
+            }
         }
+
+        return users;
     }
 
-    // Get User By id : 1, by mail : 2 (Get)
+    // GET User By id : 1, by mail : 2
     public static JSONObject fetchUser(String operation, String data) {
-        URL url = null;
-        try {
-
+        String url = null;
             if(operation.equals("id")){
-                url = new URL("https://wastemart-api.herokuapp.com/user/?id=" + data);
+                url = "user/?id=" + data;
             } else if(operation.equals("mail")) {
-                url = new URL("https://wastemart-api.herokuapp.com/user/?mail=" + data);
-            }
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
+                url = "user/?mail=" + data;
             }
 
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
+            JSONObject user = Requester.sendGetRequest(url).getJSONObject(0); // TODO Test it, not sure it works (JsonOBJECT was initially returned)
 
-            in.close();
-            con.disconnect();
-
-            JSONObject user =  new JSONObject(content.toString());
-            user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
+        user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
             return user;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONObject("{null}");
-        }
     }
 
-    // Update a user (Put)
+    // PUT a user (Update)
     public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) {
-        HttpURLConnection http = null;
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/");
+        String json =
+            "{\n" +
+                "\t\"id\": \""+user.getId()+"\",\n" +
+                "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
+                "\t\"nom\": \""+user.getNom()+"\",\n" +
+                "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
+                "\t\"mail\":\""+user.getMail()+"\",\n" +
+                "\t\"tel\":\""+user.getTel()+"\",\n" +
+                "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+                "\t\"ville\":\""+user.getVille()+"\",\n" +
+                "\t\"codePostal\":"+user.getCodePostal()+",\n" +
+                "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+                "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+                "\t\"photo\":\""+user.getPhoto()+"\",\n" +
+                "\t\"desc\":\""+user.getDesc()+"\",\n" +
+                "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+                "\t\"estValide\":"+user.getEstValide()+",\n" +
+                "\t\"siret\":\""+user.getSiret()+"\",\n" +
+                "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+                "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+                "}";
 
-            String jsonBody =
-                    "{\n" +
-                            "\t\"id\": \""+user.getId()+"\",\n" +
-                            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                            "\t\"nom\": \""+user.getNom()+"\",\n" +
-                            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                            "\t\"mail\":\""+user.getMail()+"\",\n" +
-                            "\t\"tel\":\""+user.getTel()+"\",\n" +
-                            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                            "\t\"ville\":\""+user.getVille()+"\",\n" +
-                            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                            "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                            "\t\"estValide\":"+user.getEstValide()+",\n" +
-                            "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                            "}";
-
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-            ((HttpURLConnection) con).setRequestMethod("PUT");
-
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
+        return Requester.sendPutRequest("user/", json);
     }
 
-    // Register a user (Post)
+    // POST a user (Register)
     public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) {
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
-        URL url = null;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/register");
+        String json = "{\n" +
+            "\t\"id\": \""+user.getId()+"\",\n" +
+            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
+            "\t\"nom\": \""+user.getNom()+"\",\n" +
+            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
+            "\t\"mail\":\""+user.getMail()+"\",\n" +
+            "\t\"tel\":\""+user.getTel()+"\",\n" +
+            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+            "\t\"ville\":\""+user.getVille()+"\",\n" +
+            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
+            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
+            "\t\"desc\":\""+user.getDesc()+"\",\n" +
+            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+            "\t\"estValide\":"+user.getEstValide()+",\n" +
+            "\t\"siret\":\""+user.getSiret()+"\",\n" +
+            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
+            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+            "}";
 
-            String jsonBody =
-                    "{\n" +
-                            "\t\"id\": \""+user.getId()+"\",\n" +
-                            "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                            "\t\"nom\": \""+user.getNom()+"\",\n" +
-                            "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                            "\t\"mail\":\""+user.getMail()+"\",\n" +
-                            "\t\"tel\":\""+user.getTel()+"\",\n" +
-                            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                            "\t\"ville\":\""+user.getVille()+"\",\n" +
-                            "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                            "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                            "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                            "\t\"estValide\":"+user.getEstValide()+",\n" +
-                            "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                            "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                            "}";
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            // Form returned token and verify it
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
+        return Requester.sendPostRequest("user/register", json);
     }
 
-    // Add a category between User and userType (Post)
+    // POST a category between User and userType
     public static Integer addCategory(Integer userId, Integer categoryUserId){
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
-        URL url = null;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/category");
+        String json =
+            "{\n" +
+                "\t\"userId\":"+userId+",\n" +
+                "\t\"categoryUserId\":"+categoryUserId+"\n" +
+                "}";
 
-            String jsonBody =
-                    "{\n" +
-                            "\t\"userId\":"+userId+",\n" +
-                            "\t\"categoryUserId\":"+categoryUserId+"\n" +
-                            "}";
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            // Form returned token and verify it
-
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
+        return Requester.sendPostRequest("user/category", json);
     }
 
-
-    // Fetch user Category (Get)
+    // GET user Category
     public static Integer fetchCategory(Integer userId){
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/category?userId=" + userId);
+        return Requester.sendGetRequest("user/category?userId=" + userId).getJSONObject(0).getInt("user_category");
+        // TODO Test : Initially return Integer.valueOf(content.toString());
+    }
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+    // POST mail
+    public static Integer sendMail(String mail, String objet, String message) {
+        String json =
+                "{\n" +
+                        "\t\"sender\": \"wastemart@gmail.com\",\n" +
+                        "\t\"destination\": \""+mail+"\",\n" +
+                        "\t\"subject\": \""+objet+"\",\n" +
+                        "\t\"message\": \""+message+"\",\n" +
+                        "}";
 
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                return status;
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream());
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-
-            return Integer.valueOf(content.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return Requester.sendPostRequest("mail", json);
     }
 
     public static Integer initNewUser(String mail, Integer userCategory) {
@@ -362,54 +168,6 @@ public class User {
                 //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
                 user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
         );
-    }
-
-    public static Integer sendMail(String mail, String objet, String message) {
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
-        URL url = null;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/mail");
-
-            String jsonBody =
-                    "{\n" +
-                        "\t\"sender\": \"wastemart@gmail.com\",\n" +
-                        "\t\"destination\": \""+mail+"\",\n" +
-                        "\t\"subject\": \""+objet+"\",\n" +
-                        "\t\"message\": \""+message+"\",\n" +
-                    "}";
-
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try (OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            // Form returned token and verify it
-            return http.getResponseCode();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                if (http != null) {
-                    return http.getResponseCode();
-                }
-                return 299;
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return 299;
-            }
-        }
     }
 
 }
