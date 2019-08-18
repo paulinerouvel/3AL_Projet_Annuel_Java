@@ -9,17 +9,7 @@ import javafx.scene.control.MenuBar;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
 public class GlobalRootLayoutController extends GenericController {
-    private UserInstance instance;
     @FXML public MenuBar menuBar;
-
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
 
     @FXML
     public void closeApplication(ActionEvent event){
@@ -36,6 +26,6 @@ public class GlobalRootLayoutController extends GenericController {
     }
 
     public void disconnect() {
-        StageManager.getInstance().loadLoginPageFromMenuBar(instance, menuBar);
+        StageManager.getInstance().loadLoginPageFromMenuBar(UserInstance.getInstance(), menuBar);
     }
 }

@@ -21,9 +21,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static fr.wastemart.maven.javaclient.services.ProductList.*;
+import static fr.wastemart.maven.javaclient.services.Product.*;
 
 public class EmployeeListProsSuggestionsController extends GenericController {
-    private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;
     private Integer indexOfProductSelected;
@@ -65,7 +66,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
     private void displayProductLists() {
         listsTable.getItems().clear();
-        lists = fr.wastemart.maven.javaclient.services.ProductList.fetchAllProductLists();
+        lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
@@ -75,7 +76,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
         for(int i = 0; i < lists.length(); i++){
             JSONObject list = lists.getJSONObject(i);
-            ProductList listElement = fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList(list);
+            ProductList listElement = jsonToProductList(list);
             listsTable.getItems().add(listElement);
 
         }
@@ -83,7 +84,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
     private void displayProducts(Integer id) {
         productsTable.getItems().clear();
-        products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(id);
+        products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
 
         productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
@@ -95,7 +96,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
         for(int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-            Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+            Product productElement = jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }
@@ -117,9 +118,9 @@ public class EmployeeListProsSuggestionsController extends GenericController {
         if(indexOfListSelected != -1) {
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 1);
-                Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+                Product productElement = jsonToProduct(product);
 
-                fr.wastemart.maven.javaclient.services.Product.updateProduct(productElement);
+                updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -136,9 +137,9 @@ public class EmployeeListProsSuggestionsController extends GenericController {
         if(indexOfListSelected != -1){
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+                Product productElement = jsonToProduct(product);
 
-                fr.wastemart.maven.javaclient.services.Product.updateProduct(productElement);
+                updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -153,20 +154,20 @@ public class EmployeeListProsSuggestionsController extends GenericController {
         if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1){
 
             JSONObject list = lists.getJSONObject(indexOfListSelected);
-            ProductList listElement = fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList(list);
+            ProductList listElement = jsonToProductList(list);
 
             ArrayList<Product> productList = new ArrayList<Product>();
             for(int i = 0; i < products.length(); i++) {
                 JSONObject product = products.getJSONObject(i);
-                productList.add(fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product));
+                productList.add(jsonToProduct(product));
             }
 
             // Affecte la liste de produits à un entrepot
-            Integer affectProductListToWarehouseRes = fr.wastemart.maven.javaclient.services.ProductList.affectProductListToWarehouse(productList, instance.getUser().getVille());
+            Integer affectProductListToWarehouseRes = affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue());
             if(affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299){ // Réussite
                 listElement.setEstArchive(1);
                 listElement.setDate(LocalDate.now());
-                fr.wastemart.maven.javaclient.services.ProductList.updateProductList(listElement);
+                updateProductList(listElement, UserInstance.getInstance().getTokenValue());
             }
         }
         displayProductLists();
@@ -215,7 +216,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
             SharedDetailsProductController controller = loader.getController();
             JSONObject product = products.getJSONObject(indexOfProductSelected);
-            Product productToModify = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+            Product productToModify = jsonToProduct(product);
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
 
@@ -239,15 +240,6 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
 }

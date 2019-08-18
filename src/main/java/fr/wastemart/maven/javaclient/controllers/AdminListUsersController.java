@@ -14,8 +14,9 @@ import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static fr.wastemart.maven.javaclient.services.User.fetchCategories;
+
 public class AdminListUsersController extends GenericController {
-    private UserInstance instance;
     private JSONArray lists;
     private JSONArray users;
     private Integer indexOfProductSelected;
@@ -55,9 +56,7 @@ public class AdminListUsersController extends GenericController {
 
         try {
             userCategoryTable.getItems().clear();
-            lists = fr.wastemart.maven.javaclient.services.User.fetchCategories();
-
-
+            lists = fetchCategories();
 
             category.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             for (int i = 0; i < lists.length(); i++) {
@@ -109,7 +108,7 @@ public class AdminListUsersController extends GenericController {
                         user.getString("photo"),
                         user.getString("desc"),
                         user.getInt("tailleOrganisme"),
-                        user.getInt("estValide"),
+                        user.getBoolean("estValide"),
                         user.getString("siret"),
                         user.getString("dateDeNaissance"),
                         user.getInt("nbPointsSourire")
@@ -135,7 +134,9 @@ public class AdminListUsersController extends GenericController {
 
     @FXML
     public void modifyUser(ActionEvent event) {
-        StageManager.getInstance().loadPageWithDetails(event, "/fr.wastemart.maven.javaclient/views/SharedDetailsCustomer.fxml", instance, usersTable.getSelectionModel().getSelectedItem().getId());
+        StageManager.getInstance().loadPageWithDetails(event,
+                "/fr.wastemart.maven.javaclient/views/SharedDetailsCustomer.fxml", UserInstance.getInstance(),
+                usersTable.getSelectionModel().getSelectedItem().getId());
     }
 
     public void refreshSelectedIndices() {
@@ -146,15 +147,7 @@ public class AdminListUsersController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
 
 }

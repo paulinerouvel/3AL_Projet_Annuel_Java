@@ -22,6 +22,20 @@ public class UserInstance {
     private JSONObject token;
     private User user;
 
+    /** Constructeur privé */
+    private UserInstance(){}
+
+    /** Instance unique pré-initialisée */
+    private static UserInstance INSTANCE = new UserInstance();
+
+    /** Point d'accès pour l'instance unique du Singleton */
+    public static UserInstance getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new UserInstance();
+        }
+        return INSTANCE;
+    }
+
     public boolean tokenIsValid() throws JWTVerificationException {
         String token = getTokenValue();
         try {

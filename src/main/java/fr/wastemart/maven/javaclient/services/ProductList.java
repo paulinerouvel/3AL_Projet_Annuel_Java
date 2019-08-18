@@ -148,7 +148,7 @@ public class ProductList {
         Integer processed = 0;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
             if (product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
-                Integer affectRes = affectProductToWareHouse(product, city);
+                Integer affectRes = affectProductToWareHouse(product, city, token);
 
                 processed += 1;
 
@@ -162,7 +162,7 @@ public class ProductList {
     }
 
     // Affect one product to a Warehouse
-    public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city) {
+    public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city, String token) {
         JSONObject fetchedWareHouse = fr.wastemart.maven.javaclient.services.Warehouse.fetchWarehouseByCity(city);
 
         fr.wastemart.maven.javaclient.models.Warehouse cityWarehouse = null;
@@ -173,7 +173,7 @@ public class ProductList {
         if(cityWarehouse != null && cityWarehouse.getPlaceLibre() > 0){
             product.setEntrepotwm(cityWarehouse.getId());
             cityWarehouse.setPlaceLibre(cityWarehouse.getPlaceLibre()-1);
-            return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(cityWarehouse);
+            return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(cityWarehouse, token);
         } else {
             JSONArray wareHouses = fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse();
 
@@ -182,7 +182,7 @@ public class ProductList {
                 if (availableWareHouse.getPlaceLibre() > 0){
                     product.setEntrepotwm(availableWareHouse.getId());
                     availableWareHouse.setPlaceLibre(availableWareHouse.getPlaceLibre()-1);
-                    return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(availableWareHouse);
+                    return fr.wastemart.maven.javaclient.services.Warehouse.updateWarehouse(availableWareHouse, token);
                 }
             }
         }

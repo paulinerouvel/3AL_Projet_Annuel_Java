@@ -7,13 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class ProfessionnalMainController extends GenericController {
-    @FXML private UserInstance instance;
     @FXML private Label proName;
 
-    public void init(UserInstance instance) {
+    public void init() {
         try {
-            setInstance(instance);
-            proName.setText(this.instance.getUser().getNom());
+            proName.setText(UserInstance.getInstance().getUser().getNom());
         } catch (Exception e) {
             proName.setText("<Error, please disconnect>");
         }
@@ -21,30 +19,22 @@ public class ProfessionnalMainController extends GenericController {
 
     public void displayProducts(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/ProfessionnalListProducts.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayAdminContact(ActionEvent actionEvent) throws Exception {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayListesProduits(ActionEvent actionEvent) throws Exception {
 
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
     }
 }

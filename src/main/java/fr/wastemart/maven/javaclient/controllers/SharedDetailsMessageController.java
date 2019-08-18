@@ -1,13 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import static fr.wastemart.maven.javaclient.services.User.sendMail;
+
 public class SharedDetailsMessageController extends GenericController {
-    private UserInstance instance;
     private String destinataire = null;
 
     @FXML private TextField objet;
@@ -37,7 +39,7 @@ public class SharedDetailsMessageController extends GenericController {
 
             }
         } else if(destinataire == null || objet.getText().isEmpty() || message.getText().isEmpty()) {
-            Integer contactRes = fr.wastemart.maven.javaclient.services.User.sendMail(destinataire, objet.getText(), message.getText());
+            Integer contactRes = sendMail(destinataire, objet.getText(), message.getText());
             if(contactRes > 299){
                 info.setText("Echec de l'envoi du message");
             } else {
@@ -60,19 +62,16 @@ public class SharedDetailsMessageController extends GenericController {
         info.setText("");
     }
 
+    // Return button
+    public void displayMainPage(ActionEvent actionEvent) {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    }
+
     public String getDestinataire() {
         return destinataire;
     }
 
     public void setDestinataire(String destinataire) {
         this.destinataire = destinataire;
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
     }
 }

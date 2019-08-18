@@ -41,7 +41,6 @@ public class StageManager {
         //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
         //} // TODO WIP uncoment
         GenericController genericController = loadController(actionEvent, mainView, instance);
-        genericController.init(instance);
 
         // Display the Page
         rootLayout.setCenter(mainPane);
@@ -53,7 +52,7 @@ public class StageManager {
         //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
         //} // TODO WIP uncoment
         GenericController genericController = loadController(actionEvent, mainView, instance);
-        genericController.init(instance, data);
+        genericController.init(data);
 
         // Display the Page
         rootLayout.setCenter(mainPane);
@@ -117,7 +116,6 @@ public class StageManager {
 
         // Set user instance of the Root Layout
         GlobalRootLayoutController globalRootLayoutController = loader.getController();
-        globalRootLayoutController.setInstance(instance);
     }
 
     // Loads resource from fxml

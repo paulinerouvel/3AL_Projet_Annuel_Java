@@ -21,12 +21,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static fr.wastemart.maven.javaclient.services.Product.deleteProduct;
-import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
+import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.ProductList.*;
 
 
 public class ProfessionnalListProductsController extends GenericController {
-    private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;
     private Integer indexOfProductSelected;
@@ -69,7 +68,7 @@ public class ProfessionnalListProductsController extends GenericController {
     @FXML
     private void displayProductLists() {
         listsTable.getItems().clear();
-        lists = fr.wastemart.maven.javaclient.services.ProductList.fetchProductLists(instance.getUser().getId());
+        lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
@@ -78,7 +77,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
         for(int i = 0; i < lists.length(); i++){
             if(listArchiveCheckBox.isSelected() || lists.getJSONObject(i).getInt("estArchive") != 1){
-                JSONObject list = lists.getJSONObject(i).put("Utilisateur_id", instance.getUser().getId());
+                JSONObject list = lists.getJSONObject(i).put("Utilisateur_id", UserInstance.getInstance().getUser().getId());
                 ProductList listElement = jsonToProductList(list);
                 listsTable.getItems().add(listElement);
             }
@@ -88,7 +87,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
     private void displayProducts(Integer id) {
         productsTable.getItems().clear();
-        products = fr.wastemart.maven.javaclient.services.Product.fetchProducts(id);
+        products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
 
         productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
@@ -100,7 +99,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
         for(int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-            Product productElement = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+            Product productElement = jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }
@@ -120,7 +119,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
         if(indexOfListSelected != -1){
             Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
-            Integer removeProductListRes = fr.wastemart.maven.javaclient.services.ProductList.removeProductsList(listToRemoveId);
+            Integer removeProductListRes = removeProductsList(listToRemoveId, UserInstance.getInstance().getTokenValue());
         }
 
         displayProducts(lists.getJSONObject(0).getInt("id"));
@@ -133,10 +132,10 @@ public class ProfessionnalListProductsController extends GenericController {
         ProductList productList = new ProductList(-1,
                 "Test",
                 LocalDate.now(),
-                instance.getUser().getId(),
+                UserInstance.getInstance().getUser().getId(),
                 0);
 
-        fr.wastemart.maven.javaclient.services.ProductList.createProductList(productList);
+        createProductList(productList, UserInstance.getInstance().getTokenValue());
         displayProductLists();
     }
 
@@ -144,7 +143,7 @@ public class ProfessionnalListProductsController extends GenericController {
         refreshSelectedIndices();
 
         if (indexOfProductSelected != -1){
-            deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"));
+            deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue());
         }
 
         displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
@@ -197,7 +196,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
             SharedDetailsProductController controller = loader.getController();
             JSONObject product = products.getJSONObject(indexOfProductSelected);
-            Product productToModify = fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product);
+            Product productToModify = jsonToProduct(product);
 
             controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
 
@@ -221,14 +220,7 @@ public class ProfessionnalListProductsController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
 
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
 }

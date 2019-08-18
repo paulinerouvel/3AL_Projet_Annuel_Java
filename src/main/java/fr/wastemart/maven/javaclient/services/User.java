@@ -10,25 +10,27 @@ public class User {
     public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) {
 
         String json = "{\n" +
-                "\t\"id\": \""+user.getId()+"\",\n" +
-                "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                "\t\"nom\": \""+user.getNom()+"\",\n" +
-                "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                "\t\"mail\":\""+user.getMail()+"\",\n" +
-                "\t\"tel\":\""+user.getTel()+"\",\n" +
-                "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                "\t\"ville\":\""+user.getVille()+"\",\n" +
-                "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                "\t\"estValide\":"+user.getEstValide()+",\n" +
-                "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                "}";
+            "\t\"id\": \""+user.getId()+"\",\n" +
+            "\t\"libelle\" : "+user.getLibelle()+",\n" +
+            "\t\"nom\": "+user.getNom()+",\n" +
+            "\t\"prenom\": "+user.getPrenom()+",\n" +
+            "\t\"mail\":\""+user.getMail()+"\",\n" +
+            "\t\"tel\":\""+user.getTel()+"\",\n" +
+            "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+            "\t\"ville\":\""+user.getVille()+"\",\n" +
+            "\t\"codePostal\":\""+user.getCodePostal()+"\",\n" +
+            "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+            "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+            "\t\"photo\":"+user.getPhoto()+",\n" +
+            "\t\"desc\":"+user.getDesc()+",\n" +
+            "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+            "\t\"estValide\":"+user.getEstValide()+",\n" +
+            "\t\"siret\":"+user.getSiret()+",\n" +
+            "\t\"dateDeNaissance\":"+user.getDateDeNaissance()+",\n" +
+            "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+        "}";
+
+        System.out.println(json);
 
         Integer result;
 
@@ -36,6 +38,7 @@ public class User {
             result = Requester.sendPostRequest("user/register", json, null);
         } catch (Exception e) {
             //Logger.reportError(e);
+            e.printStackTrace();
             result = null;
         }
 
@@ -228,26 +231,26 @@ public class User {
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
         return new fr.wastemart.maven.javaclient.models.User(
-                user.getInt("id"),
-                user.getString("libelle"),
-                user.getInt("categorieUtilisateur"),
-                user.getString("nom"),
-                user.getString("prenom"),
-                user.getString("mail"),
-                user.getString("tel"),
-                user.getString("adresse"),
-                user.getString("ville"),
-                user.getInt("codePostal"),
-                user.getString("pseudo"),
-                user.getString("mdp"),
-                user.isNull("photo") ? null : user.getString("photo"),
-                user.isNull("desc") ? null : user.getString("desc"),
-                user.getInt("tailleOrganisme"),
-                user.getInt("estValide"),
-                user.getString("siret"),
-                user.getString("dateDeNaissance"),
-                //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
-                user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
+            user.getInt("id"),
+            user.getString("libelle"),
+            user.getInt("categorieUtilisateur"),
+            user.getString("nom"),
+            user.getString("prenom"),
+            user.getString("mail"),
+            user.getString("tel"),
+            user.getString("adresse"),
+            user.getString("ville"),
+            user.getInt("codePostal"),
+            user.getString("pseudo"),
+            user.getString("mdp"),
+            user.isNull("photo") ? null : user.getString("photo"),
+            user.isNull("desc") ? null : user.getString("desc"),
+            user.getInt("tailleOrganisme"),
+            user.getBoolean("estValide"),
+            user.getString("siret"),
+            user.getString("dateDeNaissance"),
+            //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
+            user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
         );
     }
 

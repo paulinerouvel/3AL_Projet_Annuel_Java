@@ -25,10 +25,7 @@ import java.util.ArrayList;
 import static fr.wastemart.maven.javaclient.pluginmanager.PluginLoader.getPluginsNames;
 
 
-
 public class SharedListPluginsController extends GenericController {
-    private UserInstance instance;
-
     @FXML private TextField pluginPath;
 
     private static String[] localPlugins;
@@ -38,10 +35,9 @@ public class SharedListPluginsController extends GenericController {
     @FXML private ListView<String> onlinePluginsList;
 
 
-    public void init(UserInstance instance) {
+    public void init() {
         try {
             pluginPath.setText("/mnt/externalHDD/ESGI/Matières/Projet_Annuel/3AL_Java/JavaFX/3AL_ClientJavaFX/newJavaFX/JavaFX/src/main/resources/plugins");
-            setInstance(instance);
             fetchInstalledPlugins();
             fetchOnlinePlugins();
 
@@ -173,19 +169,11 @@ public class SharedListPluginsController extends GenericController {
     public void disablePlugin(ActionEvent actionEvent) throws Exception {}
 
     public void reloadPage(ActionEvent actionEvent){
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml", instance);
+        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml", UserInstance.getInstance());
     }
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
-    }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
 }

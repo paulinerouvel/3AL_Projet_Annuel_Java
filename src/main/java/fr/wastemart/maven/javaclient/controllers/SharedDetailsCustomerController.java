@@ -1,17 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import fr.wastemart.maven.javaclient.models.User;
-import fr.wastemart.maven.javaclient.services.UserInstance;
-import static fr.wastemart.maven.javaclient.services.User.fetchUser;
-import static fr.wastemart.maven.javaclient.services.User.jsonToUser;
-import static fr.wastemart.maven.javaclient.services.User.*;
-
 import org.json.JSONArray;
+
+import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class SharedDetailsCustomerController extends GenericController {
     @FXML
@@ -30,11 +28,9 @@ public class SharedDetailsCustomerController extends GenericController {
 
     private Label info;
     private JSONArray users;
-    private UserInstance instance;
     private Integer idUser;
-    public void init(UserInstance userInstance, Integer idUser) {
+    public void init(Integer idUser) {
         try {
-            setInstance(userInstance);
             setidUser(idUser);
             User userFound = jsonToUser(fetchUser("id", idUser.toString()));
             customerName.setText(userFound.getNom());
@@ -72,12 +68,7 @@ public class SharedDetailsCustomerController extends GenericController {
     }
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
-
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
 
     public void setidUser(Integer idUser) {

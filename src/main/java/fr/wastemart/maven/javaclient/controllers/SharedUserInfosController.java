@@ -1,14 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import fr.wastemart.maven.javaclient.models.User;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
+import static fr.wastemart.maven.javaclient.services.User.updateUser;
 
 public class SharedUserInfosController extends GenericController {
     @FXML
@@ -30,19 +31,14 @@ public class SharedUserInfosController extends GenericController {
     @FXML
     private PasswordField pwField;
 
-    private UserInstance instance;
-
-    public void init(UserInstance instance) {
-
-
+    public void init() {
         try {
-            setInstance(instance);
-            employeeName.setText(instance.getUser().getNom());
-            employeeAddress.setText(instance.getUser().getAdresse());
-            employeeCity.setText(instance.getUser().getVille());
-            employeeEmail.setText(instance.getUser().getMail());
-            employeeNumber.setText(instance.getUser().getTel());
-            employeePostalCode.setText(instance.getUser().getCodePostal().toString());
+            employeeName.setText(UserInstance.getInstance().getUser().getNom());
+            employeeAddress.setText(UserInstance.getInstance().getUser().getAdresse());
+            employeeCity.setText(UserInstance.getInstance().getUser().getVille());
+            employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
+            employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
+            employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
         } catch (Exception e) {
             employeeName.setText("<Error, please disconnect>");
         }
@@ -51,7 +47,7 @@ public class SharedUserInfosController extends GenericController {
     public void save(ActionEvent actionEvent) {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
-            User user = instance.getUser();
+            User user = UserInstance.getInstance().getUser();
             String pwd = pwField.getText();
             user.setVille(employeeCity.getText() == null ? null : employeeCity.getText());
             user.setTel(employeeNumber.getText() == null ? null : employeeNumber.getText());
@@ -65,7 +61,7 @@ public class SharedUserInfosController extends GenericController {
             }
             System.out.println("Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(fr.wastemart.maven.javaclient.services.User.updateUser(instance.getUser()) < 299 && user.getMdp().length() >=2) {
+            if(updateUser(UserInstance.getInstance().getUser()) < 299 && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP
                 info.setText("Modification réussie");
             }
@@ -83,11 +79,7 @@ public class SharedUserInfosController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
 }
 

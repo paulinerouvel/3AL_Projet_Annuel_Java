@@ -17,11 +17,10 @@ import org.json.JSONObject;
 import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Order.fetchOrder;
-import static fr.wastemart.maven.javaclient.services.Order.fetchProductsByOrder;
+import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByOrder;
 
 
 public class AdminListOrdersController extends GenericController {
-    private UserInstance instance;
     private JSONArray orders;
     private JSONArray products;
     private Integer indexOfProductSelected;
@@ -63,7 +62,7 @@ public class AdminListOrdersController extends GenericController {
 
         try {
             ordersTable.getItems().clear();
-            orders = fetchOrder();
+            orders = fetchOrder(UserInstance.getInstance().getTokenValue());
 
             orderId.setCellValueFactory(new PropertyValueFactory<>("id"));
             orderDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -149,15 +148,6 @@ public class AdminListOrdersController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
 }

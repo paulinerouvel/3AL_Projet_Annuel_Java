@@ -9,11 +9,10 @@ import javafx.scene.control.Label;
 public class EmployeeMainController extends GenericController {
     @FXML private Label employeeName;
 
-    public void init(UserInstance instance) {
+    public void init() {
         System.out.println("Init mainEmployee");
         try {
-            setInstance(instance);
-            employeeName.setText(this.instance.getUser().getNom());
+            employeeName.setText(UserInstance.getInstance().getUser().getNom());
         } catch (Exception e) {
             employeeName.setText("<Error, please disconnect>");
         }
@@ -21,41 +20,41 @@ public class EmployeeMainController extends GenericController {
 
     public void displayProfessionnalSuggestion(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/EmployeeListProsSuggestions.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayConsumerSuggestion(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/EmployeeListPrivatesSuggestions.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayWarehouseList(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListWarehouses.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayOrderList(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/AdminListOrders.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayUserList(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/AdminListUsers.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayCustomerDetail(ActionEvent actionEvent, Integer userID) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedDetailsCustomer.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displaySelfUserInfos(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 
     public void displayPlugins(ActionEvent actionEvent) throws Exception {
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
-                instance);
+                UserInstance.getInstance());
     }
 }

@@ -1,5 +1,6 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,7 +9,9 @@ import fr.wastemart.maven.javaclient.models.Product;
 
 import java.time.LocalDate;
 
-public class SharedDetailsProductController extends GenericController { //WIP Where is disaplyMain ?
+import static fr.wastemart.maven.javaclient.services.Product.*;
+
+public class SharedDetailsProductController extends GenericController {
 
     private Integer listId;
     private String operation;
@@ -104,10 +107,10 @@ public class SharedDetailsProductController extends GenericController { //WIP Wh
 
             String result = null;
             if(operation.equals("Add")) {
-                fr.wastemart.maven.javaclient.services.Product.addProductToList(newProduct);
+                addProductToList(newProduct, UserInstance.getInstance().getTokenValue());
 
             } else if(operation.equals("Modify")){
-                fr.wastemart.maven.javaclient.services.Product.updateProduct(newProduct);
+                updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
             }
             info.setText(result);
         }

@@ -17,19 +17,16 @@ import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.Product.fetchProducts;
-import static fr.wastemart.maven.javaclient.services.Product.updateProduct;
-import static fr.wastemart.maven.javaclient.services.ProductList.fetchAllProductListsByUserCategory;
-import static fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
+import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.ProductList.*;
+
 
 public class EmployeeListPrivatesSuggestionsController extends GenericController {
-    private UserInstance instance;
     private JSONArray lists;
     private JSONArray products;
     private Integer indexOfProductSelected;
@@ -78,7 +75,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     private void displayProductLists() {
         listsTable.getItems().clear();
         //lists = services.ProductList.fetchAllProductLists();
-        lists = fetchAllProductListsByUserCategory(3);
+        lists = fetchAllProductListsByUserCategory(3, UserInstance.getInstance().getTokenValue());
 
         listId.setCellValueFactory(new PropertyValueFactory<>("id"));
         listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
@@ -96,7 +93,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     private void displayProducts(Integer id) {
         try {
             productsTable.getItems().clear();
-            products = fetchProducts(id);
+            products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
 
             productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
@@ -169,7 +166,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
                         product.isNull("destinataire") ? -1 : product.getInt("destinataire")
                 );
 
-                updateProduct(productElement);
+                updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -203,7 +200,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
                         product.isNull("destinataire") ? -1 : product.getInt("destinataire")
                 );
 
-                updateProduct(productElement);
+                updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
@@ -218,21 +215,21 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1){
 
             JSONObject list = lists.getJSONObject(indexOfListSelected);
-            ProductList listElement = fr.wastemart.maven.javaclient.services.ProductList.jsonToProductList(list);
+            ProductList listElement = jsonToProductList(list);
 
             ArrayList<Product> productList = new ArrayList<Product>();
             for(int i = 0; i < products.length(); i++) {
                 JSONObject product = products.getJSONObject(i);
-                productList.add(fr.wastemart.maven.javaclient.services.Product.jsonToProduct(product));
+                productList.add(jsonToProduct(product));
             }
 
             // Affecte la liste de produits à un entrepot
-            Integer affectProductListToWarehouseRes = fr.wastemart.maven.javaclient.services.ProductList.affectProductListToWarehouse(productList, instance.getUser().getVille());
+            Integer affectProductListToWarehouseRes = affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue());
 
             if(affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299){ // Erreur
                 listElement.setEstArchive(1);
                 listElement.setDate(LocalDate.now());
-                fr.wastemart.maven.javaclient.services.ProductList.updateProductList(listElement);
+                updateProductList(listElement, UserInstance.getInstance().getTokenValue());
             }
         }
         displayProductLists();
@@ -320,15 +317,6 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
 }

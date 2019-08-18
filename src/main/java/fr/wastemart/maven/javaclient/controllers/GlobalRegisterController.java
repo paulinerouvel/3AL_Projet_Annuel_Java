@@ -1,5 +1,6 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -8,14 +9,14 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import fr.wastemart.maven.javaclient.models.User;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
 import java.io.File;
 import java.time.LocalDate;
 
+import static fr.wastemart.maven.javaclient.services.User.createUser;
+import static fr.wastemart.maven.javaclient.services.User.initNewUser;
+
 public class GlobalRegisterController extends GenericController {
-    private UserInstance instance = new UserInstance();
     private Object[] registerFields;
     private Integer registerFieldsLength = 10;
     @FXML private Label info;
@@ -88,27 +89,27 @@ public class GlobalRegisterController extends GenericController {
         if(indexFieldVerif == -1) {
 
             Integer userCategory = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
-                    userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 5;
+                userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 5;
 
             User user = new User(-1,
-            userType.getSelectionModel().getSelectedItem(),
-            userCategory,
-            nom.getText(),
-            prenom.getText(),
-            mail.getText(),
-            tel.getText(),
-            adresse.getText(),
-            ville.getText(),
-            codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0,
-            pseudo.getText(),
-            mdp.getText(),
-            photo.getText().isEmpty() ? null : uploadPicture(photo.getText()),
-            description.getText().isEmpty() ? null : description.getText(),
-            (userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? 0 : Integer.valueOf(tailleOrganisme.getText()),
-            0,
-            (userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "null" : siret.getText(),
-            dateNaissance.getValue().toString(),
-            0
+                userType.getSelectionModel().getSelectedItem(),
+                userCategory,
+                nom.getText(),
+                prenom.getText(),
+                mail.getText(),
+                tel.getText(),
+                adresse.getText(),
+                ville.getText(),
+                codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0,
+                pseudo.getText(),
+                mdp.getText(),
+                uploadPicture(photo.getText()),
+                description.getText(),
+                (userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? null : Integer.valueOf(tailleOrganisme.getText()),
+                false,
+                (userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "" : siret.getText(),
+                dateNaissance.getValue().toString(),
+                0
             );
 
             if(userType.getSelectionModel().getSelectedIndex() != 0) {
@@ -116,14 +117,14 @@ public class GlobalRegisterController extends GenericController {
 
             }
             user.setNbPointsSourire(0);
-            user.setEstValide(0);
+            user.setEstValide(false);
 
-            Integer saveResult = fr.wastemart.maven.javaclient.services.User.createUser(user);
+            Integer saveResult = createUser(user);
             if(saveResult > 299) {
                 info.setText("Demande d'inscription échouée : "+ saveResult);
             }
 
-            Integer addCategoryResult = fr.wastemart.maven.javaclient.services.User.initNewUser(mail.getText(), userCategory);
+            Integer addCategoryResult = initNewUser(mail.getText(), userCategory);
             if(addCategoryResult < 299){
                 info.setText("Demande d'inscription faite");
             } else {

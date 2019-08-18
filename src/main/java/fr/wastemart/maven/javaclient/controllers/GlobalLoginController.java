@@ -11,27 +11,24 @@ import org.json.JSONObject;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
 public class GlobalLoginController extends GenericController {
-    private UserInstance userInstance;
-
     @FXML public TextField login;
     @FXML public PasswordField password;
     @FXML public TextArea connectionStatus;
 
-    public void init(UserInstance instance, String data) {
+    public void init(String data) {
         connectionStatus.setText(data);
     }
 
     public void authenticate(ActionEvent actionEvent) {
         connectionStatus.setText("Trying to connect...");
-        userInstance = new UserInstance();
         new Thread(() -> {
-            //JSONObject token = userInstance.login(login.getText(), password.getText());
+            JSONObject token = UserInstance.getInstance().login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
-                StageManager.getInstance().loadPage(actionEvent,
+                /*StageManager.getInstance().loadPage(actionEvent,
                         "/fr.wastemart.maven.javaclient/views/EmployeeMain.fxml",
-                        userInstance);
-                //processLoginAttempt(token, actionEvent); // TODO WIP uncomment
+                        UserInstance.getInstance());*/
+                processLoginAttempt(token, actionEvent); // TODO WIP uncomment
             });
         }).start();
     }
@@ -46,13 +43,13 @@ public class GlobalLoginController extends GenericController {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
-            userInstance.setToken(token);
+            UserInstance.getInstance().setToken(token);
 
-            if(userInstance.tokenIsValid()) {
-                userInstance.initUser();
-                userInstance.setConnected(true);
+            if(UserInstance.getInstance().tokenIsValid()) {
+                UserInstance.getInstance().initUser();
+                UserInstance.getInstance().setConnected(true);
 
-                StageManager.getInstance().displayMainPage(userInstance, actionEvent);
+                StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
 
             }
             else {

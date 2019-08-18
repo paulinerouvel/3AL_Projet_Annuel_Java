@@ -17,25 +17,23 @@ public class User {
     private Integer codePostal;
     private String pseudo;
     private String mdp;
-
     private String photo;
     private String desc;
     private Integer tailleOrganisme;
-    private Integer estValide;
+    private Boolean estValide;
     private String siret;
-    private LocalDate dateDeNaissance;
+    private String dateDeNaissance;
     private Integer nbPointsSourire;
-
 
     public User(Integer id, String libelle, Integer categorieUtilisateur, String nom, String prenom, String mail,
                 String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo,
-                String desc, Integer tailleOrganisme, Integer estValide, String siret, String dateDeNaissance,
+                String desc, Integer tailleOrganisme, Boolean estValide, String siret, String dateDeNaissance,
                 Integer nbPointsSourire) {
         this.id = id;
-        this.libelle = libelle;
+        this.libelle = libelle.isEmpty() ? null : "\""+libelle+"\"";
         this.categorieUtilisateur = categorieUtilisateur;
-        this.nom = nom;
-        this.prenom = prenom;
+        this.nom = nom.isEmpty() ? null : "\""+nom+"\"";
+        this.prenom = prenom.isEmpty() ? null : "\""+prenom+"\"";
         this.mail = mail;
         this.tel = tel;
         this.adresse = adresse;
@@ -43,17 +41,25 @@ public class User {
         this.codePostal = codePostal;
         this.pseudo = pseudo;
         this.mdp = mdp;
-        this.photo = photo;
-        this.desc = desc;
-        this.tailleOrganisme = tailleOrganisme;
+        this.photo = photo.isEmpty() ? null : "\""+photo+"\"";
+        this.desc = desc.isEmpty() ? null : "\""+desc+"\"";
+        this.tailleOrganisme = tailleOrganisme; // nullable
         this.estValide = estValide;
-        this.siret = siret;
-        this.dateDeNaissance = dateDeNaissance.equals("") ? null : dateDeNaissance.length() > 16 ?
-                LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")) :
-                dateDeNaissance.length() > 10 ?
-                        LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) :
-                        LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.nbPointsSourire = nbPointsSourire;
+        this.siret = siret.isEmpty() ? null : "\""+siret+"\"";
+        this.dateDeNaissance = dateDeNaissance.equals("") ? null : "\""+dateToString(dateDeNaissance)+"\"";
+        this.nbPointsSourire = nbPointsSourire; // nullable
+    }
+
+    private String dateToString(String dateDeNaissance){
+        if (dateDeNaissance.length() > 16){
+            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")).toString();
+        }
+        else if (dateDeNaissance.length() > 10){
+            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")).toString();
+        }
+        else {
+            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+        }
     }
 
     public Integer getId() {
@@ -168,11 +174,11 @@ public class User {
         this.tailleOrganisme = tailleOrganisme;
     }
 
-    public Integer getEstValide() {
+    public Boolean getEstValide() {
         return estValide;
     }
 
-    public void setEstValide(Integer estValide) {
+    public void setEstValide(Boolean estValide) {
         this.estValide = estValide;
     }
 
@@ -184,11 +190,11 @@ public class User {
         this.siret = siret;
     }
 
-    public LocalDate getDateDeNaissance() {
+    public String getDateDeNaissance() {
         return dateDeNaissance;
     }
 
-    public void setDateDeNaissance(LocalDate dateDeNaissance) {
+    public void setDateDeNaissance(String dateDeNaissance) {
         this.dateDeNaissance = dateDeNaissance;
     }
 

@@ -26,13 +26,11 @@ import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse
 
 
 public class SharedListWarehousesController extends GenericController {
-    private UserInstance instance;
     private JSONArray warehouses;
     private JSONArray products;
     private Integer indexOfProductSelected;
     private Integer indexOfListSelected;
     private Integer swapIdWarehouse;
-
 
     // warehouse
     @FXML TableView<Warehouse> warehouseTable;
@@ -58,15 +56,9 @@ public class SharedListWarehousesController extends GenericController {
     Label saveLabel;
 
     public void init(){
-
-        try{
-            displayWarehouseLists();
-            displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"));
-            warehouseTable.getSelectionModel().selectFirst();
-        }
-        catch (Exception ex) {
-            System.out.println("Problème init" + ex);
-        }
+        displayWarehouseLists();
+        displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"));
+        warehouseTable.getSelectionModel().selectFirst();
     }
 
     private void displayWarehouseLists() {
@@ -110,9 +102,7 @@ public class SharedListWarehousesController extends GenericController {
             System.out.println("Pb avec displayWarehouseList" + ex);
         }
 
-
     }
-
 
     private void displayProductsByWarehouse(Integer id) {
         try {
@@ -159,8 +149,6 @@ public class SharedListWarehousesController extends GenericController {
 
     }
 
-
-
     @FXML
     public void clickItem(MouseEvent event) {
         refreshSelectedIndices();
@@ -197,15 +185,6 @@ public class SharedListWarehousesController extends GenericController {
 
     // Return button
     public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(instance, actionEvent);
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
     }
-
-    public UserInstance getInstance() {
-        return instance;
-    }
-
-    public void setInstance(UserInstance instance) {
-        this.instance = instance;
-    }
-
 }
