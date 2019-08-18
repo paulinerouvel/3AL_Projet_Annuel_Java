@@ -55,7 +55,7 @@ public class AdminListUsersController extends GenericController {
 
         try {
             userCategoryTable.getItems().clear();
-            lists = fr.wastemart.maven.javaclient.services.UserCategories.fetchCategories();
+            lists = fr.wastemart.maven.javaclient.services.User.fetchCategories();
 
 
 

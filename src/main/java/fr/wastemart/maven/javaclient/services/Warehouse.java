@@ -10,24 +10,30 @@ public class Warehouse {
 
     // GET all warehouses
     public static JSONArray fetchAllWarehouse() {
-        JSONArray result = Requester.sendGetRequest("warehouse/");
+        JSONArray result = null;
+        try {
+            result = Requester.sendGetRequest("warehouse/", null);
 
-        for(int i = 0; i < result.length(); i++) {
-            if (result.getJSONObject(i).isNull("libelle")) {
-                result.getJSONObject(i).put("libelle", "");
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("libelle")) {
+                    result.getJSONObject(i).put("libelle", "");
+                }
+                if (result.getJSONObject(i).isNull("adresse")) {
+                    result.getJSONObject(i).put("adresse", "Adresse non renseignée");
+                }
+                if (result.getJSONObject(i).isNull("ville")) {
+                    result.getJSONObject(i).put("ville", "Ville non renseignée");
+                }
+                if (result.getJSONObject(i).isNull("codePostal")) {
+                    result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
+                }
+                if(result.getJSONObject(i).isNull("photo")) {
+                    result.getJSONObject(i).put("photo", "");
+                }
             }
-            if (result.getJSONObject(i).isNull("adresse")) {
-                result.getJSONObject(i).put("adresse", "Adresse non renseignée");
-            }
-            if (result.getJSONObject(i).isNull("ville")) {
-                result.getJSONObject(i).put("ville", "Ville non renseignée");
-            }
-            if (result.getJSONObject(i).isNull("codePostal")) {
-                result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
-            }
-            if(result.getJSONObject(i).isNull("photo")) {
-                result.getJSONObject(i).put("photo", "");
-            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
         }
 
         return result;
@@ -35,15 +41,23 @@ public class Warehouse {
 
     // GET Warehouse by City name
     public static JSONObject fetchWarehouseByCity(String city) {
-        // TODO Test if it works, supposed to return JSONObject
-        return Requester.sendGetRequest("warehouse/?city=" + city).getJSONObject(0);
+        JSONObject result;
+        try {
+            result = Requester.sendGetRequest("warehouse/?city=" + city, null).getJSONObject(0);
+            // TODO Test if it works, supposed to return JSONObject
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
 
         // --- PUT --- //
 
     // PUT a Warehouse (update)
-    public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse) {
+    public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse, String token) {
         String json =
                 "{\n" +
                         "\t\"id\": "+warehouse.getId()+",\n" +
@@ -57,20 +71,16 @@ public class Warehouse {
                         "\t\"placeLibre\":"+warehouse.getPlaceLibre()+"\n" +
                         "}";
 
-        return Requester.sendPutRequest("warehouse/", json);
+        Integer result;
+        try {
+            result = Requester.sendPutRequest("warehouse/", json, token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
-
-    // PUT the Warehouse of a Product (update)
-    public static Integer updateProductWarehouse(Integer idProduct, Integer idWarehouse) {
-        String json =
-                "{\n" +
-                        "\t\"idProduct\": "+idProduct+",\n" +
-                        "\t\"idWarehouse\" : "+idWarehouse+"\n" +
-                        "}";
-
-        return Requester.sendPutRequest("product/warehouse/", json);
-    }
-
 
     // --- DELETE ---//
 

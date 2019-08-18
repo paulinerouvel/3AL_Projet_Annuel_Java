@@ -23,7 +23,6 @@ import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
-import static fr.wastemart.maven.javaclient.services.Warehouse.updateProductWarehouse;
 
 
 public class SharedListWarehousesController extends GenericController {
@@ -176,7 +175,7 @@ public class SharedListWarehousesController extends GenericController {
         // UPDATE entrepot du produit
         if(swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
             //update du produit + rechargement
-            updateProductWarehouse(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse);
+            //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
             init();
             saveLabel.setTextFill(Color.web("#008000", 1));
             saveLabel.setText("Enregistrement validé :)");

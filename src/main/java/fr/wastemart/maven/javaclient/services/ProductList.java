@@ -10,7 +10,9 @@ public class ProductList {
         // --- POST --- //
 
     // POST a new list
-    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList) {
+    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList, String token) {
+        Integer result;
+
         String json = "{\n" +
                 "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
                 "\t\"date\":\""+productList.getDate()+"\",\n" +
@@ -18,32 +20,89 @@ public class ProductList {
                 "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
                 "}";
 
-        return Requester.sendPostRequest("list/", json);
+        try {
+            result = Requester.sendPostRequest("list/", json, token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
 
         // --- GET --- //
 
     // GET all lists of User
-    public static JSONArray fetchProductLists(Integer idUser) {
-        return Requester.sendGetRequest("list/?idUser=" + idUser);
+    public static JSONArray fetchProductLists(Integer idUser, String token) {
+        JSONArray result;
+
+        try {
+            result = Requester.sendGetRequest("list/?idUser=" + idUser, token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
     // GET all lists
-    public static JSONArray fetchAllProductLists() {
-        return Requester.sendGetRequest("list/");
+    public static JSONArray fetchAllProductLists(String token) {
+        JSONArray result;
+
+        try {
+            result = Requester.sendGetRequest("list/", token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
     // GET all lists by user category
-    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory) {
-        return Requester.sendGetRequest("list/?idUserCategory="+idUserCategory);
+    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory, String token) {
+        JSONArray result;
+
+        try {
+            result = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
+    }
+
+    // GET all the products in a list
+    public static JSONArray fetchProducts(Integer idList, String token){
+        JSONArray result;
+
+        try {
+            result = Requester.sendGetRequest("list/products?id=" + idList, token);
+
+            for(int i = 0; i < result.length(); i++) {
+                if (result.getJSONObject(i).isNull("enRayon")) {
+                    result.getJSONObject(i).put("enRayon", "0");
+                }
+            }
+
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
 
         // --- PUT --- //
 
     // PUT a list (update)
-    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list) {
+    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list, String token) {
+        Integer result;
+
         String json = "{\n" +
                 "\t\"id\": "+list.getId()+",\n" +
                 "\t\"libelle\" : \""+list.getLibelle()+"\",\n" +
@@ -52,24 +111,40 @@ public class ProductList {
                 "\t\"estArchive\":"+list.getEstArchive()+"\n" +
                 "}";
 
-        return Requester.sendPutRequest("list/", json);
+        try {
+            result = Requester.sendPutRequest("list/", json, token);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
+        }
+
+        return result;
     }
 
 
         // --- DELETE ---//
 
     // DELETE a list of products
-    public static Integer removeProductsList(Integer listId){
+    public static Integer removeProductsList(Integer listId, String token){
         Integer deleteProductsInList = fr.wastemart.maven.javaclient.services.Product.deleteProductsInList(listId);
         if(deleteProductsInList == 1){
-            return Requester.sendDeleteRequest("list/?id=" + listId);
+            Integer result;
+
+            try {
+                result = Requester.sendDeleteRequest("list/?id=" + listId, token);
+            } catch (Exception e) {
+                //Logger.reportError(e);
+                result = null;
+            }
+
+            return result;
         }
         return 0;
     }
 
 
     // Affects a list of product to a Warehouse
-    public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city) {
+    public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) {
         Integer processed = 0;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
             if (product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
@@ -83,7 +158,7 @@ public class ProductList {
             }
         }
 
-        return affectProductToReceiver(productList, processed);
+        return affectProductToReceiver(productList, processed, token);
     }
 
     // Affect one product to a Warehouse
@@ -115,7 +190,7 @@ public class ProductList {
     }
 
     // Affect one product to a Receiver
-    public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size){
+    public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token){
         Integer count = 0;
         Integer productUpdateRes = 600;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
@@ -126,7 +201,7 @@ public class ProductList {
                 } else {
                     product.setDestinataire(1);
                 }
-                productUpdateRes = Product.updateProduct(product);
+                productUpdateRes = Product.updateProduct(product, token);
             }
         }
 
