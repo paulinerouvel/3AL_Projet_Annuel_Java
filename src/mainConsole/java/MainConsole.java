@@ -21,11 +21,11 @@ public class MainConsole {
         System.out.println("Enter password :");
         String password = myObj.nextLine();  // Read user input
 
-        userInstance = new UserInstance();
+        //userInstance = new UserInstance();
 
-        JSONObject token = userInstance.login(userName, password);
+        //JSONObject token = userInstance.login(userName, password);
 
-        processLoginAttempt(token);
+        //processLoginAttempt(token);  //TODO
     }
 
     private static void processLoginAttempt(JSONObject token){

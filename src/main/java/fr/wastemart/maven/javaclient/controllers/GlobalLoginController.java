@@ -1,5 +1,6 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.HttpResponse;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,28 +23,28 @@ public class GlobalLoginController extends GenericController {
     public void authenticate(ActionEvent actionEvent) {
         connectionStatus.setText("Trying to connect...");
         new Thread(() -> {
-            JSONObject token = UserInstance.getInstance().login(login.getText(), password.getText());
+            HttpResponse loginResponse = UserInstance.getInstance().login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
                 /*StageManager.getInstance().loadPage(actionEvent,
                         "/fr.wastemart.maven.javaclient/views/EmployeeMain.fxml",
                         UserInstance.getInstance());*/
-                processLoginAttempt(token, actionEvent); // TODO WIP uncomment
+                processLoginAttempt(loginResponse, actionEvent);
             });
         }).start();
     }
 
-    public void processLoginAttempt(JSONObject token, ActionEvent actionEvent){
-        if(token.has("error")){
-            if(token.getInt("error") == 503){
+    public void processLoginAttempt(HttpResponse loginResponse, ActionEvent actionEvent){
+        if(loginResponse.getResponseCode() > 299){
+            if(loginResponse.getResponseCode() == 503){
                 connectionStatus.setText("Timeout");
-            } else if(token.getInt("error") == 400){
+            } else if(loginResponse.getResponseCode() == 400){
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");
             } else {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
-            UserInstance.getInstance().setToken(token);
+            UserInstance.getInstance().setToken(loginResponse.getJSONObject());
 
             if(UserInstance.getInstance().tokenIsValid()) {
                 UserInstance.getInstance().initUser();

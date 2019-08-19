@@ -60,54 +60,18 @@ public class UserInstance {
     }
 
     // Login (Post)
-    public JSONObject login(String login, String password){
-        HttpURLConnection http = null;
-        CloseableHttpClient client = null;
+    public HttpResponse login(String login, String password){
+        HttpResponse result;
+        String json =  "{\"mail\":\""+ login +"\",\"mdp\":\""+ password +"\"}";
+
         try {
-            // Form url and json for login
-            URL url = new URL("https://wastemart-api.herokuapp.com/user/login");
-            String jsonBody =  "{\"mail\":\""+ login +"\",\"mdp\":\""+ password +"\"}";
-            byte[] out = jsonBody.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
-
-            // Instantiate connection
-            URLConnection con = url.openConnection();
-            con.setDoOutput(true);
-            http = (HttpURLConnection) con;
-
-            // Form request, connect and send json
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-
-            // Get the input stream returned
-            BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
-            String inputLine;
-            StringBuilder buffReader = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                buffReader.append(inputLine);
-            }
-            in.close();
-
-            // Form returned token and verify it
-            return new JSONObject(buffReader.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            try {
-                if (http != null && http.getResponseCode() > 299) {
-                    return new JSONObject("{\"error\":" + http.getResponseCode() + "}");
-                } else {
-                    return new JSONObject("{\"error\":\"internal\"}");
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return new JSONObject("{\"error\":\"internal\"}");
-            }
+            result = Requester.sendPostRequest("user/login", json, null);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            result = null;
         }
+
+        return result;
     }
 
 

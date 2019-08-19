@@ -21,7 +21,7 @@ public class ProductList {
                 "}";
 
         try {
-            result = Requester.sendPostRequest("list/", json, token);
+            result = Requester.sendPostRequest("list/", json, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -38,7 +38,7 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("list/?idUser=" + idUser, token);
+            result = new JSONArray(Requester.sendGetRequest("list/?idUser=" + idUser, token));
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -52,7 +52,7 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("list/", token);
+            result = new JSONArray(Requester.sendGetRequest("list/", token));
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -66,7 +66,7 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
+            result = new JSONArray(Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token));
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -80,7 +80,7 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("list/products?id=" + idList, token);
+            result = new JSONArray(Requester.sendGetRequest("list/products?id=" + idList, token));
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("enRayon")) {
@@ -112,7 +112,7 @@ public class ProductList {
                 "}";
 
         try {
-            result = Requester.sendPutRequest("list/", json, token);
+            result = Requester.sendPutRequest("list/", json, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -131,7 +131,7 @@ public class ProductList {
             Integer result;
 
             try {
-                result = Requester.sendDeleteRequest("list/?id=" + listId, token);
+                result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
             } catch (Exception e) {
                 //Logger.reportError(e);
                 result = null;

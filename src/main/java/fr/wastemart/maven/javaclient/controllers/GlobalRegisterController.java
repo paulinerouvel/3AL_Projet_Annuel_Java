@@ -57,7 +57,7 @@ public class GlobalRegisterController extends GenericController {
         registerFields[13] = siret;
         registerFields[14] = tailleOrganisme;
 
-        clearFields(registerFields);
+        //clearFields(registerFields);
         userType.getSelectionModel().selectFirst();
 
         userType.setTooltip(new Tooltip("Sélectionnez le type d'utilisateur"));
@@ -128,7 +128,7 @@ public class GlobalRegisterController extends GenericController {
             if(addCategoryResult < 299){
                 info.setText("Demande d'inscription faite");
             } else {
-                info.setText("Demande d'inscription échouée : "+ saveResult);
+                info.setText("Demande d'inscription échouée, retour ajout catégorie : "+ addCategoryResult);
             }
 
             clearFields(registerFields);

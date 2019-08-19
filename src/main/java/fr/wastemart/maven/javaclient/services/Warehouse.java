@@ -12,7 +12,7 @@ public class Warehouse {
     public static JSONArray fetchAllWarehouse() {
         JSONArray result = null;
         try {
-            result = Requester.sendGetRequest("warehouse/", null);
+            result = new JSONArray(Requester.sendGetRequest("warehouse/", null));
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("libelle")) {
@@ -43,7 +43,7 @@ public class Warehouse {
     public static JSONObject fetchWarehouseByCity(String city) {
         JSONObject result;
         try {
-            result = Requester.sendGetRequest("warehouse/?city=" + city, null).getJSONObject(0);
+            result = new JSONObject(Requester.sendGetRequest("warehouse/?city=" + city, null));
             // TODO Test if it works, supposed to return JSONObject
         } catch (Exception e) {
             //Logger.reportError(e);
@@ -73,7 +73,7 @@ public class Warehouse {
 
         Integer result;
         try {
-            result = Requester.sendPutRequest("warehouse/", json, token);
+            result = Requester.sendPutRequest("warehouse/", json, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;

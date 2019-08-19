@@ -15,7 +15,7 @@ public class Order {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("order/", token);
+            result = new JSONArray(Requester.sendGetRequest("order/", token));
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;

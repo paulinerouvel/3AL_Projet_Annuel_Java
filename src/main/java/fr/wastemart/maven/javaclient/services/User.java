@@ -35,7 +35,7 @@ public class User {
         Integer result;
 
         try {
-            result = Requester.sendPostRequest("user/register", json, null);
+            result = Requester.sendPostRequest("user/register", json, null).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class User {
 
         Integer result;
         try {
-            result = Requester.sendPostRequest("user/category", json, null);
+            result = Requester.sendPostRequest("user/category", json, null).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -76,7 +76,7 @@ public class User {
 
         Integer result;
         try {
-            result = Requester.sendPostRequest("mail", json, null);
+            result = Requester.sendPostRequest("mail", json, null).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -99,7 +99,9 @@ public class User {
 
         JSONObject user;
         try {
-            user = Requester.sendGetRequest(url, null).getJSONObject(0);
+            System.out.println("fetchUser try");
+            user = new JSONObject(Requester.sendGetRequest(url, null));
+            System.out.println("fetchUser user: " + user);
             // TODO Test it, not sure it works (JsonOBJECT was initially returned)
             user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
         } catch (Exception e) {
@@ -114,7 +116,7 @@ public class User {
     public static Integer fetchCategory(Integer userId){
         Integer result;
         try {
-            result = Requester.sendGetRequest("user/category?userId=" + userId, null).getJSONObject(0).getInt("user_category");
+            result = new JSONObject(Requester.sendGetRequest("user/category?userId=" + userId, null)).getInt("user_category");
             // TODO Test : Initially return Integer.valueOf(content.toString());
         } catch (Exception e) {
             //Logger.reportError(e);
@@ -128,7 +130,7 @@ public class User {
     public static JSONArray fetchCategories() {
         JSONArray result;
         try {
-             result = Requester.sendGetRequest("user/categories", null);
+             result = new JSONArray(Requester.sendGetRequest("user/categories", null));
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -167,7 +169,7 @@ public class User {
 
         Integer result;
         try {
-            result = Requester.sendPutRequest("user/", json, null);
+            result = Requester.sendPutRequest("user/", json, null).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -183,7 +185,7 @@ public class User {
     public static JSONArray fetchAllUsers() {
         JSONArray users;
         try {
-            users = Requester.sendGetRequest("user/", null);
+            users = new JSONArray(Requester.sendGetRequest("user/", null));
 
             for(int i = 0; i < users.length(); i++) {
 
@@ -226,6 +228,7 @@ public class User {
 
     public static Integer initNewUser(String mail, Integer userCategory) {
         JSONObject fetchedUser = fetchUser("mail", mail);
+        System.out.println(fetchedUser);
         return addCategory(fetchedUser.getInt("id"), userCategory);
     }
 

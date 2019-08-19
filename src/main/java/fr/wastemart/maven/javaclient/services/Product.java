@@ -33,7 +33,7 @@ public class Product {
                         "}";
 
         try {
-            result = Requester.sendPostRequest("product/", json, token);
+            result = Requester.sendPostRequest("product/", json, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -50,7 +50,7 @@ public class Product {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null);
+            result = new JSONArray(Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null));
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
@@ -82,7 +82,7 @@ public class Product {
         JSONArray result;
 
         try {
-            result = Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null);
+            result = new JSONArray(Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null));
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
@@ -139,7 +139,7 @@ public class Product {
 
 
         try {
-            result = Requester.sendPutRequest("product/", json, token);
+            result = Requester.sendPutRequest("product/", json, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -155,7 +155,7 @@ public class Product {
     public static Integer deleteProduct(Integer productId, String token){
         Integer result;
         try {
-            result = Requester.sendDeleteRequest("product/?id=" + productId, token);
+            result = Requester.sendDeleteRequest("product/?id=" + productId, token).getResponseCode();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
