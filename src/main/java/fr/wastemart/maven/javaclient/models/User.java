@@ -41,12 +41,12 @@ public class User {
         this.codePostal = codePostal;
         this.pseudo = pseudo;
         this.mdp = mdp;
-        this.photo = photo.isEmpty() ? null : "\""+photo+"\"";
-        this.desc = desc.isEmpty() ? null : "\""+desc+"\"";
+        this.photo = photo == null ? null : "\""+photo+"\"";
+        this.desc = desc == null ? null : "\""+desc+"\"";
         this.tailleOrganisme = tailleOrganisme; // nullable
         this.estValide = estValide;
-        this.siret = siret.isEmpty() ? null : "\""+siret+"\"";
-        this.dateDeNaissance = dateDeNaissance.equals("") ? null : "\""+dateToString(dateDeNaissance)+"\"";
+        this.siret = siret == null ? null : "\""+siret+"\"";
+        this.dateDeNaissance = dateDeNaissance == null ? null : "\""+dateToString(dateDeNaissance)+"\"";
         this.nbPointsSourire = nbPointsSourire; // nullable
     }
 

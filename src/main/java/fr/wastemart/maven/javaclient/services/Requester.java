@@ -75,15 +75,11 @@ class Requester {
         Reader streamReader = null;
         int status = con.getResponseCode();
 
-        System.out.println("Get status: "+ status);
+        System.out.println("(readResponse) Get status: "+ status);
 
         if (status > 299) {
-            if(con.getErrorStream() != null) {
-                new InputStreamReader(con.getErrorStream());
-            } else {
-                return new HttpResponse(status, null);
-                //Logger.reportMessage("Response code : "+status);
-            }
+            return new HttpResponse(status, null);
+            //Logger.reportMessage("Response code : "+status);
         } else {
             streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
         }
@@ -101,14 +97,14 @@ class Requester {
         in.close();
         con.disconnect();
 
-        System.out.println("Response : ");
+        System.out.println("(readResponse) Data Response : ");
         System.out.println(httpResponse.toString());
 
         return httpResponse;
     }
 
     private static void sendJson(HttpURLConnection con, String json) throws Exception {
-        System.out.println("About to send : " + json);
+        System.out.println("(sendJson) About to send : " + json);
         // Form request, connect and send json
         byte[] output = json.getBytes(StandardCharsets.UTF_8);
         int length = output.length;

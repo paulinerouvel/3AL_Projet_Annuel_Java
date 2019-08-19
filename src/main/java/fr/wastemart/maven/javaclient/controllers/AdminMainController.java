@@ -19,7 +19,8 @@ public class AdminMainController extends GenericController {
 
     public void displayProducts(ActionEvent actionEvent) throws Exception {}
 
-    public void displayUsers(ActionEvent actionEvent) throws Exception {
+    public void displayUsers(ActionEvent actionEvent) {
+        
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/AdminListUsers.fxml",
                 UserInstance.getInstance());
     }

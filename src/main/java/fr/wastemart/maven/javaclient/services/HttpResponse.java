@@ -13,7 +13,7 @@ public class HttpResponse {
     }
 
     public String toString() {
-        return data + "," + responseCode;
+        return responseCode + "," + data;
     }
 
     public Integer getResponseCode() {

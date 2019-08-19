@@ -30,8 +30,6 @@ public class User {
             "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
         "}";
 
-        System.out.println(json);
-
         Integer result;
 
         try {
@@ -101,29 +99,35 @@ public class User {
         try {
             HttpResponse response = Requester.sendGetRequest(url, null);
             user = response.getDataAsJSONObject();
-
-            System.out.println("fetchUser user: " + user);
             // TODO Test it, not sure it works (JsonOBJECT was initially returned)
+
             user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
         } catch (Exception e) {
             //Logger.reportError(e);
             user = null;
         }
 
+        System.out.println("(User.fetchUser) Final user : ");
+        System.out.println(user);
+
         return user;
     }
 
     // GET user Category
-    public static Integer fetchCategory(Integer userId){
-        Integer result;
+    public static String fetchCategory(Integer userId){
+        String result;
         try {
+            System.out.println("(User.fetchCategory) About to ask Category of user");
             HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
-            result = response.getDataAsJSONObject().getInt("user_category");
+            result = response.getData();
             // TODO Test : Initially return Integer.valueOf(content.toString());
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
         }
+
+        System.out.println("(User.fetchCategory) Category of user : ");
+        System.out.println(result);
 
         return result;
     }
@@ -193,7 +197,8 @@ public class User {
 
             for(int i = 0; i < users.length(); i++) {
 
-                Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
+                //Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
+                Integer categorieUtilisateur = 5;
 
                 users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
 
@@ -232,7 +237,6 @@ public class User {
 
     public static Integer initNewUser(String mail, Integer userCategory) {
         JSONObject fetchedUser = fetchUser("mail", mail);
-        System.out.println(fetchedUser);
         return addCategory(fetchedUser.getInt("id"), userCategory);
     }
 
@@ -253,8 +257,8 @@ public class User {
             user.isNull("photo") ? null : user.getString("photo"),
             user.isNull("desc") ? null : user.getString("desc"),
             user.getInt("tailleOrganisme"),
-            user.getBoolean("estValide"),
-            user.getString("siret"),
+                user.getInt("estValide") == 1,
+            user.isNull("siret") ? null : user.getString("siret"),
             user.getString("dateDeNaissance"),
             //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
             user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")

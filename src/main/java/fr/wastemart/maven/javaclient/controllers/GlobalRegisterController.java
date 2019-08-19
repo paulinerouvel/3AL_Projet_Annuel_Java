@@ -58,6 +58,7 @@ public class GlobalRegisterController extends GenericController {
         registerFields[14] = tailleOrganisme;
 
         //clearFields(registerFields);
+        ((DatePicker)registerFields[7]).setValue(LocalDate.of(1998,10,13));
         userType.getSelectionModel().selectFirst();
 
         userType.setTooltip(new Tooltip("Sélectionnez le type d'utilisateur"));
@@ -144,16 +145,16 @@ public class GlobalRegisterController extends GenericController {
         }
     }
 
-    private Integer areTextFieldsValid(Object[] registerFields)  {
+    private Integer areTextFieldsValid(Object[] registerFields) {
         for (int i = 0; i < registerFieldsLength; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
-            if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()){
+            if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
-            }else if(registerFieldClassType == DatePicker.class && ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty()){
+            } else if(registerFieldClassType == DatePicker.class && ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty()) {
                 return i;
-            }else if(registerFieldClassType == PasswordField.class && ((PasswordField)registerFields[i]).getText().trim().isEmpty()){
+            } else if(registerFieldClassType == PasswordField.class && ((PasswordField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
-            }else if(registerFieldClassType == ChoiceBox.class && ((ChoiceBox)registerFields[i]).getSelectionModel().getSelectedIndex() == 3){
+            } else if(registerFieldClassType == ChoiceBox.class && ((ChoiceBox)registerFields[i]).getSelectionModel().getSelectedIndex() == 3) {
                 return i;
             }
         }
@@ -163,13 +164,11 @@ public class GlobalRegisterController extends GenericController {
     private void clearFields(Object[] registerFields) {
         for (int i = 0; i < registerFieldsLength; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
-            if(registerFieldClassType == TextField.class){
+            if(registerFieldClassType == TextField.class) {
                 ((TextField)registerFields[i]).clear();
-            }else if(registerFieldClassType == DatePicker.class){
-                ((DatePicker)registerFields[i]).setValue(LocalDate.of(2000,01,01));
-            }else if(registerFieldClassType == PasswordField.class){
+            } else if(registerFieldClassType == PasswordField.class) {
                 ((PasswordField)registerFields[i]).clear();
-            }else if(registerFieldClassType == ChoiceBox.class){
+            } else if(registerFieldClassType == ChoiceBox.class) {
                 ((ChoiceBox)registerFields[i]).getSelectionModel().selectFirst();
             }
         }

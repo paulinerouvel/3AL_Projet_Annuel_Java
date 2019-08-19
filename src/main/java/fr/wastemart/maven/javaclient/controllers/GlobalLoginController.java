@@ -37,8 +37,10 @@ public class GlobalLoginController extends GenericController {
         if(loginResponse.getResponseCode() > 299){
             if(loginResponse.getResponseCode() == 503){
                 connectionStatus.setText("Timeout");
-            } else if(loginResponse.getResponseCode() == 400){
+            } else if(loginResponse.getResponseCode() == 400) {
                 connectionStatus.setText("Identifiant ou mot de passe incorrect");
+            } else if(loginResponse.getResponseCode() == 401) {
+                connectionStatus.setText("Cet utilisateur n'existe pas ou n'est pas activé");
             } else {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
