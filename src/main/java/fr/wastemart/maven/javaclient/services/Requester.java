@@ -108,6 +108,7 @@ class Requester {
     }
 
     private static void sendJson(HttpURLConnection con, String json) throws Exception {
+        System.out.println("About to send : " + json);
         // Form request, connect and send json
         byte[] output = json.getBytes(StandardCharsets.UTF_8);
         int length = output.length;

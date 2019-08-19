@@ -38,7 +38,8 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("list/?idUser=" + idUser, token));
+            HttpResponse response = Requester.sendGetRequest("list/?idUser=" + idUser, token);
+            result = response.getDataAsJSONArray();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -52,7 +53,8 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("list/", token));
+            HttpResponse response = Requester.sendGetRequest("list/", token);
+            result = response.getDataAsJSONArray();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -66,7 +68,8 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token));
+            HttpResponse response = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
+            result = response.getDataAsJSONArray();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -80,7 +83,8 @@ public class ProductList {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("list/products?id=" + idList, token));
+            HttpResponse response = Requester.sendGetRequest("list/products?id=" + idList, token);
+            result = response.getDataAsJSONArray();
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("enRayon")) {

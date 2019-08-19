@@ -24,11 +24,11 @@ public class HttpResponse {
         return data;
     }
 
-    public JSONObject getJSONObject() {
+    public JSONObject getDataAsJSONObject() {
         return new JSONObject(data);
     }
 
-    public JSONArray getJSONArray() {
+    public JSONArray getDataAsJSONArray() {
         return new JSONArray(data);
     }
 

@@ -50,7 +50,8 @@ public class Product {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null));
+            HttpResponse response = Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null);
+            result = response.getDataAsJSONArray();
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
@@ -82,7 +83,8 @@ public class Product {
         JSONArray result;
 
         try {
-            result = new JSONArray(Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null));
+            HttpResponse response = Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null);
+            result = response.getDataAsJSONArray();
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {

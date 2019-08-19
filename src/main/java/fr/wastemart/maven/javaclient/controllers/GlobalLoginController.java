@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import org.json.JSONObject;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 
 public class GlobalLoginController extends GenericController {
@@ -44,7 +43,7 @@ public class GlobalLoginController extends GenericController {
                 connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
-            UserInstance.getInstance().setToken(loginResponse.getJSONObject());
+            UserInstance.getInstance().setToken(loginResponse.getDataAsJSONObject());
 
             if(UserInstance.getInstance().tokenIsValid()) {
                 UserInstance.getInstance().initUser();

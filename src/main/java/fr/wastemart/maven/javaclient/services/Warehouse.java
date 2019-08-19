@@ -12,7 +12,8 @@ public class Warehouse {
     public static JSONArray fetchAllWarehouse() {
         JSONArray result = null;
         try {
-            result = new JSONArray(Requester.sendGetRequest("warehouse/", null));
+            HttpResponse response = Requester.sendGetRequest("warehouse/", null);
+            result = response.getDataAsJSONArray();
 
             for(int i = 0; i < result.length(); i++) {
                 if (result.getJSONObject(i).isNull("libelle")) {
@@ -43,7 +44,8 @@ public class Warehouse {
     public static JSONObject fetchWarehouseByCity(String city) {
         JSONObject result;
         try {
-            result = new JSONObject(Requester.sendGetRequest("warehouse/?city=" + city, null));
+            HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
+            result = response.getDataAsJSONObject();
             // TODO Test if it works, supposed to return JSONObject
         } catch (Exception e) {
             //Logger.reportError(e);
@@ -82,8 +84,8 @@ public class Warehouse {
         return result;
     }
 
-    // --- DELETE ---//
 
+    // --- DELETE ---//
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
         return new fr.wastemart.maven.javaclient.models.Warehouse(

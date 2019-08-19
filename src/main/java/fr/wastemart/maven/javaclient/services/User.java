@@ -99,8 +99,9 @@ public class User {
 
         JSONObject user;
         try {
-            System.out.println("fetchUser try");
-            user = new JSONObject(Requester.sendGetRequest(url, null));
+            HttpResponse response = Requester.sendGetRequest(url, null);
+            user = response.getDataAsJSONObject();
+
             System.out.println("fetchUser user: " + user);
             // TODO Test it, not sure it works (JsonOBJECT was initially returned)
             user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
@@ -116,7 +117,8 @@ public class User {
     public static Integer fetchCategory(Integer userId){
         Integer result;
         try {
-            result = new JSONObject(Requester.sendGetRequest("user/category?userId=" + userId, null)).getInt("user_category");
+            HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
+            result = response.getDataAsJSONObject().getInt("user_category");
             // TODO Test : Initially return Integer.valueOf(content.toString());
         } catch (Exception e) {
             //Logger.reportError(e);
@@ -130,7 +132,8 @@ public class User {
     public static JSONArray fetchCategories() {
         JSONArray result;
         try {
-             result = new JSONArray(Requester.sendGetRequest("user/categories", null));
+            HttpResponse response = Requester.sendGetRequest("user/categories", null);
+            result = response.getDataAsJSONArray();
         } catch (Exception e) {
             //Logger.reportError(e);
             result = null;
@@ -185,7 +188,8 @@ public class User {
     public static JSONArray fetchAllUsers() {
         JSONArray users;
         try {
-            users = new JSONArray(Requester.sendGetRequest("user/", null));
+            HttpResponse response = Requester.sendGetRequest("user/", null);
+            users = response.getDataAsJSONArray();
 
             for(int i = 0; i < users.length(); i++) {
 
