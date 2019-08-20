@@ -1,16 +1,17 @@
 package fr.wastemart.maven.javaclient.pluginmanager;
 
-import fr.wastemart.maven.javaclient.pluginmanager.Plugin;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import java.lang.Class;
 
 public class PluginLoader {
 
@@ -30,7 +31,9 @@ public class PluginLoader {
 		final Class<?>[] pluginsClasses = new Class<?>[pluginsList.length];
 
 		for (int i=0; i<pluginsClasses.length; i++){
+
             pluginsClasses[i] = loadClassPlugin(pluginsList[i]);
+            System.out.println("la?"+ pluginsClasses[i]);
         }
 
 
@@ -46,6 +49,9 @@ public class PluginLoader {
 		//instanciation of a jarFile because this is the plugin extension
 		final JarFile jarFile = new JarFile(dir);
 
+		System.out.println(dir);
+		System.out.println(dir.length());
+
 
 		String configPath = "config.cfg"; //each plugin must have this file to be run
 
@@ -53,6 +59,7 @@ public class PluginLoader {
 		final JarEntry entryPoint = jarFile.getJarEntry(configPath);
 
 
+		System.out.println(entryPoint);
 		//read the file specify in the entry point => config file
 		final BufferedReader br = new BufferedReader(new InputStreamReader(jarFile.getInputStream(entryPoint)));
 		
@@ -70,19 +77,16 @@ public class PluginLoader {
 		jarFile.close();
 
 
-		//TODO Menu a changer !
+		//TODO PluginManager a changer !
 		/**Reflexivité ici, on analyse la classe "main" grace à la classe Class*/
 		/**La JVM creer des instances au chargement de la classe*/
 		//For Name : Returns the Class object associated with the class or interface with the given string name, using the given class loader.
 		//CLassLoader : A class loader is an object that is responsible for loading classes.
-		return Class.forName(confTab.get("Menu"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
+        return Class.forName(confTab.get("Main"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
 	}
 
 
 
-	
-
-	
 	public static Plugin[] initAsPlugin(Class<?>[] group) throws InstantiationException, IllegalAccessException {
 		final Plugin[] plugins = new Plugin[group.length];
 		for (int i=0; i<group.length; i++)
@@ -94,15 +98,15 @@ public class PluginLoader {
 		        System.out.println(e);
             }
 
-
+		
 		return plugins;
 	}
 
 
+
+	//get the constructor of the plugin
     public static Plugin initAsPlugin(Class<?> group) throws InstantiationException, IllegalAccessException , Exception{
-
         return (Plugin) group.getDeclaredConstructor().newInstance();
-
     }
 
 
@@ -117,11 +121,6 @@ public class PluginLoader {
 		for (int i=0; i<pluginsList.length; i++){
 			names[i] = pluginsList[i].getAbsolutePath();
 		}
-
-
 		return names;
 	}
-
-
-	
 }

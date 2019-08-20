@@ -1,11 +1,10 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.StageManager;
-import javafx.collections.ObservableList;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -14,31 +13,29 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static fr.wastemart.maven.javaclient.pluginmanager.PluginLoader.getPluginsNames;
+import static fr.wastemart.maven.javaclient.pluginmanager.PluginManager.*;
 
 
 public class SharedListPluginsController extends GenericController {
+    private String pluginURL = "http://51.75.143.205:8080/plugins/";
     @FXML private TextField pluginPath;
 
     private static String[] localPlugins;
-    private static ArrayList<String> onlinePlugins;
+    private static ArrayList<String> onlinePlugins = null;
 
-    @FXML private ListView<String> localPluginsList;
-    @FXML private ListView<String> onlinePluginsList;
+    @FXML private ListView<String> localPluginsListView;
+    @FXML private ListView<String> onlinePluginsListView;
 
-    public void init() throws Exception {
+    public void init() { // Ne throw pas car peut être normal
         pluginPath.setText("");
-        //fetchInstalledPlugins();
-        fetchOnlinePlugins();
+        fetchInstalledPlugins();
+        fetchAvailablePlugins();
     }
 
     public void selectFolder(ActionEvent actionEvent) {
@@ -50,127 +47,137 @@ public class SharedListPluginsController extends GenericController {
 
             if (selectedDirectory != null) {
                 pluginPath.setText(selectedDirectory.getAbsolutePath());
-                System.out.println(selectedDirectory.getAbsolutePath());
             }  // Else No Directory selected
 
             fetchInstalledPlugins();
-            fetchOnlinePlugins();
+            fetchAvailablePlugins();
         } catch (Exception e) {
             //Logger.reportError(e);
             setInfoErrorOccurred();
         }
     }
 
-    public void installPlugin(ActionEvent actionEvent) {
+    public void installSelectedPlugin(ActionEvent actionEvent) {
         try {
-            ObservableList<Integer> selectedIndices = onlinePluginsList.getSelectionModel().getSelectedIndices();
+            setPath(pluginPath.getText());
 
-            if (selectedIndices.get(0) >= 0 && selectedIndices.get(0) < onlinePlugins.size()) {
-                String url = "http://51.75.143.205:8080/plugins/" + onlinePlugins.get(selectedIndices.get(0));
+            Integer selectedIndice = getSelectedIndex(onlinePluginsListView);
 
-                try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-                     FileOutputStream fileOS = new FileOutputStream(pluginPath.getText() + "/" + onlinePlugins.get(selectedIndices.get(0)))) {
-                    //infoText.setText("Installing : "+ pluginPath + onlinePlugins.get(selectedIndices.get(0)));
-                    byte data[] = new byte[1024];
-                    int byteContent;
-                    while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-                        fileOS.write(data, 0, byteContent);
-                    }
-                } catch (IOException e) {
-                    // handles IO exceptions
-                }
+            if (onlinePlugins != null || (selectedIndice >= 0 && selectedIndice < onlinePlugins.size())){
+                String pluginName = onlinePlugins.get(selectedIndice);
 
-                fetchInstalledPlugins();
-                fetchOnlinePlugins();
-                //reloadPage(actionEvent);
-            } else {
-                //infoText.setText("Erreur");
-            }
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            setInfoErrorOccurred();
-        }
-    }
-
-    private void fetchInstalledPlugins() throws Exception {
-        localPluginsList.getItems().clear();
-
-        localPlugins = getPluginsNames(pluginPath.getText());
-
-        for (String localPlugin : localPlugins) {
-            this.localPluginsList.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/")+1, localPlugin.length()));
-        }
-        if (!localPluginsList.getItems().isEmpty()) {
-            localPluginsList.getSelectionModel().select(0);
-
-        }
-    }
-
-    public void uninstallPlugin(ActionEvent actionEvent) {
-        try {
-            ObservableList<Integer> selectedIndices = localPluginsList.getSelectionModel().getSelectedIndices();
-
-            System.out.println(selectedIndices);
-
-            File dir = new File(pluginPath.getText());
-
-            final File[] pluginsList = dir.listFiles();
-
-            assert pluginsList != null;
-            String choice = String.valueOf(selectedIndices.get(0));
-
-            if (Integer.parseInt(choice) >= 0 && Integer.parseInt(choice) < pluginsList.length) {
-                String p = pluginsList[Integer.parseInt(choice)].getPath();
-
-                File pluginToDelete = new File(p);
-
-                if (pluginToDelete.delete()) {
-                    //infoText.setText("Plugin correctement désinstallé");
-                    fetchInstalledPlugins();
-                    fetchOnlinePlugins();
-                    //reloadPage(actionEvent);
+                if(installPlugin(pluginURL, pluginName)){
+                    setInfoText("Plug-in téléchargé avec succès");
                 } else {
-                    //infoText.setText("Le plugin n'a pas pu être correctement désinstallé");
+                    setInfoText("Le plug-in n'a pas pu se télécharger, assurez-vous d'avoir assez d'espace disponible");
                 }
-
             } else {
-                //infoText.setText("Erreur");
-
+                setInfoText("Sélectionnez un plug-in dans la liste des plugins en ligne");
             }
+
+            fetchInstalledPlugins();
+            fetchAvailablePlugins();
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            e.printStackTrace();
+            setInfoErrorOccurred();
+        }
+    }
+
+    public void uninstallSelectedPlugin(ActionEvent actionEvent) {
+        try {
+            setPath(pluginPath.getText());
+
+            System.out.println("Selected indice: "+ getSelectedIndex(localPluginsListView));
+            if(uninstallPlugin(getSelectedIndex(localPluginsListView))) {
+                setInfoText("Plug-in désinstallé avec succès");
+            } else {
+                setInfoText("Sélectionnez un plug-in dans la liste des plugins téléchargés");
+            }
+
+            fetchInstalledPlugins();
+            fetchAvailablePlugins();
         } catch (Exception e) {
             //Logger.reportError(e);
             setInfoErrorOccurred();
         }
     }
 
-    private void fetchOnlinePlugins() throws Exception {
-        String urlPlugin = "http://51.75.143.205:8080/plugins/";
-        onlinePlugins = new ArrayList<String>();
-        onlinePluginsList.getItems().clear();
-        Document document = Jsoup.connect(urlPlugin).get();
-
-        Elements link = document.select("a[href]");
-        for (Element links : link) {
-            onlinePlugins.add(links.text());
+    public void enablePlugin(ActionEvent actionEvent) {
+        try {
+            if(activatePlugin(localPlugins, getSelectedIndex(localPluginsListView))){
+                setInfoText("Plug-in activé");
+            } else {
+                setInfoText("Plug-in déjà activé");
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
-
-        for (String onlinePlugin : onlinePlugins) {
-            this.onlinePluginsList.getItems().add(onlinePlugin);
-        }
-
-        if (!onlinePluginsList.getItems().isEmpty()) {
-            onlinePluginsList.getSelectionModel().select(0);
-        }
-
     }
-
-
-    public void enablePlugin(ActionEvent actionEvent) {}
 
     public void disablePlugin(ActionEvent actionEvent) {}
 
+    private void fetchInstalledPlugins() {
+        try {
+            Integer previouslySelectedIndex = getSelectedIndex(localPluginsListView);
+            localPluginsListView.getItems().clear();
+
+            localPlugins = getPluginsNames(pluginPath.getText());
+            for (String localPlugin : localPlugins) {
+                this.localPluginsListView.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/") + 1, localPlugin.length()));
+            }
+
+            dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoText("Veuillez sélectionner un dossier valide");
+        }
+    }
+
+    private void fetchAvailablePlugins() {
+        try {
+            Integer previouslySelectedIndex = getSelectedIndex(onlinePluginsListView);
+            onlinePlugins = fetchOnlinePlugins(pluginURL);
+
+            onlinePlugins = new ArrayList<String>();
+            onlinePluginsListView.getItems().clear();
+            Document document = Jsoup.connect(pluginURL).get();
+
+            Elements link = document.select("a[href]");
+            for (Element links : link) {
+                onlinePlugins.add(links.text());
+            }
+
+            for (String onlinePlugin : onlinePlugins) {
+                this.onlinePluginsListView.getItems().add(onlinePlugin);
+            }
+
+            dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
+
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoText("Problème de récupération de la liste des plug-ins disponibles");
+        }
+    }
+
+    private void dynamicallySelectIndex(ListView<String> ListView, ArrayList<String> Plugins, Integer previousIndex) {
+
+        if (!ListView.getItems().isEmpty() || getSelectedIndex(ListView) > Plugins.size()) {
+            ListView.getSelectionModel().select(Plugins.size()-1);
+        } else {
+            ListView.getSelectionModel().select(previousIndex);
+
+        }
+    }
+
     public void reloadPage(ActionEvent actionEvent){
         StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml", UserInstance.getInstance());
+    }
+
+    private Integer getSelectedIndex(ListView<String> list) {
+        return list.getSelectionModel().getSelectedIndex();
+
     }
 
     // Return button
