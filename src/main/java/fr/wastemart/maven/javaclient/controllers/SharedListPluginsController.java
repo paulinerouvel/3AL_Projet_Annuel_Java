@@ -66,7 +66,7 @@ public class SharedListPluginsController extends GenericController {
             ObservableList<Integer> selectedIndices = onlinePluginsList.getSelectionModel().getSelectedIndices();
 
             if (selectedIndices.get(0) >= 0 && selectedIndices.get(0) < onlinePlugins.size()) {
-                String url = "http://51.75.143.205:8000/" + onlinePlugins.get(selectedIndices.get(0));
+                String url = "http://51.75.143.205:8080/plugins/" + onlinePlugins.get(selectedIndices.get(0));
 
                 try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
                      FileOutputStream fileOS = new FileOutputStream(pluginPath.getText() + "/" + onlinePlugins.get(selectedIndices.get(0)))) {
@@ -144,7 +144,7 @@ public class SharedListPluginsController extends GenericController {
     }
 
     private void fetchOnlinePlugins() throws Exception {
-        String urlPlugin = "http://51.75.143.205:8000";
+        String urlPlugin = "http://51.75.143.205:8080/plugins/";
         onlinePlugins = new ArrayList<String>();
         onlinePluginsList.getItems().clear();
         Document document = Jsoup.connect(urlPlugin).get();

@@ -48,6 +48,7 @@
                         </ButtonBar>
                         <Label fx:id="saveLabel" layoutX="28.0" layoutY="541.0" text="Enregistrement " visible="false" />
                   <Label fx:id="info" layoutX="10.0" layoutY="543.0" prefHeight="19.0" prefWidth="235.0" />
+                  <Label fx:id="info" layoutX="6.0" layoutY="541.0" prefHeight="19.0" prefWidth="235.0" />
                     </children>
                 </AnchorPane>
             </items>

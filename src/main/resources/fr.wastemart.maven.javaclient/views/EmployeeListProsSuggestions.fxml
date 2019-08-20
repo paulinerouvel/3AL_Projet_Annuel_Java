@@ -53,6 +53,7 @@
                         <Button mnemonicParsing="false" onAction="#refuseProduct" text="Refuser" />
                     </buttons>
                   </ButtonBar>
+                  <Label fx:id="info" layoutX="14.0" layoutY="541.0" prefHeight="19.0" prefWidth="335.0" />
                </children>
             </AnchorPane>
         </items>

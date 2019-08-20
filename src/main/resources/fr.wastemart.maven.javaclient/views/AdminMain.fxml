@@ -32,5 +32,6 @@
          </children>
       </GridPane>
       <Label fx:id="adminName" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="71.0" prefHeight="19.0" prefWidth="333.0" text="[LabelAdmin]" textAlignment="CENTER" />
+      <Label fx:id="info" layoutX="14.0" layoutY="546.0" prefHeight="19.0" prefWidth="992.0" />
    </children>
 </AnchorPane>

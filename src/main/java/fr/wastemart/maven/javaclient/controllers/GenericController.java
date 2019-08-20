@@ -24,6 +24,6 @@ public abstract class GenericController {
     }
 
     public void setInfoErrorOccurred() {
-        setInfoText("An error occurred, see logs for details");
+        setInfoText("Une erreur s'est produite");
     }
 }

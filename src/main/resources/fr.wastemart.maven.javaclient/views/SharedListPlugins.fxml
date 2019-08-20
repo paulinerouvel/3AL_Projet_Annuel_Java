@@ -24,6 +24,7 @@
       <ListView fx:id="onlinePluginsList" layoutX="554.0" layoutY="194.0" prefHeight="296.0" prefWidth="296.0" />
       <Button layoutX="192.0" layoutY="500.0" mnemonicParsing="false" onAction="#enablePlugin" prefHeight="29.0" prefWidth="124.0" text="Activer" />
       <Button layoutX="326.0" layoutY="500.0" mnemonicParsing="false" onAction="#disablePlugin" text="Désactiver" />
+      <Label fx:id="info" layoutX="25.0" layoutY="540.0" prefHeight="19.0" prefWidth="974.0" />
       <!--<Button layoutX="55.0" layoutY="96.0" mnemonicParsing="false" onAction="#disconnect" text="disconnect" />-->
    </children>
 </AnchorPane>

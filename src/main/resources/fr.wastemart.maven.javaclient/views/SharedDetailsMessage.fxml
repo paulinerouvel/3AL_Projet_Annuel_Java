@@ -12,7 +12,7 @@
       <Label layoutX="63.0" layoutY="132.0" text="Message" />
       <TextField fx:id="libelle" layoutX="59.0" layoutY="86.0" prefHeight="32.0" prefWidth="479.0" />
       <TextField fx:id="desc" layoutX="59.0" layoutY="151.0" prefHeight="329.0" prefWidth="479.0" />
-      <Label fx:id="info" layoutX="125.0" layoutY="502.0" prefHeight="19.0" prefWidth="255.0" />
+      <Label fx:id="info" layoutX="109.0" layoutY="502.0" prefHeight="19.0" prefWidth="302.0" />
       <Label layoutX="62.0" layoutY="501.0" text="Info :" />
       <Button layoutX="431.0" layoutY="493.0" mnemonicParsing="false" onAction="#submitProduct" prefHeight="30.0" prefWidth="109.0" text="Envoyer" />
    </children>

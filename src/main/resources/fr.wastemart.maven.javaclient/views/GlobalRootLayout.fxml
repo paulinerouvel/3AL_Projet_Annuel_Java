@@ -11,20 +11,16 @@
    <top>
      <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="1024.0" scaleShape="false" style="-fx-background-color: #292929;" AnchorPane.topAnchor="50.0" BorderPane.alignment="CENTER">
        <menus>
-         <Menu mnemonicParsing="false" style="-fx-background-color: #292929;" text="File">
+         <Menu mnemonicParsing="false" style="-fx-background-color: #292929;" text="Menu">
            <items>
-             <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#displayMain" text="Accueil" />
              <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
+             <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
            </items>
          </Menu>
-         <Menu disable="true" mnemonicParsing="false" text="Edit">
+         <Menu mnemonicParsing="false" text="Aide">
            <items>
-             <MenuItem mnemonicParsing="false" text="Delete" />
-           </items>
-         </Menu>
-         <Menu mnemonicParsing="false" text="Help">
-           <items>
-             <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About" />
+             <MenuItem mnemonicParsing="false" onAction="#showAbout" text="À propos" />
            </items>
          </Menu>
        </menus>

@@ -42,6 +42,7 @@
                             </columns>
                         </TableView>
                         <Label fx:id="info" layoutX="14.0" layoutY="538.0" prefHeight="29.0" prefWidth="485.0" />
+                  <Label fx:id="info" layoutX="14.0" layoutY="545.0" prefHeight="19.0" prefWidth="723.0" />
                     </children>
                 </AnchorPane>
             </items>

@@ -29,5 +29,6 @@
             <Label fx:id="info" alignment="CENTER" layoutX="96.0" layoutY="303.0" prefHeight="19.0" prefWidth="610.0" />
          </children></Pane>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
+      <Label fx:id="info" layoutX="14.0" layoutY="546.0" prefHeight="19.0" prefWidth="998.0" />
    </children>
 </AnchorPane>

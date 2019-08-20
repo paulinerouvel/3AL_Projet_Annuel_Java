@@ -25,6 +25,10 @@ public class GlobalRootLayoutController extends GenericController {
         alert.showAndWait();
     }
 
+    public void displayMain(ActionEvent event) {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), event);
+    }
+
     public void disconnect() {
         StageManager.getInstance().loadLoginPageFromMenuBar(UserInstance.getInstance(), menuBar);
     }

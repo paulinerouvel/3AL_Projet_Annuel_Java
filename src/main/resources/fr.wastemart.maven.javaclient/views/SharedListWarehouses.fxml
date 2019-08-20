@@ -27,6 +27,7 @@
                             </columnResizePolicy>
                         </TableView>
                         <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
+                  <Label fx:id="info" layoutX="15.0" layoutY="535.0" prefHeight="29.0" prefWidth="392.0" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="617.0" style="-fx-background-color: #292929;">
