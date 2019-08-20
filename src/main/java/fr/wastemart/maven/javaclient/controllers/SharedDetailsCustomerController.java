@@ -26,22 +26,18 @@ public class SharedDetailsCustomerController extends GenericController {
     private TextField customerPostalCode;
     @FXML
 
-    private Label info;
     private JSONArray users;
     private Integer idUser;
-    public void init(Integer idUser) {
-        try {
-            setidUser(idUser);
-            User userFound = jsonToUser(fetchUser("id", idUser.toString()));
-            customerName.setText(userFound.getNom());
-            customerEmail.setText(userFound.getMail());
-            customerNumber.setText(userFound.getTel());
-            customerAddress.setText(userFound.getAdresse());
-            customerCity.setText(userFound.getVille());
-            customerPostalCode.setText(userFound.getCodePostal().toString());
-        } catch (Exception e) {
-            System.out.println("error : " + e);
-        }
+
+    public void init(Integer idUser) throws Exception {
+        setidUser(idUser);
+        User userFound = jsonToUser(fetchUser("id", idUser.toString()));
+        customerName.setText(userFound.getNom());
+        customerEmail.setText(userFound.getMail());
+        customerNumber.setText(userFound.getTel());
+        customerAddress.setText(userFound.getAdresse());
+        customerCity.setText(userFound.getVille());
+        customerPostalCode.setText(userFound.getCodePostal().toString());
     }
 
     public void save(ActionEvent actionEvent) {
@@ -56,14 +52,15 @@ public class SharedDetailsCustomerController extends GenericController {
             userModified.setVille(customerCity.getText() == null ? null : customerCity.getText());
             
             if(updateUser(userModified) < 299) {
-                info.setText("Modification réussie");
+                setInfoText("Modification réussie");
             }
             else {
-                info.setText("Modification échouée");
+                setInfoText("Modification échouée");
             }
-        }
-        catch (Exception ex) {
-            System.out.println(ex);
+
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
     // Return button

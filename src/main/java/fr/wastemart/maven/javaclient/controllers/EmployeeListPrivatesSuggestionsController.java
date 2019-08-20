@@ -60,19 +60,13 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     @FXML
     TableColumn<Object, Object> productQuantity;
 
-    public void init(){
-
-        try {
-            displayProductLists();
-            displayProducts(lists.getJSONObject(0).getInt("id"));
-            listsTable.getSelectionModel().selectFirst();
-        }
-        catch (Exception ex) {
-            System.out.println(ex);
-        }
+    public void init() throws Exception {
+        displayProductLists();
+        displayProducts(lists.getJSONObject(0).getInt("id"));
+        listsTable.getSelectionModel().selectFirst();
     }
 
-    private void displayProductLists() {
+    private void displayProductLists() throws Exception {
         listsTable.getItems().clear();
         //lists = services.ProductList.fetchAllProductLists();
         lists = fetchAllProductListsByUserCategory(3, UserInstance.getInstance().getTokenValue());
@@ -90,46 +84,41 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         }
     }
 
-    private void displayProducts(Integer id) {
-        try {
-            productsTable.getItems().clear();
-            products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
+    private void displayProducts(Integer id) throws Exception {
+        productsTable.getItems().clear();
+        products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
 
-            productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-            productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-            productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-            productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
-            productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
-            productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
-            productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
-            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
+        productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
+        productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
+        productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+        productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
 
-            for (int i = 0; i < products.length(); i++) {
-                JSONObject product = products.getJSONObject(i);
+        for (int i = 0; i < products.length(); i++) {
+            JSONObject product = products.getJSONObject(i);
 
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.getInt("enRayon"),
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.getInt("entrepotwm_id"),
-                        product.getInt("destinataire")
-                );
+            Product productElement = new Product(product.getInt("id"),
+                    product.getString("libelle"),
+                    product.getString("desc"),
+                    product.getString("photo"),
+                    product.getFloat("prix"),
+                    product.getFloat("prixInitial"),
+                    product.getInt("quantite"),
+                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                    product.getString("codeBarre"),
+                    product.getInt("enRayon"),
+                    product.getString("dateMiseEnRayon"),
+                    product.getInt("categorieProduit_id"),
+                    product.getInt("listProduct_id"),
+                    product.getInt("entrepotwm_id"),
+                    product.getInt("destinataire")
+            );
 
-                productsTable.getItems().add(productElement);
-            }
-        }
-        catch(Exception ex) {
-            System.out.println(ex);
+            productsTable.getItems().add(productElement);
         }
     }
 
@@ -138,7 +127,12 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
-            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+            try {
+                displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+            } catch (Exception e) {
+                //Logger.reportError(e);
+                setInfoText("An error occurred, see logs");
+            }
         }
     }
 
@@ -171,17 +165,18 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
             } catch (Exception e) {
-                e.printStackTrace();
+                //Logger.reportError(e);
+                setInfoErrorOccurred();
             }
         }
     }
 
     @FXML
-    public void refuseProduct(ActionEvent event) {
-        refreshSelectedIndices();
+    public void refuseProduct(ActionEvent event) throws Exception {
+        try {
+            refreshSelectedIndices();
 
-        if(indexOfListSelected != -1){
-            try {
+            if (indexOfListSelected != -1) {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
                 Product productElement = new Product(product.getInt("id"),
                         product.getString("libelle"),
@@ -204,109 +199,120 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }        }
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     public void submitList(ActionEvent event) {
-        refreshSelectedIndices();
-
-        if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1){
-
-            JSONObject list = lists.getJSONObject(indexOfListSelected);
-            ProductList listElement = jsonToProductList(list);
-
-            ArrayList<Product> productList = new ArrayList<Product>();
-            for(int i = 0; i < products.length(); i++) {
-                JSONObject product = products.getJSONObject(i);
-                productList.add(jsonToProduct(product));
-            }
-
-            // Affecte la liste de produits à un entrepot
-            Integer affectProductListToWarehouseRes = affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue());
-
-            if(affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299){ // Erreur
-                listElement.setEstArchive(1);
-                listElement.setDate(LocalDate.now());
-                updateProductList(listElement, UserInstance.getInstance().getTokenValue());
-            }
-        }
-        displayProductLists();
-    }
-
-    public void displayAddProduct(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
-
-        Scene newScene;
         try {
-            newScene = new Scene(loader.load());
-        } catch (IOException ex) {
-            // TODO: handle error
-            return;
+            refreshSelectedIndices();
+
+            if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1) {
+
+                JSONObject list = lists.getJSONObject(indexOfListSelected);
+                ProductList listElement = jsonToProductList(list);
+
+                ArrayList<Product> productList = new ArrayList<Product>();
+                for (int i = 0; i < products.length(); i++) {
+                    JSONObject product = products.getJSONObject(i);
+                    productList.add(jsonToProduct(product));
+                }
+
+                // Affecte la liste de produits à un entrepot
+                Integer affectProductListToWarehouseRes = affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue());
+
+                if (affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299) { // Erreur
+                    listElement.setEstArchive(1);
+                    listElement.setDate(LocalDate.now());
+                    updateProductList(listElement, UserInstance.getInstance().getTokenValue());
+                }
+            }
+            displayProductLists();
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
-
-        SharedDetailsProductController controller = loader.getController();
-        controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-        Stage inputStage = new Stage();
-        inputStage.initOwner(stageNodeRoot);
-        inputStage.setScene(newScene);
-        inputStage.showAndWait();
-
-        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
     }
 
-    public void displayModifyProduct(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
-
-        if(indexOfProductSelected != -1) {
+    public void displayAddProduct(ActionEvent actionEvent) {
+        try {
+            refreshSelectedIndices();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
 
             Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                // TODO: handle error
-                return;
-            }
+            newScene = new Scene(loader.load());
 
             SharedDetailsProductController controller = loader.getController();
-            JSONObject product = products.getJSONObject(indexOfProductSelected);
-
-            Product productToModify = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.getString("codeBarre"),
-                    product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.getInt("entrepotwm_id"),
-                    product.getInt("destinataire")
-            );
-
-            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
-
+            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
             Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
             Stage inputStage = new Stage();
             inputStage.initOwner(stageNodeRoot);
             inputStage.setScene(newScene);
             inputStage.showAndWait();
+
+            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
+    }
 
-        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+    public void displayModifyProduct(ActionEvent actionEvent) {
+        try {
+            refreshSelectedIndices();
 
+            if (indexOfProductSelected != -1) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+
+                Scene newScene;
+                try {
+                    newScene = new Scene(loader.load());
+                } catch (IOException ex) {
+                    // TODO: handle error
+                    return;
+                }
+
+                SharedDetailsProductController controller = loader.getController();
+                JSONObject product = products.getJSONObject(indexOfProductSelected);
+
+                Product productToModify = new Product(product.getInt("id"),
+                        product.getString("libelle"),
+                        product.getString("desc"),
+                        product.getString("photo"),
+                        product.getFloat("prix"),
+                        product.getFloat("prixInitial"),
+                        product.getInt("quantite"),
+                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                        product.getString("codeBarre"),
+                        product.getInt("enRayon"),
+                        product.getString("dateMiseEnRayon"),
+                        product.getInt("categorieProduit_id"),
+                        product.getInt("listProduct_id"),
+                        product.getInt("entrepotwm_id"),
+                        product.getInt("destinataire")
+                );
+
+                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
+
+                Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                Stage inputStage = new Stage();
+                inputStage.initOwner(stageNodeRoot);
+                inputStage.setScene(newScene);
+                inputStage.showAndWait();
+            }
+
+            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     public void refreshSelectedIndices() {

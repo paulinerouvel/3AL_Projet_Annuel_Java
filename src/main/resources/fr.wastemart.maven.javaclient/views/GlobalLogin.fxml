@@ -4,39 +4,45 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalLoginController">
 
-         <children>
-            <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue à Wastemart">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font></Label>
-            <Label layoutX="288.0" layoutY="287.0" text="Info:" />
-            <TextArea fx:id="connectionStatus" editable="false" layoutX="130.0" layoutY="312.0" prefHeight="53.0" prefWidth="346.0" text="Veuillez vous connecter." />
-      <AnchorPane layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
-         <children>
-                  <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="alex.bis8@hotmail.fr" />
-                  <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" />
-                  <ButtonBar layoutX="7.0" layoutY="132.0" prefHeight="40.0" prefWidth="346.0">
-               <buttons>
-                  <Button mnemonicParsing="false" onAction="#displayRegister" prefHeight="33.0" prefWidth="176.0" text="S'inscrire" />
-                      <Button mnemonicParsing="false" onAction="#authenticate" prefHeight="33.0" prefWidth="133.0" text="Login" />
-               </buttons>
-                  </ButtonBar>
-         </children>
-      </AnchorPane>
-      <ImageView fitHeight="65.0" fitWidth="68.0" layoutX="441.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Wastemart_Logo.png" />
-         </image>
-      </ImageView>
-         </children>
+    <children>
+        <ImageView fitHeight="65.0" fitWidth="68.0" layoutX="441.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/Wastemart_Logo.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue à Wastemart">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+
+        <AnchorPane layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
+            <children>
+                <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="alex.bis8@hotmail.fr" />
+                <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" />
+                <ButtonBar layoutX="7.0" layoutY="132.0" prefHeight="40.0" prefWidth="346.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#displayRegister" prefHeight="33.0" prefWidth="176.0" text="S'inscrire" />
+                        <Button mnemonicParsing="false" onAction="#authenticate" prefHeight="33.0" prefWidth="133.0" text="Login" />
+                    </buttons>
+                </ButtonBar>
+            </children>
+        </AnchorPane>
+
+        <Label layoutX="288.0" layoutY="280.0" text="Info:" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" layoutX="140.0" layoutY="300.0" stroke="BLACK" strokeType="INSIDE" width="320.0" />
+      <TextFlow prefHeight="200.0" prefWidth="200.0" />
+        <Label fx:id="info" alignment="TOP_LEFT" layoutX="150.0" layoutY="310.0" prefHeight="60.0" prefWidth="300.0" style="-fx-text-fill: black;" wrapText="true" />
+    </children>
 
 </AnchorPane>

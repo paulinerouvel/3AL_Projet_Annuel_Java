@@ -26,9 +26,8 @@ public class SharedDetailsProductController extends GenericController {
     @FXML private DatePicker dlc;
     @FXML private TextField codeBarre;
     @FXML private ChoiceBox<String> categorieProduit;
-    @FXML private Label info;
 
-    public void init(Integer productList, String operation, Product product){
+    public void init(Integer productList, String operation, Product product) throws Exception {
         //JSONArray productCategories = fr.wastemart.maven.javaclient.services.Product.fetchProductCategories();
         this.product = product;
         this.operation = operation;
@@ -48,75 +47,80 @@ public class SharedDetailsProductController extends GenericController {
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
     }
 
-    public void submitProduct(ActionEvent event) throws Exception {
-        libelle.setStyle("-fx-background-color: #FFFFFF");
-        desc.setStyle("-fx-background-color: #FFFFFF");
-        prix.setStyle("-fx-background-color: #FFFFFF");
-        prixInitial.setStyle("-fx-background-color: #FFFFFF");
-        quantite.setStyle("-fx-background-color: #FFFFFF");
-        dlc.setStyle("-fx-background-color: #FFFFFF");
-        codeBarre.setStyle("-fx-background-color: #FFFFFF");
+    public void submitProduct(ActionEvent event) {
+        try {
+            libelle.setStyle("-fx-background-color: #FFFFFF");
+            desc.setStyle("-fx-background-color: #FFFFFF");
+            prix.setStyle("-fx-background-color: #FFFFFF");
+            prixInitial.setStyle("-fx-background-color: #FFFFFF");
+            quantite.setStyle("-fx-background-color: #FFFFFF");
+            dlc.setStyle("-fx-background-color: #FFFFFF");
+            codeBarre.setStyle("-fx-background-color: #FFFFFF");
 
-        Integer indexWrong = areTextFieldsValid();
+            Integer indexWrong = areTextFieldsValid();
 
-        if(indexWrong != -1){
-            switch(indexWrong) {
-                case 0:
-                    libelle.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 1:
-                    desc.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 2:
-                    prix.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 3:
-                    prixInitial.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 4:
-                    quantite.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 5:
-                    dlc.setStyle("-fx-background-color: #ff7980");
-                    break;
-                case 6:
-                    codeBarre.setStyle("-fx-background-color: #ff7980");
-                    break;
-                default:
-                    break;
+            if (indexWrong != -1) {
+                switch (indexWrong) {
+                    case 0:
+                        libelle.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 1:
+                        desc.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 2:
+                        prix.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 3:
+                        prixInitial.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 4:
+                        quantite.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 5:
+                        dlc.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    case 6:
+                        codeBarre.setStyle("-fx-background-color: #ff7980");
+                        break;
+                    default:
+                        break;
 
+                }
+            } else {
+
+                Product newProduct = new Product(product == null ? -1 : product.getId(),
+                        libelle.getText(),
+                        desc.getText(),
+                        photo.getText(),
+                        Float.valueOf(prix.getText()),
+                        Float.valueOf(prixInitial.getText()),
+                        Integer.valueOf(quantite.getText()),
+                        dlc.getValue(),
+                        codeBarre.getText(),
+                        0,
+                        product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
+                        categorieProduit.getSelectionModel().getSelectedIndex() + 1,
+                        listId,
+                        product == null ? null : product.getEntrepotwm(),
+                        product == null ? null : product.getDestinataire()
+                );
+
+                String result = null;
+                if (operation.equals("Add")) {
+                    addProductToList(newProduct, UserInstance.getInstance().getTokenValue());
+
+                } else if (operation.equals("Modify")) {
+                    updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
+                }
+                setInfoText(result);
             }
-        } else {
-
-            Product newProduct = new Product(product == null ? -1 : product.getId(),
-                    libelle.getText(),
-                    desc.getText(),
-                    photo.getText(),
-                    Float.valueOf(prix.getText()),
-                    Float.valueOf(prixInitial.getText()),
-                    Integer.valueOf(quantite.getText()),
-                    dlc.getValue(),
-                    codeBarre.getText(),
-                    0,
-                    product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
-                    categorieProduit.getSelectionModel().getSelectedIndex()+1,
-                    listId,
-                    product == null ? null : product.getEntrepotwm(),
-                    product == null ? null : product.getDestinataire()
-            );
-
-            String result = null;
-            if(operation.equals("Add")) {
-                addProductToList(newProduct, UserInstance.getInstance().getTokenValue());
-
-            } else if(operation.equals("Modify")){
-                updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
-            }
-            info.setText(result);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
 
-    private Integer areTextFieldsValid()  {
+    private Integer areTextFieldsValid() {
         if(libelle.getText().trim().isEmpty()){ return 0; }
         else if(desc.getText().trim().isEmpty()){ return 1; }
         else if(prix.getText().trim().isEmpty()){ return 2; }
@@ -135,20 +139,20 @@ public class SharedDetailsProductController extends GenericController {
         prixInitial.clear();
         quantite.clear();
         dlc.setValue(LocalDate.now());
-        info.setText("");
+        setInfoText("");
     }
 
     private void setFields(Product product) {
-        libelle.setText(product.getLibelle());
-        desc.setText(product.getDesc());
-        photo.setText(product.getPhoto());
-        prix.setText(String.valueOf(product.getPrix()));
-        prixInitial.setText(String.valueOf(product.getPrixInitial()));
-        quantite.setText(String.valueOf(product.getQuantite()));
-        dlc.setValue(product.getDlc());
-        codeBarre.setText(product.getCodeBarre());
-        categorieProduit.getSelectionModel().select(product.getCategorieProduit()-1);
-        info.setText("");
+            libelle.setText(product.getLibelle());
+            desc.setText(product.getDesc());
+            photo.setText(product.getPhoto());
+            prix.setText(String.valueOf(product.getPrix()));
+            prixInitial.setText(String.valueOf(product.getPrixInitial()));
+            quantite.setText(String.valueOf(product.getQuantite()));
+            dlc.setValue(product.getDlc());
+            codeBarre.setText(product.getCodeBarre());
+            categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
+            setInfoText("");
     }
 
     public void setListId(Integer id) { this.listId = id; }

@@ -27,21 +27,15 @@ public class SharedUserInfosController extends GenericController {
     @FXML
     private TextField employeeNumber;
     @FXML
-    private Label info;
-    @FXML
     private PasswordField pwField;
 
-    public void init() {
-        try {
-            employeeName.setText(UserInstance.getInstance().getUser().getNom());
-            employeeAddress.setText(UserInstance.getInstance().getUser().getAdresse());
-            employeeCity.setText(UserInstance.getInstance().getUser().getVille());
-            employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
-            employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
-            employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
-        } catch (Exception e) {
-            employeeName.setText("<Error, please disconnect>");
-        }
+    public void init() throws Exception {
+        employeeName.setText(UserInstance.getInstance().getUser().getNom());
+        employeeAddress.setText(UserInstance.getInstance().getUser().getAdresse());
+        employeeCity.setText(UserInstance.getInstance().getUser().getVille());
+        employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
+        employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
+        employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
     }
 
     public void save(ActionEvent actionEvent) {
@@ -63,17 +57,14 @@ public class SharedUserInfosController extends GenericController {
             //Appel à l'api + sauvegarde bdd
             if(updateUser(UserInstance.getInstance().getUser()) < 299 && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP
-                info.setText("Modification réussie");
+                setInfoText("Modification réussie");
             }
             else {
-                info.setText("Modification échouée");
+                setInfoText("Modification échouée");
             }
-        }
-        catch (Exception ex) {
-
-            System.out.println(ex);
-
-
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
 

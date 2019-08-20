@@ -55,125 +55,120 @@ public class SharedListWarehousesController extends GenericController {
     @FXML
     Label saveLabel;
 
-    public void init(){
+    public void init() throws Exception {
         displayWarehouseLists();
         displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"));
         warehouseTable.getSelectionModel().selectFirst();
     }
 
-    private void displayWarehouseLists() {
+    private void displayWarehouseLists() throws Exception {
+        warehouseTable.getItems().clear();
+        warehouses = fetchAllWarehouse();
 
-        try {
-            warehouseTable.getItems().clear();
-            warehouses = fetchAllWarehouse();
+        listId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        listCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
+        listPlace.setCellValueFactory(new PropertyValueFactory<>("placeLibre"));
+        listTotalPlace.setCellValueFactory(new PropertyValueFactory<>("placeTotal"));
+        listName.setCellFactory(TextFieldTableCell.forTableColumn());
+        // liste combobox entrepot
+        ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
+        IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
+        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> {
+             swapIdWarehouse = (Integer)e.getNewValue();
 
-            listId.setCellValueFactory(new PropertyValueFactory<>("id"));
-            listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-            listCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
-            listPlace.setCellValueFactory(new PropertyValueFactory<>("placeLibre"));
-            listTotalPlace.setCellValueFactory(new PropertyValueFactory<>("placeTotal"));
-            listName.setCellFactory(TextFieldTableCell.forTableColumn());
-            // liste combobox entrepot
-            ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
-            IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
-            IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> {
-                 swapIdWarehouse = (Integer)e.getNewValue();
+        });
 
-            });
-
-            for (int i = 0; i < warehouses.length(); i++) {
-                JSONObject list = warehouses.getJSONObject(i);
-                Warehouse warehouse = new Warehouse(list.getInt("id"),
-                        list.getString("libelle"),
-                        list.getString("adresse"),
-                        list.getString("ville"),
-                        list.getString("codePostal"),
-                        list.getString("desc"),
-                        list.getString("photo"),
-                        list.getInt("placeTotal"),
-                        list.getInt("placeLibre")
-                );
-                warehouseTable.getItems().add(warehouse);
-                idWarehouse.add(list.getInt("id"));
-            }
-
-        }
-        catch (Exception ex) {
-            System.out.println("Pb avec displayWarehouseList" + ex);
+        for (int i = 0; i < warehouses.length(); i++) {
+            JSONObject list = warehouses.getJSONObject(i);
+            Warehouse warehouse = new Warehouse(list.getInt("id"),
+                    list.getString("libelle"),
+                    list.getString("adresse"),
+                    list.getString("ville"),
+                    list.getString("codePostal"),
+                    list.getString("desc"),
+                    list.getString("photo"),
+                    list.getInt("placeTotal"),
+                    list.getInt("placeLibre")
+            );
+            warehouseTable.getItems().add(warehouse);
+            idWarehouse.add(list.getInt("id"));
         }
 
     }
 
-    private void displayProductsByWarehouse(Integer id) {
-        try {
-            productsTable.getItems().clear();
-            products = fetchProductsByWarehouse(id);
+    private void displayProductsByWarehouse(Integer id) throws Exception {
+        productsTable.getItems().clear();
+        products = fetchProductsByWarehouse(id);
 
-            productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-            productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-            productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-            productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
-            productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
-            productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
-            productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
-            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+        productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
+        productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
+        productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
+        productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+        productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
 
-            for (int i = 0; i < products.length(); i++) {
-                JSONObject product = products.getJSONObject(i);
+        for (int i = 0; i < products.length(); i++) {
+            JSONObject product = products.getJSONObject(i);
 
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.getInt("enRayon"),
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.getInt("entrepotwm_id"),
-                        product.getInt("destinataire")
-                );
+            Product productElement = new Product(product.getInt("id"),
+                    product.getString("libelle"),
+                    product.getString("desc"),
+                    product.getString("photo"),
+                    product.getFloat("prix"),
+                    product.getFloat("prixInitial"),
+                    product.getInt("quantite"),
+                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                    product.getString("codeBarre"),
+                    product.getInt("enRayon"),
+                    product.getString("dateMiseEnRayon"),
+                    product.getInt("categorieProduit_id"),
+                    product.getInt("listProduct_id"),
+                    product.getInt("entrepotwm_id"),
+                    product.getInt("destinataire")
+            );
 
-                productsTable.getItems().add(productElement);
-            }
+            productsTable.getItems().add(productElement);
         }
-        catch(Exception ex) {
-            System.out.println("probleme displayProductsByWarehouse " + ex);
-        }
-
-
     }
 
     @FXML
     public void clickItem(MouseEvent event) {
-        refreshSelectedIndices();
+        try {
+            refreshSelectedIndices();
 
-        if(indexOfListSelected != -1){
-            displayProductsByWarehouse(warehouses.getJSONObject(indexOfListSelected).getInt("id"));
+            if (indexOfListSelected != -1) {
+                displayProductsByWarehouse(warehouses.getJSONObject(indexOfListSelected).getInt("id"));
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
 
     @FXML
     public void validate(MouseEvent event) {
-        // UPDATE entrepot du produit
-        if(swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
-            //update du produit + rechargement
-            //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
-            init();
-            saveLabel.setTextFill(Color.web("#008000", 1));
-            saveLabel.setText("Enregistrement validé :)");
-            saveLabel.setVisible(true);
-        }
-        else {
+        try {
+            // UPDATE entrepot du produit
+            if (swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
+                //update du produit + rechargement
+                //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
+                init();
+                saveLabel.setTextFill(Color.web("#008000", 1));
+                saveLabel.setText("Enregistrement validé :)");
+                saveLabel.setVisible(true);
+            } else {
 
-            saveLabel.setTextFill(Color.web("#ff0000", 1));
-            saveLabel.setText("L'enregistrement a echoué :(");
-            saveLabel.setVisible(true);
+                saveLabel.setTextFill(Color.web("#ff0000", 1));
+                saveLabel.setText("L'enregistrement a echoué :(");
+                saveLabel.setVisible(true);
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
 

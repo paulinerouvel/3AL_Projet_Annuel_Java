@@ -9,48 +9,37 @@ public class Warehouse {
         // --- GET --- //
 
     // GET all warehouses
-    public static JSONArray fetchAllWarehouse() {
-        JSONArray result = null;
-        try {
-            HttpResponse response = Requester.sendGetRequest("warehouse/", null);
-            result = response.getDataAsJSONArray();
+    public static JSONArray fetchAllWarehouse() throws Exception {
+        HttpResponse response = Requester.sendGetRequest("warehouse/", null);
+        JSONArray result = response.getDataAsJSONArray();
 
-            for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("libelle")) {
-                    result.getJSONObject(i).put("libelle", "");
-                }
-                if (result.getJSONObject(i).isNull("adresse")) {
-                    result.getJSONObject(i).put("adresse", "Adresse non renseignée");
-                }
-                if (result.getJSONObject(i).isNull("ville")) {
-                    result.getJSONObject(i).put("ville", "Ville non renseignée");
-                }
-                if (result.getJSONObject(i).isNull("codePostal")) {
-                    result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
-                }
-                if(result.getJSONObject(i).isNull("photo")) {
-                    result.getJSONObject(i).put("photo", "");
-                }
+        for(int i = 0; i < result.length(); i++) {
+            if (result.getJSONObject(i).isNull("libelle")) {
+                result.getJSONObject(i).put("libelle", "");
             }
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
+            if (result.getJSONObject(i).isNull("adresse")) {
+                result.getJSONObject(i).put("adresse", "Adresse non renseignée");
+            }
+            if (result.getJSONObject(i).isNull("ville")) {
+                result.getJSONObject(i).put("ville", "Ville non renseignée");
+            }
+            if (result.getJSONObject(i).isNull("codePostal")) {
+                result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
+            }
+            if(result.getJSONObject(i).isNull("photo")) {
+                result.getJSONObject(i).put("photo", "");
+            }
         }
 
         return result;
     }
 
     // GET Warehouse by City name
-    public static JSONObject fetchWarehouseByCity(String city) {
+    public static JSONObject fetchWarehouseByCity(String city) throws Exception {
         JSONObject result;
-        try {
-            HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
-            result = response.getDataAsJSONObject();
-            // TODO Test if it works, supposed to return JSONObject
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
+        result = response.getDataAsJSONObject();
+        // TODO Test if it works, supposed to return JSONObject
 
         return result;
     }
@@ -59,7 +48,7 @@ public class Warehouse {
         // --- PUT --- //
 
     // PUT a Warehouse (update)
-    public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse, String token) {
+    public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse, String token) throws Exception {
         String json =
                 "{\n" +
                         "\t\"id\": "+warehouse.getId()+",\n" +
@@ -74,12 +63,7 @@ public class Warehouse {
                         "}";
 
         Integer result;
-        try {
-            result = Requester.sendPutRequest("warehouse/", json, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPutRequest("warehouse/", json, token).getResponseCode();
 
         return result;
     }

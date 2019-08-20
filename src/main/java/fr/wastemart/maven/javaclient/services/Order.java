@@ -11,16 +11,11 @@ public class Order {
         // --- GET --- //
 
     // GET all orders
-    public static JSONArray fetchOrder(String token) {
+    public static JSONArray fetchOrder(String token) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("order/", token);
-            result = response.getDataAsJSONArray();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("order/", token);
+        result = response.getDataAsJSONArray();
 
         return result;
     }

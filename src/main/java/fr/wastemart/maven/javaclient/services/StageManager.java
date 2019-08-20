@@ -36,39 +36,68 @@ public class StageManager {
     }
 
     // Loads a page with root
-    public void loadPage(ActionEvent actionEvent, String mainView, UserInstance instance){
-        //if(userInstanceIsValid(instance)){
-        //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
-        //} // TODO WIP uncoment
-        GenericController genericController = loadController(actionEvent, mainView, instance);
+    public void loadPage(ActionEvent actionEvent, String mainView, UserInstance instance) {
+        if(userInstanceIsValid(instance)){
+            loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
+        }
+        try {
+            GenericController genericController = loadController(actionEvent, mainView, instance);
 
-        // Display the Page
-        rootLayout.setCenter(mainPane);
+            try {
+                genericController.init();
+            } catch (Exception e) {
+                //Logger.reportError(e);
+                e.printStackTrace();
+                genericController.initFail();
+            }
+
+            // Display the Page
+            rootLayout.setCenter(mainPane);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+        }
     }
 
     // Loads a page with details and root
     public void loadPageWithDetails(ActionEvent actionEvent, String mainView, UserInstance instance, Integer data) {
-        //if(userInstanceIsValid(instance)){
-        //    loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
-        //} // TODO WIP uncoment
-        GenericController genericController = loadController(actionEvent, mainView, instance);
-        genericController.init(data);
+        if(userInstanceIsValid(instance)) {
+            loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
+        }
 
-        // Display the Page
-        rootLayout.setCenter(mainPane);
+        try {
+            GenericController genericController = loadController(actionEvent, mainView, instance);
+
+            try {
+                genericController.init(data);
+            } catch (Exception e) {
+                //Logger.reportError(e);
+            }
+
+            // Display the Page
+            rootLayout.setCenter(mainPane);
+        } catch (Exception e) {
+            //Logger.reportError(e);
+        }
     }
 
     // Loads a page without root (register, login)
     public void loadRootlessPage(ActionEvent actionEvent, String mainView) {
         //instance.disconnect();
         Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        try {
+            GenericController genericController = loadController(actionEvent, mainView, null);
+            try {
+                genericController.init();
+            } catch (Exception e) {
+                //Logger.reportError(e);
+                genericController.initFail();
+            }
 
-        GenericController genericController = loadController(actionEvent, mainView, null);
-        genericController.init();
-
-        showBorderPane(stageNodeRoot, mainPane);
-        stageNodeRoot.show();
-
+            showBorderPane(stageNodeRoot, mainPane);
+            stageNodeRoot.show();
+        } catch (Exception e) {
+            //Logger.reportError(e);
+        }
     }
 
     // Loads login page from the menu bar
@@ -85,6 +114,12 @@ public class StageManager {
 
             GlobalLoginController globalLoginController = loader.getController();
 
+            try {
+                globalLoginController.init("Successfully Disconnected");
+            } catch (Exception e) {
+                //Logger.reportError(e);
+            }
+
             stageNodeRoot.setScene(scene);
             stageNodeRoot.show();
 
@@ -94,7 +129,7 @@ public class StageManager {
     }
 
     // Loads a controller from ressource with fxml (with root if there is instance)
-    private GenericController loadController(ActionEvent actionEvent, String mainView, UserInstance instance) {
+    private GenericController loadController(ActionEvent actionEvent, String mainView, UserInstance instance) throws Exception {
         // Display the Root Layout if there is an instance
         if(instance != null){
             loadRootLayoutController(instance);
@@ -111,26 +146,28 @@ public class StageManager {
         // Load the Root Layout fxml into local variable
         rootLayout = new BorderPane();
 
-        rootLayout = (BorderPane) loadResource("/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml");
-
-
-        // Set user instance of the Root Layout
-        GlobalRootLayoutController globalRootLayoutController = loader.getController();
-    }
-
-    // Loads resource from fxml
-    private Pane loadResource(String fxml){
         try {
-            loader = new FXMLLoader();
-            loader.setLocation(StageManager.class.getResource(fxml));
-            return loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            rootLayout = (BorderPane) loadResource("/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml");
+
+            // Set user instance of the Root Layout
+            GlobalRootLayoutController globalRootLayoutController = loader.getController();
+
+            globalRootLayoutController.init();
+
+        } catch (Exception e) {
+            //Logger.reportError(e);
         }
     }
 
-    private void showBorderPane(Stage stage, Parent rootLayout){
+    // Loads resource from fxml
+    private Pane loadResource(String fxml) throws Exception {
+        loader = new FXMLLoader();
+        loader.setLocation(StageManager.class.getResource(fxml));
+        return loader.load();
+
+    }
+
+    private void showBorderPane(Stage stage, Parent rootLayout) throws Exception {
         // Show the scene containing the root layout.
         Scene rootScene = new Scene(rootLayout);
         stage.setScene(rootScene);
@@ -149,7 +186,7 @@ public class StageManager {
                     userInstance);
         } else if (userInstance.getTokenUserCategory().equals(2)) {
             loadPage(actionEvent,
-                    "/fr.wastemart.maven.javaclient/views/ProfessionnalMain.fxml",
+                    "/fr.wastemart.maven.javaclient/views/ProfessionalMain.fxml",
                     userInstance);
         }
     }

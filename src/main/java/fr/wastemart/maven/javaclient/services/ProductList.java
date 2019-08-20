@@ -10,7 +10,7 @@ public class ProductList {
         // --- POST --- //
 
     // POST a new list
-    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList, String token) {
+    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList, String token) throws Exception {
         Integer result;
 
         String json = "{\n" +
@@ -20,12 +20,7 @@ public class ProductList {
                 "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
                 "}";
 
-        try {
-            result = Requester.sendPostRequest("list/", json, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPostRequest("list/", json, token).getResponseCode();
 
         return result;
     }
@@ -34,67 +29,46 @@ public class ProductList {
         // --- GET --- //
 
     // GET all lists of User
-    public static JSONArray fetchProductLists(Integer idUser, String token) {
+    public static JSONArray fetchProductLists(Integer idUser, String token) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("list/?idUser=" + idUser, token);
-            result = response.getDataAsJSONArray();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("list/?idUser=" + idUser, token);
+        result = response.getDataAsJSONArray();
 
         return result;
     }
 
     // GET all lists
-    public static JSONArray fetchAllProductLists(String token) {
+    public static JSONArray fetchAllProductLists(String token) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("list/", token);
-            result = response.getDataAsJSONArray();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("list/", token);
+        result = response.getDataAsJSONArray();
 
         return result;
     }
 
     // GET all lists by user category
-    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory, String token) {
+    public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory, String token) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
-            result = response.getDataAsJSONArray();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
+        result = response.getDataAsJSONArray();
 
         return result;
     }
 
     // GET all the products in a list
-    public static JSONArray fetchProducts(Integer idList, String token){
+    public static JSONArray fetchProducts(Integer idList, String token) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("list/products?id=" + idList, token);
-            result = response.getDataAsJSONArray();
+        HttpResponse response = Requester.sendGetRequest("list/products?id=" + idList, token);
+        result = response.getDataAsJSONArray();
 
-            for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("enRayon")) {
-                    result.getJSONObject(i).put("enRayon", "0");
-                }
+        for(int i = 0; i < result.length(); i++) {
+            if (result.getJSONObject(i).isNull("enRayon")) {
+                result.getJSONObject(i).put("enRayon", "0");
             }
-
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
         }
 
         return result;
@@ -104,7 +78,7 @@ public class ProductList {
         // --- PUT --- //
 
     // PUT a list (update)
-    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list, String token) {
+    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list, String token) throws Exception {
         Integer result;
 
         String json = "{\n" +
@@ -115,12 +89,7 @@ public class ProductList {
                 "\t\"estArchive\":"+list.getEstArchive()+"\n" +
                 "}";
 
-        try {
-            result = Requester.sendPutRequest("list/", json, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPutRequest("list/", json, token).getResponseCode();
 
         return result;
     }
@@ -129,17 +98,12 @@ public class ProductList {
         // --- DELETE ---//
 
     // DELETE a list of products
-    public static Integer removeProductsList(Integer listId, String token){
+    public static Integer removeProductsList(Integer listId, String token) throws Exception {
         Integer deleteProductsInList = fr.wastemart.maven.javaclient.services.Product.deleteProductsInList(listId);
         if(deleteProductsInList == 1){
             Integer result;
 
-            try {
-                result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
-            } catch (Exception e) {
-                //Logger.reportError(e);
-                result = null;
-            }
+            result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
 
             return result;
         }
@@ -148,7 +112,7 @@ public class ProductList {
 
 
     // Affects a list of product to a Warehouse
-    public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) {
+    public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) throws Exception {
         Integer processed = 0;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
             if (product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
@@ -166,7 +130,7 @@ public class ProductList {
     }
 
     // Affect one product to a Warehouse
-    public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city, String token) {
+    public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city, String token) throws Exception {
         JSONObject fetchedWareHouse = fr.wastemart.maven.javaclient.services.Warehouse.fetchWarehouseByCity(city);
 
         fr.wastemart.maven.javaclient.models.Warehouse cityWarehouse = null;
@@ -194,7 +158,7 @@ public class ProductList {
     }
 
     // Affect one product to a Receiver
-    public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token){
+    public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token) throws Exception {
         Integer count = 0;
         Integer productUpdateRes = 600;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {

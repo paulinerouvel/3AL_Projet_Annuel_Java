@@ -7,7 +7,7 @@ public class User {
         // --- POST --- //
 
     // POST a user (Register)
-    public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) {
+    public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) throws Exception {
 
         String json = "{\n" +
             "\t\"id\": \""+user.getId()+"\",\n" +
@@ -32,19 +32,13 @@ public class User {
 
         Integer result;
 
-        try {
-            result = Requester.sendPostRequest("user/register", json, null).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            e.printStackTrace();
-            result = null;
-        }
+        result = Requester.sendPostRequest("user/register", json, null).getResponseCode();
 
         return result;
     }
 
     // POST a category between User and userType
-    public static Integer addCategory(Integer userId, Integer categoryUserId){
+    public static Integer addCategory(Integer userId, Integer categoryUserId) throws Exception {
         String json =
                 "{\n" +
                         "\t\"userId\":"+userId+",\n" +
@@ -52,18 +46,13 @@ public class User {
                         "}";
 
         Integer result;
-        try {
-            result = Requester.sendPostRequest("user/category", json, null).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPostRequest("user/category", json, null).getResponseCode();
 
         return result;
     }
 
     // POST mail
-    public static Integer sendMail(String mail, String objet, String message) {
+    public static Integer sendMail(String mail, String objet, String message) throws Exception {
         String json =
                 "{\n" +
                         "\t\"sender\": \"wastemart@gmail.com\",\n" +
@@ -73,12 +62,7 @@ public class User {
                         "}";
 
         Integer result;
-        try {
-            result = Requester.sendPostRequest("mail", json, null).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPostRequest("mail", json, null).getResponseCode();
 
         return result;
     }
@@ -87,7 +71,7 @@ public class User {
         // --- GET --- //
 
     // GET User By id : 1, by mail : 2
-    public static JSONObject fetchUser(String operation, String data) {
+    public static JSONObject fetchUser(String operation, String data) throws Exception {
         String url = null;
         if(operation.equals("id")){
             url = "user/?id=" + data;
@@ -96,16 +80,11 @@ public class User {
         }
 
         JSONObject user;
-        try {
-            HttpResponse response = Requester.sendGetRequest(url, null);
-            user = response.getDataAsJSONObject();
-            // TODO Test it, not sure it works (JsonOBJECT was initially returned)
+        HttpResponse response = Requester.sendGetRequest(url, null);
+        user = response.getDataAsJSONObject();
+        // TODO Test it, not sure it works (JsonOBJECT was initially returned)
 
-            user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            user = null;
-        }
+        user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
 
         System.out.println("(User.fetchUser) Final user : ");
         System.out.println(user);
@@ -114,17 +93,12 @@ public class User {
     }
 
     // GET user Category
-    public static String fetchCategory(Integer userId){
+    public static String fetchCategory(Integer userId) throws Exception {
         String result;
-        try {
-            System.out.println("(User.fetchCategory) About to ask Category of user");
-            HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
-            result = response.getData();
-            // TODO Test : Initially return Integer.valueOf(content.toString());
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        System.out.println("(User.fetchCategory) About to ask Category of user");
+        HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
+        result = response.getData();
+        // TODO Test : Initially return Integer.valueOf(content.toString());
 
         System.out.println("(User.fetchCategory) Category of user : ");
         System.out.println(result);
@@ -133,15 +107,10 @@ public class User {
     }
 
     // GET all Users Categories
-    public static JSONArray fetchCategories() {
+    public static JSONArray fetchCategories() throws Exception {
         JSONArray result;
-        try {
-            HttpResponse response = Requester.sendGetRequest("user/categories", null);
-            result = response.getDataAsJSONArray();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        HttpResponse response = Requester.sendGetRequest("user/categories", null);
+        result = response.getDataAsJSONArray();
 
         return result;
     }
@@ -151,7 +120,7 @@ public class User {
     // --- PUT --- //
 
     // PUT a user (Update)
-    public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) {
+    public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) throws Exception {
         String json =
                 "{\n" +
                         "\t\"id\": \""+user.getId()+"\",\n" +
@@ -175,12 +144,7 @@ public class User {
                         "}";
 
         Integer result;
-        try {
-            result = Requester.sendPutRequest("user/", json, null).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPutRequest("user/", json, null).getResponseCode();
 
         return result;
     }
@@ -188,54 +152,48 @@ public class User {
 
         // --- DELETE ---//
 
-
-    public static JSONArray fetchAllUsers() {
+    public static JSONArray fetchAllUsers() throws Exception {
         JSONArray users;
-        try {
-            HttpResponse response = Requester.sendGetRequest("user/", null);
-            users = response.getDataAsJSONArray();
+        HttpResponse response = Requester.sendGetRequest("user/", null);
+        users = response.getDataAsJSONArray();
 
-            for(int i = 0; i < users.length(); i++) {
+        for(int i = 0; i < users.length(); i++) {
 
-                //Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
-                Integer categorieUtilisateur = 5;
+            //Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
+            Integer categorieUtilisateur = 5;
 
-                users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
+            users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
 
-                if (users.getJSONObject(i).isNull("Libelle")) {
-                    users.getJSONObject(i).put("Libelle", "");
-                }
-                if (users.getJSONObject(i).isNull("nom")) {
-                    users.getJSONObject(i).put("nom", "");
-                }
-                if (users.getJSONObject(i).isNull("prenom ")) {
-                    users.getJSONObject(i).put("prenom", "");
-                }
-                if (users.getJSONObject(i).isNull("photo")) {
-                    users.getJSONObject(i).put("photo", "");
-                }
-                if (users.getJSONObject(i).isNull("desc")) {
-                    users.getJSONObject(i).put("desc", "");
-                }
-                if (users.getJSONObject(i).isNull("tailleOrganisme")) {
-                    users.getJSONObject(i).put("tailleOrganisme", 0);
-                }
-                if (users.getJSONObject(i).isNull("dateDeNaissance")) {
-                    users.getJSONObject(i).put("destinataire", "");
-                }
-                if (users.getJSONObject(i).isNull("nbPointsSourire")) {
-                    users.getJSONObject(i).put("nbPointsSourire", 0);
-                }
+            if (users.getJSONObject(i).isNull("Libelle")) {
+                users.getJSONObject(i).put("Libelle", "");
             }
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            users = null;
+            if (users.getJSONObject(i).isNull("nom")) {
+                users.getJSONObject(i).put("nom", "");
+            }
+            if (users.getJSONObject(i).isNull("prenom ")) {
+                users.getJSONObject(i).put("prenom", "");
+            }
+            if (users.getJSONObject(i).isNull("photo")) {
+                users.getJSONObject(i).put("photo", "");
+            }
+            if (users.getJSONObject(i).isNull("desc")) {
+                users.getJSONObject(i).put("desc", "");
+            }
+            if (users.getJSONObject(i).isNull("tailleOrganisme")) {
+                users.getJSONObject(i).put("tailleOrganisme", 0);
+            }
+            if (users.getJSONObject(i).isNull("dateDeNaissance")) {
+                users.getJSONObject(i).put("destinataire", "");
+            }
+            if (users.getJSONObject(i).isNull("nbPointsSourire")) {
+                users.getJSONObject(i).put("nbPointsSourire", 0);
+            }
         }
 
         return users;
     }
 
-    public static Integer initNewUser(String mail, Integer userCategory) {
+    public static Integer initNewUser(String mail, Integer userCategory) throws Exception {
         JSONObject fetchedUser = fetchUser("mail", mail);
         return addCategory(fetchedUser.getInt("id"), userCategory);
     }

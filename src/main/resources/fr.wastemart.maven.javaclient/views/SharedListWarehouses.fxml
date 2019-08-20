@@ -47,10 +47,10 @@
                         </TableView>
                         <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                                <Button fx:id="valideButton" mnemonicParsing="false" onMouseClicked="#validate" prefHeight="29.0" prefWidth="285.0" text="Valider le changement d'entrepôt" />
+                                <Button fx:id="valideButton" mnemonicParsing="false" onMouseClicked="#validate" prefHeight="29.0" prefWidth="325.0" text="Valider le changement d'entrepôt" />
                             </buttons>
                         </ButtonBar>
-                  <Label fx:id="saveLabel" layoutX="28.0" layoutY="541.0" text="Enregistrement " visible="false" />
+                    <Label fx:id="saveLabel" layoutX="6.0" layoutY="541.0" prefHeight="19.0" prefWidth="227.0" text="Enregistrement " visible="false" />
                     </children>
                 </AnchorPane>
             </items>

@@ -41,6 +41,7 @@
                                 <TableColumn fx:id="productQuantity" prefWidth="155.0" text="Quantité" />
                             </columns>
                         </TableView>
+                        <Label fx:id="info" layoutX="14.0" layoutY="538.0" prefHeight="29.0" prefWidth="485.0" />
                     </children>
                 </AnchorPane>
             </items>

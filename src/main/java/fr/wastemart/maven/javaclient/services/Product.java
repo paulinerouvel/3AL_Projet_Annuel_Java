@@ -9,7 +9,7 @@ public class Product {
         // --- POST --- //
 
     // POST a new Product in a List
-    public static Integer addProductToList(fr.wastemart.maven.javaclient.models.Product product, String token){
+    public static Integer addProductToList(fr.wastemart.maven.javaclient.models.Product product, String token) throws Exception {
         Integer result;
 
         String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
@@ -32,12 +32,7 @@ public class Product {
                         "\t\"destinataire\":"+product.getDestinataire()+"\n" +
                         "}";
 
-        try {
-            result = Requester.sendPostRequest("product/", json, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPostRequest("product/", json, token).getResponseCode();
 
         return result;
     }
@@ -46,66 +41,56 @@ public class Product {
         // --- GET --- //
 
     // GET all Products of a Warehouse
-    public static JSONArray fetchProductsByWarehouse(Integer idWareHhouse){
+    public static JSONArray fetchProductsByWarehouse(Integer idWareHhouse) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null);
-            result = response.getDataAsJSONArray();
+        HttpResponse response = Requester.sendGetRequest("product/warehouse?id=" + idWareHhouse, null);
+        result = response.getDataAsJSONArray();
 
-            for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
-                    result.getJSONObject(i).put("dateMiseEnRayon", "");
-                }
-                if (result.getJSONObject(i).isNull("enRayon")) {
-                    result.getJSONObject(i).put("enRayon", "0");
-                }
-                if (result.getJSONObject(i).isNull("entrepotwm_id")) {
-                    result.getJSONObject(i).put("entrepotwm_id", "0");
-                }
-                if (result.getJSONObject(i).isNull("destinataire")) {
-                    result.getJSONObject(i).put("destinataire", "0");
-                }
-                if(result.getJSONObject(i).isNull("codeBarre")) {
-                    result.getJSONObject(i).put("codeBarre", "");
-                }
+        for(int i = 0; i < result.length(); i++) {
+            if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
+                result.getJSONObject(i).put("dateMiseEnRayon", "");
             }
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
+            if (result.getJSONObject(i).isNull("enRayon")) {
+                result.getJSONObject(i).put("enRayon", "0");
+            }
+            if (result.getJSONObject(i).isNull("entrepotwm_id")) {
+                result.getJSONObject(i).put("entrepotwm_id", "0");
+            }
+            if (result.getJSONObject(i).isNull("destinataire")) {
+                result.getJSONObject(i).put("destinataire", "0");
+            }
+            if(result.getJSONObject(i).isNull("codeBarre")) {
+                result.getJSONObject(i).put("codeBarre", "");
+            }
         }
 
         return result;
     }
 
     // GET all Products of an Order
-    public static JSONArray fetchProductsByOrder(Integer idOrder) {
+    public static JSONArray fetchProductsByOrder(Integer idOrder) throws Exception {
         JSONArray result;
 
-        try {
-            HttpResponse response = Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null);
-            result = response.getDataAsJSONArray();
+        HttpResponse response = Requester.sendGetRequest("product/warehouse?idOrder="+idOrder, null);
+        result = response.getDataAsJSONArray();
 
-            for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
-                    result.getJSONObject(i).put("dateMiseEnRayon", "");
-                }
-                if (result.getJSONObject(i).isNull("enRayon")) {
-                    result.getJSONObject(i).put("enRayon", "0");
-                }
-                if (result.getJSONObject(i).isNull("entrepotwm_id")) {
-                    result.getJSONObject(i).put("entrepotwm_id", "0");
-                }
-                if (result.getJSONObject(i).isNull("destinataire")) {
-                    result.getJSONObject(i).put("destinataire", "0");
-                }
-                if(result.getJSONObject(i).isNull("codeBarre")) {
-                    result.getJSONObject(i).put("codeBarre", "");
-                }
+        for(int i = 0; i < result.length(); i++) {
+            if (result.getJSONObject(i).isNull("dateMiseEnRayon")) {
+                result.getJSONObject(i).put("dateMiseEnRayon", "");
             }
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
+            if (result.getJSONObject(i).isNull("enRayon")) {
+                result.getJSONObject(i).put("enRayon", "0");
+            }
+            if (result.getJSONObject(i).isNull("entrepotwm_id")) {
+                result.getJSONObject(i).put("entrepotwm_id", "0");
+            }
+            if (result.getJSONObject(i).isNull("destinataire")) {
+                result.getJSONObject(i).put("destinataire", "0");
+            }
+            if(result.getJSONObject(i).isNull("codeBarre")) {
+                result.getJSONObject(i).put("codeBarre", "");
+            }
         }
 
         return result;
@@ -114,7 +99,7 @@ public class Product {
         // --- PUT --- //
 
     // PUT a Product (update)
-    public static Integer updateProduct(fr.wastemart.maven.javaclient.models.Product product, String token) {
+    public static Integer updateProduct(fr.wastemart.maven.javaclient.models.Product product, String token) throws Exception {
         Integer result;
 
         String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
@@ -140,12 +125,7 @@ public class Product {
                         "}";
 
 
-        try {
-            result = Requester.sendPutRequest("product/", json, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendPutRequest("product/", json, token).getResponseCode();
 
         return result;
     }
@@ -154,20 +134,15 @@ public class Product {
     // --- DELETE ---//
 
     // DELETE a Product
-    public static Integer deleteProduct(Integer productId, String token){
+    public static Integer deleteProduct(Integer productId, String token) throws Exception {
         Integer result;
-        try {
-            result = Requester.sendDeleteRequest("product/?id=" + productId, token).getResponseCode();
-        } catch (Exception e) {
-            //Logger.reportError(e);
-            result = null;
-        }
+        result = Requester.sendDeleteRequest("product/?id=" + productId, token).getResponseCode();
 
         return result;
     }
 
     // DELETE all the Products in a List
-    public static Integer deleteProductsInList(Integer listId) {
+    public static Integer deleteProductsInList(Integer listId) throws Exception {
         JSONArray products = fr.wastemart.maven.javaclient.services.ProductList.fetchProducts(listId, null);
 
         for(int i = 0; i < products.length(); i++) {

@@ -58,7 +58,7 @@ public class ProfessionnalListProductsController extends GenericController {
     @FXML
     TableColumn<Object, Object> productDate;
 
-    public void init(){
+    public void init() throws Exception {
         listArchiveCheckBox.setSelected(false);
         displayProductLists();
         displayProducts(lists.getJSONObject(0).getInt("id"));
@@ -66,7 +66,7 @@ public class ProfessionnalListProductsController extends GenericController {
     }
 
     @FXML
-    private void displayProductLists() {
+    private void displayProductLists() throws Exception {
         listsTable.getItems().clear();
         lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
 
@@ -85,7 +85,7 @@ public class ProfessionnalListProductsController extends GenericController {
         }
     }
 
-    private void displayProducts(Integer id) {
+    private void displayProducts(Integer id) throws Exception {
         productsTable.getItems().clear();
         products = fetchProducts(id, UserInstance.getInstance().getTokenValue());
 
@@ -107,109 +107,131 @@ public class ProfessionnalListProductsController extends GenericController {
 
     @FXML
     public void clickItem(MouseEvent event) {
-        refreshSelectedIndices();
+        try {
+            refreshSelectedIndices();
 
-        if(indexOfListSelected != -1){
-            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+            if (indexOfListSelected != -1) {
+                displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
     }
 
     public void removeList(ActionEvent event) {
-        refreshSelectedIndices();
+        try {
+            refreshSelectedIndices();
 
-        if(indexOfListSelected != -1){
-            Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
-            Integer removeProductListRes = removeProductsList(listToRemoveId, UserInstance.getInstance().getTokenValue());
+            if(indexOfListSelected != -1){
+                Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
+                Integer removeProductListRes = removeProductsList(listToRemoveId, UserInstance.getInstance().getTokenValue());
+            }
+
+            displayProducts(lists.getJSONObject(0).getInt("id"));
+            displayProductLists();
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
-
-        displayProducts(lists.getJSONObject(0).getInt("id"));
-        displayProductLists();
-
     }
 
     public void createList(ActionEvent event) {
-        refreshSelectedIndices();
-        ProductList productList = new ProductList(-1,
-                "Test",
-                LocalDate.now(),
-                UserInstance.getInstance().getUser().getId(),
-                0);
+        try {
+            refreshSelectedIndices();
+            ProductList productList = new ProductList(-1,
+                    "Test",
+                    LocalDate.now(),
+                    UserInstance.getInstance().getUser().getId(),
+                    0);
 
-        createProductList(productList, UserInstance.getInstance().getTokenValue());
-        displayProductLists();
+            createProductList(productList, UserInstance.getInstance().getTokenValue());
+            displayProductLists();
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     public void removeProduct(ActionEvent event) {
-        refreshSelectedIndices();
+        try {
+            refreshSelectedIndices();
 
-        if (indexOfProductSelected != -1){
-            deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue());
-        }
-
-        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
-    }
-
-    public void displayAddProduct(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
-
-        if(indexOfListSelected != -1) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
-
-            Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                // TODO: handle error
-                return;
+            if (indexOfProductSelected != -1){
+                deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue());
             }
 
-            SharedDetailsProductController controller = loader.getController();
-            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
-
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
-
+            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
+    }
 
-        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+    public void displayAddProduct(ActionEvent actionEvent) {
+        try {
+            refreshSelectedIndices();
 
+            if(indexOfListSelected != -1) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+
+                Scene newScene;
+                newScene = new Scene(loader.load());
+
+                SharedDetailsProductController controller = loader.getController();
+                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
+
+                Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                Stage inputStage = new Stage();
+                inputStage.initOwner(stageNodeRoot);
+                inputStage.setScene(newScene);
+                inputStage.showAndWait();
+
+            }
+
+            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     public void displayModifyProduct(ActionEvent actionEvent) throws Exception {
-        refreshSelectedIndices();
+        try {
+            refreshSelectedIndices();
 
-        if(indexOfProductSelected != -1) {
+            if(indexOfProductSelected != -1) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
 
-            Scene newScene;
-            try {
-                newScene = new Scene(loader.load());
-            } catch (IOException ex) {
-                // TODO: handle error
-                return;
+                Scene newScene;
+                try {
+                    newScene = new Scene(loader.load());
+                } catch (IOException ex) {
+                    // TODO: handle error
+                    return;
+                }
+
+                SharedDetailsProductController controller = loader.getController();
+                JSONObject product = products.getJSONObject(indexOfProductSelected);
+                Product productToModify = jsonToProduct(product);
+
+                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
+
+                Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                Stage inputStage = new Stage();
+                inputStage.initOwner(stageNodeRoot);
+                inputStage.setScene(newScene);
+                inputStage.showAndWait();
             }
 
-            SharedDetailsProductController controller = loader.getController();
-            JSONObject product = products.getJSONObject(indexOfProductSelected);
-            Product productToModify = jsonToProduct(product);
-
-            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
-
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
+            displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
         }
-
-        displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
-
     }
 
     public void refreshSelectedIndices() {

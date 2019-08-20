@@ -27,7 +27,6 @@ public class AdminListOrdersController extends GenericController {
     private Integer indexOfListSelected;
     private Integer swapIdWarehouse;
 
-
     // order
     @FXML TableView<Order> ordersTable;
     @FXML TableColumn<Object, Object> orderId;
@@ -44,99 +43,68 @@ public class AdminListOrdersController extends GenericController {
     @FXML TableColumn<Object, Object> productDate;
     @FXML TableColumn<Object, Object> productQuantity;
 
-    @FXML
-    Label saveLabel;
+    @FXML Label saveLabel;
 
-    public void init(){
-        try{
-            displayOrderList();
-            displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
-            ordersTable.getSelectionModel().selectFirst();
-        }
-        catch (Exception ex) {
-            System.out.println("Problème init" + ex);
+    @Override
+    public void init() throws Exception {
+        displayOrderList();
+        displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
+        ordersTable.getSelectionModel().selectFirst();
+    }
+
+    private void displayOrderList() throws Exception {
+        ordersTable.getItems().clear();
+        orders = fetchOrder(UserInstance.getInstance().getTokenValue());
+
+        orderId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        orderDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        orderUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
+        for (int i = 0; i < orders.length(); i++) {
+            JSONObject order = orders.getJSONObject(i);
+            //Order orderElement = jsonToOrder(order);
+            Order orderElement = new Order(order.getInt("id"),
+                    ZonedDateTime.parse(order.getString("date")).toLocalDate(),
+                    order.getInt("utilisateurID")
+            );
+
+            ordersTable.getItems().add(orderElement);
         }
     }
 
-    private void displayOrderList() {
+    private void displayProductsByOrder(Integer id) throws Exception {
+        productsTable.getItems().clear();
+        products = fetchProductsByOrder(id);
 
-        try {
-            ordersTable.getItems().clear();
-            orders = fetchOrder(UserInstance.getInstance().getTokenValue());
+        productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
+        productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
+        productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
+        productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+        productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
 
-            orderId.setCellValueFactory(new PropertyValueFactory<>("id"));
-            orderDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-            orderUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        for (int i = 0; i < products.length(); i++) {
+            JSONObject product = products.getJSONObject(i);
 
-            for (int i = 0; i < orders.length(); i++) {
-                JSONObject order = orders.getJSONObject(i);
-                //Order orderElement = jsonToOrder(order);
-                Order orderElement = new Order(order.getInt("id"),
-                        ZonedDateTime.parse(order.getString("date")).toLocalDate(),
-                        order.getInt("utilisateurID")
-                );
-
-                ordersTable.getItems().add(orderElement);
-
-            }
-
-        }
-        catch (Exception ex) {
-            System.out.println("Pb avec displayOrderList" + ex);
-        }
-
-
-    }
-
-
-    private void displayProductsByOrder(Integer id) {
-        try {
-            productsTable.getItems().clear();
-            products = fetchProductsByOrder(id);
-
-            productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-            productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-            productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-            productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
-            productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
-            productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
-            productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
-            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-
-
-            for (int i = 0; i < products.length(); i++) {
-                JSONObject product = products.getJSONObject(i);
-
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.getInt("enRayon"),
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.getInt("entrepotwm_id"),
-                        product.getInt("destinataire")
-                );
-                productsTable.getItems().add(productElement);
-            }
-        }
-        catch(Exception ex) {
-            System.out.println("probleme displayProductsByOrder " + ex);
-        }
-    }
-
-    @FXML
-    public void clickItem(MouseEvent event) {
-        refreshSelectedIndices();
-
-        if(indexOfListSelected != -1){
-            displayProductsByOrder(orders.getJSONObject(indexOfListSelected).getInt("id"));
+            Product productElement = new Product(product.getInt("id"),
+                    product.getString("libelle"),
+                    product.getString("desc"),
+                    product.getString("photo"),
+                    product.getFloat("prix"),
+                    product.getFloat("prixInitial"),
+                    product.getInt("quantite"),
+                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
+                    product.getString("codeBarre"),
+                    product.getInt("enRayon"),
+                    product.getString("dateMiseEnRayon"),
+                    product.getInt("categorieProduit_id"),
+                    product.getInt("listProduct_id"),
+                    product.getInt("entrepotwm_id"),
+                    product.getInt("destinataire")
+            );
+            productsTable.getItems().add(productElement);
         }
     }
 
@@ -144,6 +112,19 @@ public class AdminListOrdersController extends GenericController {
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
         this.indexOfListSelected = ordersTable.getSelectionModel().getSelectedIndex();
 
+    }
+
+    public void clickItem(MouseEvent event) {
+        refreshSelectedIndices();
+
+        if(indexOfListSelected != -1){
+            try {
+                displayProductsByOrder(orders.getJSONObject(indexOfListSelected).getInt("id"));
+            } catch (Exception e) {
+                //Logger.reportError(e);
+                setInfoErrorOccurred();
+            }
+        }
     }
 
     // Return button

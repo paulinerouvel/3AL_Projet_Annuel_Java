@@ -55,7 +55,7 @@ public class UserInstance {
         }
     }
 
-    public void initUser(){
+    public void initUser() throws Exception {
         JSONObject fetchedUser = fr.wastemart.maven.javaclient.services.User.fetchUser("id", String.valueOf(token.getInt("userId")));
         setUser(fr.wastemart.maven.javaclient.services.User.jsonToUser(fetchedUser));
     }

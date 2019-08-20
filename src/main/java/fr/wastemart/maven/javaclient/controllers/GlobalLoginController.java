@@ -2,47 +2,49 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.HttpResponse;
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
 public class GlobalLoginController extends GenericController {
     @FXML public TextField login;
     @FXML public PasswordField password;
-    @FXML public TextArea connectionStatus;
 
-    public void init(String data) {
-        connectionStatus.setText(data);
+    public void init(String message) {
+        setInfoText(message);
     }
 
     public void authenticate(ActionEvent actionEvent) {
-        connectionStatus.setText("Trying to connect...");
+        setInfoText("Trying to connect...");
         new Thread(() -> {
             HttpResponse loginResponse = UserInstance.getInstance().login(login.getText(), password.getText());
 
             Platform.runLater(() -> {
-                /*StageManager.getInstance().loadPage(actionEvent,
-                        "/fr.wastemart.maven.javaclient/views/EmployeeMain.fxml",
-                        UserInstance.getInstance());*/
-                processLoginAttempt(loginResponse, actionEvent);
+                try {
+                    processLoginAttempt(loginResponse, actionEvent);
+                } catch (Exception e) {
+                    //Logger.reportError(e);
+                    setInfoText("Test");
+                    setInfoErrorOccurred();
+                }
             });
         }).start();
     }
 
-    public void processLoginAttempt(HttpResponse loginResponse, ActionEvent actionEvent){
+    public void processLoginAttempt(HttpResponse loginResponse, ActionEvent actionEvent) throws Exception {
         if(loginResponse.getResponseCode() > 299){
             if(loginResponse.getResponseCode() == 503){
-                connectionStatus.setText("Timeout");
+                setInfoText("Timeout");
             } else if(loginResponse.getResponseCode() == 400) {
-                connectionStatus.setText("Identifiant ou mot de passe incorrect");
+                setInfoText("Identifiant ou mot de passe incorrect");
             } else if(loginResponse.getResponseCode() == 401) {
-                connectionStatus.setText("Cet utilisateur n'existe pas ou n'est pas activé");
+                setInfoText("Cet utilisateur n'existe pas ou n'est pas activé");
             } else {
-                connectionStatus.setText("Erreur interne. Veuillez re-essayer plus tard.");
+                setInfoText("Erreur interne. Veuillez re-essayer plus tard.");
             }
         } else {
             UserInstance.getInstance().setToken(loginResponse.getDataAsJSONObject());
@@ -55,7 +57,7 @@ public class GlobalLoginController extends GenericController {
 
             }
             else {
-                connectionStatus.setText("Token incorrect. Re-essayez.");
+                setInfoText("Token incorrect. Re-essayez.");
             }
         }
     }
