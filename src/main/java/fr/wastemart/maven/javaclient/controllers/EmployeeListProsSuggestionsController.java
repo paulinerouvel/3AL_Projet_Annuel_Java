@@ -1,29 +1,28 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import fr.wastemart.maven.javaclient.models.Product;
-import fr.wastemart.maven.javaclient.models.ProductList;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static fr.wastemart.maven.javaclient.services.ProductList.*;
 import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.ProductList.*;
 
 public class EmployeeListProsSuggestionsController extends GenericController {
     private JSONArray lists;
@@ -111,7 +110,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
             try {
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
             }
         }
@@ -131,7 +130,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
             }
         }
@@ -151,7 +150,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
 
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
             }
         }
@@ -182,7 +181,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
             }
             displayProductLists();
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -208,7 +207,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -240,7 +239,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }

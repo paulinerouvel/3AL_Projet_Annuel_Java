@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.Warehouse;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
@@ -144,7 +145,7 @@ public class SharedListWarehousesController extends GenericController {
                 displayProductsByWarehouse(warehouses.getJSONObject(indexOfListSelected).getInt("id"));
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -167,7 +168,7 @@ public class SharedListWarehousesController extends GenericController {
                 saveLabel.setVisible(true);
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }

@@ -79,7 +79,6 @@ class Requester {
 
         if (status > 299) {
             return new HttpResponse(status, null);
-            //Logger.reportMessage("Response code : "+status);
         } else {
             streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
         }
@@ -114,7 +113,7 @@ class Requester {
         try(OutputStream os = con.getOutputStream()) {
             os.write(output);
         } catch (Exception e){
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
         }
     }
 }

@@ -56,6 +56,7 @@ public class Logger {
         }
     }
 
+
     private File createLogFile(Exception ex) {
         LocalDateTime ldt = LocalDateTime.now();
         String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss", Locale.FRANCE).format(ldt);

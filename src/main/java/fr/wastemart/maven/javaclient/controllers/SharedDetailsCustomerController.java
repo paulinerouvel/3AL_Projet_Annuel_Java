@@ -1,6 +1,7 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.User;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
@@ -59,7 +60,7 @@ public class SharedDetailsCustomerController extends GenericController {
             }
 
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }

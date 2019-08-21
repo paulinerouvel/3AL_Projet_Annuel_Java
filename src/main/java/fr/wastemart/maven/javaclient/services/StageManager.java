@@ -46,7 +46,7 @@ public class StageManager {
             try {
                 genericController.init();
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 e.printStackTrace();
                 genericController.initFail();
             }
@@ -54,7 +54,7 @@ public class StageManager {
             // Display the Page
             rootLayout.setCenter(mainPane);
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
         }
     }
 
@@ -70,13 +70,13 @@ public class StageManager {
             try {
                 genericController.init(data);
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
             }
 
             // Display the Page
             rootLayout.setCenter(mainPane);
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
         }
     }
 
@@ -89,14 +89,14 @@ public class StageManager {
             try {
                 genericController.init();
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 genericController.initFail();
             }
 
             showBorderPane(stageNodeRoot, mainPane);
             stageNodeRoot.show();
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
         }
     }
 
@@ -117,7 +117,7 @@ public class StageManager {
             try {
                 globalLoginController.init("Successfully Disconnected");
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
             }
 
             stageNodeRoot.setScene(scene);
@@ -155,7 +155,7 @@ public class StageManager {
             globalRootLayoutController.init();
 
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
         }
     }
 

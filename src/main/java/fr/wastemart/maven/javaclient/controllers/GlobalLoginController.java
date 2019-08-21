@@ -1,12 +1,12 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.HttpResponse;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -27,7 +27,7 @@ public class GlobalLoginController extends GenericController {
                 try {
                     processLoginAttempt(loginResponse, actionEvent);
                 } catch (Exception e) {
-                    //Logger.reportError(e);
+                    Logger.getInstance().reportError(e);
                     setInfoText("Test");
                     setInfoErrorOccurred();
                 }

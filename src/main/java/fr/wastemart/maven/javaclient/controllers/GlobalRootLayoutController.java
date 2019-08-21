@@ -1,12 +1,12 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 
 public class GlobalRootLayoutController extends GenericController {
     @FXML public MenuBar menuBar;

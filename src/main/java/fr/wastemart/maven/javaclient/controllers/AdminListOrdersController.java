@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Order;
 import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
@@ -16,8 +17,8 @@ import org.json.JSONObject;
 
 import java.time.ZonedDateTime;
 
-import static fr.wastemart.maven.javaclient.services.Order.fetchOrder;
-import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByOrder;
+import static fr.wastemart.maven.javaclient.services.Order.*;
+import static fr.wastemart.maven.javaclient.services.Product.*;
 
 
 public class AdminListOrdersController extends GenericController {
@@ -121,7 +122,7 @@ public class AdminListOrdersController extends GenericController {
             try {
                 displayProductsByOrder(orders.getJSONObject(indexOfListSelected).getInt("id"));
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
             }
         }

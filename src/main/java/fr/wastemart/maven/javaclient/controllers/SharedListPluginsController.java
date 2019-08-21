@@ -1,5 +1,6 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
@@ -9,15 +10,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static fr.wastemart.maven.pluginmanager.PluginLoader.*;
+import static fr.wastemart.maven.pluginmanager.PluginLoader.getPluginsNames;
 import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
 public class SharedListPluginsController extends GenericController {
@@ -50,7 +47,7 @@ public class SharedListPluginsController extends GenericController {
             fetchInstalledPlugins();
             fetchAvailablePlugins();
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -74,7 +71,7 @@ public class SharedListPluginsController extends GenericController {
             fetchInstalledPlugins();
             fetchAvailablePlugins();
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoText("Le plug-in n'a pas pu se télécharger, assurez-vous d'avoir assez d'espace disponible");
         }
     }
@@ -93,7 +90,7 @@ public class SharedListPluginsController extends GenericController {
             fetchInstalledPlugins();
             fetchAvailablePlugins();
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -110,7 +107,7 @@ public class SharedListPluginsController extends GenericController {
                 setInfoText("Veuillez sélectionner un plug-in");
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -127,7 +124,7 @@ public class SharedListPluginsController extends GenericController {
                 setInfoText("Veuillez sélectionner un plug-in");
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
@@ -148,7 +145,7 @@ public class SharedListPluginsController extends GenericController {
 
             dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoText("Veuillez sélectionner un dossier valide");
         }
     }
@@ -167,7 +164,7 @@ public class SharedListPluginsController extends GenericController {
             dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
 
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoText("Problème de récupération de la liste des plug-ins disponibles");
         }
     }

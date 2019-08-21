@@ -1,11 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import fr.wastemart.maven.javaclient.models.Product;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 
 import java.time.LocalDate;
 
@@ -115,7 +119,7 @@ public class SharedDetailsProductController extends GenericController {
                 setInfoText(result);
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }

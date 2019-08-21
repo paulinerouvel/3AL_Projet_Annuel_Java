@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.models.UserCategory;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
@@ -14,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.User.fetchCategories;
+import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class AdminListUsersController extends GenericController {
     private JSONArray lists;
@@ -112,7 +113,7 @@ public class AdminListUsersController extends GenericController {
             try {
                 displayUsersByCategory(lists.getJSONObject(indexOfListSelected).getString("libelle"));
             } catch (Exception e) {
-                //Logger.reportError(e);
+                Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
             }
         }

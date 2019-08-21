@@ -1,6 +1,7 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.User;
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -144,7 +145,7 @@ public class GlobalRegisterController extends GenericController {
                 setInfoText("Veuillez remplir les champs");
             }
         } catch (Exception e) {
-            //Logger.reportError(e);
+            Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
         }
     }
