@@ -18,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>fr.wastemart.maven.pluginmanager</groupId>
+            <artifactId>pluginloader</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--<dependency>
             <groupId>fr.wastemart.maven.annotationprocessing</groupId>
             <artifactId>generate-code-processor</artifactId>
@@ -85,11 +90,11 @@
     <build>
         <plugins>
             <!-- Plugin manager
-            <plugin>
+            <plugins>
                 <groupId></groupId>
                 <artifactId></artifactId>
                 <version>1.0-SNAPSHOT</version>
-            </plugin>-->
+            </plugins>-->
 
             <plugin>
                 <groupId>org.openjfx</groupId>

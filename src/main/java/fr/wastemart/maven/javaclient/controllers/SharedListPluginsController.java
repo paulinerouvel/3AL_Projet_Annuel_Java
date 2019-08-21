@@ -16,11 +16,9 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import static fr.wastemart.maven.javaclient.pluginmanager.PluginLoader.getPluginsNames;
-import static fr.wastemart.maven.javaclient.pluginmanager.PluginManager.*;
-
+import static fr.wastemart.maven.pluginmanager.PluginLoader.*;
+import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
 public class SharedListPluginsController extends GenericController {
     private String pluginURL = "http://51.75.143.205:8080/plugins/";
@@ -33,7 +31,7 @@ public class SharedListPluginsController extends GenericController {
     @FXML private ListView<String> onlinePluginsListView;
 
     public void init() { // Ne throw pas car peut être normal
-        pluginPath.setText("");
+        pluginPath.setText(System.getProperty("user.dir"));
         fetchInstalledPlugins();
         fetchAvailablePlugins();
     }
@@ -66,11 +64,9 @@ public class SharedListPluginsController extends GenericController {
             if (onlinePlugins != null || (selectedIndice >= 0 && selectedIndice < onlinePlugins.size())){
                 String pluginName = onlinePlugins.get(selectedIndice);
 
-                if(installPlugin(pluginURL, pluginName)){
-                    setInfoText("Plug-in téléchargé avec succès");
-                } else {
-                    setInfoText("Le plug-in n'a pas pu se télécharger, assurez-vous d'avoir assez d'espace disponible");
-                }
+                installPlugin(pluginURL, pluginName);
+                setInfoText("Plug-in téléchargé avec succès");
+
             } else {
                 setInfoText("Sélectionnez un plug-in dans la liste des plugins en ligne");
             }
@@ -79,8 +75,7 @@ public class SharedListPluginsController extends GenericController {
             fetchAvailablePlugins();
         } catch (Exception e) {
             //Logger.reportError(e);
-            e.printStackTrace();
-            setInfoErrorOccurred();
+            setInfoText("Le plug-in n'a pas pu se télécharger, assurez-vous d'avoir assez d'espace disponible");
         }
     }
 
@@ -105,10 +100,14 @@ public class SharedListPluginsController extends GenericController {
 
     public void enablePlugin(ActionEvent actionEvent) {
         try {
-            if(activatePlugin(localPlugins, getSelectedIndex(localPluginsListView))){
-                setInfoText("Plug-in activé");
-            } else {
-                setInfoText("Plug-in déjà activé");
+            if (getSelectedIndex(localPluginsListView) != -1)
+                if (activatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {
+                    setInfoText("Plug-in activé");
+                } else {
+                    setInfoText("Plug-in déjà activé");
+                }
+            else {
+                setInfoText("Veuillez sélectionner un plug-in");
             }
         } catch (Exception e) {
             //Logger.reportError(e);
@@ -116,7 +115,22 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    public void disablePlugin(ActionEvent actionEvent) {}
+    public void disablePlugin(ActionEvent actionEvent) {
+        try {
+            if (getSelectedIndex(localPluginsListView) != -1)
+                if (desactivatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {
+                    setInfoText("Plug-in desactivé");
+                } else {
+                    setInfoText("Plug-in déjà activé");
+                }
+            else {
+                setInfoText("Veuillez sélectionner un plug-in");
+            }
+        } catch (Exception e) {
+            //Logger.reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
 
     private void fetchInstalledPlugins() {
         try {
@@ -125,7 +139,11 @@ public class SharedListPluginsController extends GenericController {
 
             localPlugins = getPluginsNames(pluginPath.getText());
             for (String localPlugin : localPlugins) {
-                this.localPluginsListView.getItems().add(localPlugin.substring(localPlugin.lastIndexOf("/") + 1, localPlugin.length()));
+
+                File f = new File(localPlugin);
+                if(localPlugin.substring(localPlugin.lastIndexOf(".")).equals(".jar")){
+                    localPluginsListView.getItems().add(f.getName());
+                }
             }
 
             dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
@@ -140,14 +158,7 @@ public class SharedListPluginsController extends GenericController {
             Integer previouslySelectedIndex = getSelectedIndex(onlinePluginsListView);
             onlinePlugins = fetchOnlinePlugins(pluginURL);
 
-            onlinePlugins = new ArrayList<String>();
             onlinePluginsListView.getItems().clear();
-            Document document = Jsoup.connect(pluginURL).get();
-
-            Elements link = document.select("a[href]");
-            for (Element links : link) {
-                onlinePlugins.add(links.text());
-            }
 
             for (String onlinePlugin : onlinePlugins) {
                 this.onlinePluginsListView.getItems().add(onlinePlugin);
@@ -162,17 +173,12 @@ public class SharedListPluginsController extends GenericController {
     }
 
     private void dynamicallySelectIndex(ListView<String> ListView, ArrayList<String> Plugins, Integer previousIndex) {
-
         if (!ListView.getItems().isEmpty() || getSelectedIndex(ListView) > Plugins.size()) {
             ListView.getSelectionModel().select(Plugins.size()-1);
         } else {
             ListView.getSelectionModel().select(previousIndex);
 
         }
-    }
-
-    public void reloadPage(ActionEvent actionEvent){
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml", UserInstance.getInstance());
     }
 
     private Integer getSelectedIndex(ListView<String> list) {

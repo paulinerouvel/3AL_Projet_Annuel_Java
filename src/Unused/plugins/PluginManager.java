@@ -1,11 +1,8 @@
-package fr.wastemart.maven.javaclient.pluginmanager;
+package fr.wastemart.maven.javaclient.plugins;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import fr.wastemart.maven.javaclient.pluginmanager.Plugin;
-import fr.wastemart.maven.javaclient.pluginmanager.PluginLoader;
 
 import java.io.*;
 import java.net.URL;
@@ -37,10 +34,10 @@ public class PluginManager {
 	    String choice;
 		System.out.println("\tBienvenue dans l'outil de gestion de plugins \n" +
                 "Que souhaitez vous faire ?\n" +
-                "1 - Installer un nouveau plugin\n" +
-                "2 - Désinstaller un plugin\n" +
-                "3 - Activer un plugin\n" +
-                "4 - Désactiver un plugin\n" +
+                "1 - Installer un nouveau plugins\n" +
+                "2 - Désinstaller un plugins\n" +
+                "3 - Activer un plugins\n" +
+                "4 - Désactiver un plugins\n" +
                 "5 - Terminer le programme\n" +
                 "Votre choix : ");
 
@@ -76,10 +73,10 @@ public class PluginManager {
 
             System.out.println(
                     "Que souhaitez vous faire ?\n" +
-                    "1 - Installer un nouveau plugin\n" +
-                    "2 - Désinstaller un plugin\n" +
-                    "3 - Activer un plugin\n" +
-                    "4 - Désactiver un plugin\n" +
+                    "1 - Installer un nouveau plugins\n" +
+                    "2 - Désinstaller un plugins\n" +
+                    "3 - Activer un plugins\n" +
+                    "4 - Désactiver un plugins\n" +
                     "5 - Terminer le programme\n" +
                     "Votre choix : ");
             choice = sc.nextLine();
@@ -115,20 +112,24 @@ public class PluginManager {
     }
 
 	public static void loadPlugins(){
+        System.out.println(getPath());
+        System.out.println(confFile);
 
 
         try {
+            System.out.println("1");
 
             /**Chargement des plugins*/
             Class<?>[] pluginsClasses = PluginLoader.loadPluginsDirectory(path);
-
+            System.out.println("2");
             plugins = PluginLoader.initAsPlugin(pluginsClasses);
 
+            System.out.println("3");
             /**Chargement des noms des plugins*/
 
             pluginsName = PluginLoader.getPluginsNames(path);
 
-
+            System.out.println("4");
 
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -142,6 +143,9 @@ public class PluginManager {
     }
 
 	public static Boolean activatePlugin(String[] pluginsName, Integer choice) throws Exception {
+        System.out.println(getPath());
+        System.out.println(confFile);
+
         if(pluginsName != null){
             if(choice < 0 || choice >= pluginsName.length){
                 System.out.println("Saisie invalide");
@@ -203,6 +207,9 @@ public class PluginManager {
     }
 
     public static void desactivatePlugin(){
+        System.out.println(getPath());
+        System.out.println(confFile);
+
         if(pluginsName != null){
 
             String choice;
@@ -285,6 +292,9 @@ public class PluginManager {
     }
 
     public static ArrayList<String> fetchOnlinePlugins(String url) throws Exception {
+        System.out.println(getPath());
+        System.out.println(confFile);
+
         url = "http://51.75.143.205:8080/plugins/";
         ArrayList<String> pluginsAvailable = new ArrayList<String>();
 
@@ -300,6 +310,9 @@ public class PluginManager {
     }
 
     public static Boolean installPlugin(String url, String pluginName) throws IOException {
+        System.out.println(getPath());
+        System.out.println(confFile);
+
         url += pluginName;
 
         try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
@@ -319,6 +332,9 @@ public class PluginManager {
     }
 
     public static Boolean uninstallPlugin(Integer choice) throws Exception {
+        System.out.println(getPath());
+        System.out.println(confFile);
+
         File dir = new File(getPath());
 
         final File[] pluginsList = dir.listFiles();
@@ -349,6 +365,7 @@ public class PluginManager {
     }
 
     public static void setPath(String path) {
-        PluginManager.path = path;
+        //PluginManager.path = path;
+        System.out.println("Deactivated");
     }
 }
