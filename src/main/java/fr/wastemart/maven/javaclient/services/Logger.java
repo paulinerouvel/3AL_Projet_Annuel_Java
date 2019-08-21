@@ -82,7 +82,7 @@ public class Logger {
         System.out.println("Writing error in file");
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(getLogFile()));
+            writer = new BufferedWriter(new FileWriter(getLogFile(),true));
             writer.write( LocalDateTime.now() +" : "+ ex.getMessage() + "\nExecution Details :\n");
 
             for(int i = 0; i < ex.getStackTrace().length; i += 1){
