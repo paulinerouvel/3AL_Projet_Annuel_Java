@@ -11,15 +11,7 @@ import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-
-
-    private AnchorPane login;
     private Stage stage;
-    private Scene actualScene;
-
-
-
-
 
     /**
      * Calls start() internally
@@ -42,7 +34,6 @@ public class MainApp extends Application {
 
     }
 
-
     /**
      * Shows the login overview inside the root layout.
      */
@@ -51,21 +42,17 @@ public class MainApp extends Application {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml"));
-            login = loader.load();
+            AnchorPane login = loader.load();
 
             GlobalLoginController globalLoginController = loader.getController();
             globalLoginController.init("Veuillez vous connecter");
 
             // Set person overview into the center of root layout.
-            actualScene = new Scene(login);
+            Scene actualScene = new Scene(login);
             stage.setScene(actualScene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
