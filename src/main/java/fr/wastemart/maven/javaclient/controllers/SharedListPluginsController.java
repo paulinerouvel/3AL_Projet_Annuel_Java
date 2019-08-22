@@ -15,7 +15,7 @@ import static fr.wastemart.maven.pluginmanager.PluginLoader.getPluginsNames;
 import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
 public class SharedListPluginsController extends GenericController {
-    private String pluginURL = "http://51.75.143.205:8080/plugins/";
+    private String pluginURL = dotenv.get("WASTEMART_WEBSERVER_PLUGINS");
     @FXML private TextField pluginPath;
 
     private static String[] localPlugins;

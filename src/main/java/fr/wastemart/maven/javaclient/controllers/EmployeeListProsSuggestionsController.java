@@ -60,8 +60,12 @@ public class EmployeeListProsSuggestionsController extends GenericController {
 
     public void init() throws Exception {
         displayProductLists();
-        displayProducts(lists.getJSONObject(0).getInt("id"));
-        listsTable.getSelectionModel().selectFirst();
+        if(!lists.isEmpty()) {
+            displayProducts(lists.getJSONObject(0).getInt("id"));
+            listsTable.getSelectionModel().selectFirst();
+        } else {
+            setInfoText("Aucune liste trouvée");
+        }
     }
 
     private void displayProductLists() throws Exception {

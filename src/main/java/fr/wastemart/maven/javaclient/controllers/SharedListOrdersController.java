@@ -46,11 +46,10 @@ public class SharedListOrdersController extends GenericController {
 
     @Override
     public void init() throws Exception {
-        setInfoText("Chargement ...");
         displayOrderList();
         displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
         ordersTable.getSelectionModel().selectFirst();
-        setInfoText("");
+
     }
 
     private void displayOrderList() throws Exception {
@@ -92,18 +91,15 @@ public class SharedListOrdersController extends GenericController {
 
             productsTable.getItems().add(productElement);
         }
+
     }
 
     public void refreshSelectedIndices() {
-        setInfoText("Chargement ...");
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
         this.indexOfListSelected = ordersTable.getSelectionModel().getSelectedIndex();
-        setInfoText("");
-
     }
 
     public void clickItem() {
-        setInfoText("Chargement ...");
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
@@ -114,7 +110,6 @@ public class SharedListOrdersController extends GenericController {
                 setInfoErrorOccurred();
             }
         }
-        setInfoText("");
     }
 
     // Return button

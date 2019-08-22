@@ -22,6 +22,7 @@ public abstract class GenericController {
     }
 
     public void setInfoText(String string) {
+        System.out.println(string);
         info.setText(string);
     }
 

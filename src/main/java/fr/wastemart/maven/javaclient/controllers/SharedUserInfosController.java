@@ -8,8 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
-import static fr.wastemart.maven.javaclient.services.User.updateUser;
+import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class SharedUserInfosController extends GenericController {
     @FXML
@@ -28,6 +29,8 @@ public class SharedUserInfosController extends GenericController {
     private TextField employeeNumber;
     @FXML
     private PasswordField pwField;
+    @FXML
+    private ImageView employeePhoto;
 
     public void init() throws Exception {
         employeeName.setText(UserInstance.getInstance().getUser().getNom());
@@ -36,6 +39,9 @@ public class SharedUserInfosController extends GenericController {
         employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
         employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
         employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
+        fr.wastemart.maven.javaclient.services.User
+        employeePhoto.setImage();
+
     }
 
     public void save() {

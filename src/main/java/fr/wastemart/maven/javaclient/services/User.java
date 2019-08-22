@@ -3,6 +3,14 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+
+import static fr.wastemart.maven.pluginmanager.PluginManager.getPath;
+
 public class User {
         // --- POST --- //
 
@@ -115,6 +123,18 @@ public class User {
         return result;
     }
 
+    public static File fetchPhoto(String url, String file) throws Exception {
+        url += file;
+
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+             FileOutputStream fileOS = new FileOutputStream("src/main/resources/images/" + file)) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+        }
+    }
 
 
     // --- PUT --- //
@@ -197,6 +217,8 @@ public class User {
         JSONObject fetchedUser = fetchUser("mail", mail);
         return addCategory(fetchedUser.getInt("id"), userCategory);
     }
+
+
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
         fr.wastemart.maven.javaclient.models.User userObject = new fr.wastemart.maven.javaclient.models.User(

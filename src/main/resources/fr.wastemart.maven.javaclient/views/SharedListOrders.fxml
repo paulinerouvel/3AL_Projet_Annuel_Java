@@ -15,8 +15,8 @@
                     <children>
                         <TableView fx:id="ordersTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickItem" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                             <columns>
-                                <TableColumn fx:id="orderId" prefWidth="81.0" text="Num" />
-                                <TableColumn fx:id="orderDate" prefWidth="161.0" text="Date" />
+                                <TableColumn fx:id="orderId" prefWidth="60.0" text="Num" />
+                                <TableColumn fx:id="orderDate" prefWidth="102.0" text="Date" />
                                 <TableColumn fx:id="orderUser" prefWidth="81.0" text="Client" />
                             </columns>
                             <columnResizePolicy>
