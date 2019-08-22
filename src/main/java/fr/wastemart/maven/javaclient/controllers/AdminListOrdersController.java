@@ -5,7 +5,6 @@ import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -14,8 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Order.*;
 import static fr.wastemart.maven.javaclient.services.Product.*;
@@ -99,7 +96,7 @@ public class AdminListOrdersController extends GenericController {
 
     }
 
-    public void clickItem(MouseEvent event) {
+    public void clickItem() {
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
@@ -113,7 +110,7 @@ public class AdminListOrdersController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    public void displayMainPage() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 }

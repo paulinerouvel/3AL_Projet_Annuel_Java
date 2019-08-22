@@ -2,7 +2,6 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -20,30 +19,30 @@ public class AdminMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
-    public void displayProducts(ActionEvent actionEvent) {}
+    public void displayProducts() {}
 
-    public void displayUsers(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/AdminListUsers.fxml",
+    public void displayUsers() {
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/AdminListUsers.fxml",
                 UserInstance.getInstance());
 
     }
 
-    public void displayRegisterRequests(ActionEvent actionEvent) {
+    public void displayRegisterRequests() {
         //stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml","/views/UserRegistrationList.fxml",
         //        instance);
     }
 
-    public void displayWarehouses(ActionEvent actionEvent) {}
+    public void displayWarehouses() {}
 
-    public void displayCommandList(ActionEvent actionEvent) {}
+    public void displayCommandList() {}
 
-    public void displaySelfUserInfos(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
+    public void displaySelfUserInfos() {
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
                 UserInstance.getInstance());
     }
 
-    public void displayPlugins(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
+    public void displayPlugins() {
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
                 UserInstance.getInstance());
     }
 }

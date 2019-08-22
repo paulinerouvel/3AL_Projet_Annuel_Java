@@ -19,17 +19,17 @@ public class GlobalRootLayoutController extends GenericController {
     @FXML
     public void showAbout(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("About...");
-        alert.setHeaderText("WasteMart Java Client");
-        alert.setContentText("(c) Copyright 2019 - Version 0.2");
+        alert.setTitle("À propos...");
+        alert.setHeaderText("Client Java WasteMart v1.3");
+        alert.setContentText("(c) Copyright 2019");
         alert.showAndWait();
     }
 
-    public void displayMain(ActionEvent event) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), event);
+    public void displayMain() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 
     public void disconnect() {
-        StageManager.getInstance().loadLoginPageFromMenuBar(UserInstance.getInstance(), menuBar);
+        StageManager.getInstance().loadLoginPage(UserInstance.getInstance(), menuBar);
     }
 }

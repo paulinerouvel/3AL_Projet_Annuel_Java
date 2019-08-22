@@ -70,8 +70,8 @@ public class SharedUserInfosController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    public void displayMainPage() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 }
 

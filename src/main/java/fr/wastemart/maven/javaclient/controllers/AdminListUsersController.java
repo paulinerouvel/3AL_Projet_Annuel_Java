@@ -107,7 +107,7 @@ public class AdminListUsersController extends GenericController {
     }
 
     @FXML
-    public void clickItem(MouseEvent event) {
+    public void clickItem() {
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
@@ -121,8 +121,8 @@ public class AdminListUsersController extends GenericController {
     }
 
     @FXML
-    public void modifyUser(ActionEvent event) {
-        StageManager.getInstance().loadPageWithDetails(event,
+    public void modifyUser() {
+        StageManager.getInstance().loadPageWithDetails(
                 "/fr.wastemart.maven.javaclient/views/SharedDetailsCustomer.fxml", UserInstance.getInstance(),
                 usersTable.getSelectionModel().getSelectedItem().getId());
     }
@@ -133,8 +133,8 @@ public class AdminListUsersController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    public void displayMainPage() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 
 }

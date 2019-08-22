@@ -7,7 +7,6 @@ import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -19,8 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
 import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
@@ -165,7 +162,7 @@ public class SharedListWarehousesController extends GenericController {
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    public void displayMainPage() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 }

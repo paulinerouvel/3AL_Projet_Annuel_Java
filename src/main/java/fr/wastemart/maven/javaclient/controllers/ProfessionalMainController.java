@@ -21,19 +21,19 @@ public class ProfessionalMainController extends GenericController {
     }
 
     public void displayProducts(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/ProfessionalListProducts.fxml",
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/ProfessionalListProducts.fxml",
                 UserInstance.getInstance());
     }
 
     public void displayAdminContact(ActionEvent actionEvent) {}
 
     public void displaySelfUserInfos(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
                 UserInstance.getInstance());
     }
 
     public void displayPlugins(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
+        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
                 UserInstance.getInstance());
     }
 

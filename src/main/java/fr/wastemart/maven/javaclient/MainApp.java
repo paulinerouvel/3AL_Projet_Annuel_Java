@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient;
 
 import fr.wastemart.maven.javaclient.controllers.GlobalLoginController;
 import fr.wastemart.maven.javaclient.services.Logger;
+import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,30 +31,7 @@ public class MainApp extends Application {
         this.stage.setTitle("WasteMart");
         stage.setResizable(false);
 
-        showLogin();
-
-    }
-
-    /**
-     * Shows the login overview inside the root layout.
-     */
-    public void showLogin() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml"));
-            AnchorPane login = loader.load();
-
-            GlobalLoginController globalLoginController = loader.getController();
-            globalLoginController.init("Veuillez vous connecter");
-
-            // Set person overview into the center of root layout.
-            Scene actualScene = new Scene(login);
-            stage.setScene(actualScene);
-            stage.show();
-        } catch (IOException e) {
-            Logger.getInstance().reportError(e);
-            //e.printStackTrace();
-        }
+        StageManager.getInstance().setStage(stage);
+        StageManager.getInstance().loadLoginPage(null,null);
     }
 }

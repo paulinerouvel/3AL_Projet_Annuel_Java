@@ -14,8 +14,8 @@
          <Menu mnemonicParsing="false" style="-fx-background-color: #292929;" text="Menu">
            <items>
                   <MenuItem mnemonicParsing="false" onAction="#displayMain" text="Accueil" />
-             <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
-             <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Exit" />
+             <MenuItem mnemonicParsing="false" onAction="#disconnect" text="Déconnexion" />
+             <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Quitter" />
            </items>
          </Menu>
          <Menu mnemonicParsing="false" text="Aide">

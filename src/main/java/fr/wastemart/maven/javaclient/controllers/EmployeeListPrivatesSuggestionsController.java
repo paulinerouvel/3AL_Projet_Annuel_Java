@@ -2,7 +2,6 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.ProductList;
-import fr.wastemart.maven.javaclient.services.DateFormatter;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -21,7 +20,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
@@ -109,7 +107,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     }
 
     @FXML
-    public void clickItem(MouseEvent event) {
+    public void clickItem() {
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
@@ -123,7 +121,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     }
 
     @FXML
-    public void validateProduct(ActionEvent event){
+    public void validateProduct(){
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1) {
@@ -144,7 +142,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     }
 
     @FXML
-    public void refuseProduct(ActionEvent event) throws Exception {
+    public void refuseProduct() throws Exception {
         try {
             refreshSelectedIndices();
 
@@ -164,7 +162,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         }
     }
 
-    public void submitList(ActionEvent event) {
+    public void submitList() {
         try {
             refreshSelectedIndices();
 
@@ -264,7 +262,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
     }
 
     // Return button
-    public void displayMainPage(ActionEvent actionEvent) {
-        StageManager.getInstance().displayMainPage(UserInstance.getInstance(), actionEvent);
+    public void displayMainPage() {
+        StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 }

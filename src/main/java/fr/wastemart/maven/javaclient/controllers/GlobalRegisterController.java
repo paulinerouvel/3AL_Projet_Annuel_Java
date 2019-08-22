@@ -197,6 +197,6 @@ public class GlobalRegisterController extends GenericController {
     }
 
     public void displayLoginPage(ActionEvent actionEvent) {
-        StageManager.getInstance().loadRootlessPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
+        StageManager.getInstance().loadLoginPage(null, null);
     }
 }
