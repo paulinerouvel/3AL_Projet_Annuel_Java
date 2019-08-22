@@ -190,7 +190,7 @@ public class EmployeeListProsSuggestionsController extends GenericController {
         try {
             refreshSelectedIndices();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(dotenv.get("SHARED_DETAILS_SUGGESTIONS")));
 
             Scene newScene;
             newScene = new Scene(loader.load());

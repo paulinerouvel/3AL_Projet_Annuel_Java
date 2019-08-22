@@ -83,7 +83,7 @@ public class Logger {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(getLogFile(),true));
-            writer.write( LocalDateTime.now() +" : "+ ex.getMessage() + "\nExecution Details :\n");
+            writer.write( LocalDateTime.now() +" : "+ ex.getMessage() + "\nExecution Detail :\n");
 
             for(int i = 0; i < ex.getStackTrace().length; i += 1){
                 writer.write("Line "+ex.getStackTrace()[i].getLineNumber() +

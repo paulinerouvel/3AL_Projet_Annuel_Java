@@ -2,25 +2,23 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
 import static fr.wastemart.maven.javaclient.services.ProductList.*;
@@ -197,19 +195,13 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         try {
             refreshSelectedIndices();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+            Product selectedProduct = jsonToProduct(lists.getJSONObject(indexOfListSelected));
 
-            Scene newScene;
-            newScene = new Scene(loader.load());
+            List<Detail> detailList = new ArrayList<Detail>();
+            detailList.add(new ProductDetail(selectedProduct));
+            detailList.add(new StringDetail("Add"));
 
-            SharedDetailsProductController controller = loader.getController();
-            controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Stage inputStage = new Stage();
-            inputStage.initOwner(stageNodeRoot);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
+            StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_DETAILS_SUGGESTIONS"), UserInstance.getInstance(), detailList);
 
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
         } catch (Exception e) {
@@ -222,31 +214,13 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         try {
             refreshSelectedIndices();
 
-            if (indexOfProductSelected != -1) {
+            Product selectedProduct = jsonToProduct(lists.getJSONObject(indexOfListSelected));
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
+            List<Detail> detailList = new ArrayList<Detail>();
+            detailList.add(new ProductDetail(selectedProduct));
+            detailList.add(new StringDetail("Modify"));
 
-                Scene newScene;
-                try {
-                    newScene = new Scene(loader.load());
-                } catch (IOException ex) {
-                    // TODO: handle error
-                    return;
-                }
-
-                SharedDetailsProductController controller = loader.getController();
-                JSONObject product = products.getJSONObject(indexOfProductSelected);
-
-                Product productElement = jsonToProduct(product);
-                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productElement);
-
-                Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-                Stage inputStage = new Stage();
-                inputStage.initOwner(stageNodeRoot);
-                inputStage.setScene(newScene);
-                inputStage.showAndWait();
-            }
+            StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_DETAILS_SUGGESTIONS"), UserInstance.getInstance(), detailList);
 
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
         } catch (Exception e) {

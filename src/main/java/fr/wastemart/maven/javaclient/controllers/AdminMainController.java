@@ -22,8 +22,7 @@ public class AdminMainController extends GenericController {
     public void displayProducts() {}
 
     public void displayUsers() {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/AdminListUsers.fxml",
-                UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_USERS"), UserInstance.getInstance());
 
     }
 
@@ -37,12 +36,10 @@ public class AdminMainController extends GenericController {
     public void displayCommandList() {}
 
     public void displaySelfUserInfos() {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
-                UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());
     }
 
     public void displayPlugins() {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
-                UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PLUGINS"), UserInstance.getInstance());
     }
 }

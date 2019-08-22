@@ -3,7 +3,8 @@ package fr.wastemart.maven.javaclient.services;
 import fr.wastemart.maven.javaclient.controllers.GenericController;
 import fr.wastemart.maven.javaclient.controllers.GlobalLoginController;
 import fr.wastemart.maven.javaclient.controllers.GlobalRootLayoutController;
-import javafx.event.ActionEvent;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +14,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class StageManager {
+    private Dotenv dotenv = Dotenv.load();
     private FXMLLoader loader;
 
     private Stage stage;
@@ -37,7 +41,7 @@ public class StageManager {
     // Loads a page with root
     public void loadPage(String mainView, UserInstance instance) {
         if(userInstanceIsValid(instance)){
-            loadRootlessPage("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
+            loadRootlessPage(dotenv.get("GLOBAL_LOGIN"));
         }
         try {
             GenericController genericController = loadController(mainView, instance);
@@ -57,17 +61,17 @@ public class StageManager {
         }
     }
 
-    // Loads a page with details and root
-    public void loadPageWithDetails(String mainView, UserInstance instance, Integer data) {
+    // Loads a page with detail and root
+    public void loadPageWithDetails(String mainView, UserInstance instance, List<Detail> details) {
         if(userInstanceIsValid(instance)) {
-            loadRootlessPage("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml");
+            loadRootlessPage(dotenv.get("GLOBAL_LOGIN"));
         }
 
         try {
             GenericController genericController = loadController(mainView, instance);
 
             try {
-                genericController.init(data);
+                genericController.init(details);
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
             }
@@ -119,7 +123,7 @@ public class StageManager {
             Logger.getInstance().reportError(e);
         }
     }
-    
+
     // Loads a controller from ressource with fxml (with root if there is instance)
     private GenericController loadController(String mainView, UserInstance instance) throws Exception {
         // Display the Root Layout if there is an instance
@@ -138,7 +142,8 @@ public class StageManager {
 
         try {
             // Load the Root Layout fxml
-            rootLayout = (BorderPane) loadResource("/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml");
+
+            rootLayout = (BorderPane) loadResource(dotenv.get("GLOBAL_ROOTLAYOUT"));
 
             // Set user instance of the Root Layout
             GlobalRootLayoutController globalRootLayoutController = loader.getController();

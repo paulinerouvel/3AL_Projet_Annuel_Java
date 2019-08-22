@@ -65,7 +65,7 @@ public class GlobalRegisterController extends GenericController {
         userType.setTooltip(new Tooltip("Sélectionnez le type d'utilisateur"));
     }
 
-    public void refreshUser(ActionEvent actionEvent) {
+    public void refreshUser() {
         if(userType.getSelectionModel().getSelectedIndex() == 0){
             organismLabel.setVisible(false);
             description.setVisible(false);
@@ -81,7 +81,7 @@ public class GlobalRegisterController extends GenericController {
         }
     }
 
-    public void register(ActionEvent actionEvent) {
+    public void register() {
         try {
             for (Object registerField : registerFields) {
                 ((Control) registerField).setStyle("-fx-background-color: #FFFFFF");
@@ -196,7 +196,7 @@ public class GlobalRegisterController extends GenericController {
         return onlineLocation;
     }
 
-    public void displayLoginPage(ActionEvent actionEvent) {
+    public void displayLoginPage() {
         StageManager.getInstance().loadLoginPage(null, null);
     }
 }

@@ -52,7 +52,7 @@ public class SharedDetailsProductController extends GenericController {
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
     }
 
-    public void submitProduct(ActionEvent event) {
+    public void submitProduct() {
         try {
             libelle.setStyle("-fx-background-color: #FFFFFF");
             desc.setStyle("-fx-background-color: #FFFFFF");

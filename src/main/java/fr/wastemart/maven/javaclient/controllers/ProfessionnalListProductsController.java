@@ -107,7 +107,7 @@ public class ProfessionnalListProductsController extends GenericController {
     }
 
     @FXML
-    public void clickItem(MouseEvent event) {
+    public void clickItem() {
         try {
             refreshSelectedIndices();
 
@@ -120,7 +120,7 @@ public class ProfessionnalListProductsController extends GenericController {
         }
     }
 
-    public void removeList(ActionEvent event) {
+    public void removeList() {
         try {
             refreshSelectedIndices();
 
@@ -137,7 +137,7 @@ public class ProfessionnalListProductsController extends GenericController {
         }
     }
 
-    public void createList(ActionEvent event) {
+    public void createList() {
         try {
             refreshSelectedIndices();
             ProductList productList = new ProductList(-1,
@@ -154,7 +154,7 @@ public class ProfessionnalListProductsController extends GenericController {
         }
     }
 
-    public void removeProduct(ActionEvent event) {
+    public void removeProduct() {
         try {
             refreshSelectedIndices();
 

@@ -10,15 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.Order.*;
-import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.Order.fetchOrder;
+import static fr.wastemart.maven.javaclient.services.Order.jsonToOrder;
+import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByOrder;
+import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
 
 
-public class AdminListOrdersController extends GenericController {
+public class SharedListOrdersController extends GenericController {
     private JSONArray orders;
     private JSONArray products;
     private Integer indexOfProductSelected;
@@ -45,12 +46,15 @@ public class AdminListOrdersController extends GenericController {
 
     @Override
     public void init() throws Exception {
+        setInfoText("Chargement ...");
         displayOrderList();
         displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
         ordersTable.getSelectionModel().selectFirst();
+        setInfoText("");
     }
 
     private void displayOrderList() throws Exception {
+
         ordersTable.getItems().clear();
         orders = fetchOrder(UserInstance.getInstance().getTokenValue());
 
@@ -62,7 +66,7 @@ public class AdminListOrdersController extends GenericController {
             JSONObject order = orders.getJSONObject(i);
             //Order orderElement = jsonToOrder(order);
 
-            System.out.println("(AdminListOrdersController.displayOrderList) Order : " + order);
+            System.out.println("(SharedListOrdersController.displayOrderList) Order : " + order);
             Order orderElement = jsonToOrder(order);
 
             ordersTable.getItems().add(orderElement);
@@ -91,12 +95,15 @@ public class AdminListOrdersController extends GenericController {
     }
 
     public void refreshSelectedIndices() {
+        setInfoText("Chargement ...");
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
         this.indexOfListSelected = ordersTable.getSelectionModel().getSelectedIndex();
+        setInfoText("");
 
     }
 
     public void clickItem() {
+        setInfoText("Chargement ...");
         refreshSelectedIndices();
 
         if(indexOfListSelected != -1){
@@ -107,6 +114,7 @@ public class AdminListOrdersController extends GenericController {
                 setInfoErrorOccurred();
             }
         }
+        setInfoText("");
     }
 
     // Return button

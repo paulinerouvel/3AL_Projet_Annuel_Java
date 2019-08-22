@@ -62,6 +62,6 @@ public class GlobalLoginController extends GenericController {
     }
 
     public void displayRegister() {
-        StageManager.getInstance().loadRootlessPage("/fr.wastemart.maven.javaclient/views/GlobalRegister.fxml");
+        StageManager.getInstance().loadRootlessPage(dotenv.get("GLOBAL_REGISTER"));
     }
 }

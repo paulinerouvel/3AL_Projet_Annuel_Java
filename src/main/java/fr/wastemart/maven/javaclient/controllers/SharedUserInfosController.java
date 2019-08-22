@@ -4,7 +4,6 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -39,7 +38,7 @@ public class SharedUserInfosController extends GenericController {
         employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
     }
 
-    public void save(ActionEvent actionEvent) {
+    public void save() {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
             User user = UserInstance.getInstance().getUser();

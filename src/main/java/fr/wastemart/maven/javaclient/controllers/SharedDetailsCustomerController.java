@@ -4,7 +4,6 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,7 +40,7 @@ public class SharedDetailsCustomerController extends GenericController {
         customerPostalCode.setText(userFound.getCodePostal().toString());
     }
 
-    public void save(ActionEvent actionEvent) {
+    public void save() {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
             User userModified = jsonToUser(fetchUser("id", idUser.toString()));

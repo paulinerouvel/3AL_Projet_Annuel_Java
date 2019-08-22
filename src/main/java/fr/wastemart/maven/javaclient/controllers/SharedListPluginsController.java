@@ -3,13 +3,10 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,12 +30,10 @@ public class SharedListPluginsController extends GenericController {
         fetchAvailablePlugins();
     }
 
-    public void selectFolder(ActionEvent actionEvent) {
+    public void selectFolder() {
         try {
-            Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
             DirectoryChooser directoryChooser = new DirectoryChooser();
-            File selectedDirectory = directoryChooser.showDialog(stageNodeRoot);
+            File selectedDirectory = directoryChooser.showDialog(StageManager.getInstance().getStage());
 
             if (selectedDirectory != null) {
                 pluginPath.setText(selectedDirectory.getAbsolutePath());
@@ -52,7 +47,7 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    public void installSelectedPlugin(ActionEvent actionEvent) {
+    public void installSelectedPlugin() {
         try {
             setPath(pluginPath.getText());
 
@@ -76,7 +71,7 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    public void uninstallSelectedPlugin(ActionEvent actionEvent) {
+    public void uninstallSelectedPlugin() {
         try {
             setPath(pluginPath.getText());
 
@@ -95,7 +90,7 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    public void enablePlugin(ActionEvent actionEvent) {
+    public void enablePlugin() {
         try {
             if (getSelectedIndex(localPluginsListView) != -1)
                 if (activatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {
@@ -112,7 +107,7 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    public void disablePlugin(ActionEvent actionEvent) {
+    public void disablePlugin() {
         try {
             if (getSelectedIndex(localPluginsListView) != -1)
                 if (desactivatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {

@@ -2,22 +2,25 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.models.UserCategory;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.UserDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.User.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AdminListUsersController extends GenericController {
+import static fr.wastemart.maven.javaclient.services.User.fetchCategories;
+
+public class SharedListUsersController extends GenericController {
     private JSONArray lists;
     private JSONArray users;
     private Integer indexOfProductSelected;
@@ -122,9 +125,12 @@ public class AdminListUsersController extends GenericController {
 
     @FXML
     public void modifyUser() {
-        StageManager.getInstance().loadPageWithDetails(
-                "/fr.wastemart.maven.javaclient/views/SharedDetailsCustomer.fxml", UserInstance.getInstance(),
-                usersTable.getSelectionModel().getSelectedItem().getId());
+        UserDetail User = new UserDetail(usersTable.getSelectionModel().getSelectedItem());
+
+        List<Detail> detailList = new ArrayList<>();
+        detailList.add(User);
+
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_DETAILS_CUSTOMER"), UserInstance.getInstance(), detailList);
     }
 
     public void refreshSelectedIndices() {

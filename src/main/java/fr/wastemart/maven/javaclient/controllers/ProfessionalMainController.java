@@ -20,24 +20,24 @@ public class ProfessionalMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
-    public void displayProducts(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/ProfessionalListProducts.fxml",
+    public void displayProducts() {
+        StageManager.getInstance().loadPage(dotenv.get("PROFESSIONAL_LIST_PRODUCTS"),
                 UserInstance.getInstance());
     }
 
-    public void displayAdminContact(ActionEvent actionEvent) {}
+    public void displayAdminContact() {}
 
-    public void displaySelfUserInfos(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedUserInfos.fxml",
+    public void displaySelfUserInfos() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"),
                 UserInstance.getInstance());
     }
 
-    public void displayPlugins(ActionEvent actionEvent) {
-        StageManager.getInstance().loadPage("/fr.wastemart.maven.javaclient/views/SharedListPlugins.fxml",
+    public void displayPlugins() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PLUGINS"),
                 UserInstance.getInstance());
     }
 
-    public void displayListesProduits(ActionEvent actionEvent) {
+    public void displayListesProduits() {
 
     }
 }

@@ -14,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,7 +118,7 @@ public class SharedListWarehousesController extends GenericController {
     }
 
     @FXML
-    public void clickItem(MouseEvent event) {
+    public void clickItem() {
         try {
             refreshSelectedIndices();
 
@@ -133,7 +132,7 @@ public class SharedListWarehousesController extends GenericController {
     }
 
     @FXML
-    public void validate(MouseEvent event) {
+    public void validate() {
         try {
             // UPDATE entrepot du produit
             if (swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
