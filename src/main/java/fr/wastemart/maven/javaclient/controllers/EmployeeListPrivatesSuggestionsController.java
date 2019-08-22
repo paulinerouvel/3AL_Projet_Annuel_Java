@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.DateFormatter;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -101,23 +102,7 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
 
         for (int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-
-            Product productElement = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.getString("codeBarre"),
-                    product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.getInt("entrepotwm_id"),
-                    product.getInt("destinataire")
-            );
+            Product productElement = jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }
@@ -144,23 +129,9 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
         if(indexOfListSelected != -1) {
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        1,
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-                );
+                Product productElement = jsonToProduct(product);
 
+                productElement.setEnRayon(true);
                 updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
@@ -179,23 +150,9 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
 
             if (indexOfListSelected != -1) {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
-                Product productElement = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        0,
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.isNull("entrepotwm_id") ? -1 : product.getInt("entrepotwm_id"),
-                        product.isNull("destinataire") ? -1 : product.getInt("destinataire")
-                );
+                Product productElement = jsonToProduct(product);
 
+                productElement.setEnRayon(false);
                 updateProduct(productElement, UserInstance.getInstance().getTokenValue());
 
                 displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
@@ -282,24 +239,8 @@ public class EmployeeListPrivatesSuggestionsController extends GenericController
                 SharedDetailsProductController controller = loader.getController();
                 JSONObject product = products.getJSONObject(indexOfProductSelected);
 
-                Product productToModify = new Product(product.getInt("id"),
-                        product.getString("libelle"),
-                        product.getString("desc"),
-                        product.getString("photo"),
-                        product.getFloat("prix"),
-                        product.getFloat("prixInitial"),
-                        product.getInt("quantite"),
-                        ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                        product.getString("codeBarre"),
-                        product.getInt("enRayon"),
-                        product.getString("dateMiseEnRayon"),
-                        product.getInt("categorieProduit_id"),
-                        product.getInt("listProduct_id"),
-                        product.getInt("entrepotwm_id"),
-                        product.getInt("destinataire")
-                );
-
-                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productToModify);
+                Product productElement = jsonToProduct(product);
+                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Modify", productElement);
 
                 Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 

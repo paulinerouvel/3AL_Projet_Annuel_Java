@@ -8,17 +8,16 @@ import javafx.scene.control.Label;
 
 public class EmployeeMainController extends GenericController {
     @FXML private Label employeeName;
-    @FXML private Label info;
 
     @Override
     public void init() throws Exception {
-        employeeName.setText(UserInstance.getInstance().getUser().getNom());
+        employeeName.setText(UserInstance.getInstance().getUser().getNom()+" "+UserInstance.getInstance().getUser().getPrenom());
     }
 
     @Override
     public void initFail() {
         employeeName.setText("<Error>");
-        info.setText("An error occurred, please disconnect");
+        setInfoText("An error occurred, please disconnect");
     }
 
     public void displayProfessionnalSuggestion(ActionEvent actionEvent) {

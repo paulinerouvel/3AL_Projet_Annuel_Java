@@ -1,8 +1,5 @@
 package fr.wastemart.maven.javaclient.models;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class User {
 
     private Integer id;
@@ -30,10 +27,10 @@ public class User {
                 String desc, Integer tailleOrganisme, Boolean estValide, String siret, String dateDeNaissance,
                 Integer nbPointsSourire) {
         this.id = id;
-        this.libelle = libelle.isEmpty() ? null : "\""+libelle+"\"";
+        this.libelle = libelle; // Nullable
         this.categorieUtilisateur = categorieUtilisateur;
-        this.nom = nom.isEmpty() ? null : "\""+nom+"\"";
-        this.prenom = prenom.isEmpty() ? null : "\""+prenom+"\"";
+        this.nom = nom; // Nullable
+        this.prenom = prenom; // Nullable
         this.mail = mail;
         this.tel = tel;
         this.adresse = adresse;
@@ -41,25 +38,13 @@ public class User {
         this.codePostal = codePostal;
         this.pseudo = pseudo;
         this.mdp = mdp;
-        this.photo = photo == null ? null : "\""+photo+"\"";
-        this.desc = desc == null ? null : "\""+desc+"\"";
-        this.tailleOrganisme = tailleOrganisme; // nullable
+        this.photo = photo; // Nullable
+        this.desc = desc; // Nullable
+        this.tailleOrganisme = tailleOrganisme; // Nullable
         this.estValide = estValide;
-        this.siret = siret == null ? null : "\""+siret+"\"";
-        this.dateDeNaissance = dateDeNaissance == null ? null : "\""+dateToString(dateDeNaissance)+"\"";
-        this.nbPointsSourire = nbPointsSourire; // nullable
-    }
-
-    private String dateToString(String dateDeNaissance){
-        if (dateDeNaissance.length() > 16){
-            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")).toString();
-        }
-        else if (dateDeNaissance.length() > 10){
-            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")).toString();
-        }
-        else {
-            return LocalDate.parse(dateDeNaissance, DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
-        }
+        this.siret = siret; // Nullable
+        this.dateDeNaissance = dateDeNaissance; // Nullable
+        this.nbPointsSourire = nbPointsSourire; // Nullable
     }
 
     public Integer getId() {

@@ -7,18 +7,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class AdminMainController extends GenericController {
-    @FXML private Label info;
     @FXML private Label adminName;
 
     @Override
-    public void init() {
-        adminName.setText(UserInstance.getInstance().getUser().getNom());
+    public void init() throws Exception {
+        adminName.setText(UserInstance.getInstance().getUser().getNom()+" "+UserInstance.getInstance().getUser().getPrenom());
     }
 
     @Override
     public void initFail() {
         adminName.setText("<Error>");
-        info.setText("An error occurred, please disconnect");
+        setInfoText("An error occurred, please disconnect");
     }
 
     public void displayProducts(ActionEvent actionEvent) {}

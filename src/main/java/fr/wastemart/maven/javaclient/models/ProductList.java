@@ -1,8 +1,6 @@
 package fr.wastemart.maven.javaclient.models;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class ProductList {
     private Integer id;

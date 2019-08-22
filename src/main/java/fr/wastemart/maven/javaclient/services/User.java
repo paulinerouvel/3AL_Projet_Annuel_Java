@@ -199,28 +199,31 @@ public class User {
     }
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
-        return new fr.wastemart.maven.javaclient.models.User(
-            user.getInt("id"),
-            user.getString("libelle"),
-            user.getInt("categorieUtilisateur"),
-            user.getString("nom"),
-            user.getString("prenom"),
-            user.getString("mail"),
-            user.getString("tel"),
-            user.getString("adresse"),
-            user.getString("ville"),
-            user.getInt("codePostal"),
-            user.getString("pseudo"),
-            user.getString("mdp"),
-            user.isNull("photo") ? null : user.getString("photo"),
-            user.isNull("desc") ? null : user.getString("desc"),
-            user.getInt("tailleOrganisme"),
+        fr.wastemart.maven.javaclient.models.User userObject = new fr.wastemart.maven.javaclient.models.User(
+                user.getInt("id"),
+                user.isNull("libelle") ? null : user.getString("libelle"),
+                user.getInt("categorieUtilisateur"),
+                user.isNull("nom") ? null : user.getString("nom"),
+                user.isNull("prenom") ? null : user.getString("prenom"),
+                user.getString("mail"),
+                user.getString("tel"),
+                user.getString("adresse"),
+                user.getString("ville"),
+                user.getInt("codePostal"),
+                user.getString("pseudo"),
+                user.getString("mdp"),
+                user.isNull("photo") ? null : user.getString("photo"),
+                user.isNull("desc") ? null : user.getString("desc"),
+                user.isNull("tailleOrganisme") ? null : user.getInt("tailleOrganisme"),
                 user.getInt("estValide") == 1,
-            user.isNull("siret") ? null : user.getString("siret"),
-            user.getString("dateDeNaissance"),
-            //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
-            user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
+                user.isNull("siret") ? null : user.getString("siret"),
+                user.isNull("dateDeNaissance") ? null : DateFormatter.dateToString(user.getString("dateDeNaissance")),
+                //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
+                user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
         );
+        System.out.println("(services.User.jsonToUser) User date :");
+        System.out.println(userObject.getDateDeNaissance());
+        return userObject;
     }
 
 }

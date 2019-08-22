@@ -1,6 +1,7 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.services.DateFormatter;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
@@ -99,9 +100,9 @@ public class SharedDetailsProductController extends GenericController {
                         Float.valueOf(prix.getText()),
                         Float.valueOf(prixInitial.getText()),
                         Integer.valueOf(quantite.getText()),
-                        dlc.getValue(),
+                        DateFormatter.dateToString(dlc.getValue().toString()),
                         codeBarre.getText(),
-                        0,
+                        false,
                         product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
                         categorieProduit.getSelectionModel().getSelectedIndex() + 1,
                         listId,
@@ -153,7 +154,7 @@ public class SharedDetailsProductController extends GenericController {
             prix.setText(String.valueOf(product.getPrix()));
             prixInitial.setText(String.valueOf(product.getPrixInitial()));
             quantite.setText(String.valueOf(product.getQuantite()));
-            dlc.setValue(product.getDlc());
+            dlc.setValue(LocalDate.parse(product.getDlc()));
             codeBarre.setText(product.getCodeBarre());
             categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
             setInfoText("");

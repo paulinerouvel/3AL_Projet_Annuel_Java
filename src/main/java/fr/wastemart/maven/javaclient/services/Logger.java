@@ -34,12 +34,12 @@ public class Logger {
 
     public void reportError(Exception ex){
         if(getLogFile() == null) {
-            System.out.println("logFile does not exist, creating it...");
+            System.out.println("(Logger.reportError) logFile does not exist, creating it...");
             File createdLogFile = createLogFile(ex);
             if(createdLogFile != null){
                 setLogFile(createdLogFile);
             } else {
-                System.out.println("Failed creating File");
+                System.out.println("(Logger.reportError) Failed creating File");
                 return;
             }
 
@@ -48,10 +48,10 @@ public class Logger {
         writeErrorInLogFile(ex);
 
         try {
-            System.out.println("About to send it");
+            System.out.println("(Logger.reportError) About to send it");
             sendLogFile(logFile);
         } catch (Exception e) {
-            System.out.println("Failed to send, will send later");
+            System.out.println("(Logger.reportError) Failed to send, will send later");
             getLogFile().renameTo(new File("offline_" + getLogFile().getName()));
         }
     }
@@ -60,26 +60,26 @@ public class Logger {
     private File createLogFile(Exception ex) {
         LocalDateTime ldt = LocalDateTime.now();
         String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss", Locale.FRANCE).format(ldt);
-        System.out.println("Date formated");
+        System.out.println("(Logger.createLogFile) Date formated");
         File file = new File(formatedDate + "-Java-" + ex.getCause() + ".log");
-        System.out.println("File object created");
+        System.out.println("(Logger.createLogFile) File object created");
         try {
-            System.out.println("Trying to create file in path: "+file.getAbsolutePath());
+            System.out.println("(Logger.createLogFile) Trying to create file in path: "+file.getAbsolutePath());
             if(file.createNewFile()){
-                System.out.println("File created, path is : "+file.getAbsolutePath());
+                System.out.println("(Logger.createLogFile) File created, path is : "+file.getAbsolutePath());
                 return file;
             }
-            System.out.println("File not created");
+            System.out.println("(Logger.createLogFile) File not created");
             return null;
 
         } catch (IOException e) {
-            System.out.println("IOException error during file creation, formatedDate = "+formatedDate);
+            System.out.println("(Logger.createLogFile) IOException error during file creation, formatedDate = "+formatedDate);
             return null;
         }
     }
 
     private void writeErrorInLogFile(Exception ex) {
-        System.out.println("Writing error in file");
+        System.out.println("(Logger.writeErrorInLogFile) Writing error in file");
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(getLogFile(),true));

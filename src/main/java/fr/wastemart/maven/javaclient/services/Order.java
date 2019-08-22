@@ -29,8 +29,10 @@ public class Order {
     public static fr.wastemart.maven.javaclient.models.Order jsonToOrder(JSONObject order) {
         return new fr.wastemart.maven.javaclient.models.Order(
                 order.getInt("id"),
-                ZonedDateTime.parse(order.getString("date")).toLocalDate(),
-                order.getInt("utilisateurID")
-        );
+                DateFormatter.dateToString(order.getString("date")),
+                order.getString("adresse_livraison"),
+                order.getString("cp_livraison"),
+                order.getString("ville_livraison"),
+                order.getInt("utilisateur_id"));
     }
 }

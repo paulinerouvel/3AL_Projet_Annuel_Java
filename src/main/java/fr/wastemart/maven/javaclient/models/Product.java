@@ -1,8 +1,5 @@
 package fr.wastemart.maven.javaclient.models;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class Product {
     private Integer id;
     private String libelle;
@@ -11,17 +8,17 @@ public class Product {
     private Float prix;
     private Float prixInitial;
     private Integer quantite;
-    private LocalDate dlc;
+    private String dlc;
     private String codeBarre;
-    private Integer enRayon;
-    private LocalDate dateMiseEnRayon;
+    private Boolean enRayon;
+    private String dateMiseEnRayon;
     private Integer categorieProduit;
     private Integer listProduct;
     private Integer entrepotwm;
     private Integer destinataire;
 
-    public Product(Integer id, String libelle, String desc, String photo, Float prix, Float prixInitial, Integer quantite, LocalDate dlc,
-                   String codeBarre, Integer enRayon, String dateMiseEnRayon, Integer categorieProduit, Integer listProduct, Integer entrepotwm, Integer destinataire) {
+    public Product(Integer id, String libelle, String desc, String photo, Float prix, Float prixInitial, Integer quantite, String dlc,
+                   String codeBarre, Boolean enRayon, String dateMiseEnRayon, Integer categorieProduit, Integer listProduct, Integer entrepotwm, Integer destinataire) {
         this.id = id;
         this.libelle = libelle;
         this.desc = desc;
@@ -29,19 +26,14 @@ public class Product {
         this.prix = prix;
         this.prixInitial = prixInitial;
         this.quantite = quantite;
-        //this.dlc = LocalDate.from(OffsetDateTime.parse(dlc, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")));
-        this.dlc = dlc;
-        this.codeBarre = codeBarre;
+        this.dlc = dlc; // Nullable
+        this.codeBarre = codeBarre; // Nullable
         this.enRayon = enRayon;
-        this.dateMiseEnRayon = dateMiseEnRayon == null || dateMiseEnRayon.equals("") ? null : dateMiseEnRayon.length() > 16 ?
-                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")) :
-                dateMiseEnRayon.length() > 10 ?
-                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) :
-                LocalDate.parse(dateMiseEnRayon, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.dateMiseEnRayon = dateMiseEnRayon; // Nullable
         this.categorieProduit = categorieProduit;
-        this.listProduct = listProduct;
-        this.entrepotwm = entrepotwm;
-        this.destinataire = destinataire;
+        this.listProduct = listProduct; // Nullable
+        this.entrepotwm = entrepotwm; // Nullable
+        this.destinataire = destinataire; // Nullable
     }
 
     public Integer getId() {
@@ -100,11 +92,11 @@ public class Product {
         this.quantite = quantite;
     }
 
-    public LocalDate getDlc() {
+    public String getDlc() {
         return dlc;
     }
 
-    public void setDlc(LocalDate dlc) {
+    public void setDlc(String dlc) {
         this.dlc = dlc;
     }
 
@@ -116,19 +108,19 @@ public class Product {
         this.codeBarre = codeBarre;
     }
 
-    public Integer getEnRayon() {
+    public Boolean getEnRayon() {
         return enRayon;
     }
 
-    public void setEnRayon(Integer enRayon) {
+    public void setEnRayon(Boolean enRayon) {
         this.enRayon = enRayon;
     }
 
-    public LocalDate getDateMiseEnRayon() {
+    public String getDateMiseEnRayon() {
         return dateMiseEnRayon;
     }
 
-    public void setDateMiseEnRayon(LocalDate dateMiseEnRayon) {
+    public void setDateMiseEnRayon(String dateMiseEnRayon) {
         this.dateMiseEnRayon = dateMiseEnRayon;
     }
 

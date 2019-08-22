@@ -10,10 +10,12 @@ class Requester {
         // Creating Request
         URL url = new URL("https://wastemart-api.herokuapp.com/"+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        System.out.println("(Requester.sendGetRequest) Sending GET to : "+route);
 
         // Add request Headers
         con.setRequestMethod("GET");
         if (token != null) {
+            System.out.println("(Requester.sendPostRequest) VT!!");
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -28,6 +30,7 @@ class Requester {
         // Add request Headers
         con.setRequestMethod("DELETE");
         if (token != null) {
+            System.out.println("(Requester.sendPostRequest) VT!!");
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -44,7 +47,7 @@ class Requester {
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         if (token != null) {
-            System.out.println("VT!!");
+            System.out.println("(Requester.sendPostRequest) VT!!");
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -62,7 +65,7 @@ class Requester {
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         if (token != null) {
-            System.out.println("VT!!");
+            System.out.println("(Requester.sendPutRequest) VT!!");
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -75,7 +78,7 @@ class Requester {
         Reader streamReader = null;
         int status = con.getResponseCode();
 
-        System.out.println("(readResponse) Get status: "+ status);
+        System.out.println("(Requester.readResponse) Get status: "+ status);
 
         if (status > 299) {
             return new HttpResponse(status, null);
@@ -96,14 +99,14 @@ class Requester {
         in.close();
         con.disconnect();
 
-        System.out.println("(readResponse) Data Response : ");
+        System.out.println("(Requester.readResponse) Data Response : ");
         System.out.println(httpResponse.toString());
 
         return httpResponse;
     }
 
     private static void sendJson(HttpURLConnection con, String json) throws Exception {
-        System.out.println("(sendJson) About to send : " + json);
+        System.out.println("(Requester.sendJson) About to send : " + json);
         // Form request, connect and send json
         byte[] output = json.getBytes(StandardCharsets.UTF_8);
         int length = output.length;

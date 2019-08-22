@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.time.ZonedDateTime;
 
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
+import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
 
 
@@ -114,23 +115,7 @@ public class SharedListWarehousesController extends GenericController {
 
         for (int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-
-            Product productElement = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.getString("codeBarre"),
-                    product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.getInt("entrepotwm_id"),
-                    product.getInt("destinataire")
-            );
+            Product productElement = jsonToProduct(product);
 
             productsTable.getItems().add(productElement);
         }

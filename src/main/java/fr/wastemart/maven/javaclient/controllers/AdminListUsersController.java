@@ -100,6 +100,7 @@ public class AdminListUsersController extends GenericController {
                     user.getInt("nbPointsSourire")
 
             );
+
             usersTable.getItems().add(userElement);
         }
 

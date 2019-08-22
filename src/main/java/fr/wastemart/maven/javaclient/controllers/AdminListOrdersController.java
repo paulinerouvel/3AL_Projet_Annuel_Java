@@ -59,15 +59,14 @@ public class AdminListOrdersController extends GenericController {
 
         orderId.setCellValueFactory(new PropertyValueFactory<>("id"));
         orderDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        orderUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        orderUser.setCellValueFactory(new PropertyValueFactory<>("utilisateur_id"));
 
         for (int i = 0; i < orders.length(); i++) {
             JSONObject order = orders.getJSONObject(i);
             //Order orderElement = jsonToOrder(order);
-            Order orderElement = new Order(order.getInt("id"),
-                    ZonedDateTime.parse(order.getString("date")).toLocalDate(),
-                    order.getInt("utilisateurID")
-            );
+
+            System.out.println("(AdminListOrdersController.displayOrderList) Order : " + order);
+            Order orderElement = jsonToOrder(order);
 
             ordersTable.getItems().add(orderElement);
         }
@@ -88,23 +87,8 @@ public class AdminListOrdersController extends GenericController {
 
         for (int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
+            Product productElement = jsonToProduct(product);
 
-            Product productElement = new Product(product.getInt("id"),
-                    product.getString("libelle"),
-                    product.getString("desc"),
-                    product.getString("photo"),
-                    product.getFloat("prix"),
-                    product.getFloat("prixInitial"),
-                    product.getInt("quantite"),
-                    ZonedDateTime.parse(product.getString("dlc")).toLocalDate(),
-                    product.getString("codeBarre"),
-                    product.getInt("enRayon"),
-                    product.getString("dateMiseEnRayon"),
-                    product.getInt("categorieProduit_id"),
-                    product.getInt("listProduct_id"),
-                    product.getInt("entrepotwm_id"),
-                    product.getInt("destinataire")
-            );
             productsTable.getItems().add(productElement);
         }
     }

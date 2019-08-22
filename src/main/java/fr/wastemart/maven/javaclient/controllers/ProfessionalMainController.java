@@ -9,12 +9,15 @@ import javafx.scene.control.Label;
 public class ProfessionalMainController extends GenericController {
     @FXML private Label proName;
 
-    public void init() {
-        try {
-            proName.setText(UserInstance.getInstance().getUser().getNom());
-        } catch (Exception e) {
-            proName.setText("<Error, please disconnect>");
-        }
+    @Override
+    public void init() throws Exception {
+        proName.setText(UserInstance.getInstance().getUser().getNom()+" "+UserInstance.getInstance().getUser().getPrenom());
+    }
+
+    @Override
+    public void initFail() {
+        proName.setText("<Error>");
+        setInfoText("An error occurred, please disconnect");
     }
 
     public void displayProducts(ActionEvent actionEvent) {
