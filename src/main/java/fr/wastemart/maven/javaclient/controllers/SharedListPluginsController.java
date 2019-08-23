@@ -11,7 +11,6 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.util.ArrayList;
 
-import static fr.wastemart.maven.pluginmanager.PluginLoader.getPluginsNames;
 import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
 public class SharedListPluginsController extends GenericController {
@@ -133,7 +132,7 @@ public class SharedListPluginsController extends GenericController {
                 if (desactivatePlugin(getSelectedIndex(localPluginsListView))) {
                     setInfoText("Plug-in desactivé");
                 } else {
-                    setInfoText("Plug-in déjà activé");
+                    setInfoText("Plug-in déjà désactivé");
                 }
             else {
                 setInfoText("Veuillez sélectionner un plug-in");
