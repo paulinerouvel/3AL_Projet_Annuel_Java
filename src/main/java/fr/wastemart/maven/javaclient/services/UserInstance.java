@@ -42,15 +42,13 @@ public class UserInstance {
         try {
             Algorithm algorithm = Algorithm.HMAC256(" SFGQDFB54QSDF5G4W5XV43QGREgdfg54214542sdf24242sf424bjksgdfsqfgZR");
             JWTVerifier verifier = JWT.require(algorithm)
-                    .acceptLeeway(30)
+                    .acceptLeeway(60)
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
 
             return true;
         } catch (JWTVerificationException exception) {
-            System.out.println("Token is incorrect!\n" +
-                    "Time is : "+ java.time.LocalDateTime.now() +"\n" +
-                    "Exception : "+exception);
+            Logger.getInstance().reportError(exception);
             return false;
         }
     }

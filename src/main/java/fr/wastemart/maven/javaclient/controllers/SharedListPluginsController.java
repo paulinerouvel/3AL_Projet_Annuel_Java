@@ -18,14 +18,24 @@ public class SharedListPluginsController extends GenericController {
     private String pluginURL = dotenv.get("WASTEMART_WEBSERVER_PLUGINS");
     @FXML private TextField pluginPath;
 
-    private static String[] localPlugins;
+    private static File[] localPlugins;
     private static ArrayList<String> onlinePlugins = null;
 
     @FXML private ListView<String> localPluginsListView;
     @FXML private ListView<String> onlinePluginsListView;
 
     public void init() { // Ne throw pas car peut être normal
-        pluginPath.setText(System.getProperty("user.dir"));
+
+        System.out.println("path :"+ System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        pluginPath.setText(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        pluginPath.positionCaret(pluginPath.getLength());
+
+        System.out.println("conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
+        setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
+
+        System.out.println("folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        setPluginFolder(pluginPath.getText());
+
         fetchInstalledPlugins();
         fetchAvailablePlugins();
     }
@@ -33,12 +43,23 @@ public class SharedListPluginsController extends GenericController {
     public void selectFolder() {
         try {
             DirectoryChooser directoryChooser = new DirectoryChooser();
+
+            File actualDirectory = new File(pluginPath.getText());
+            if(actualDirectory.isDirectory()){
+                directoryChooser.setInitialDirectory(actualDirectory);
+            } else {
+                directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+            }
+
             File selectedDirectory = directoryChooser.showDialog(StageManager.getInstance().getStage());
 
             if (selectedDirectory != null) {
                 pluginPath.setText(selectedDirectory.getAbsolutePath());
             }  // Else No Directory selected
 
+            pluginPath.positionCaret(pluginPath.getLength());
+
+            setPluginFolder(pluginPath.getText());
             fetchInstalledPlugins();
             fetchAvailablePlugins();
         } catch (Exception e) {
@@ -49,8 +70,7 @@ public class SharedListPluginsController extends GenericController {
 
     public void installSelectedPlugin() {
         try {
-            setPath(pluginPath.getText());
-
+            setPluginFolder(pluginPath.getText());
             Integer selectedIndice = getSelectedIndex(onlinePluginsListView);
 
             if (onlinePlugins != null || (selectedIndice >= 0 && selectedIndice < onlinePlugins.size())){
@@ -73,7 +93,7 @@ public class SharedListPluginsController extends GenericController {
 
     public void uninstallSelectedPlugin() {
         try {
-            setPath(pluginPath.getText());
+            setPluginFolder(pluginPath.getText());
 
             System.out.println("Selected indice: "+ getSelectedIndex(localPluginsListView));
             if(uninstallPlugin(getSelectedIndex(localPluginsListView))) {
@@ -93,7 +113,7 @@ public class SharedListPluginsController extends GenericController {
     public void enablePlugin() {
         try {
             if (getSelectedIndex(localPluginsListView) != -1)
-                if (activatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {
+                if (activatePlugin(getSelectedIndex(localPluginsListView))) {
                     setInfoText("Plug-in activé");
                 } else {
                     setInfoText("Plug-in déjà activé");
@@ -110,7 +130,7 @@ public class SharedListPluginsController extends GenericController {
     public void disablePlugin() {
         try {
             if (getSelectedIndex(localPluginsListView) != -1)
-                if (desactivatePlugin(localPlugins, getSelectedIndex(localPluginsListView))) {
+                if (desactivatePlugin(getSelectedIndex(localPluginsListView))) {
                     setInfoText("Plug-in desactivé");
                 } else {
                     setInfoText("Plug-in déjà activé");
@@ -124,39 +144,34 @@ public class SharedListPluginsController extends GenericController {
         }
     }
 
-    private void fetchInstalledPlugins() {
-        try {
-            Integer previouslySelectedIndex = getSelectedIndex(localPluginsListView);
-            localPluginsListView.getItems().clear();
+    private void fetchInstalledPlugins()   {
+        Integer previouslySelectedIndex = getSelectedIndex(localPluginsListView);
+        localPluginsListView.getItems().clear();
 
-            localPlugins = getPluginsNames(pluginPath.getText());
-            for (String localPlugin : localPlugins) {
-
-                File f = new File(localPlugin);
-                if(localPlugin.substring(localPlugin.lastIndexOf(".")).equals(".jar")){
-                    localPluginsListView.getItems().add(f.getName());
-                }
+        localPlugins = fetchLocalPlugins();
+        if(localPlugins != null) {
+            for (File localPlugin : localPlugins) {
+                localPluginsListView.getItems().add(localPlugin.getName());
             }
 
             dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
-        } catch (Exception e) {
-            Logger.getInstance().reportError(e);
-            setInfoText("Veuillez sélectionner un dossier valide");
         }
     }
 
     private void fetchAvailablePlugins() {
         try {
             Integer previouslySelectedIndex = getSelectedIndex(onlinePluginsListView);
+
             onlinePlugins = fetchOnlinePlugins(pluginURL);
+            if(!onlinePlugins.isEmpty()) {
+                onlinePluginsListView.getItems().clear();
 
-            onlinePluginsListView.getItems().clear();
+                for (String onlinePlugin : onlinePlugins) {
+                    this.onlinePluginsListView.getItems().add(onlinePlugin);
+                }
 
-            for (String onlinePlugin : onlinePlugins) {
-                this.onlinePluginsListView.getItems().add(onlinePlugin);
+                dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
             }
-
-            dynamicallySelectIndex(onlinePluginsListView, onlinePlugins, previouslySelectedIndex);
 
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -165,11 +180,13 @@ public class SharedListPluginsController extends GenericController {
     }
 
     private void dynamicallySelectIndex(ListView<String> ListView, ArrayList<String> Plugins, Integer previousIndex) {
-        if (!ListView.getItems().isEmpty() || getSelectedIndex(ListView) > Plugins.size()) {
-            ListView.getSelectionModel().select(Plugins.size()-1);
-        } else {
-            ListView.getSelectionModel().select(previousIndex);
-
+        Integer selectedIndex = getSelectedIndex(ListView);
+        if(selectedIndex != -1) {
+            if (selectedIndex <= Plugins.size()) {
+                ListView.getSelectionModel().select(previousIndex);
+            } else {
+                ListView.getSelectionModel().select(Plugins.size() - 1);
+            }
         }
     }
 

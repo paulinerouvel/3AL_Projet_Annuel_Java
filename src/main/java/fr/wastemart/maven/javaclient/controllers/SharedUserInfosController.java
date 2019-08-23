@@ -39,8 +39,8 @@ public class SharedUserInfosController extends GenericController {
         employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
         employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
         employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
-        fr.wastemart.maven.javaclient.services.User
-        employeePhoto.setImage();
+        //fr.wastemart.maven.javaclient.services.User
+        //employeePhoto.setImage();
 
     }
 

@@ -4,12 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
-
-import static fr.wastemart.maven.pluginmanager.PluginManager.getPath;
 
 public class User {
         // --- POST --- //
@@ -123,7 +119,7 @@ public class User {
         return result;
     }
 
-    public static File fetchPhoto(String url, String file) throws Exception {
+    public static String fetchPhoto(String url, String file) throws Exception {
         url += file;
 
         try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
@@ -133,6 +129,7 @@ public class User {
             while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
                 fileOS.write(data, 0, byteContent);
             }
+            return file;
         }
     }
 
