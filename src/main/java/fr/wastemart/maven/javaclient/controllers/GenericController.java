@@ -7,11 +7,23 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.List;
 
 public abstract class GenericController {
     @FXML private Label info;
-    public Dotenv dotenv = Dotenv.load();
+    public Dotenv dotenv;
+
+    protected GenericController() {
+        String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        System.out.println(envFile);
+        dotenv = Dotenv.configure()
+                .directory(envFile)
+                .load();
+    }
 
     public void init(List<Detail> details) throws Exception {
     }

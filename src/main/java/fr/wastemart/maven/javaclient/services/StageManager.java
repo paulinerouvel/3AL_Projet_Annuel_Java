@@ -15,11 +15,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class StageManager {
-    private Dotenv dotenv = Dotenv.load();
+    private Dotenv dotenv;
     private FXMLLoader loader;
 
     private Stage stage;
@@ -27,7 +31,16 @@ public class StageManager {
     private AnchorPane mainPane;
 
     /** Constructeur privé */
-    private StageManager() {}
+    private StageManager() {
+
+        //String envFile = new Scanner(getClass().getClassLoader().getResource("/fr.wastemart.maven.javaclient/"), "UTF-8");
+        //String envFile = java.net.URLDecoder.decode(String.valueOf(StageManager.class.getResource("/fr.wastemart.maven.javaclient/")), StandardCharsets.UTF_8);
+        String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        System.out.println(envFile);
+        dotenv = Dotenv.configure()
+                .directory(envFile)
+                .load();
+    }
 
     /** Instance unique */
     private static StageManager INSTANCE;

@@ -33,6 +33,7 @@ public class Logger {
     }
 
     public void reportError(Exception ex){
+        ex.printStackTrace();
         if(getLogFile() == null) {
             System.out.println("(Logger.reportError) logFile does not exist, creating it...");
             File createdLogFile = createLogFile(ex);

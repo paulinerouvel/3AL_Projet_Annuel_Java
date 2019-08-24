@@ -34,6 +34,7 @@ public class GlobalLoginController extends GenericController {
     }
 
     public void authenticate() {
+        setInfoText("Connexion en cours ...");
         new Thread(() -> {
             HttpResponse loginResponse = UserInstance.getInstance().login(login.getText(), password.getText());
 
@@ -42,7 +43,6 @@ public class GlobalLoginController extends GenericController {
                     processLoginAttempt(loginResponse);
                 } catch (Exception e) {
                     Logger.getInstance().reportError(e);
-                    setInfoText("Test");
                     setInfoErrorOccurred();
                 }
             });
