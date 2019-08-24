@@ -9,7 +9,7 @@ public class UserDetail implements Detail {
         user = userDetail;
     }
 
-    public User getUser(){
+    public User getValue(){
         return user;
     }
 

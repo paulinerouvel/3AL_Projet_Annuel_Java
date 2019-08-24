@@ -19,6 +19,15 @@ public class AdminMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
+
+    public void displayProsSuggestion() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+    }
+
+    public void displayPrivatesSuggestion() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
+    }
+
     public void displayProducts() {}
 
     public void displayUsers() {

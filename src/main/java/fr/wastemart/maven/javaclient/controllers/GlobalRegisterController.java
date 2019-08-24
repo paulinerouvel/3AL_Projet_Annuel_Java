@@ -197,6 +197,6 @@ public class GlobalRegisterController extends GenericController {
     }
 
     public void displayLoginPage() {
-        StageManager.getInstance().loadLoginPage(null, null);
+        StageManager.getInstance().loadLoginPage(null);
     }
 }

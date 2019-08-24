@@ -3,10 +3,12 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class EmployeeMainController extends GenericController {
     @FXML private Label employeeName;
+    @FXML private Button profileButton;
 
     @Override
     public void init() throws Exception {
@@ -19,20 +21,21 @@ public class EmployeeMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
-    public void displayProfessionnalSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+    public void displayOrderList() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_ORDERS"), UserInstance.getInstance());
     }
 
-    public void displayConsumerSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PRIVATES_SUGGESTION"), UserInstance.getInstance());
+    public void displayProsSuggestion() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
     }
+
+    public void displayPrivatesSuggestion() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
+    }
+
 
     public void displayWarehouseList() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_WAREHOUSES"), UserInstance.getInstance());
-    }
-
-    public void displayOrderList() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_ORDERS"), UserInstance.getInstance());
     }
 
     public void displayUserList() {
@@ -42,6 +45,7 @@ public class EmployeeMainController extends GenericController {
     public void displayCustomerDetail(Integer userID) {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_DETAILS_CUSTOMER"), UserInstance.getInstance());
     }
+
 
     public void displaySelfUserInfos() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());

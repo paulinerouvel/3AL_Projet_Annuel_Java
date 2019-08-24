@@ -7,7 +7,7 @@ public class IntegerDetail implements Detail {
         value = v;
     }
 
-    public Integer getIntegerDetail(){
+    public Integer getValue(){
         return value;
     }
 }

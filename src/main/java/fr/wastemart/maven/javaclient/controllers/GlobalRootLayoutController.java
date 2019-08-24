@@ -29,6 +29,6 @@ public class GlobalRootLayoutController extends GenericController {
     }
 
     public void disconnect() {
-        StageManager.getInstance().loadLoginPage(UserInstance.getInstance(), menuBar);
+        StageManager.getInstance().loadLoginPage(UserInstance.getInstance());
     }
 }

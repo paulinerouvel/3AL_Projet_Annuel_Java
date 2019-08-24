@@ -21,8 +21,8 @@ public class Logger {
         }
     }
 
-    /** Instance unique pré-initialisée */
-    private static Logger INSTANCE = new Logger();
+    /** Instance unique */
+    private static Logger INSTANCE;
 
     /** Point d'accès pour l'instance unique du Singleton */
     public static Logger getInstance(){

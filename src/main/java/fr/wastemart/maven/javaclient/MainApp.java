@@ -2,12 +2,10 @@ package fr.wastemart.maven.javaclient;
 
 import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-
 public class MainApp extends Application {
-    private Stage stage;
-
     /**
      * Calls start() internally
      */
@@ -20,11 +18,11 @@ public class MainApp extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
-        this.stage.setTitle("WasteMart");
-        stage.setResizable(false);
+        primaryStage.setTitle("WasteMart");
+        primaryStage.getIcons().add(new Image("/fr.wastemart.maven.javaclient/images/WasteMart.ico"));
+        primaryStage.setResizable(false);
 
-        StageManager.getInstance().setStage(stage);
-        StageManager.getInstance().loadLoginPage(null,null);
+        StageManager.getInstance().setStage(primaryStage);
+        StageManager.getInstance().loadLoginPage(null);
     }
 }

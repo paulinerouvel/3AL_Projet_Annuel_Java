@@ -18,21 +18,22 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>java-dotenv</artifactId>
-            <version>5.0.1</version>
-        </dependency>
+
+        <!-- Wastemart Plugin Loader -->
         <dependency>
             <groupId>fr.wastemart.maven.pluginmanager</groupId>
             <artifactId>pluginloader</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- Wastemart Annotation Processor -->
         <!--<dependency>
             <groupId>fr.wastemart.maven.annotationprocessing</groupId>
             <artifactId>generate-code-processor</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>-->
+
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -50,19 +51,8 @@
             <artifactId>httpclient</artifactId>
             <version>4.3.4</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Process Json -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
-        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -71,24 +61,16 @@
 
         <!-- Resolve jwt token -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.8.0</version>
         </dependency>
+
+        <!-- dotEnv -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.0.1</version>
         </dependency>
     </dependencies>
 

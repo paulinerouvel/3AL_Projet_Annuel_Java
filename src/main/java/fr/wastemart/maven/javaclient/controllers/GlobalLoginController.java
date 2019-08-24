@@ -1,5 +1,7 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.HttpResponse;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
@@ -8,17 +10,30 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+
+import java.util.List;
 
 public class GlobalLoginController extends GenericController {
     @FXML public TextField login;
     @FXML public PasswordField password;
+    @FXML public AnchorPane fieldsArea;
 
-    public void init(String message) {
-        setInfoText(message);
+    @Override
+    public void init(List<Detail> details) throws Exception {
+        StringDetail stringDetail = (StringDetail) details.get(0);
+        setInfoText(stringDetail.getValue());
+
+        fieldsArea.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+            {
+                authenticate();
+            }
+        });
     }
 
     public void authenticate() {
-        setInfoText("Trying to connect...");
         new Thread(() -> {
             HttpResponse loginResponse = UserInstance.getInstance().login(login.getText(), password.getText());
 

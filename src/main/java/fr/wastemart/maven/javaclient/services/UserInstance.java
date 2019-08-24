@@ -26,8 +26,8 @@ public class UserInstance {
     /** Constructeur privé */
     private UserInstance(){}
 
-    /** Instance unique pré-initialisée */
-    private static UserInstance INSTANCE = new UserInstance();
+    /** Instance unique */
+    private static UserInstance INSTANCE;
 
     /** Point d'accès pour l'instance unique du Singleton */
     public static UserInstance getInstance(){

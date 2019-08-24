@@ -4,16 +4,18 @@ import fr.wastemart.maven.javaclient.controllers.GenericController;
 import fr.wastemart.maven.javaclient.controllers.GlobalLoginController;
 import fr.wastemart.maven.javaclient.controllers.GlobalRootLayoutController;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StageManager {
@@ -25,10 +27,10 @@ public class StageManager {
     private AnchorPane mainPane;
 
     /** Constructeur privé */
-    private StageManager(){}
+    private StageManager() {}
 
-    /** Instance unique pré-initialisée */
-    private static StageManager INSTANCE = new StageManager();
+    /** Instance unique */
+    private static StageManager INSTANCE;
 
     /** Point d'accès pour l'instance unique du Singleton */
     public static StageManager getInstance(){
@@ -94,7 +96,7 @@ public class StageManager {
                 genericController.initFail();
             }
 
-            showBorderPane(mainPane);
+            showPane(mainPane);
             getStage().show();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -102,21 +104,28 @@ public class StageManager {
     }
 
     // Loads login page from the menu bar or beginning
-    public void loadLoginPage(UserInstance userInstance, MenuBar menuBar){
+    public void loadLoginPage(UserInstance userInstance){
         try {
             if(userInstance != null){
+            }
+
+            GlobalLoginController globalLoginController = (GlobalLoginController) loadController(dotenv.get("GLOBAL_LOGIN"), userInstance);
+
+
+            List<Detail> loginMessage = new ArrayList<>();
+
+            if(userInstance != null) {
                 userInstance.disconnect();
-            }
-
-            GlobalLoginController globalLoginController = (GlobalLoginController) loadController("/fr.wastemart.maven.javaclient/views/GlobalLogin.fxml", userInstance);
-
-            if(menuBar != null) {
-                globalLoginController.init("Déconnexion réussie");
+                StringDetail messageDetail = new StringDetail("Déconnexion réussie");
+                loginMessage.add(messageDetail);
+                globalLoginController.init(loginMessage);
             } else {
-                globalLoginController.init("Veuillez vous connecter");
+                StringDetail messageDetail = new StringDetail("Veuillez vous connecter");
+                loginMessage.add(messageDetail);
+                globalLoginController.init(loginMessage);
             }
 
-            showBorderPane(mainPane);
+            showPane(mainPane);
             getStage().show();
 
         } catch (Exception e) {
@@ -129,7 +138,7 @@ public class StageManager {
         // Display the Root Layout if there is an instance
         if(instance != null){
             loadRootLayoutController();
-            showBorderPane(rootLayout);
+            showPane(rootLayout);
         }
 
         mainPane = (AnchorPane) loadResource(mainView);
@@ -142,12 +151,9 @@ public class StageManager {
 
         try {
             // Load the Root Layout fxml
-
             rootLayout = (BorderPane) loadResource(dotenv.get("GLOBAL_ROOTLAYOUT"));
-
             // Set user instance of the Root Layout
             GlobalRootLayoutController globalRootLayoutController = loader.getController();
-
             globalRootLayoutController.init();
 
         } catch (Exception e) {
@@ -163,9 +169,9 @@ public class StageManager {
 
     }
 
-    private void showBorderPane(Parent rootLayout) throws Exception {
+    private void showPane(Parent parent) throws Exception {
         // Show the scene containing the root layout.
-        Scene rootScene = new Scene(rootLayout);
+        Scene rootScene = new Scene(parent);
         getStage().setScene(rootScene);
         getStage().show();
 
@@ -187,8 +193,12 @@ public class StageManager {
         }
     }
 
-    public Boolean userInstanceIsValid(UserInstance instance){
+    public Boolean userInstanceIsValid(UserInstance instance) {
         return instance.tokenIsValid() && instance.getUser().getEstValide().equals(1);
+    }
+
+    public void setCursor(Cursor type){
+        mainPane.setCursor(type);
     }
 
     public Stage getStage() {

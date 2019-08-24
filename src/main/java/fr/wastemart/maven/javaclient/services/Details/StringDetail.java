@@ -7,7 +7,7 @@ public class StringDetail implements Detail {
         str = string;
     }
 
-    public String getStringDetail(){
+    public String getValue(){
         return str;
     }
 }

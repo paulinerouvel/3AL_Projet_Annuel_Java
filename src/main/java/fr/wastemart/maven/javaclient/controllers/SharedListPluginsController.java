@@ -32,6 +32,7 @@ public class SharedListPluginsController extends GenericController {
         System.out.println("conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
         setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
 
+
         System.out.println("folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         setPluginFolder(pluginPath.getText());
 

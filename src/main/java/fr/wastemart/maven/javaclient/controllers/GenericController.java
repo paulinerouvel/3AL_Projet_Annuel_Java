@@ -1,8 +1,10 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.StageManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 
 import java.util.List;
@@ -29,4 +31,17 @@ public abstract class GenericController {
     public void setInfoErrorOccurred() {
         setInfoText("Une erreur s'est produite");
     }
+
+    public void handCursor() {
+        StageManager.getInstance().setCursor(Cursor.HAND);
+    }
+
+    public void defaultCursor() {
+        StageManager.getInstance().setCursor(Cursor.DEFAULT);
+    }
+
+    public void loadingCursor() {
+        StageManager.getInstance().setCursor(Cursor.WAIT);
+    }
+
 }
