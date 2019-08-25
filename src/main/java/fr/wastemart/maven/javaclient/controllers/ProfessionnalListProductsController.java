@@ -2,6 +2,7 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.ProductList;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -21,6 +22,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
 import static fr.wastemart.maven.javaclient.services.ProductList.*;
@@ -174,21 +177,8 @@ public class ProfessionnalListProductsController extends GenericController {
             refreshSelectedIndices();
 
             if(indexOfListSelected != -1) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.wastemart.maven.javaclient/views/SharedDetailsProduct.fxml"));
-
-                Scene newScene;
-                newScene = new Scene(loader.load());
-
-                SharedDetailsProductController controller = loader.getController();
-                controller.init(lists.getJSONObject(indexOfListSelected).getInt("id"), "Add", null);
-
-                Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-                Stage inputStage = new Stage();
-                inputStage.initOwner(stageNodeRoot);
-                inputStage.setScene(newScene);
-                inputStage.showAndWait();
-
+                List<Detail> productDetails = new ArrayList<>();
+                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), productDetails);
             }
 
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));

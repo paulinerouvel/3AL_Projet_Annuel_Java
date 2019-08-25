@@ -11,12 +11,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalLoginController">
 
     <children>
         <ImageView fitHeight="65.0" fitWidth="68.0" layoutX="441.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../images/Wastemart_Logo.png" />
+                <Image url="@../images/WasteMartLogo.png" />
             </image>
         </ImageView>
         <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue à Wastemart">

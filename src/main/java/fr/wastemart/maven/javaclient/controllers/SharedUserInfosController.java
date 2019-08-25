@@ -59,7 +59,7 @@ public class SharedUserInfosController extends GenericController {
             if(pwd != null || pwd != "") {
                 user.setMdp(pwd);
             }
-            System.out.println("Je vais rentrer dans saveUser()");
+            System.out.println("(SharedUserInfosController.save) Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
             if(updateUser(UserInstance.getInstance().getUser()) < 299 && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP

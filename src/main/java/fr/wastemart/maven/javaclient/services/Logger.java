@@ -33,7 +33,6 @@ public class Logger {
     }
 
     public void reportError(Exception ex){
-        ex.printStackTrace();
         if(getLogFile() == null) {
             System.out.println("(Logger.reportError) logFile does not exist, creating it...");
             File createdLogFile = createLogFile(ex);
@@ -49,7 +48,6 @@ public class Logger {
         writeErrorInLogFile(ex);
 
         try {
-            System.out.println("(Logger.reportError) About to send it");
             sendLogFile(logFile);
         } catch (Exception e) {
             System.out.println("(Logger.reportError) Failed to send, will send later");
@@ -62,10 +60,8 @@ public class Logger {
         LocalDateTime ldt = LocalDateTime.now();
         String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss", Locale.FRANCE).format(ldt);
         System.out.println("(Logger.createLogFile) Date formated");
-        File file = new File(formatedDate + "-Java-" + ex.getCause() + ".log");
-        System.out.println("(Logger.createLogFile) File object created");
+        File file = new File(formatedDate + "-Java-" + ex.getCause() + ".txt");
         try {
-            System.out.println("(Logger.createLogFile) Trying to create file in path: "+file.getAbsolutePath());
             if(file.createNewFile()){
                 System.out.println("(Logger.createLogFile) File created, path is : "+file.getAbsolutePath());
                 return file;
@@ -80,7 +76,6 @@ public class Logger {
     }
 
     private void writeErrorInLogFile(Exception ex) {
-        System.out.println("(Logger.writeErrorInLogFile) Writing error in file");
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(getLogFile(),true));
@@ -91,7 +86,7 @@ public class Logger {
                         " in File \"" + ex.getStackTrace()[i].getFileName() + "\"" +
                         " -> \"" + ex.getStackTrace()[i].getMethodName() +"\" method\n");
             }
-            writer.write( System.getProperty("line.separator"));
+            writer.write(System.getProperty("line.separator"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,23 +102,26 @@ public class Logger {
     }
 
     private void sendLogFile(File logFile) throws Exception{
+        System.out.println("(Logger.sendLogFile) Sending file");
         String url = "http://51.75.143.205:8080/logs/javaclient/";
         String charset = "UTF-8";
         String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
         String CRLF = "\r\n"; // Line separator required by multipart/form-data.
 
         URLConnection connection = new URL(url).openConnection();
+
         connection.setDoOutput(true);
-        connection.setRequestProperty("Content-Type", "multipart/form-data; charset=UTF-8");
+        connection.addRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
         try (
                 OutputStream output = connection.getOutputStream();
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true)
         ) {
+
             // Send text file.
-            writer.append("--").append(boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"textFile\"; filename=\"").append(logFile.getName()).append("\"").append(CRLF);
-            writer.append("Content-Type: text/plain; charset=").append(charset).append(CRLF); // Text file itself must be saved in this charset!
+            writer.append(boundary).append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(logFile.getName()).append("\"").append(CRLF);
+            writer.append("Content-Type: text/plain; charset=").append(charset).append(CRLF); // Text file itself must be saved in this charset!*/
             writer.append(CRLF).flush();
             Files.copy(logFile.toPath(), output);
             output.flush(); // Important before continuing with writer!
@@ -135,7 +133,8 @@ public class Logger {
 
         // Request is lazily fired whenever you need to obtain information about response.
         int responseCode = ((HttpURLConnection) connection).getResponseCode();
-        System.out.println(responseCode); // Should be 200
+        ((HttpURLConnection) connection).disconnect();
+        System.out.println("(Logger.sendLogFile) " + responseCode); // Should be 200
 
     }
 

@@ -25,25 +25,20 @@ public class EmployeeMainController extends GenericController {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_ORDERS"), UserInstance.getInstance());
     }
 
-    public void displayProsSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
-    }
-
     public void displayPrivatesSuggestion() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
     }
 
+    public void displayProsSuggestion() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+    }
 
     public void displayWarehouseList() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_WAREHOUSES"), UserInstance.getInstance());
     }
 
     public void displayUserList() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_USERS"), UserInstance.getInstance());
-    }
-
-    public void displayCustomerDetail(Integer userID) {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_DETAILS_CUSTOMER"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_USERS"), UserInstance.getInstance());
     }
 
 

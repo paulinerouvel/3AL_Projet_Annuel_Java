@@ -30,8 +30,8 @@ public class UserInstance {
     private static UserInstance INSTANCE;
 
     /** Point d'accès pour l'instance unique du Singleton */
-    public static UserInstance getInstance(){
-        if (INSTANCE == null){
+    public static UserInstance getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new UserInstance();
         }
         return INSTANCE;
@@ -73,55 +73,6 @@ public class UserInstance {
 
         return result;
     }
-
-
-    public static JSONArray fetchUsersByCategory(String libelle) {
-        URL url;
-        try {
-            url = new URL("https://wastemart-api.herokuapp.com/user/AllValidByCategory?type="+libelle);
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            int status = con.getResponseCode();
-            Reader streamReader;
-            if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
-            } else {
-                streamReader = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
-            }
-
-            BufferedReader in = new BufferedReader(streamReader);
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            con.disconnect();
-
-            JSONArray result = new JSONArray(content.toString());
-            System.out.println("result"+ result);
-            for(int i = 0; i < result.length(); i++) {
-                if (result.getJSONObject(i).isNull("desc")) {
-                    result.getJSONObject(i).put("desc", "");
-                }
-
-
-            }
-
-            System.out.println("result2"+ result);
-
-            return result;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONArray("{null}");
-        }
-    }
-
-
 
     public void disconnect(){
             this.setToken(null);

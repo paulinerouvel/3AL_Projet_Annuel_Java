@@ -62,7 +62,7 @@ public class User {
                         "\t\"sender\": \"wastemart@gmail.com\",\n" +
                         "\t\"destination\": \""+mail+"\",\n" +
                         "\t\"subject\": \""+objet+"\",\n" +
-                        "\t\"message\": \""+message+"\",\n" +
+                        "\t\"message\": \""+message+"\"\n" +
                         "}";
 
         Integer result;
@@ -88,24 +88,23 @@ public class User {
         user = response.getDataAsJSONObject();
         // TODO Test it, not sure it works (JsonOBJECT was initially returned)
 
-        user.put("categorieUtilisateur",fetchCategory(user.getInt("id")));
+        user.put("Categorie_utilisateur_id",fetchCategory(user.getInt("id")));
 
         System.out.println("(User.fetchUser) Final user : ");
-        System.out.println(user);
+        System.out.println("(User.fetchUser) "+ user);
 
         return user;
     }
 
-    // GET user Category
+    // GET the Category of one User
     public static String fetchCategory(Integer userId) throws Exception {
         String result;
-        System.out.println("(User.fetchCategory) About to ask Category of user");
         HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
         result = response.getData();
         // TODO Test : Initially return Integer.valueOf(content.toString());
 
         System.out.println("(User.fetchCategory) Category of user : ");
-        System.out.println(result);
+        System.out.println("(User.fetchCategory) " + result);
 
         return result;
     }
@@ -114,6 +113,15 @@ public class User {
     public static JSONArray fetchCategories() throws Exception {
         JSONArray result;
         HttpResponse response = Requester.sendGetRequest("user/categories", null);
+        result = response.getDataAsJSONArray();
+
+        return result;
+    }
+
+    // GET all Users of a Category
+    public static JSONArray fetchUsersByCategory(String libelle) throws Exception{
+        JSONArray result;
+        HttpResponse response = Requester.sendGetRequest("user/AllValidByCategory?type="+libelle, null);
         result = response.getDataAsJSONArray();
 
         return result;
@@ -176,10 +184,9 @@ public class User {
 
         for(int i = 0; i < users.length(); i++) {
 
-            //Integer categorieUtilisateur = fetchCategory(users.getJSONObject(i).getInt("id"));
-            Integer categorieUtilisateur = 5;
+            Integer categorieUtilisateur = Integer.valueOf(fetchCategory(users.getJSONObject(i).getInt("id")));
 
-            users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur > 5 ? null : categorieUtilisateur);
+            users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur);
 
             if (users.getJSONObject(i).isNull("Libelle")) {
                 users.getJSONObject(i).put("Libelle", "");
@@ -221,7 +228,7 @@ public class User {
         fr.wastemart.maven.javaclient.models.User userObject = new fr.wastemart.maven.javaclient.models.User(
                 user.getInt("id"),
                 user.isNull("libelle") ? null : user.getString("libelle"),
-                user.getInt("categorieUtilisateur"),
+                user.getInt("Categorie_utilisateur_id"),
                 user.isNull("nom") ? null : user.getString("nom"),
                 user.isNull("prenom") ? null : user.getString("prenom"),
                 user.getString("mail"),
@@ -240,8 +247,6 @@ public class User {
                 //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
                 user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
         );
-        System.out.println("(services.User.jsonToUser) User date :");
-        System.out.println(userObject.getDateDeNaissance());
         return userObject;
     }
 

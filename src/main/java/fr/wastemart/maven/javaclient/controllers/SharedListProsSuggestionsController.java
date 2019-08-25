@@ -177,7 +177,7 @@ public class SharedListProsSuggestionsController extends GenericController {
 
                 // Affecte la liste de produits à un entrepot
                 Integer affectProductListToWarehouseRes = affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue());
-                System.out.println("affectedProductListToWarehouseRes "+affectProductListToWarehouseRes);
+                System.out.println("(SharedPluginsController.submitList) affectedProductListToWarehouseRes " + affectProductListToWarehouseRes);
 
                 if (affectProductListToWarehouseRes != 0 && affectProductListToWarehouseRes < 299) { // Réussite
                     listElement.setEstArchive(1);

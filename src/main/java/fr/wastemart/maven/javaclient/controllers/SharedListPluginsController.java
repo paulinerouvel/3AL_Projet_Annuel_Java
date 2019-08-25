@@ -25,15 +25,15 @@ public class SharedListPluginsController extends GenericController {
 
     public void init() { // Ne throw pas car peut être normal
 
-        System.out.println("path :"+ System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        System.out.println("(SharedPluginsController.init) path :"+ System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         pluginPath.setText(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         pluginPath.positionCaret(pluginPath.getLength());
 
-        System.out.println("conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
+        System.out.println("(SharedPluginsController.init) conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
         setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
 
 
-        System.out.println("folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        System.out.println("(SharedPluginsController.init)  folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         setPluginFolder(pluginPath.getText());
 
         fetchInstalledPlugins();
@@ -95,7 +95,7 @@ public class SharedListPluginsController extends GenericController {
         try {
             setPluginFolder(pluginPath.getText());
 
-            System.out.println("Selected indice: "+ getSelectedIndex(localPluginsListView));
+            System.out.println("(SharedPluginsController.uninstallSelectedPlugin) Selected indice: "+ getSelectedIndex(localPluginsListView));
             if(uninstallPlugin(getSelectedIndex(localPluginsListView))) {
                 setInfoText("Plug-in désinstallé avec succès");
             } else {

@@ -5,6 +5,9 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
+
 public class MainApp extends Application {
     /**
      * Calls start() internally
@@ -19,7 +22,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("WasteMart");
-        primaryStage.getIcons().add(new Image("/fr.wastemart.maven.javaclient/images/WasteMart.ico"));
+        URL icon = new File(System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/images/WasteMartIcon.png").toURI().toURL();
+        primaryStage.getIcons().add(new Image(String.valueOf(icon)));
         primaryStage.setResizable(false);
 
         StageManager.getInstance().setStage(primaryStage);

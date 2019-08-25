@@ -15,12 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class StageManager {
     private Dotenv dotenv;
@@ -32,11 +28,7 @@ public class StageManager {
 
     /** Constructeur privé */
     private StageManager() {
-
-        //String envFile = new Scanner(getClass().getClassLoader().getResource("/fr.wastemart.maven.javaclient/"), "UTF-8");
-        //String envFile = java.net.URLDecoder.decode(String.valueOf(StageManager.class.getResource("/fr.wastemart.maven.javaclient/")), StandardCharsets.UTF_8);
         String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
-        System.out.println(envFile);
         dotenv = Dotenv.configure()
                 .directory(envFile)
                 .load();
@@ -98,6 +90,20 @@ public class StageManager {
         }
     }
 
+    public void loadExtraPageWithDetails(String mainView, List<Detail> details) throws Exception {
+        mainPane = (AnchorPane) loadResource(mainView);
+        GenericController genericController = loader.getController();
+
+        genericController.init(details);
+
+        // Display the Page
+        Scene newScene = new Scene(mainPane);
+        Stage inputStage = new Stage();
+        inputStage.initOwner(getStage());
+        inputStage.setScene(newScene);
+        inputStage.showAndWait();
+    }
+
     // Loads a page without root (register)
     public void loadRootlessPage(String mainView) {
         try {
@@ -119,11 +125,7 @@ public class StageManager {
     // Loads login page from the menu bar or beginning
     public void loadLoginPage(UserInstance userInstance){
         try {
-            if(userInstance != null){
-            }
-
             GlobalLoginController globalLoginController = (GlobalLoginController) loadController(dotenv.get("GLOBAL_LOGIN"), userInstance);
-
 
             List<Detail> loginMessage = new ArrayList<>();
 
@@ -187,7 +189,6 @@ public class StageManager {
         Scene rootScene = new Scene(parent);
         getStage().setScene(rootScene);
         getStage().show();
-
     }
 
     public void displayMainPage(UserInstance userInstance) {
