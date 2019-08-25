@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 class Requester {
     static HttpResponse sendGetRequest(String route, String token) throws Exception {
         // Creating Request
-        URL url = new URL("https://wastemart-api.herokuapp.com/"+route);
+        URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         System.out.println("(Requester.sendGetRequest) Sending GET to : "+route);
 
@@ -24,7 +24,7 @@ class Requester {
 
     static HttpResponse sendDeleteRequest(String route, String token) throws Exception { // TODO Test it
         // Creating Request
-        URL url = new URL("https://wastemart-api.herokuapp.com/"+route);
+        URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         // Add request Headers
@@ -39,7 +39,7 @@ class Requester {
 
     static HttpResponse sendPostRequest(String route, String jsonBody, String token) throws Exception {
         // Creating Request
-        URL url = new URL("https://wastemart-api.herokuapp.com/"+route);
+        URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         // Add request Headers
@@ -57,7 +57,7 @@ class Requester {
 
     static HttpResponse sendPutRequest(String route, String jsonBody, String token) throws Exception{
         // Creating Request
-        URL url = new URL("https://wastemart-api.herokuapp.com/"+route);
+        URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         // Add request Headers

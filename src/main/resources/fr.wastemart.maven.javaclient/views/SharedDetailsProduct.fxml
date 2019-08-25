@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="571.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.SharedDetailsProductController">
+<AnchorPane prefHeight="571.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsProductController">
    <children>
       <Label layoutX="219.0" layoutY="29.0" style="-fx-font-size: 25;" text="Gérer Produit" />
       <Label layoutX="64.0" layoutY="67.0" text="Libelle" />

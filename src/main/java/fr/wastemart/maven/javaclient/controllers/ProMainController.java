@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ProfessionalMainController extends GenericController {
+public class ProMainController extends GenericController {
     @FXML private Label proName;
 
     @Override

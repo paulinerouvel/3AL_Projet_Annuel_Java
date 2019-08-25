@@ -19,7 +19,7 @@ import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByOrde
 import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
 
 
-public class SharedListOrdersController extends GenericController {
+public class ListOrdersController extends GenericController {
     private JSONArray orders;
     private JSONArray products;
     private Integer indexOfProductSelected;

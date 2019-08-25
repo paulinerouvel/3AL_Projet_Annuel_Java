@@ -3,12 +3,10 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class EmployeeMainController extends GenericController {
     @FXML private Label employeeName;
-    @FXML private Button profileButton;
 
     @Override
     public void init() throws Exception {

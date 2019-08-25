@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 import static fr.wastemart.maven.javaclient.services.User.*;
 
-public class SharedUserInfosController extends GenericController {
+public class GlobalUserInfosController extends GenericController {
     @FXML
     private Label employeeName;
     @FXML

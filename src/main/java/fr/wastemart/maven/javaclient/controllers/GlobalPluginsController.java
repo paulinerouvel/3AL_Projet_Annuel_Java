@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
-public class SharedListPluginsController extends GenericController {
+public class GlobalPluginsController extends GenericController {
     private String pluginURL = dotenv.get("WASTEMART_WEBSERVER_PLUGINS");
     @FXML private TextField pluginPath;
 

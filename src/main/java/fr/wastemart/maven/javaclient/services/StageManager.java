@@ -99,7 +99,9 @@ public class StageManager {
         // Display the Page
         Scene newScene = new Scene(mainPane);
         Stage inputStage = new Stage();
+
         inputStage.initOwner(getStage());
+        inputStage.setResizable(false);
         inputStage.setScene(newScene);
         inputStage.showAndWait();
     }
@@ -202,7 +204,7 @@ public class StageManager {
                     userInstance);
         } else if (userInstance.getTokenUserCategory().equals(2)) {
             loadPage(
-                    "/fr.wastemart.maven.javaclient/views/ProfessionalMain.fxml",
+                    "/fr.wastemart.maven.javaclient/views/ProMain.fxml",
                     userInstance);
         }
     }
@@ -221,5 +223,9 @@ public class StageManager {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public Dotenv getDotenv() {
+        return dotenv;
     }
 }

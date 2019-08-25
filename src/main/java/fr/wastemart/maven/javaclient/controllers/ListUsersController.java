@@ -4,7 +4,6 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.models.UserCategory;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
-import fr.wastemart.maven.javaclient.services.Details.UserDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -21,7 +20,7 @@ import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.User.*;
 
-public class EmployeeListUsersController extends GenericController {
+public class ListUsersController extends GenericController {
     private JSONArray lists;
     private JSONArray users;
     private Integer indexOfUserSelected;

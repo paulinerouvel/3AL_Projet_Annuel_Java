@@ -10,7 +10,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.ProfessionalMainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.ProMainController">
     <children>
         <Label layoutX="262.0" layoutY="37.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart Professionnel" AnchorPane.leftAnchor="262.0" />
         <Label fx:id="proName" alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="75.0" prefHeight="19.0" prefWidth="338.0" text="[LabelProfessionnel]" textAlignment="CENTER" />

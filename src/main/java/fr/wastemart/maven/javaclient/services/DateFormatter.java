@@ -14,6 +14,5 @@ public class DateFormatter {
             } catch (Exception ignored) {}
         }
         return "0000-00-00";
-
     }
 }

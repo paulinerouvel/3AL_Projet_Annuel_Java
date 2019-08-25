@@ -15,7 +15,7 @@ import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.User.sendMail;
 
-public class SharedDetailsContactController extends GenericController {
+public class DetailsContactController extends GenericController {
     @FXML private Label receiver;
     @FXML private TextField subject;
     @FXML private TextArea body;

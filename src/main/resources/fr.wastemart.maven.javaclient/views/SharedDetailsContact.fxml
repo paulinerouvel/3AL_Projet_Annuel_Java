@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="552.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.SharedDetailsContactController">
+<AnchorPane prefHeight="552.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsContactController">
    <children>
       <Label alignment="CENTER" layoutX="219.0" layoutY="29.0" prefHeight="30.0" prefWidth="155.0" style="-fx-font-size: 25;" text="Contacter" />
       <Label layoutX="56.0" layoutY="71.0" text="Destinataire :" />

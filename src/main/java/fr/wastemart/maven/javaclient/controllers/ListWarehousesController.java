@@ -23,7 +23,7 @@ import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
 
 
-public class SharedListWarehousesController extends GenericController {
+public class ListWarehousesController extends GenericController {
     private JSONArray warehouses;
     private JSONArray products;
     private Integer indexOfProductSelected;

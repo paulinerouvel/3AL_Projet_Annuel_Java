@@ -3,8 +3,6 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.ZonedDateTime;
-
 public class Order {
         // --- POST --- //
 

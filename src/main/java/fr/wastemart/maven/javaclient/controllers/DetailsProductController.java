@@ -16,7 +16,7 @@ import java.time.LocalDate;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
 
-public class SharedDetailsProductController extends GenericController {
+public class DetailsProductController extends GenericController {
 
     private Integer listId;
     private String operation;
