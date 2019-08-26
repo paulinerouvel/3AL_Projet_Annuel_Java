@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.AdminMainController">
    <children>
-       <Label alignment="CENTER" layoutX="267.0" layoutY="14.0" prefHeight="36.0" prefWidth="491.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart Administrateur" />
+       <Label alignment="CENTER" layoutX="3.0" layoutY="14.0" prefHeight="36.0" prefWidth="1024.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart Administrateur" />
        <Label fx:id="adminName" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="59.0" prefHeight="19.0" prefWidth="333.0" text="[LabelAdmin]" textAlignment="CENTER" />
 
        <Button layoutX="889.0" layoutY="14.0" mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="45.0" prefWidth="45.0" style="-fx-padding: 0;" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
@@ -45,12 +45,11 @@
            <children>
                <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Produits" textAlignment="CENTER" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProductLists" prefHeight="217.0" prefWidth="389.0" text="Listes de produits" textAlignment="CENTER" GridPane.columnIndex="1" />
-               <Button layoutX="302.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProsSuggestions" prefHeight="216.0" prefWidth="443.0" text="Propositions de listes des Pros" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
+               <Button layoutX="302.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProSuggestions" prefHeight="216.0" prefWidth="443.0" text="Propositions de listes des Pros" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
                <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="216.0" prefWidth="443.0" text="Utilisateurs" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" onAction="#displayRegisterings" prefHeight="228.0" prefWidth="491.0" text="Demandes d'inscription" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" GridPane.rowIndex="1" />
                <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="242.0" prefWidth="705.0" text="Gérer les commandes" textAlignment="CENTER" GridPane.rowIndex="2" />
-               <Button mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="249.0" prefWidth="468.0" text="Modifier mes informations" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" />
            </children>
        </GridPane>
 

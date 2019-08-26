@@ -63,13 +63,14 @@ public class User {
     }
 
     // POST mail
-    public static Integer sendMail(String mail, String objet, String message) throws Exception {
+    public static Integer sendMail(String receiver, String subject, String body) throws Exception {
+        body = body.replace("\n","\\n");
         String json =
                 "{\n" +
                         "\t\"sender\": \"wastemart@gmail.com\",\n" +
-                        "\t\"destination\": \""+mail+"\",\n" +
-                        "\t\"subject\": \""+objet+"\",\n" +
-                        "\t\"message\": \""+message+"\"\n" +
+                        "\t\"destination\": \""+receiver+"\",\n" +
+                        "\t\"subject\": \""+subject+"\",\n" +
+                        "\t\"message\": \""+body+"\"\n" +
                         "}";
 
         Integer result;

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.ListUsersController">
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.ListUsersController">
     <children>
         <SplitPane dividerPositions="0.16796875" layoutX="123.0" layoutY="64.0" prefHeight="576.0" prefWidth="1058.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
@@ -40,13 +40,14 @@
                                 <TableColumn fx:id="userPostalCode" minWidth="0.0" prefWidth="133.0" text="Code postal" />
                             </columns>
                         </TableView>
-                        <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="279.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
+                        <ButtonBar layoutX="424.0" layoutY="531.0" prefHeight="40.0" prefWidth="406.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="17.0">
                             <buttons>
-                                <Button fx:id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyUser" prefHeight="29.0" prefWidth="30.0" text="Modifier" />
-                                <Button fx:id="contactButton" layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
+                                <Button fx:id="modifyButton" mnemonicParsing="false" onMouseClicked="#modifyUser" prefHeight="29.0" prefWidth="30.0" text="Accepter" />
+                                <Button fx:id="contactButton" layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Refuser" />
+                        <Button mnemonicParsing="false" text="Contacter" />
                             </buttons>
                         </ButtonBar>
-                        <Label fx:id="info" layoutX="10.0" layoutY="541.0" prefHeight="19.0" prefWidth="235.0" />
+                        <Label fx:id="info" layoutX="10.0" layoutY="541.0" prefHeight="19.0" prefWidth="406.0" />
                     </children>
                 </AnchorPane>
             </items>

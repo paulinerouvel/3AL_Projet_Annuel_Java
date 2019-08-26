@@ -19,23 +19,23 @@ public class EmployeeMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
-    public void displayOrderList() {
-        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_ORDERS"), UserInstance.getInstance());
+    public void displayProducts() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance());
     }
 
-    public void displayPrivatesSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
-    }
-
-    public void displayProsSuggestion() {
+    public void displayProsSuggestions() {
         StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
     }
 
-    public void displayWarehouseList() {
+    public void displayWarehouses() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_WAREHOUSES"), UserInstance.getInstance());
     }
 
-    public void displayUserList() {
+    public void displayOrders() {
+        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_ORDERS"), UserInstance.getInstance());
+    }
+
+    public void displayUsers() {
         StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_USERS"), UserInstance.getInstance());
     }
 
@@ -43,11 +43,12 @@ public class EmployeeMainController extends GenericController {
         StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT_ADMIN"), null);
     }
 
+
     public void displaySelfUserInfos() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("GLOBAL_USER_INFOS"), UserInstance.getInstance());
     }
 
     public void displayPlugins() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PLUGINS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("GLOBAL_PLUGINS"), UserInstance.getInstance());
     }
 }

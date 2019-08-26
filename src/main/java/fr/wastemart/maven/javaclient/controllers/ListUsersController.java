@@ -4,6 +4,7 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.models.UserCategory;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
+import fr.wastemart.maven.javaclient.services.Details.UserDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -110,7 +111,6 @@ public class ListUsersController extends GenericController {
         }
     }
 
-    /*
     @FXML
     public void modifyUser() {
         UserDetail User = new UserDetail(usersTable.getSelectionModel().getSelectedItem());
@@ -118,9 +118,8 @@ public class ListUsersController extends GenericController {
         List<Detail> detailList = new ArrayList<>();
         detailList.add(User);
 
-        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_DETAILS_CUSTOMER"), UserInstance.getInstance(), detailList);
+        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), detailList);
     }
-    */
 
     @FXML
     public void contactUser() {

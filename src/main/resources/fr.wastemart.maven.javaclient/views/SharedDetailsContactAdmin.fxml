@@ -11,17 +11,17 @@
 <AnchorPane prefHeight="552.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsContactController">
    <children>
       <Label alignment="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="36.0" prefWidth="580.0" style="-fx-font-size: 25;" text="Contacter un Administrateur" />
-      <Label layoutX="56.0" layoutY="71.0" text="Destinataire :" />
-      <ChoiceBox fx:id="receiverChoice" layoutX="150.0" layoutY="66.0" prefHeight="31.0" prefWidth="302.0" />
-      <Label layoutX="61.0" layoutY="103.0" text="Objet" />
-      <TextField fx:id="subject" layoutX="57.0" layoutY="129.0" prefHeight="32.0" prefWidth="479.0" />
-      <Label layoutX="61.0" layoutY="183.0" text="Message" />
+      <Label layoutX="57.0" layoutY="98.0" text="Destinataire :" />
+      <ChoiceBox fx:id="receiverChoice" layoutX="162.0" layoutY="92.0" prefHeight="31.0" prefWidth="270.0" />
+      <Label layoutX="61.0" layoutY="122.0" text="Objet" />
+      <TextField fx:id="subject" layoutX="57.0" layoutY="146.0" prefHeight="32.0" prefWidth="479.0" />
+      <Label layoutX="61.0" layoutY="186.0" text="Message" />
+      <TextArea fx:id="body" layoutX="57.0" layoutY="209.0" prefHeight="252.0" prefWidth="479.0" />
       <Label layoutX="62.0" layoutY="501.0" text="Info :" />
       <Label fx:id="info" layoutX="109.0" layoutY="501.0" prefHeight="19.0" prefWidth="302.0" />
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="431.0" layoutY="493.0" mnemonicParsing="false" onAction="#submitMessage" prefHeight="30.0" prefWidth="109.0" text="Envoyer">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <TextArea fx:id="body" layoutX="57.0" layoutY="209.0" prefHeight="252.0" prefWidth="479.0" />
    </children>
 </AnchorPane>

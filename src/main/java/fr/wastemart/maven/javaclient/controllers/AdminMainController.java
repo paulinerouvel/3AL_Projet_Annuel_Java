@@ -19,30 +19,34 @@ public class AdminMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
+    public void displayProducts() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance());
+    }
 
-    public void displayProsSuggestion() {
+    public void displayProductLists() {
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_PRODUCT_LISTS"), UserInstance.getInstance());
+    }
+
+    public void displayProSuggestions() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
     }
 
-    public void displayPrivatesSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
+    public void displayWarehouses() {
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_WAREHOUSES"), UserInstance.getInstance());
     }
-
-    public void displayProducts() {}
 
     public void displayUsers() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_USERS"), UserInstance.getInstance());
-
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_USERS"), UserInstance.getInstance());
     }
 
-    public void displayRegisterRequests() {
-        //stageManager.loadPage(actionEvent, "/fr.wastemart.maven.javaclient/views/GlobalRootLayout.fxml","/views/UserRegistrationList.fxml",
-        //        instance);
+    public void displayRegisterings() {
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_USER_REGISTRATIONS"), UserInstance.getInstance());
     }
 
-    public void displayWarehouses() {}
+    public void displayOrders() {
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_USER_ORDERS"), UserInstance.getInstance());
+    }
 
-    public void displayCommandList() {}
 
     public void displaySelfUserInfos() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());

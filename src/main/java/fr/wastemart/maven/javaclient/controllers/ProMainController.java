@@ -20,12 +20,20 @@ public class ProMainController extends GenericController {
         setInfoText("An error occurred, please disconnect");
     }
 
+    public void displayProductLists() {
+        StageManager.getInstance().loadPage(dotenv.get("PROFESSIONAL_LIST_PRODUCT_LISTS"),
+                UserInstance.getInstance());
+    }
+
     public void displayProducts() {
         StageManager.getInstance().loadPage(dotenv.get("PROFESSIONAL_LIST_PRODUCTS"),
                 UserInstance.getInstance());
     }
 
-    public void displayAdminContact() {}
+    public void displayContactAdmin() {
+        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT_ADMIN"), null);
+    }
+
 
     public void displaySelfUserInfos() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"),
@@ -35,9 +43,5 @@ public class ProMainController extends GenericController {
     public void displayPlugins() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PLUGINS"),
                 UserInstance.getInstance());
-    }
-
-    public void displayListesProduits() {
-
     }
 }

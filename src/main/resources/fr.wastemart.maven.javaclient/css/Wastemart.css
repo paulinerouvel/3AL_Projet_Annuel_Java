@@ -3,14 +3,14 @@
 }
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 0.6;
 }
 
 .label-bright {
-    -fx-font-size: 11pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -38,7 +38,7 @@
 
 /* Original font size : 25 */
 .table-view .column-header, .table-view {
-    -fx-size: 10pt;
+    -fx-size: 9pt;
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
     -fx-border-color:
@@ -51,7 +51,7 @@
 
 /* Original font size : 20 */
 .table-view .column-header .label {
-    -fx-font-size: 10pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
@@ -81,7 +81,7 @@
 
 /* Original font size : 14 */
 .menu-bar .label {
-    -fx-font-size: 10pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 0.9;
@@ -92,7 +92,7 @@
 }
 
 .text-field {
-    -fx-font-size: 12pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Semibold";
 }
 

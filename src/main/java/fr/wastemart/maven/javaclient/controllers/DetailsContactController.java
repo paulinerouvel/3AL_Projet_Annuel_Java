@@ -46,7 +46,7 @@ public class DetailsContactController extends GenericController {
     }
 
     private void loadAdminReceivers() throws Exception {
-        JSONArray adminUsers = fetchUsersByCategory("5");
+        JSONArray adminUsers = fetchUsersByCategory("Administrateur");
 
         ObservableList<String> mailList = FXCollections.observableArrayList();
 
@@ -55,6 +55,7 @@ public class DetailsContactController extends GenericController {
         }
 
         receiverChoice.setItems(mailList);
+        receiverChoice.getSelectionModel().selectFirst();
     }
 
     public void submitMessage(ActionEvent event) {
@@ -75,8 +76,13 @@ public class DetailsContactController extends GenericController {
                         break;
                 }
             } else {
-                body.setText(body.getText().replace("\n","\\n"));
-                Integer contactRes = sendMail(receiver.getText(), subject.getText(), body.getText());
+                String mail;
+                if(receiverChoice != null){
+                    mail = receiverChoice.getSelectionModel().getSelectedItem();
+                } else {
+                    mail = receiver.getText();
+                }
+                Integer contactRes = sendMail(mail, subject.getText(), body.getText());
                 if(contactRes > 299){
                     setInfoText("Echec de l'envoi du message");
                 } else {

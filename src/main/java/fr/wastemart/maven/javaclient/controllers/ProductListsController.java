@@ -28,7 +28,7 @@ import static fr.wastemart.maven.javaclient.services.Product.*;
 import static fr.wastemart.maven.javaclient.services.ProductList.*;
 
 
-public class ListProductsController extends GenericController {
+public class ProductListsController extends GenericController {
     private JSONArray lists;
     private JSONArray products;
     private Integer indexOfProductSelected;
