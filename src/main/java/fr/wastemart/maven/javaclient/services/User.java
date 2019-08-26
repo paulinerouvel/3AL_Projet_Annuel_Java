@@ -12,12 +12,19 @@ public class User {
 
     // POST a user (Register)
     public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) throws Exception {
+        String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
+        String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
+        String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
+        String photo = user.getPhoto() == null ? null : "\""+user.getPhoto()+"\"";
+        String desc = user.getDesc() == null ? null : "\""+user.getDesc()+"\"";
+        String siret = user.getSiret() == null ? null : "\""+user.getSiret()+"\"";
+        String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
 
         String json = "{\n" +
             "\t\"id\": \""+user.getId()+"\",\n" +
-            "\t\"libelle\" : "+user.getLibelle()+",\n" +
-            "\t\"nom\": "+user.getNom()+",\n" +
-            "\t\"prenom\": "+user.getPrenom()+",\n" +
+            "\t\"libelle\" : "+libelle+",\n" +
+            "\t\"nom\": "+nom+",\n" +
+            "\t\"prenom\": "+prenom+",\n" +
             "\t\"mail\":\""+user.getMail()+"\",\n" +
             "\t\"tel\":\""+user.getTel()+"\",\n" +
             "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
@@ -25,12 +32,12 @@ public class User {
             "\t\"codePostal\":\""+user.getCodePostal()+"\",\n" +
             "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
             "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-            "\t\"photo\":"+user.getPhoto()+",\n" +
-            "\t\"desc\":"+user.getDesc()+",\n" +
+            "\t\"photo\":"+photo+",\n" +
+            "\t\"desc\":"+desc+",\n" +
             "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
             "\t\"estValide\":"+user.getEstValide()+",\n" +
-            "\t\"siret\":"+user.getSiret()+",\n" +
-            "\t\"dateDeNaissance\":"+user.getDateDeNaissance()+",\n" +
+            "\t\"siret\":"+siret+",\n" +
+            "\t\"dateDeNaissance\":"+dateDeNaissance+",\n" +
             "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
         "}";
 
@@ -75,25 +82,41 @@ public class User {
         // --- GET --- //
 
     // GET User By id : 1, by mail : 2
-    public static JSONObject fetchUser(String operation, String data) throws Exception {
-        String url = null;
-        if(operation.equals("id")){
-            url = "user/?id=" + data;
-        } else if(operation.equals("mail")) {
-            url = "user/?mail=" + data;
+    public static fr.wastemart.maven.javaclient.models.User fetchUser(String data) throws Exception {
+        String url = "user/?id=" + data;
+
+        HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
+
+        JSONObject jsonUser = null;
+        fr.wastemart.maven.javaclient.models.User user = null;
+        if (fetchUserResponse.getResponseCode() <= 299) {
+            jsonUser = fetchUserResponse.getDataAsJSONObject();
+
+            String category = fetchCategory(jsonUser.getInt("id"));
+
+            jsonUser.put("Categorie_utilisateur_id", category);
+
+
+            user = jsonToUser(jsonUser);
         }
 
-        JSONObject user;
-        HttpResponse response = Requester.sendGetRequest(url, null);
-        user = response.getDataAsJSONObject();
-        // TODO Test it, not sure it works (JsonOBJECT was initially returned)
-
-        user.put("Categorie_utilisateur_id",fetchCategory(user.getInt("id")));
-
-        System.out.println("(User.fetchUser) Final user : ");
-        System.out.println("(User.fetchUser) "+ user);
-
         return user;
+    }
+
+    public static JSONObject fetchCreatedUser(String data) throws Exception {
+        String url = "user/?mail=" + data;
+
+        HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
+
+        JSONObject jsonUser = null;
+        fr.wastemart.maven.javaclient.models.User user = null;
+        if (fetchUserResponse.getResponseCode() <= 299) {
+            jsonUser = fetchUserResponse.getDataAsJSONObject();
+            System.out.println("User"+ jsonUser);
+        }
+
+        return jsonUser;
+
     }
 
     // GET the Category of one User
@@ -217,12 +240,10 @@ public class User {
         return users;
     }
 
-    public static Integer initNewUser(String mail, Integer userCategory) throws Exception {
-        JSONObject fetchedUser = fetchUser("mail", mail);
-        return addCategory(fetchedUser.getInt("id"), userCategory);
+    public static Integer RegisterNewUser(String mail, Integer userCategory) throws Exception {
+        JSONObject createdUser = fetchCreatedUser(mail);
+        return addCategory(createdUser.getInt("id"), userCategory);
     }
-
-
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
         fr.wastemart.maven.javaclient.models.User userObject = new fr.wastemart.maven.javaclient.models.User(

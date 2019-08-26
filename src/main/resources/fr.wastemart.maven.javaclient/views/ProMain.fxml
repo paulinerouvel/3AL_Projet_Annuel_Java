@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.Image?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.ProMainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.ProMainController">
     <children>
-        <Label layoutX="262.0" layoutY="37.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart Professionnel" AnchorPane.leftAnchor="262.0" />
-        <Label fx:id="proName" alignment="CENTER" contentDisplay="CENTER" layoutX="339.0" layoutY="75.0" prefHeight="19.0" prefWidth="338.0" text="[LabelProfessionnel]" textAlignment="CENTER" />
+        <Label alignment="CENTER" layoutX="287.0" layoutY="14.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart Professionnel" AnchorPane.leftAnchor="287.0" />
+        <Label fx:id="proName" alignment="CENTER" contentDisplay="CENTER" layoutX="343.0" layoutY="59.0" prefHeight="19.0" prefWidth="338.0" text="[LabelProfessionnel]" textAlignment="CENTER" />
 
         <Button layoutX="889.0" layoutY="14.0" mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="45.0" prefWidth="45.0" style="-fx-padding: 0;" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
             <cursor><Cursor fx:constant="HAND" /></cursor>
@@ -43,11 +43,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Listes de produits" />
-                <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Contacter Administration" GridPane.rowIndex="1" />
-                <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Enregist" GridPane.columnIndex="1" />
-                <Button mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Plugins" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Button layoutX="593.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayPlugins" prefHeight="291.0" prefWidth="508.0" text="Modifier mes informations" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Button mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Produits" />
+                <Button mnemonicParsing="false" prefHeight="262.0" prefWidth="525.0" text="Contacter Administration" GridPane.columnIndex="2" />
+                <Button mnemonicParsing="false" prefHeight="216.0" prefWidth="443.0" text="Liste de produits" GridPane.columnIndex="1" />
             </children>
         </GridPane>
 

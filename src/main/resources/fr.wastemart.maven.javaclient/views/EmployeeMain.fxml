@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.EmployeeMainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.EmployeeMainController">
    <children>
-      <Label layoutX="291.0" layoutY="31.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart employé" />
-       <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="342.0" layoutY="66.0" prefHeight="19.0" prefWidth="339.0" text="[LabelEmployé]" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutX="315.0" layoutY="14.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart employé" />
+       <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="343.0" layoutY="59.0" prefHeight="19.0" prefWidth="339.0" text="[LabelEmployé]" textAlignment="CENTER" />
        <Button layoutX="889.0" layoutY="14.0" mnemonicParsing="false" onAction="#displaySelfUserInfos" prefHeight="45.0" prefWidth="45.0" style="-fx-padding: 0;" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="14.0">
            <cursor><Cursor fx:constant="HAND" /></cursor>
            <graphic>
@@ -43,26 +43,32 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
            <children>
-               <Button mnemonicParsing="false" onAction="#displayOrderList" prefHeight="217.0" prefWidth="389.0" text="V Voir les commandes" textAlignment="CENTER" wrapText="true">
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Produits" textAlignment="CENTER" wrapText="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="217.0" prefWidth="389.0" text="Gérer les commandes" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayPrivatesSuggestion" prefHeight="216.0" prefWidth="443.0" text="Propositions Particuliers" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+               <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProsSuggestions" prefHeight="228.0" prefWidth="491.0" text="Propositions de listes de Pros" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProsSuggestion" prefHeight="228.0" prefWidth="491.0" text="Propositions Professionnels" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
+               <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayWarehouseList" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
+               <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="249.0" prefWidth="480.0" text="Utilisateurs" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayUserList" prefHeight="249.0" prefWidth="480.0" text="Utilisateurs" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button layoutX="302.0" layoutY="165.0" mnemonicParsing="false" onAction="#displayContactAdmin" prefHeight="249.0" prefWidth="480.0" text="Contacter un Admin" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Button>
+               </cursor>
+            </Button>
            </children>
        </GridPane>
        <Label fx:id="info" layoutX="21.0" layoutY="540.0" prefHeight="19.0" prefWidth="976.0" />

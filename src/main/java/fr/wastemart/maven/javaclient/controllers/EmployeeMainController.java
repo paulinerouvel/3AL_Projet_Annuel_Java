@@ -20,15 +20,15 @@ public class EmployeeMainController extends GenericController {
     }
 
     public void displayOrderList() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_ORDERS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_ORDERS"), UserInstance.getInstance());
     }
 
     public void displayPrivatesSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PRIVATES_SUGGESTIONS"), UserInstance.getInstance());
     }
 
     public void displayProsSuggestion() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
     }
 
     public void displayWarehouseList() {
@@ -39,6 +39,9 @@ public class EmployeeMainController extends GenericController {
         StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_USERS"), UserInstance.getInstance());
     }
 
+    public void displayContactAdmin() {
+        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT_ADMIN"), null);
+    }
 
     public void displaySelfUserInfos() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());

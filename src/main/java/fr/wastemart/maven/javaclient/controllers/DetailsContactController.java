@@ -3,26 +3,58 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
-import fr.wastemart.maven.javaclient.services.StageManager;
-import fr.wastemart.maven.javaclient.services.UserInstance;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static fr.wastemart.maven.javaclient.services.User.sendMail;
+import static fr.wastemart.maven.javaclient.services.User.*;
+import static javafx.collections.FXCollections.observableList;
 
 public class DetailsContactController extends GenericController {
+    @FXML private ChoiceBox<String> receiverChoice;
     @FXML private Label receiver;
     @FXML private TextField subject;
     @FXML private TextArea body;
 
+    @Override
     public void init(List<Detail> contactDetails) throws Exception {
-        StringDetail mailDetail = (StringDetail) contactDetails.get(0);
-        receiver.setText(mailDetail.getValue());
+        if(contactDetails != null) {
+            StringDetail mailDetail = (StringDetail) contactDetails.get(0);
+            receiver.setText(mailDetail.getValue());
+        } else if(receiverChoice != null) {
+            loadAdminReceivers();
+        } else {
+            initFail();
+        }
+    }
+
+    @Override
+    public void initFail() {
+        super.initFail();
+        subject.setDisable(true);
+        body.setDisable(true);
+    }
+
+    private void loadAdminReceivers() throws Exception {
+        JSONArray adminUsers = fetchUsersByCategory("5");
+
+        ObservableList<String> mailList = FXCollections.observableArrayList();
+
+        for (int i = 0; i < adminUsers.length(); i++){
+            mailList.add(jsonToUser((JSONObject) adminUsers.get(i)).getMail());
+        }
+
+        receiverChoice.setItems(mailList);
     }
 
     public void submitMessage(ActionEvent event) {

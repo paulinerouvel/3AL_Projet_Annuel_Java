@@ -11,7 +11,7 @@ import org.json.JSONArray;
 
 import static fr.wastemart.maven.javaclient.services.User.*;
 
-public class DetailsCustomerController extends GenericController {
+public class DetailsUserController extends GenericController {
     @FXML
     private Label customerName;
     @FXML
@@ -31,7 +31,7 @@ public class DetailsCustomerController extends GenericController {
 
     public void init(Integer idUser) throws Exception {
         setidUser(idUser);
-        User userFound = jsonToUser(fetchUser("id", idUser.toString()));
+        User userFound = fetchUser(idUser.toString());
         customerName.setText(userFound.getNom());
         customerEmail.setText(userFound.getMail());
         customerNumber.setText(userFound.getTel());
@@ -43,7 +43,7 @@ public class DetailsCustomerController extends GenericController {
     public void save() {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
-            User userModified = jsonToUser(fetchUser("id", idUser.toString()));
+            User userModified = fetchUser(idUser.toString());
 
             userModified.setAdresse(customerAddress.getText() == null ? null : customerAddress.getText());
             userModified.setMail(customerEmail.getText() == null ? null : customerEmail.getText());

@@ -172,14 +172,14 @@ public class ListProductsController extends GenericController {
     }
 
     public void displayAddProduct(ActionEvent actionEvent) {
+        refreshSelectedIndices();
+
+        if(indexOfListSelected != -1) {
+            List<Detail> productDetails = new ArrayList<>();
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), productDetails);
+        }
+
         try {
-            refreshSelectedIndices();
-
-            if(indexOfListSelected != -1) {
-                List<Detail> productDetails = new ArrayList<>();
-                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), productDetails);
-            }
-
             displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
         } catch (Exception e) {
             Logger.getInstance().reportError(e);

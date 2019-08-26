@@ -14,12 +14,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.time.LocalDate;
 
-import static fr.wastemart.maven.javaclient.services.User.createUser;
-import static fr.wastemart.maven.javaclient.services.User.initNewUser;
+import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class GlobalRegisterController extends GenericController {
     private Object[] registerFields;
     private Integer registerFieldsLength = 10;
+
 
     @FXML private TextField prenom;
     @FXML private TextField nom;
@@ -34,14 +34,16 @@ public class GlobalRegisterController extends GenericController {
     @FXML private ChoiceBox<String> userType;
     @FXML private TextField photo;
     @FXML private Label organismLabel;
+    @FXML private TextField libelle;
     @FXML private TextField description;
-    @FXML private TextField siret;
     @FXML private TextField tailleOrganisme;
+    @FXML private TextField siret;
+
 
     public void init() {
         userType.setItems(FXCollections.observableArrayList("Employé", "Professionnel", "Admin"));
 
-        registerFields = new Object[15];
+        registerFields = new Object[16];
         registerFields[0] = prenom;
         registerFields[1] =  nom;
         registerFields[2] = mail;
@@ -54,9 +56,11 @@ public class GlobalRegisterController extends GenericController {
         registerFields[9] = mdp;
         registerFields[10] = userType;
         registerFields[11] = photo;
-        registerFields[12] = description;
-        registerFields[13] = siret;
+        registerFields[12] = libelle;
+        registerFields[13] = description;
         registerFields[14] = tailleOrganisme;
+        registerFields[15] = siret;
+
 
         //clearFields(registerFields);
         ((DatePicker)registerFields[7]).setValue(LocalDate.of(1998,10,13));
@@ -66,18 +70,20 @@ public class GlobalRegisterController extends GenericController {
     }
 
     public void refreshUser() {
-        if(userType.getSelectionModel().getSelectedIndex() == 0){
+        if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2){
             organismLabel.setVisible(false);
+            libelle.setVisible(false);
             description.setVisible(false);
-            siret.setVisible(false);
             tailleOrganisme.setVisible(false);
+            siret.setVisible(false);
             registerFieldsLength = 10;
         } else {
             organismLabel.setVisible(true);
+            libelle.setVisible(true);
             description.setVisible(true);
-            siret.setVisible(true);
             tailleOrganisme.setVisible(true);
-            registerFieldsLength = 15;
+            siret.setVisible(true);
+            registerFieldsLength = 16;
         }
     }
 
@@ -90,11 +96,12 @@ public class GlobalRegisterController extends GenericController {
             Integer indexFieldVerif = areTextFieldsValid(registerFields);
             if (indexFieldVerif == -1) {
 
-                Integer userCategory = userType.getSelectionModel().getSelectedIndex() == 0 ? 4 :
-                        userType.getSelectionModel().getSelectedIndex() == 1 ? 2 : 5;
+                Integer userCategorySelected = userType.getSelectionModel().getSelectedIndex();
+                Integer userCategory = userCategorySelected == 0 ? 4 :
+                        userCategorySelected == 1 ? 2 : 5;
 
                 User user = new User(-1,
-                        userType.getSelectionModel().getSelectedItem(),
+                        (userType.getSelectionModel().getSelectedIndex() == 1 && !libelle.getText().isEmpty()) ? libelle.getText() : null,
                         userCategory,
                         nom.getText(),
                         prenom.getText(),
@@ -105,43 +112,36 @@ public class GlobalRegisterController extends GenericController {
                         codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0,
                         pseudo.getText(),
                         mdp.getText(),
-                        uploadPicture(photo.getText()),
+                        photo.getText(),
+                        //uploadPicture(photo.getText()),
                         description.getText(),
-                        (userType.getSelectionModel().getSelectedIndex() == 0 || !tailleOrganisme.getText().isEmpty()) ? null : Integer.valueOf(tailleOrganisme.getText()),
+                        (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
                         false,
-                        (userType.getSelectionModel().getSelectedIndex() == 0 || !siret.getText().isEmpty()) ? "" : siret.getText(),
+                        (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
                         dateNaissance.getValue().toString(),
                         0
                 );
 
-                if (userType.getSelectionModel().getSelectedIndex() != 0) {
+                if (userType.getSelectionModel().getSelectedIndex() == 1) {
                     user.setSiret(siret.getText());
-
                 }
                 user.setNbPointsSourire(0);
                 user.setEstValide(false);
 
-                Integer saveResult = createUser(user);
-                if (saveResult > 299) {
-                    setInfoText("Demande d'inscription échouée : " + saveResult);
-                }
+                Integer createUserResult = createUser(user);
 
-                Integer addCategoryResult = initNewUser(mail.getText(), userCategory);
-                if (addCategoryResult < 299) {
-                    setInfoText("Demande d'inscription faite");
+                if(createUserResult < 299 && RegisterNewUser(mail.getText(), userCategory) < 299) {
+
+                    setInfoText("Demande d'inscription effectuée");
+                    clearFields(registerFields);
+                } else if (createUserResult == 401) {
+                    setInfoText("L'utilisateur existe déjà");
                 } else {
-                    setInfoText("Demande d'inscription échouée, retour ajout catégorie : " + addCategoryResult);
+                    setInfoText("Demande d'inscription échouée");
                 }
-
-                clearFields(registerFields);
-
 
             } else {
-                Class<?> registerFieldClassType = registerFields[indexFieldVerif].getClass();
-                if (registerFieldClassType.getSuperclass().getSuperclass().equals(Control.class)) {
-                    ((Control) registerFields[indexFieldVerif]).setStyle("-fx-background-color: #ff7980");
-                }
-
+                ((Control) registerFields[indexFieldVerif]).setStyle("-fx-background-color: #ff7980");
                 setInfoText("Veuillez remplir les champs");
             }
         } catch (Exception e) {
@@ -177,7 +177,6 @@ public class GlobalRegisterController extends GenericController {
                 ((ChoiceBox)registerFields[i]).getSelectionModel().selectFirst();
             }
         }
-        setInfoText("");
     }
 
     public void selectFolder(ActionEvent actionEvent) {

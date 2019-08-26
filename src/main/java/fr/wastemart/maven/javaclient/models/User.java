@@ -22,15 +22,16 @@ public class User {
     private String dateDeNaissance;
     private Integer nbPointsSourire;
 
+    // Prend null ou .isEmpty() car il peut y avoir null OU ""
     public User(Integer id, String libelle, Integer categorieUtilisateur, String nom, String prenom, String mail,
                 String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo,
                 String desc, Integer tailleOrganisme, Boolean estValide, String siret, String dateDeNaissance,
                 Integer nbPointsSourire) {
         this.id = id;
-        this.libelle = libelle; // Nullable
+        this.libelle = (libelle == null ||libelle.isEmpty()) ? null : libelle; // Nullable
         this.categorieUtilisateur = categorieUtilisateur;
-        this.nom = nom; // Nullable
-        this.prenom = prenom; // Nullable
+        this.nom = (nom == null || nom.isEmpty()) ? null : nom; // Nullable
+        this.prenom = prenom.isEmpty() ? null : prenom; // Nullable
         this.mail = mail;
         this.tel = tel;
         this.adresse = adresse;
@@ -38,12 +39,12 @@ public class User {
         this.codePostal = codePostal;
         this.pseudo = pseudo;
         this.mdp = mdp;
-        this.photo = photo; // Nullable
-        this.desc = desc; // Nullable
+        this.photo = (photo == null || photo.isEmpty()) ? null : photo; // Nullable
+        this.desc = (desc == null || desc.isEmpty()) ? null : desc; // Nullable
         this.tailleOrganisme = tailleOrganisme; // Nullable
         this.estValide = estValide;
-        this.siret = siret; // Nullable
-        this.dateDeNaissance = dateDeNaissance; // Nullable
+        this.siret = (siret == null || siret.isEmpty()) ? null : siret; // Nullable
+        this.dateDeNaissance = (siret == null || dateDeNaissance.isEmpty()) ? null : dateDeNaissance; // Nullable
         this.nbPointsSourire = nbPointsSourire; // Nullable
     }
 

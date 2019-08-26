@@ -90,20 +90,24 @@ public class StageManager {
         }
     }
 
-    public void loadExtraPageWithDetails(String mainView, List<Detail> details) throws Exception {
-        mainPane = (AnchorPane) loadResource(mainView);
-        GenericController genericController = loader.getController();
+    public void loadExtraPageWithDetails(String mainView, List<Detail> details) {
+        try {
+            mainPane = (AnchorPane) loadResource(mainView);
+            GenericController genericController = loader.getController();
 
-        genericController.init(details);
+            genericController.init(details);
 
-        // Display the Page
-        Scene newScene = new Scene(mainPane);
-        Stage inputStage = new Stage();
+            // Display the Page
+            Scene newScene = new Scene(mainPane);
+            Stage inputStage = new Stage();
 
-        inputStage.initOwner(getStage());
-        inputStage.setResizable(false);
-        inputStage.setScene(newScene);
-        inputStage.showAndWait();
+            inputStage.initOwner(getStage());
+            inputStage.setResizable(false);
+            inputStage.setScene(newScene);
+            inputStage.showAndWait();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
     }
 
     // Loads a page without root (register)
@@ -195,17 +199,11 @@ public class StageManager {
 
     public void displayMainPage(UserInstance userInstance) {
         if (userInstance.getTokenUserCategory().equals(4)) {
-            loadPage(
-                    "/fr.wastemart.maven.javaclient/views/EmployeeMain.fxml",
-                    userInstance);
+            loadPage(dotenv.get("EMPLOYEE_MAIN"), userInstance);
         } else if (userInstance.getTokenUserCategory().equals(5)) {
-            loadPage(
-                    "/fr.wastemart.maven.javaclient/views/AdminMain.fxml",
-                    userInstance);
+            loadPage(dotenv.get("ADMIN_MAIN"), userInstance);
         } else if (userInstance.getTokenUserCategory().equals(2)) {
-            loadPage(
-                    "/fr.wastemart.maven.javaclient/views/ProMain.fxml",
-                    userInstance);
+            loadPage(dotenv.get("PRO_MAIN"), userInstance);
         }
     }
 

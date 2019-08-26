@@ -129,12 +129,8 @@ public class ListUsersController extends GenericController {
         List<Detail> contactDetails = new ArrayList<>();
         contactDetails.add(mail);
 
-        try {
-            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT"), contactDetails);
-        } catch (Exception e) {
-            setInfoErrorOccurred();
-            Logger.getInstance().reportError(e);
-        }
+        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT"), contactDetails);
+
     }
 
     public void refreshSelectedIndices() {
