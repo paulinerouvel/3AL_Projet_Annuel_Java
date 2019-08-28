@@ -31,7 +31,7 @@ public class DetailsUserController extends GenericController {
 
     public void init(Integer idUser) throws Exception {
         setidUser(idUser);
-        User userFound = fetchUser(idUser.toString());
+        User userFound = fetchUser(idUser);
         customerName.setText(userFound.getNom());
         customerEmail.setText(userFound.getMail());
         customerNumber.setText(userFound.getTel());
@@ -43,7 +43,7 @@ public class DetailsUserController extends GenericController {
     public void save() {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
-            User userModified = fetchUser(idUser.toString());
+            User userModified = fetchUser(idUser);
 
             userModified.setAdresse(customerAddress.getText() == null ? null : customerAddress.getText());
             userModified.setMail(customerEmail.getText() == null ? null : customerEmail.getText());

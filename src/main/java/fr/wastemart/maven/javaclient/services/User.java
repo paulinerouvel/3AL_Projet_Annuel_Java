@@ -4,10 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class User {
@@ -18,7 +15,7 @@ public class User {
         String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
         String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
         String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
-        String photo = user.getPhoto() == null ? null : "\""+user.getPhoto()+"\"";
+        String photo = user.getPhoto() == null ? "\"\"" : "\""+user.getPhoto()+"\"";
         String desc = user.getDesc() == null ? null : "\""+user.getDesc()+"\"";
         String siret = user.getSiret() == null ? null : "\""+user.getSiret()+"\"";
         String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
@@ -96,9 +93,9 @@ public class User {
         // --- GET --- //
 
     // GET User By id : 1, by mail : 2
-    public static fr.wastemart.maven.javaclient.models.User fetchUser(String data) {
+    public static fr.wastemart.maven.javaclient.models.User fetchUser(Integer id) {
         fr.wastemart.maven.javaclient.models.User user = null;
-        String url = "user/?id=" + data;
+        String url = "user/?id=" + id;
 
         try {
             HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
@@ -106,12 +103,9 @@ public class User {
             if (fetchUserResponse.getResponseCode() <= 299) {
                 JSONObject jsonUser = fetchUserResponse.getDataAsJSONObject();
 
-                String category = fetchCategory(jsonUser.getInt("id"));
-
-                jsonUser.put("Categorie_utilisateur_id", category);
-
-
                 user = jsonToUser(jsonUser);
+                String userCategory = fetchCategory(jsonUser.getInt("id"));
+                user.setCategorieUtilisateur(userCategory);
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -222,27 +216,34 @@ public class User {
 
     // PUT a user (Update)
     public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user) {
-        String json =
-                "{\n" +
-                        "\t\"id\": \""+user.getId()+"\",\n" +
-                        "\t\"libelle\" : \""+user.getLibelle()+"\",\n" +
-                        "\t\"nom\": \""+user.getNom()+"\",\n" +
-                        "\t\"prenom\": \""+user.getPrenom()+"\",\n" +
-                        "\t\"mail\":\""+user.getMail()+"\",\n" +
-                        "\t\"tel\":\""+user.getTel()+"\",\n" +
-                        "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
-                        "\t\"ville\":\""+user.getVille()+"\",\n" +
-                        "\t\"codePostal\":"+user.getCodePostal()+",\n" +
-                        "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
-                        "\t\"mdp\":\""+user.getMdp()+"\",\n" +
-                        "\t\"photo\":\""+user.getPhoto()+"\",\n" +
-                        "\t\"desc\":\""+user.getDesc()+"\",\n" +
-                        "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
-                        "\t\"estValide\":"+user.getEstValide()+",\n" +
-                        "\t\"siret\":\""+user.getSiret()+"\",\n" +
-                        "\t\"dateDeNaissance\":\""+user.getDateDeNaissance()+"\",\n" +
-                        "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
-                        "}";
+        String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
+        String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
+        String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
+        String photo = user.getPhoto() == null ? "\"\"" : "\""+user.getPhoto()+"\"";
+        String desc = user.getDesc() == null ? null : "\""+user.getDesc()+"\"";
+        String siret = user.getSiret() == null ? null : "\""+user.getSiret()+"\"";
+        String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
+
+        String json = "{\n" +
+                "\t\"id\": \""+user.getId()+"\",\n" +
+                "\t\"libelle\" : "+libelle+",\n" +
+                "\t\"nom\": "+nom+",\n" +
+                "\t\"prenom\": "+prenom+",\n" +
+                "\t\"mail\":\""+user.getMail()+"\",\n" +
+                "\t\"tel\":\""+user.getTel()+"\",\n" +
+                "\t\"adresse\":\""+user.getAdresse()+"\",\n" +
+                "\t\"ville\":\""+user.getVille()+"\",\n" +
+                "\t\"codePostal\":\""+user.getCodePostal()+"\",\n" +
+                "\t\"pseudo\":\""+user.getPseudo()+"\",\n" +
+                "\t\"mdp\":\""+user.getMdp()+"\",\n" +
+                "\t\"photo\":"+photo+",\n" +
+                "\t\"desc\":"+desc+",\n" +
+                "\t\"tailleOrganisme\":"+user.getTailleOrganisme()+",\n" +
+                "\t\"estValide\":"+user.getEstValide()+",\n" +
+                "\t\"siret\":"+siret+",\n" +
+                "\t\"dateDeNaissance\":"+dateDeNaissance+",\n" +
+                "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
+                "}";
 
         Integer result = 299;
 
@@ -272,7 +273,8 @@ public class User {
             return new fr.wastemart.maven.javaclient.models.User(
                     user.getInt("id"),
                     user.isNull("libelle") ? null : user.getString("libelle"),
-                    user.getInt("Categorie_utilisateur_id"),
+                    //user.getInt("Categorie_utilisateur_id"),
+                    null,
                     user.isNull("nom") ? null : user.getString("nom"),
                     user.isNull("prenom") ? null : user.getString("prenom"),
                     user.getString("mail"),

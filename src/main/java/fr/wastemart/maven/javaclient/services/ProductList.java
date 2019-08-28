@@ -110,7 +110,7 @@ public class ProductList {
         Integer result = 299;
 
         try {
-            if(Product.deleteProductsInList(listId)){
+            if(Product.deleteProductsInList(listId, token)){
                     result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
             }
         } catch (Exception e) {
@@ -122,21 +122,27 @@ public class ProductList {
 
 
     // Affects a list of product to a Warehouse
-    public static boolean affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) throws Exception {
-        Integer processed = 0;
-        for (fr.wastemart.maven.javaclient.models.Product product : productList) {
-            if (product.getEnRayon().equals(true) && product.getEntrepotwm() == null) {
-                boolean affectRes = affectProductToWareHouse(product, city, token);
+    public static boolean affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) {
+        try {
+            Integer processed = 0;
+            for (fr.wastemart.maven.javaclient.models.Product product : productList) {
+                if (product.getEnRayon().equals(true) && product.getEntrepotwm() == null) {
 
-                processed += 1;
+                    boolean affectRes = affectProductToWareHouse(product, city, token);
 
-                if (!affectRes) {
-                    return false;
+                    processed += 1;
+
+                    if (!affectRes) {
+                        return false;
+                    }
                 }
             }
-        }
 
-        return affectProductToReceiver(productList, processed, token);
+            return affectProductListToReceiver(productList, processed, token);
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            return false;
+        }
     }
 
     // Affect one product to a Warehouse
@@ -167,8 +173,8 @@ public class ProductList {
         return false;
     }
 
-    // Affect one product to a Receiver
-    public static boolean affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token) throws Exception {
+    // Affect a list of product to a Receiver
+    public static boolean affectProductListToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token) throws Exception {
         Integer count = 0;
         Boolean productUpdateRes = false;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {

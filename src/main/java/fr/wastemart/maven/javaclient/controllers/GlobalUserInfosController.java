@@ -14,29 +14,30 @@ import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class GlobalUserInfosController extends GenericController {
     @FXML
-    private Label employeeName;
+    private Label name;
     @FXML
-    private TextField employeeEmail;
+    private TextField email;
     @FXML
-    private TextField employeeAddress;
+    private TextField address;
     @FXML
-    private TextField employeeCity;
+    private TextField city;
     @FXML
-    private TextField employeePostalCode;
+    private TextField postalCode;
     @FXML
-    private TextField employeeNumber;
+    private TextField phone;
     @FXML
-    private PasswordField pwField;
+    private PasswordField password;
     @FXML
     private ImageView employeePhoto;
 
     public void init() throws Exception {
-        employeeName.setText(UserInstance.getInstance().getUser().getNom());
-        employeeAddress.setText(UserInstance.getInstance().getUser().getAdresse());
-        employeeCity.setText(UserInstance.getInstance().getUser().getVille());
-        employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
-        employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
-        employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
+        name.setText(UserInstance.getInstance().getUser().getNom());
+        address.setText(UserInstance.getInstance().getUser().getAdresse());
+        city.setText(UserInstance.getInstance().getUser().getVille());
+        email.setText(UserInstance.getInstance().getUser().getMail());
+        phone.setText(UserInstance.getInstance().getUser().getTel());
+        postalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
+        password.setText(UserInstance.getInstance().getUser().getMdp());
         //employeePhoto.setImage();
 
     }
@@ -45,21 +46,15 @@ public class GlobalUserInfosController extends GenericController {
         //TODO Contrôle sur les modifs ici ou dans l'api
         try {
             User user = UserInstance.getInstance().getUser();
-            String pwd = pwField.getText();
-            user.setVille(employeeCity.getText() == null ? null : employeeCity.getText());
-            user.setTel(employeeNumber.getText() == null ? null : employeeNumber.getText());
-            //user.setMdp(employeePWD.getText() == null ? null : employeePWD.getText());
-            //System.out.println(" pwd set)");
-            user.setMail(employeeEmail.getText() == null ? null : employeeEmail.getText());
-            user.setCodePostal(employeePostalCode.getText() == null ? null : Integer.valueOf(employeePostalCode.getText()));
-            user.setAdresse(employeeAddress.getText() == null ? null : employeeAddress.getText());
-            if(pwd != null || pwd != "") {
-                user.setMdp(pwd);
-            }
-            System.out.println("(SharedUserInfosController.save) Je vais rentrer dans saveUser()");
-            //Appel à l'api + sauvegarde bdd
+            user.setVille(city.getText());
+            user.setTel(phone.getText());
+            user.setMdp(password.getText());
+            user.setMail(email.getText());
+            user.setCodePostal(postalCode.getText() == null ? null : Integer.valueOf(postalCode.getText()));
+            user.setAdresse(address.getText());
+            user.setMdp(password.getText());
+
             if(updateUser(UserInstance.getInstance().getUser()) && user.getMdp().length() >=2) {
-                // FAIRE UN POP UP
                 setInfoText("Modification réussie");
             }
             else {

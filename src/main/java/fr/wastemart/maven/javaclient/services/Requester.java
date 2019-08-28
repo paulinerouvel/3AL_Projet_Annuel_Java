@@ -22,15 +22,16 @@ class Requester {
         return readResponse(con);
     }
 
-    static HttpResponse sendDeleteRequest(String route, String token) throws Exception { // TODO Test it
+    static HttpResponse sendDeleteRequest(String route, String token) throws Exception {
         // Creating Request
         URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        System.out.println("(Requester.sendDeleteRequest) Sending DELETE to : "+route);
 
         // Add request Headers
         con.setRequestMethod("DELETE");
         if (token != null) {
-            System.out.println("(Requester.sendPostRequest) VT!!");
+            System.out.println("(Requester.sendDeleteRequest) VT!!");
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -78,7 +79,7 @@ class Requester {
         Reader streamReader = null;
         int status = con.getResponseCode();
 
-        System.out.println("(Requester.readResponse) Get status: "+ status);
+        System.out.println("(Requester.readResponse) Status: "+ status);
 
         if (status > 299) {
             return new HttpResponse(status, null);

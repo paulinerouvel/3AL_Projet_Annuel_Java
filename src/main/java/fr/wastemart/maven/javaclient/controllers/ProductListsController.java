@@ -193,8 +193,10 @@ public class ProductListsController extends GenericController {
             if(indexOfListSelected != -1){
                 Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
                 if(removeProductsList(listToRemoveId, UserInstance.getInstance().getTokenValue())){
-
+                    setInfoText("Liste supprimmée");
                     refreshDisplay();
+                } else {
+                    setInfoErrorOccurred();
                 }
             }
         } catch (Exception e) {
@@ -226,7 +228,12 @@ public class ProductListsController extends GenericController {
                     listElement.setEstArchive(1);
                     listElement.setDate(LocalDate.now());
                     updateProductList(listElement, UserInstance.getInstance().getTokenValue());
+                    setInfoText("Liste postée");
+                } else {
+                    setInfoErrorOccurred();
                 }
+            } else {
+                setInfoText("Veuillez sélectionner une liste");
             }
 
             refreshDisplay();
@@ -286,10 +293,9 @@ public class ProductListsController extends GenericController {
     @FXML
     private void deleteProduct() {
         clearInfoText();
+        refreshSelectedIndices();
 
         try {
-            refreshSelectedIndices();
-
             if (indexOfProductSelected != -1){
                 if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
                     setInfoText("Produit supprimé");
@@ -405,7 +411,7 @@ public class ProductListsController extends GenericController {
 
         if (indexOfListSelected != -1) {
             try {
-                String userMail = fetchUser(listsTable.getSelectionModel().getSelectedItem().getUserId().toString()).getMail();
+                String userMail = fetchUser(listsTable.getSelectionModel().getSelectedItem().getUserId()).getMail();
 
                 StringDetail mail = new StringDetail(userMail);
 
@@ -427,7 +433,7 @@ public class ProductListsController extends GenericController {
         if (!lists.isEmpty()) {
             listId.setCellValueFactory(new PropertyValueFactory<>("id"));
             listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-            if(option.equals("all")) {
+            if(option.equals("all") || option.equals("pro")) {
                 listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
             }
             listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));

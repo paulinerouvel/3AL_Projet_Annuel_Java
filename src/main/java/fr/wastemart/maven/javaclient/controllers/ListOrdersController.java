@@ -2,6 +2,8 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Order;
 import fr.wastemart.maven.javaclient.models.Product;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -13,17 +15,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static fr.wastemart.maven.javaclient.services.Order.fetchOrder;
 import static fr.wastemart.maven.javaclient.services.Order.jsonToOrder;
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByOrder;
 import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
+import static fr.wastemart.maven.javaclient.services.User.fetchUser;
 
 
 public class ListOrdersController extends GenericController {
     private JSONArray orders;
     private JSONArray products;
     private Integer indexOfProductSelected;
-    private Integer indexOfListSelected;
+    private Integer indexOfOrderSelected;
     private Integer swapIdWarehouse;
 
     // order
@@ -79,7 +85,6 @@ public class ListOrdersController extends GenericController {
         productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
         productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
         productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
         productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
         productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
@@ -94,17 +99,66 @@ public class ListOrdersController extends GenericController {
 
     }
 
+    @FXML
+    private void deleteOrder() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        try {
+            if (indexOfOrderSelected != -1){
+                if(fr.wastemart.maven.javaclient.services.Order.deleteOrder(ordersTable.getSelectionModel().getSelectedItem().getId(), UserInstance.getInstance().getTokenValue())){
+                    setInfoText("Commande supprimée");
+                } else {
+                    setInfoErrorOccurred();
+                }
+            }
+
+            displayOrderList();
+            displayProductsByOrder(orders.getJSONObject(0).getInt("id"));
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    public void contactUser() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfOrderSelected != -1) {
+            try {
+                Integer userId = ordersTable.getSelectionModel().getSelectedItem().getUtilisateur_id();
+                String userMail = fetchUser(userId).getMail();
+
+                StringDetail mail = new StringDetail(userMail);
+
+                List<Detail> contactDetails = new ArrayList<>();
+                contactDetails.add(mail);
+
+                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT"), contactDetails);
+            } catch (Exception e) {
+                Logger.getInstance().reportError(e);
+                setInfoErrorOccurred();
+            }
+        } else {
+            System.out.println("Test");
+            setInfoText("Aucune liste sélectionnée");
+        }
+    }
+
     public void refreshSelectedIndices() {
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
-        this.indexOfListSelected = ordersTable.getSelectionModel().getSelectedIndex();
+        this.indexOfOrderSelected = ordersTable.getSelectionModel().getSelectedIndex();
     }
 
     public void clickItem() {
         refreshSelectedIndices();
 
-        if(indexOfListSelected != -1){
+        if(indexOfOrderSelected != -1){
             try {
-                displayProductsByOrder(orders.getJSONObject(indexOfListSelected).getInt("id"));
+                displayProductsByOrder(orders.getJSONObject(indexOfOrderSelected).getInt("id"));
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();

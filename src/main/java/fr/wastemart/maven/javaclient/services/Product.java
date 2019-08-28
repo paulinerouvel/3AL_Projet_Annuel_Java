@@ -167,17 +167,17 @@ public class Product {
     }
 
     // DELETE all the Products in a List
-    static boolean deleteProductsInList(Integer listId) {
+    static boolean deleteProductsInList(Integer listId, String token) {
         JSONArray products = null;
         try {
-            products = ProductList.fetchProducts(listId, null);
+            products = ProductList.fetchProducts(listId, token);
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
 
         for(int i = 0; i < products.length(); i++) {
             JSONObject product = products.getJSONObject(i);
-            if(!deleteProduct(product.getInt("id"), null)){
+            if(!deleteProduct(product.getInt("id"), token)){
                 return false;
             }
 

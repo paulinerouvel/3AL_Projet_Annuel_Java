@@ -157,12 +157,13 @@ public class DetailsProductController extends GenericController {
     private void setFields(Product product) {
             libelle.setText(product.getLibelle());
             desc.setText(product.getDesc());
-            photo.setText(product.getPhoto() == null ? "" : product.getPhoto()); // Impossible
+            photo.setText(product.getPhoto() == null ? "" : product.getPhoto());
             prix.setText(String.valueOf(product.getPrix()));
             quantite.setText(String.valueOf(product.getQuantite()));
             dlc.setValue(product.getCodeBarre() == null ? LocalDate.now() : LocalDate.parse(product.getDlc())); // Nullable
             codeBarre.setText(product.getCodeBarre() == null ? "" : product.getCodeBarre()); // Nullable
             categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
+            listId = product.getListProduct();
             setInfoText("");
     }
 

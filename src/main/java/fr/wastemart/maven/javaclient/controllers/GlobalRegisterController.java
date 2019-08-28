@@ -4,12 +4,15 @@ import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -96,13 +99,9 @@ public class GlobalRegisterController extends GenericController {
             Integer indexFieldVerif = areTextFieldsValid(registerFields);
             if (indexFieldVerif == -1) {
 
-                Integer userCategorySelected = userType.getSelectionModel().getSelectedIndex();
-                Integer userCategory = userCategorySelected == 0 ? 4 :
-                        userCategorySelected == 1 ? 2 : 5;
-
                 User user = new User(-1,
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !libelle.getText().isEmpty()) ? libelle.getText() : null,
-                        userCategory,
+                        userType.getSelectionModel().getSelectedItem(),
                         nom.getText(),
                         prenom.getText(),
                         mail.getText(),
@@ -130,8 +129,12 @@ public class GlobalRegisterController extends GenericController {
 
                 boolean createUserResult = createUser(user);
 
+                Integer userCategorySelected = userType.getSelectionModel().getSelectedIndex();
+                Integer userCategory = userCategorySelected == 0 ? 4 :
+                        userCategorySelected == 1 ? 2 : 5;
+
                 if(createUserResult && RegisterNewUser(mail.getText(), userCategory)) {
-                    setInfoText("Demande d'inscription effectuée");
+                    setInfoText("Demande d'inscription effectuée, un administrateur va traiter votre demande");
                     clearFields(registerFields);
                 }  else {
                     setInfoText("Demande d'inscription échouée");

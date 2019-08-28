@@ -27,6 +27,18 @@ public class Order {
 
      // --- DELETE ---//
 
+     // DELETE an Order
+     public static boolean deleteOrder(Integer orderId, String token) {
+         Integer result = 299;
+
+         try {
+             result = Requester.sendDeleteRequest("order?id=" + orderId, token).getResponseCode();
+         } catch (Exception e) {
+             Logger.getInstance().reportError(e);
+         }
+
+         return result < 299;
+     }
 
     public static fr.wastemart.maven.javaclient.models.Order jsonToOrder(JSONObject order) {
         try {

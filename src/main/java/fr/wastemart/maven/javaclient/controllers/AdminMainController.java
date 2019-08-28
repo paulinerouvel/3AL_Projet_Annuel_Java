@@ -53,15 +53,14 @@ public class AdminMainController extends GenericController {
     }
 
     public void displayOrders() {
-        StageManager.getInstance().loadPage(dotenv.get("ADMIN_USER_ORDERS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_ORDERS"), UserInstance.getInstance());
     }
 
-
     public void displaySelfUserInfos() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_USER_INFOS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("GLOBAL_USER_INFOS"), UserInstance.getInstance());
     }
 
     public void displayPlugins() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PLUGINS"), UserInstance.getInstance());
+        StageManager.getInstance().loadPage(dotenv.get("GLOBAL_PLUGINS"), UserInstance.getInstance());
     }
 }

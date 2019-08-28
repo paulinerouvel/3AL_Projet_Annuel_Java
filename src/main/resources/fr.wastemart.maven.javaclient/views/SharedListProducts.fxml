@@ -18,9 +18,9 @@
                   <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickListAll" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
                       <TableColumn fx:id="listId" prefWidth="44.0" text="Id" />
-                        <TableColumn fx:id="listUser" prefWidth="57.0" text="User" />
+                      <TableColumn fx:id="listUser" prefWidth="57.0" text="User" />
                       <TableColumn fx:id="listName" prefWidth="70.0" text="Libelle" />
-                        <TableColumn fx:id="listEstArchive" prefWidth="79.0" text="Archivée" />
+                      <TableColumn fx:id="listEstArchive" prefWidth="79.0" text="Archivée" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
