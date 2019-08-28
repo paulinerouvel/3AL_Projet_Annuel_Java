@@ -9,13 +9,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.ProductListsController">
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.ProductListsController">
    <children>
       <SplitPane dividerPositions="0.2607421875" layoutX="123.0" layoutY="64.0" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickItem" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickMyList" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
                       <TableColumn fx:id="listId" prefWidth="73.0" text="Id Liste" />
                       <TableColumn fx:id="listName" prefWidth="184.0" text="Libelle" />
@@ -28,7 +28,7 @@
                   <ButtonBar layoutX="-17.0" layoutY="529.0" prefHeight="40.0" prefWidth="277.0">
                     <buttons>
                       <Button mnemonicParsing="false" onAction="#createList" prefHeight="29.0" prefWidth="148.0" text="Créer Liste" />
-                        <Button mnemonicParsing="false" onAction="#removeList" prefHeight="29.0" prefWidth="153.0" text="Supprimer" />
+                        <Button mnemonicParsing="false" onAction="#deleteList" prefHeight="29.0" prefWidth="153.0" text="Supprimer" />
                     </buttons>
                   </ButtonBar>
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
@@ -38,23 +38,22 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Détails de la liste" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="726.0">
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="746.0">
                     <columns>
-                      <TableColumn fx:id="productName" prefWidth="65.0" text="Nom" />
-                      <TableColumn fx:id="productDesc" prefWidth="81.0" text="Desc" />
-                        <TableColumn fx:id="productPrice" prefWidth="52.0" text="Prix" />
-                        <TableColumn fx:id="productInitialPrice" prefWidth="108.0" text="Prix Initial" />
-                        <TableColumn fx:id="productDlc" prefWidth="89.0" text="DLC" />
-                        <TableColumn fx:id="productAvailable" prefWidth="77.0" text="Dispo" />
-                        <TableColumn fx:id="productDate" prefWidth="215.0" text="Mise en rayon" />
-                        <TableColumn fx:id="productDate1" prefWidth="469.0" text="En rayon" />
+                        <TableColumn fx:id="productName" prefWidth="187.0" text="Nom" />
+                        <TableColumn fx:id="productDesc" prefWidth="125.0" text="Desc" />
+                        <TableColumn fx:id="productPrice" prefWidth="60.0" text="Prix" />
+                        <TableColumn fx:id="productDlc" prefWidth="92.0" text="DLC" />
+                        <TableColumn fx:id="productQuantity" prefWidth="77.0" text="Quantité" />
+                        <TableColumn fx:id="productAvailable" text="En rayon" />
+                        <TableColumn fx:id="productDate" prefWidth="111.0" text="Mise en rayon" />
                     </columns>
                   </TableView>
                   <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
                       <Button mnemonicParsing="false" onAction="#displayAddProduct" prefHeight="29.0" prefWidth="156.0" text="Ajouter" />
                         <Button mnemonicParsing="false" onAction="#displayModifyProduct" text="Modifier" />
-                        <Button mnemonicParsing="false" onAction="#removeProduct" text="Supprimer" />
+                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer" />
                     </buttons>
                   </ButtonBar>
                   <Label fx:id="info" layoutX="14.0" layoutY="541.0" prefHeight="19.0" prefWidth="322.0" />

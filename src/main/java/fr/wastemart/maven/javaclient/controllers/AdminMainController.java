@@ -1,9 +1,14 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminMainController extends GenericController {
     @FXML private Label adminName;
@@ -20,14 +25,16 @@ public class AdminMainController extends GenericController {
     }
 
     public void displayProducts() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("all"));
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance(), option);
     }
 
     public void displayProductLists() {
         StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_PRODUCT_LISTS"), UserInstance.getInstance());
     }
 
-    public void displayProSuggestions() {
+    public void displayProsSuggestions() {
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
     }
 

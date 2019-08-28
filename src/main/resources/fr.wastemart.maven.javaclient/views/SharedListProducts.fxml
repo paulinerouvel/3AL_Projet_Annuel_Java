@@ -11,15 +11,16 @@
 
 <AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.ProductListsController">
    <children>
-      <SplitPane dividerPositions="0.2607421875" layoutX="123.0" layoutY="64.0" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.2724609375" layoutX="123.0" layoutY="64.0" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickItem" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickListAll" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
-                      <TableColumn fx:id="listId" prefWidth="73.0" text="Id Liste" />
-                      <TableColumn fx:id="listName" prefWidth="184.0" text="Libelle" />
-                        <TableColumn fx:id="listEstArchive" prefWidth="95.0" text="Archivé" />
+                      <TableColumn fx:id="listId" prefWidth="44.0" text="Id" />
+                        <TableColumn fx:id="listUser" prefWidth="57.0" text="User" />
+                      <TableColumn fx:id="listName" prefWidth="70.0" text="Libelle" />
+                        <TableColumn fx:id="listEstArchive" prefWidth="79.0" text="Archivée" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -27,21 +28,22 @@
                   </TableView>
                   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
                   <CheckBox fx:id="listArchiveCheckBox" layoutX="114.0" layoutY="18.0" mnemonicParsing="false" onAction="#displayProductLists" text="Afficher Archives" textFill="WHITE" />
-                  <Button layoutX="131.0" layoutY="535.0" mnemonicParsing="false" text="Contacter" />
+                  <Button layoutX="14.0" layoutY="535.0" mnemonicParsing="false" onAction="#contactUser" text="Contacter" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
                   <Label layoutX="14.0" layoutY="15.0" text="Produits" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="747.0">
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="740.0">
                     <columns>
-                      <TableColumn fx:id="productName" prefWidth="157.0" text="Nom" />
-                      <TableColumn fx:id="productDesc" prefWidth="128.0" text="Desc" />
-                        <TableColumn fx:id="productPrice" prefWidth="66.0" text="Prix" />
-                        <TableColumn fx:id="productDlc" prefWidth="101.0" text="DLC" />
-                        <TableColumn fx:id="productAvailable" prefWidth="70.0" text="Dispo" />
-                        <TableColumn fx:id="productDate" prefWidth="128.0" text="Mise en rayon" />
-                        <TableColumn fx:id="productDate1" prefWidth="92.0" text="En rayon" />
+                        <TableColumn fx:id="productName" prefWidth="130.0" text="Nom" />
+                        <TableColumn fx:id="productDesc" prefWidth="114.0" text="Desc" />
+                        <TableColumn fx:id="productPrice" prefWidth="49.0" text="Prix" />
+                        <TableColumn fx:id="productDlc" prefWidth="98.0" text="DLC" />
+                        <TableColumn fx:id="productQuantity" text="Quantité" />
+                        <TableColumn fx:id="productAvailable" prefWidth="77.0" text="En rayon" />
+                        <TableColumn fx:id="productDate" prefWidth="118.0" text="Mise en rayon" />
+                        <TableColumn fx:id="productList" prefWidth="77.0" text="Liste" />
                     </columns>
                   </TableView>
                   <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="752.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="10.0">
@@ -50,7 +52,7 @@
                         <Button mnemonicParsing="false" onAction="#removeFromList" text="Enlever" />
                       <Button mnemonicParsing="false" onAction="#displayAddProduct" prefHeight="29.0" prefWidth="156.0" text="Créer" />
                         <Button mnemonicParsing="false" onAction="#displayModifyProduct" text="Modifier" />
-                        <Button mnemonicParsing="false" onAction="#removeProduct" text="Supprimer" />
+                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer" />
                     </buttons>
                   </ButtonBar>
                   <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="100.0" layoutY="15.0" prefHeight="19.0" prefWidth="638.0" textAlignment="RIGHT" />

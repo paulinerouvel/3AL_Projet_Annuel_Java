@@ -128,15 +128,12 @@ public class GlobalRegisterController extends GenericController {
                 user.setNbPointsSourire(0);
                 user.setEstValide(false);
 
-                Integer createUserResult = createUser(user);
+                boolean createUserResult = createUser(user);
 
-                if(createUserResult < 299 && RegisterNewUser(mail.getText(), userCategory) < 299) {
-
+                if(createUserResult && RegisterNewUser(mail.getText(), userCategory)) {
                     setInfoText("Demande d'inscription effectuée");
                     clearFields(registerFields);
-                } else if (createUserResult == 401) {
-                    setInfoText("L'utilisateur existe déjà");
-                } else {
+                }  else {
                     setInfoText("Demande d'inscription échouée");
                 }
 

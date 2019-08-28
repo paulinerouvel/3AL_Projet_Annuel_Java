@@ -18,8 +18,6 @@ public class GlobalUserInfosController extends GenericController {
     @FXML
     private TextField employeeEmail;
     @FXML
-    private TextField employeePWD;
-    @FXML
     private TextField employeeAddress;
     @FXML
     private TextField employeeCity;
@@ -39,7 +37,6 @@ public class GlobalUserInfosController extends GenericController {
         employeeEmail.setText(UserInstance.getInstance().getUser().getMail());
         employeeNumber.setText(UserInstance.getInstance().getUser().getTel());
         employeePostalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
-        //fr.wastemart.maven.javaclient.services.User
         //employeePhoto.setImage();
 
     }
@@ -61,7 +58,7 @@ public class GlobalUserInfosController extends GenericController {
             }
             System.out.println("(SharedUserInfosController.save) Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(updateUser(UserInstance.getInstance().getUser()) < 299 && user.getMdp().length() >=2) {
+            if(updateUser(UserInstance.getInstance().getUser()) && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP
                 setInfoText("Modification réussie");
             }

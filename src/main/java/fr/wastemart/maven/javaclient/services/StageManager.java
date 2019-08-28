@@ -137,12 +137,10 @@ public class StageManager {
 
             if(userInstance != null) {
                 userInstance.disconnect();
-                StringDetail messageDetail = new StringDetail("Déconnexion réussie");
-                loginMessage.add(messageDetail);
+                loginMessage.add(new StringDetail("Déconnexion réussie"));
                 globalLoginController.init(loginMessage);
             } else {
-                StringDetail messageDetail = new StringDetail("Veuillez vous connecter");
-                loginMessage.add(messageDetail);
+                loginMessage.add(new StringDetail("Veuillez vous connecter"));
                 globalLoginController.init(loginMessage);
             }
 

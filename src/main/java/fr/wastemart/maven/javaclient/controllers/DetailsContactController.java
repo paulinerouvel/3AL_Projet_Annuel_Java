@@ -82,13 +82,13 @@ public class DetailsContactController extends GenericController {
                 } else {
                     mail = receiver.getText();
                 }
-                Integer contactRes = sendMail(mail, subject.getText(), body.getText());
-                if(contactRes > 299){
-                    setInfoText("Echec de l'envoi du message");
-                } else {
-                    //result = fr.wastemart.maven.javaclient.services.Product.updateProduct(newProduct) == 201 ? "Produit Ajouté" : "L'ajout a échoué";
+
+                if(sendMail(mail, subject.getText(), body.getText())){
                     clearFields();
                     setInfoText("Message envoyé");
+
+                } else {
+                    setInfoText("Echec de l'envoi du message");
                 }
             }
         } catch (Exception e) {

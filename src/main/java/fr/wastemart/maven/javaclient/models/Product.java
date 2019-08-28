@@ -6,7 +6,6 @@ public class Product {
     private String desc;
     private String photo;
     private Float prix;
-    private Float prixInitial;
     private Integer quantite;
     private String dlc;
     private String codeBarre;
@@ -17,19 +16,18 @@ public class Product {
     private Integer entrepotwm;
     private Integer destinataire;
 
-    public Product(Integer id, String libelle, String desc, String photo, Float prix, Float prixInitial, Integer quantite, String dlc,
+    public Product(Integer id, String libelle, String desc, String photo, Float prix, Integer quantite, String dlc,
                    String codeBarre, Boolean enRayon, String dateMiseEnRayon, Integer categorieProduit, Integer listProduct, Integer entrepotwm, Integer destinataire) {
         this.id = id;
         this.libelle = libelle;
         this.desc = desc;
-        this.photo = photo;
+        this.photo = (photo == null || photo.isEmpty()) ? null : photo;
         this.prix = prix;
-        this.prixInitial = prixInitial;
         this.quantite = quantite;
-        this.dlc = dlc; // Nullable
-        this.codeBarre = codeBarre; // Nullable
+        this.dlc = (dlc == null || dlc.isEmpty()) ? null : dlc; // Nullable
+        this.codeBarre = (codeBarre == null || codeBarre.isEmpty()) ? null : codeBarre; // Nullable
         this.enRayon = enRayon;
-        this.dateMiseEnRayon = dateMiseEnRayon; // Nullable
+        this.dateMiseEnRayon = (dateMiseEnRayon == null || dateMiseEnRayon.isEmpty()) ? null : dateMiseEnRayon; // Nullable
         this.categorieProduit = categorieProduit;
         this.listProduct = listProduct; // Nullable
         this.entrepotwm = entrepotwm; // Nullable
@@ -74,14 +72,6 @@ public class Product {
 
     public void setPrix(Float prix) {
         this.prix = prix;
-    }
-
-    public Float getPrixInitial() {
-        return prixInitial;
-    }
-
-    public void setPrixInitial(Float prixInitial) {
-        this.prixInitial = prixInitial;
     }
 
     public Integer getQuantite() {

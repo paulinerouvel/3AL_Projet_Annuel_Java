@@ -2,50 +2,54 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.services.DateFormatter;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import org.apache.commons.lang.math.NumberUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
 
 public class DetailsProductController extends GenericController {
 
     private Integer listId;
-    private String operation;
+    private String option;
     private Product product;
 
     @FXML private TextField libelle;
     @FXML private TextField desc;
     @FXML private TextField photo;
     @FXML private TextField prix;
-    @FXML private TextField prixInitial;
     @FXML private TextField quantite;
     @FXML private DatePicker dlc;
     @FXML private TextField codeBarre;
     @FXML private ChoiceBox<String> categorieProduit;
 
-    public void init(Integer productList, String operation, Product product) throws Exception {
-        //JSONArray productCategories = fr.wastemart.maven.javaclient.services.Product.fetchProductCategories();
-        this.product = product;
-        this.operation = operation;
-        categorieProduit.setItems(FXCollections.observableArrayList("Légumes/Fruits", "Viandes/Poissons/Oeufs",
-                "Produits Laitiers", "Meubles", "Electroniques", "Electroménagers", "Jouets", "Céréales/Féculents",
-                "Boissons", "Cosmétiques", "Condiments", "Sucre/Produits Sucrés"));
+    public void init(List<Detail> detail) throws Exception {
+        StringDetail optionDetail = (StringDetail) detail.get(0);
+        option = optionDetail.getValue();
 
-        setListId(productList);
+        setProductCategories();
 
-        if(operation.equals("Add")){
+        if(option.equals("add")){
             clearFields();
             categorieProduit.getSelectionModel().selectFirst();
-        } else if(operation.equals("Modify")){
+        } else if (option.equals("modify")){
+            ProductDetail productDetail = (ProductDetail) detail.get(1);
+            product = productDetail.getValue();
             setFields(product);
         }
 
@@ -57,7 +61,6 @@ public class DetailsProductController extends GenericController {
             libelle.setStyle("-fx-background-color: #FFFFFF");
             desc.setStyle("-fx-background-color: #FFFFFF");
             prix.setStyle("-fx-background-color: #FFFFFF");
-            prixInitial.setStyle("-fx-background-color: #FFFFFF");
             quantite.setStyle("-fx-background-color: #FFFFFF");
             dlc.setStyle("-fx-background-color: #FFFFFF");
             codeBarre.setStyle("-fx-background-color: #FFFFFF");
@@ -76,21 +79,19 @@ public class DetailsProductController extends GenericController {
                         prix.setStyle("-fx-background-color: #ff7980");
                         break;
                     case 3:
-                        prixInitial.setStyle("-fx-background-color: #ff7980");
-                        break;
-                    case 4:
                         quantite.setStyle("-fx-background-color: #ff7980");
                         break;
-                    case 5:
+                    case 4:
                         dlc.setStyle("-fx-background-color: #ff7980");
                         break;
-                    case 6:
+                    case 5:
                         codeBarre.setStyle("-fx-background-color: #ff7980");
                         break;
                     default:
                         break;
 
                 }
+                setInfoText("Remplissez tous les champs");
             } else {
 
                 Product newProduct = new Product(product == null ? -1 : product.getId(),
@@ -98,7 +99,6 @@ public class DetailsProductController extends GenericController {
                         desc.getText(),
                         photo.getText(),
                         Float.valueOf(prix.getText()),
-                        Float.valueOf(prixInitial.getText()),
                         Integer.valueOf(quantite.getText()),
                         DateFormatter.dateToString(dlc.getValue().toString()),
                         codeBarre.getText(),
@@ -110,14 +110,21 @@ public class DetailsProductController extends GenericController {
                         product == null ? null : product.getDestinataire()
                 );
 
-                String result = null;
-                if (operation.equals("Add")) {
-                    addProductToList(newProduct, UserInstance.getInstance().getTokenValue());
+                if (option.equals("add")) {
+                    if(addProductToList(newProduct, UserInstance.getInstance().getTokenValue())){
+                        clearFields();
+                        setInfoText("Produit créé avec succès");
+                    } else {
+                        setInfoText("Le produit n'a pas pu être créé");
+                    }
 
-                } else if (operation.equals("Modify")) {
-                    updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
+                } else if (option.equals("modify")) {
+                    if(updateProduct(newProduct, UserInstance.getInstance().getTokenValue())){
+                        setInfoText("Produit modifié avec succès");
+                    } else {
+                        setInfoText("Le produit n'a pas pu être modifié");
+                    }
                 }
-                setInfoText(result);
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -128,11 +135,9 @@ public class DetailsProductController extends GenericController {
     private Integer areTextFieldsValid() {
         if(libelle.getText().trim().isEmpty()){ return 0; }
         else if(desc.getText().trim().isEmpty()){ return 1; }
-        else if(prix.getText().trim().isEmpty()){ return 2; }
-        else if(prixInitial.getText().trim().isEmpty()){ return 3; }
-        else if(quantite.getText().trim().isEmpty()){ return 4; }
-        else if(dlc.getValue().toString().trim().isEmpty()){ return 5; }
-        else if(codeBarre.getText().trim().isEmpty()){ return 6; }
+        else if(!NumberUtils.isNumber(prix.getText()) || prix.getText().trim().isEmpty()){ return 2; }
+        else if(!NumberUtils.isNumber(quantite.getText()) ||quantite.getText().trim().isEmpty()){ return 3; }
+        else if(!dlc.getValue().toString().trim().isEmpty() && dlc.getValue().compareTo(LocalDate.now()) < 0) { return 4; }
         return -1;
     }
 
@@ -141,23 +146,35 @@ public class DetailsProductController extends GenericController {
         desc.clear();
         photo.clear();
         prix.clear();
-        prixInitial.clear();
         quantite.clear();
         dlc.setValue(LocalDate.now());
+        codeBarre.clear();
         setInfoText("");
     }
 
     private void setFields(Product product) {
             libelle.setText(product.getLibelle());
             desc.setText(product.getDesc());
-            photo.setText(product.getPhoto());
+            photo.setText(product.getPhoto() == null ? "" : product.getPhoto()); // Impossible
             prix.setText(String.valueOf(product.getPrix()));
-            prixInitial.setText(String.valueOf(product.getPrixInitial()));
             quantite.setText(String.valueOf(product.getQuantite()));
-            dlc.setValue(LocalDate.parse(product.getDlc()));
-            codeBarre.setText(product.getCodeBarre());
+            dlc.setValue(product.getCodeBarre() == null ? LocalDate.now() : LocalDate.parse(product.getDlc())); // Nullable
+            codeBarre.setText(product.getCodeBarre() == null ? "" : product.getCodeBarre()); // Nullable
             categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
             setInfoText("");
+    }
+
+    private void setProductCategories(){
+        JSONArray productCategories = fetchProductCategories();
+
+        ObservableList<String> categories = FXCollections.observableArrayList();
+
+        for (int i = 0; i < productCategories.length(); i++){
+            JSONObject category = (JSONObject) productCategories.get(i);
+            categories.add(String.valueOf(category.get("libelle")));
+        }
+
+        categorieProduit.setItems(categories);
     }
 
     public void setListId(Integer id) { this.listId = id; }

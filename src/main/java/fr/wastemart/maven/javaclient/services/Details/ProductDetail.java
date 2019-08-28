@@ -9,7 +9,7 @@ public class ProductDetail implements Detail {
         product = productDetail;
     }
 
-    public Product getValue(Integer index){
+    public Product getValue(){
         return product;
     }
 

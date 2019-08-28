@@ -42,6 +42,11 @@ public abstract class GenericController {
         setInfoText("Une erreur s'est produite");
     }
 
+    public void clearInfoText() {
+        setInfoText("");
+    }
+
+
     public void handCursor() {
         StageManager.getInstance().setCursor(Cursor.HAND);
     }

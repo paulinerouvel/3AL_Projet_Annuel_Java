@@ -1,10 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProMainController extends GenericController {
     @FXML private Label proName;
@@ -21,13 +26,9 @@ public class ProMainController extends GenericController {
     }
 
     public void displayProductLists() {
-        StageManager.getInstance().loadPage(dotenv.get("PROFESSIONAL_LIST_PRODUCT_LISTS"),
-                UserInstance.getInstance());
-    }
-
-    public void displayProducts() {
-        StageManager.getInstance().loadPage(dotenv.get("PROFESSIONAL_LIST_PRODUCTS"),
-                UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("me"));
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("PRO_LIST_PRODUCT_LISTS"), UserInstance.getInstance(), option);
     }
 
     public void displayContactAdmin() {

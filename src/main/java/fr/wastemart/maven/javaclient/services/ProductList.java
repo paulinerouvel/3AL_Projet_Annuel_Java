@@ -10,8 +10,8 @@ public class ProductList {
         // --- POST --- //
 
     // POST a new list
-    public static Integer createProductList(fr.wastemart.maven.javaclient.models.ProductList productList, String token) throws Exception {
-        Integer result;
+    public static boolean createProductList(fr.wastemart.maven.javaclient.models.ProductList productList, String token) {
+        Integer result = 299;
 
         String json = "{\n" +
                 "\t\"libelle\" : \""+productList.getLibelle()+"\",\n" +
@@ -20,9 +20,13 @@ public class ProductList {
                 "\t\"estArchive\":"+productList.getEstArchive()+"\n" +
                 "}";
 
-        result = Requester.sendPostRequest("list/", json, token).getResponseCode();
+        try {
+            result = Requester.sendPostRequest("list/", json, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
-        return result;
+        return result < 299;
     }
 
 
@@ -78,8 +82,8 @@ public class ProductList {
         // --- PUT --- //
 
     // PUT a list (update)
-    public static Integer updateProductList(fr.wastemart.maven.javaclient.models.ProductList list, String token) throws Exception {
-        Integer result;
+    public static boolean updateProductList(fr.wastemart.maven.javaclient.models.ProductList list, String token) {
+        Integer result = 299;
 
         String json = "{\n" +
                 "\t\"id\": "+list.getId()+",\n" +
@@ -89,39 +93,45 @@ public class ProductList {
                 "\t\"estArchive\":"+list.getEstArchive()+"\n" +
                 "}";
 
-        result = Requester.sendPutRequest("list/", json, token).getResponseCode();
+        try {
+            result = Requester.sendPutRequest("list/", json, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
-        return result;
+        return result < 299;
     }
 
 
         // --- DELETE ---//
 
     // DELETE a list of products
-    public static Integer removeProductsList(Integer listId, String token) throws Exception {
-        Integer deleteProductsInList = fr.wastemart.maven.javaclient.services.Product.deleteProductsInList(listId);
-        if(deleteProductsInList == 1){
-            Integer result;
+    public static boolean removeProductsList(Integer listId, String token) {
+        Integer result = 299;
 
-            result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
-
-            return result;
+        try {
+            if(Product.deleteProductsInList(listId)){
+                    result = Requester.sendDeleteRequest("list/?id=" + listId, token).getResponseCode();
+            }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
         }
-        return 0;
+
+        return result < 299;
     }
 
 
     // Affects a list of product to a Warehouse
-    public static Integer affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) throws Exception {
+    public static boolean affectProductListToWarehouse(List<fr.wastemart.maven.javaclient.models.Product> productList, String city, String token) throws Exception {
         Integer processed = 0;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
-            if (product.getEnRayon().equals(1) && product.getEntrepotwm() == null) {
-                Integer affectRes = affectProductToWareHouse(product, city, token);
+            if (product.getEnRayon().equals(true) && product.getEntrepotwm() == null) {
+                boolean affectRes = affectProductToWareHouse(product, city, token);
 
                 processed += 1;
 
-                if (affectRes > 200) {
-                    return affectRes;
+                if (!affectRes) {
+                    return false;
                 }
             }
         }
@@ -130,7 +140,7 @@ public class ProductList {
     }
 
     // Affect one product to a Warehouse
-    public static Integer affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city, String token) throws Exception {
+    public static boolean affectProductToWareHouse(fr.wastemart.maven.javaclient.models.Product product, String city, String token) throws Exception {
         JSONObject fetchedWareHouse = fr.wastemart.maven.javaclient.services.Warehouse.fetchWarehouseByCity(city);
 
         fr.wastemart.maven.javaclient.models.Warehouse cityWarehouse = null;
@@ -154,13 +164,13 @@ public class ProductList {
                 }
             }
         }
-        return 0;
+        return false;
     }
 
     // Affect one product to a Receiver
-    public static Integer affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token) throws Exception {
+    public static boolean affectProductToReceiver(List<fr.wastemart.maven.javaclient.models.Product> productList, Integer size, String token) throws Exception {
         Integer count = 0;
-        Integer productUpdateRes = 600;
+        Boolean productUpdateRes = false;
         for (fr.wastemart.maven.javaclient.models.Product product : productList) {
             if (product.getEnRayon().equals(1) && product.getEntrepotwm() != null) {
                 count += 1;
@@ -177,13 +187,18 @@ public class ProductList {
     }
 
     public static fr.wastemart.maven.javaclient.models.ProductList jsonToProductList(JSONObject productList) {
-        return new fr.wastemart.maven.javaclient.models.ProductList(
-            productList.getInt("id"),
-            productList.getString("libelle"),
-            productList.isNull("date") ? null : ZonedDateTime.parse(productList.getString("date")).toLocalDate(),
-            productList.getInt("Utilisateur_id"),
-            productList.getInt("estArchive")
-        );
+        try {
+            return new fr.wastemart.maven.javaclient.models.ProductList(
+                productList.getInt("id"),
+                productList.getString("libelle"),
+                productList.isNull("date") ? null : ZonedDateTime.parse(productList.getString("date")).toLocalDate(),
+                productList.getInt("Utilisateur_id"),
+                productList.getInt("estArchive")
+            );
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            return null;
+        }
     }
 
 

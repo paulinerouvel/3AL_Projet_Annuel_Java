@@ -4,14 +4,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class User {
         // --- POST --- //
 
     // POST a user (Register)
-    public static Integer createUser(fr.wastemart.maven.javaclient.models.User user) throws Exception {
+    public static boolean createUser(fr.wastemart.maven.javaclient.models.User user) {
         String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
         String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
         String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
@@ -41,29 +44,38 @@ public class User {
             "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
         "}";
 
-        Integer result;
+        Integer result = 299;
 
-        result = Requester.sendPostRequest("user/register", json, null).getResponseCode();
+        try {
+            result = Requester.sendPostRequest("user/register", json, null).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
-        return result;
+        return result < 299;
     }
 
     // POST a category between User and userType
-    public static Integer addCategory(Integer userId, Integer categoryUserId) throws Exception {
+    public static boolean addCategory(Integer userId, Integer categoryUserId) {
         String json =
                 "{\n" +
                         "\t\"userId\":"+userId+",\n" +
                         "\t\"categoryUserId\":"+categoryUserId+"\n" +
                         "}";
 
-        Integer result;
-        result = Requester.sendPostRequest("user/category", json, null).getResponseCode();
+        Integer result = 299;
 
-        return result;
+        try {
+            result = Requester.sendPostRequest("user/category", json, null).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
     }
 
     // POST mail
-    public static Integer sendMail(String receiver, String subject, String body) throws Exception {
+    public static boolean sendMail(String receiver, String subject, String body) throws Exception {
         body = body.replace("\n","\\n");
         String json =
                 "{\n" +
@@ -73,58 +85,84 @@ public class User {
                         "\t\"message\": \""+body+"\"\n" +
                         "}";
 
-        Integer result;
+        Integer result = 299;
+
         result = Requester.sendPostRequest("mail", json, null).getResponseCode();
 
-        return result;
+        return result < 299;
     }
 
 
         // --- GET --- //
 
     // GET User By id : 1, by mail : 2
-    public static fr.wastemart.maven.javaclient.models.User fetchUser(String data) throws Exception {
+    public static fr.wastemart.maven.javaclient.models.User fetchUser(String data) {
+        fr.wastemart.maven.javaclient.models.User user = null;
         String url = "user/?id=" + data;
 
-        HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
+        try {
+            HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
 
-        JSONObject jsonUser = null;
-        fr.wastemart.maven.javaclient.models.User user = null;
-        if (fetchUserResponse.getResponseCode() <= 299) {
-            jsonUser = fetchUserResponse.getDataAsJSONObject();
+            if (fetchUserResponse.getResponseCode() <= 299) {
+                JSONObject jsonUser = fetchUserResponse.getDataAsJSONObject();
 
-            String category = fetchCategory(jsonUser.getInt("id"));
+                String category = fetchCategory(jsonUser.getInt("id"));
 
-            jsonUser.put("Categorie_utilisateur_id", category);
+                jsonUser.put("Categorie_utilisateur_id", category);
 
 
-            user = jsonToUser(jsonUser);
+                user = jsonToUser(jsonUser);
+            }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
         }
 
         return user;
     }
 
-    public static JSONObject fetchCreatedUser(String data) throws Exception {
+    public static JSONObject fetchCreatedUser(String data) {
         String url = "user/?mail=" + data;
 
-        HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
-
         JSONObject jsonUser = null;
-        fr.wastemart.maven.javaclient.models.User user = null;
-        if (fetchUserResponse.getResponseCode() <= 299) {
-            jsonUser = fetchUserResponse.getDataAsJSONObject();
-            System.out.println("User"+ jsonUser);
+        try {
+            HttpResponse fetchUserResponse = Requester.sendGetRequest(url, null);
+
+            if (fetchUserResponse.getResponseCode() <= 299) {
+                jsonUser = fetchUserResponse.getDataAsJSONObject();
+                System.out.println("User"+ jsonUser);
+            }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
         }
 
         return jsonUser;
 
     }
 
+    public static JSONArray fetchAllUsers() {
+        JSONArray users = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/", null);
+            users = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return users;
+    }
+
     // GET the Category of one User
-    public static String fetchCategory(Integer userId) throws Exception {
-        String result;
-        HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
-        result = response.getData();
+    public static String fetchCategory(Integer userId) {
+        String result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
+            result = response.getData();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
         // TODO Test : Initially return Integer.valueOf(content.toString());
 
         System.out.println("(User.fetchCategory) Category of user : ");
@@ -134,24 +172,34 @@ public class User {
     }
 
     // GET all Users Categories
-    public static JSONArray fetchCategories() throws Exception {
-        JSONArray result;
-        HttpResponse response = Requester.sendGetRequest("user/categories", null);
-        result = response.getDataAsJSONArray();
+    public static JSONArray fetchCategories() {
+        JSONArray result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/categories", null);
+            result = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
         return result;
     }
 
     // GET all Users of a Category
-    public static JSONArray fetchUsersByCategory(String libelle) throws Exception{
-        JSONArray result;
-        HttpResponse response = Requester.sendGetRequest("user/AllValidByCategory?type="+libelle, null);
-        result = response.getDataAsJSONArray();
+    public static JSONArray fetchUsersByCategory(String libelle) {
+        JSONArray result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/AllValidByCategory?type="+libelle, null);
+            result = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
         return result;
     }
 
-    public static String fetchPhoto(String url, String file) throws Exception {
+    public static String fetchPhoto(String url, String file) {
         url += file;
 
         try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
@@ -162,14 +210,18 @@ public class User {
                 fileOS.write(data, 0, byteContent);
             }
             return file;
+        } catch (Exception e) {
+           Logger.getInstance().reportError(e);
         }
+
+        return null;
     }
 
 
     // --- PUT --- //
 
     // PUT a user (Update)
-    public static Integer updateUser(fr.wastemart.maven.javaclient.models.User user) throws Exception {
+    public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user) {
         String json =
                 "{\n" +
                         "\t\"id\": \""+user.getId()+"\",\n" +
@@ -192,84 +244,57 @@ public class User {
                         "\t\"nbPointsSourire\":"+user.getNbPointsSourire()+"\n" +
                         "}";
 
-        Integer result;
-        result = Requester.sendPutRequest("user/", json, null).getResponseCode();
+        Integer result = 299;
 
-        return result;
+        try {
+            result = Requester.sendPutRequest("user/", json, null).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
     }
 
 
         // --- DELETE ---//
 
-    public static JSONArray fetchAllUsers() throws Exception {
-        JSONArray users;
-        HttpResponse response = Requester.sendGetRequest("user/", null);
-        users = response.getDataAsJSONArray();
-
-        for(int i = 0; i < users.length(); i++) {
-
-            Integer categorieUtilisateur = Integer.valueOf(fetchCategory(users.getJSONObject(i).getInt("id")));
-
-            users.getJSONObject(i).put("categorieUtilisateur", categorieUtilisateur);
-
-            if (users.getJSONObject(i).isNull("Libelle")) {
-                users.getJSONObject(i).put("Libelle", "");
-            }
-            if (users.getJSONObject(i).isNull("nom")) {
-                users.getJSONObject(i).put("nom", "");
-            }
-            if (users.getJSONObject(i).isNull("prenom ")) {
-                users.getJSONObject(i).put("prenom", "");
-            }
-            if (users.getJSONObject(i).isNull("photo")) {
-                users.getJSONObject(i).put("photo", "");
-            }
-            if (users.getJSONObject(i).isNull("desc")) {
-                users.getJSONObject(i).put("desc", "");
-            }
-            if (users.getJSONObject(i).isNull("tailleOrganisme")) {
-                users.getJSONObject(i).put("tailleOrganisme", 0);
-            }
-            if (users.getJSONObject(i).isNull("dateDeNaissance")) {
-                users.getJSONObject(i).put("destinataire", "");
-            }
-            if (users.getJSONObject(i).isNull("nbPointsSourire")) {
-                users.getJSONObject(i).put("nbPointsSourire", 0);
-            }
-        }
-
-        return users;
-    }
-
-    public static Integer RegisterNewUser(String mail, Integer userCategory) throws Exception {
+    public static boolean RegisterNewUser(String mail, Integer userCategory) {
         JSONObject createdUser = fetchCreatedUser(mail);
-        return addCategory(createdUser.getInt("id"), userCategory);
+        if(createdUser == null) {
+            return false;
+        } else {
+            return addCategory(createdUser.getInt("id"), userCategory);
+        }
     }
 
     public static fr.wastemart.maven.javaclient.models.User jsonToUser(JSONObject user) {
-        fr.wastemart.maven.javaclient.models.User userObject = new fr.wastemart.maven.javaclient.models.User(
-                user.getInt("id"),
-                user.isNull("libelle") ? null : user.getString("libelle"),
-                user.getInt("Categorie_utilisateur_id"),
-                user.isNull("nom") ? null : user.getString("nom"),
-                user.isNull("prenom") ? null : user.getString("prenom"),
-                user.getString("mail"),
-                user.getString("tel"),
-                user.getString("adresse"),
-                user.getString("ville"),
-                user.getInt("codePostal"),
-                user.getString("pseudo"),
-                user.getString("mdp"),
-                user.isNull("photo") ? null : user.getString("photo"),
-                user.isNull("desc") ? null : user.getString("desc"),
-                user.isNull("tailleOrganisme") ? null : user.getInt("tailleOrganisme"),
-                user.getInt("estValide") == 1,
-                user.isNull("siret") ? null : user.getString("siret"),
-                user.isNull("dateDeNaissance") ? null : DateFormatter.dateToString(user.getString("dateDeNaissance")),
-                //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
-                user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
-        );
-        return userObject;
+        try {
+            return new fr.wastemart.maven.javaclient.models.User(
+                    user.getInt("id"),
+                    user.isNull("libelle") ? null : user.getString("libelle"),
+                    user.getInt("Categorie_utilisateur_id"),
+                    user.isNull("nom") ? null : user.getString("nom"),
+                    user.isNull("prenom") ? null : user.getString("prenom"),
+                    user.getString("mail"),
+                    user.getString("tel"),
+                    user.getString("adresse"),
+                    user.getString("ville"),
+                    user.getInt("codePostal"),
+                    user.getString("pseudo"),
+                    user.getString("mdp"),
+                    user.isNull("photo") ? null : user.getString("photo"),
+                    user.isNull("desc") ? null : user.getString("desc"),
+                    user.isNull("tailleOrganisme") ? null : user.getInt("tailleOrganisme"),
+                    user.getInt("estValide") == 1,
+                    user.isNull("siret") ? null : user.getString("siret"),
+                    user.isNull("dateDeNaissance") ? null : DateFormatter.dateToString(user.getString("dateDeNaissance")),
+                    //user.isNull("dateDeNaissance") ? null : LocalDate.parse(user.getString("dateDeNaissance"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")),
+                    user.isNull("nbPointSourire") ? null : user.getInt("nbPointSourire")
+            );
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            return null;
+        }
     }
 
 }

@@ -11,44 +11,23 @@ public class Warehouse {
     // GET all warehouses
     public static JSONArray fetchAllWarehouse() throws Exception {
         HttpResponse response = Requester.sendGetRequest("warehouse/", null);
-        JSONArray result = response.getDataAsJSONArray();
-
-        for(int i = 0; i < result.length(); i++) {
-            if (result.getJSONObject(i).isNull("libelle")) {
-                result.getJSONObject(i).put("libelle", "");
-            }
-            if (result.getJSONObject(i).isNull("adresse")) {
-                result.getJSONObject(i).put("adresse", "Adresse non renseignée");
-            }
-            if (result.getJSONObject(i).isNull("ville")) {
-                result.getJSONObject(i).put("ville", "Ville non renseignée");
-            }
-            if (result.getJSONObject(i).isNull("codePostal")) {
-                result.getJSONObject(i).put("codePostal", "Code postal non renseigné");
-            }
-            if(result.getJSONObject(i).isNull("photo")) {
-                result.getJSONObject(i).put("photo", "");
-            }
-        }
-
-        return result;
+        return response.getDataAsJSONArray();
     }
 
     // GET Warehouse by City name
     public static JSONObject fetchWarehouseByCity(String city) throws Exception {
-        JSONObject result;
         HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
-        result = response.getDataAsJSONObject();
+        return response.getDataAsJSONObject();
         // TODO Test if it works, supposed to return JSONObject
 
-        return result;
+
     }
 
 
         // --- PUT --- //
 
     // PUT a Warehouse (update)
-    public static Integer updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse, String token) throws Exception {
+    public static boolean updateWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse, String token) {
         String json =
                 "{\n" +
                         "\t\"id\": "+warehouse.getId()+",\n" +
@@ -62,14 +41,19 @@ public class Warehouse {
                         "\t\"placeLibre\":"+warehouse.getPlaceLibre()+"\n" +
                         "}";
 
-        Integer result;
-        result = Requester.sendPutRequest("warehouse/", json, token).getResponseCode();
+        Integer result = 299;
+        try {
+            result = Requester.sendPutRequest("warehouse/", json, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
-        return result;
+        return result < 299;
     }
 
 
     // --- DELETE ---//
+
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
         return new fr.wastemart.maven.javaclient.models.Warehouse(

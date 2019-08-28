@@ -1,9 +1,14 @@
 package fr.wastemart.maven.javaclient.controllers;
 
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeMainController extends GenericController {
     @FXML private Label employeeName;
@@ -20,11 +25,15 @@ public class EmployeeMainController extends GenericController {
     }
 
     public void displayProducts() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("all"));
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance(), option);
     }
 
     public void displayProsSuggestions() {
-        StageManager.getInstance().loadPage(dotenv.get("EMPLOYEE_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("pro"));
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("EMPLOYEE_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance(), option);
     }
 
     public void displayWarehouses() {
