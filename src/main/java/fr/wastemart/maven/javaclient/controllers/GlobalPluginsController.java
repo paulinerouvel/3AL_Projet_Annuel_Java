@@ -23,18 +23,18 @@ public class GlobalPluginsController extends GenericController {
     @FXML private ListView<String> localPluginsListView;
     @FXML private ListView<String> onlinePluginsListView;
 
-    public void init() { // Ne throw pas car peut être normal
+  /*  public void init() { // Ne throw pas car peut être normal
 
         System.out.println("(SharedPluginsController.init) path :"+ System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         pluginPath.setText(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
         pluginPath.positionCaret(pluginPath.getLength());
 
         System.out.println("(SharedPluginsController.init) conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
-        setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
+        //setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
 
 
         System.out.println("(SharedPluginsController.init)  folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
-        setPluginFolder(pluginPath.getText());
+        //setPluginFolder(pluginPath.getText());
 
         fetchInstalledPlugins();
         fetchAvailablePlugins();
@@ -59,7 +59,7 @@ public class GlobalPluginsController extends GenericController {
 
             pluginPath.positionCaret(pluginPath.getLength());
 
-            setPluginFolder(pluginPath.getText());
+            //setPluginFolder(pluginPath.getText());
             fetchInstalledPlugins();
             fetchAvailablePlugins();
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class GlobalPluginsController extends GenericController {
 
     public void installSelectedPlugin() {
         try {
-            setPluginFolder(pluginPath.getText());
+            //setPluginFolder(pluginPath.getText());
             Integer selectedIndice = getSelectedIndex(onlinePluginsListView);
 
             if (onlinePlugins != null || (selectedIndice >= 0 && selectedIndice < onlinePlugins.size())){
@@ -93,7 +93,7 @@ public class GlobalPluginsController extends GenericController {
 
     public void uninstallSelectedPlugin() {
         try {
-            setPluginFolder(pluginPath.getText());
+            //setPluginFolder(pluginPath.getText());
 
             System.out.println("(SharedPluginsController.uninstallSelectedPlugin) Selected indice: "+ getSelectedIndex(localPluginsListView));
             if(uninstallPlugin(getSelectedIndex(localPluginsListView))) {
@@ -112,12 +112,13 @@ public class GlobalPluginsController extends GenericController {
 
     public void enablePlugin() {
         try {
-            if (getSelectedIndex(localPluginsListView) != -1)
-                if (activatePlugin(getSelectedIndex(localPluginsListView))) {
+            if (getSelectedIndex(localPluginsListView) != -1){
+                /*if (activatePlugin(getSelectedIndex(localPluginsListView))) {
                     setInfoText("Plug-in activé");
                 } else {
                     setInfoText("Plug-in déjà activé");
                 }
+
             else {
                 setInfoText("Veuillez sélectionner un plug-in");
             }
@@ -128,21 +129,21 @@ public class GlobalPluginsController extends GenericController {
     }
 
     public void disablePlugin() {
-        try {
-            if (getSelectedIndex(localPluginsListView) != -1)
-                if (desactivatePlugin(getSelectedIndex(localPluginsListView))) {
-                    setInfoText("Plug-in desactivé");
-                } else {
-                    setInfoText("Plug-in déjà désactivé");
+            try {
+                if (getSelectedIndex(localPluginsListView) != -1)
+                    if (desactivatePlugin(getSelectedIndex(localPluginsListView))) {
+                        setInfoText("Plug-in desactivé");
+                    } else {
+                        setInfoText("Plug-in déjà désactivé");
+                    }
+                else {
+                    setInfoText("Veuillez sélectionner un plug-in");
                 }
-            else {
-                setInfoText("Veuillez sélectionner un plug-in");
+            } catch (Exception e) {
+                Logger.getInstance().reportError(e);
+                setInfoErrorOccurred();
             }
-        } catch (Exception e) {
-            Logger.getInstance().reportError(e);
-            setInfoErrorOccurred();
         }
-    }
 
     private void fetchInstalledPlugins()   {
         Integer previouslySelectedIndex = getSelectedIndex(localPluginsListView);
@@ -198,5 +199,5 @@ public class GlobalPluginsController extends GenericController {
     // Return button
     public void displayMainPage() {
         StageManager.getInstance().displayMainPage(UserInstance.getInstance());
-    }
+    }*/
 }

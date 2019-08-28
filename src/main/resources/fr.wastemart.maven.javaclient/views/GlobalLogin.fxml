@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalLoginController">
 
     <children>
         <ImageView fitHeight="65.0" fitWidth="68.0" layoutX="441.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
@@ -27,8 +27,8 @@
 
         <AnchorPane fx:id="fieldsArea" layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
             <children>
-                <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="alex.bis8@hotmail.fr" />
-                <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" text="rgckyda88" />
+                <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="pauline.rouvel@hotmail.fr" />
+                <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" text="pauline" />
             </children>
         </AnchorPane>
           <ButtonBar layoutX="127.0" layoutY="223.0" prefHeight="40.0" prefWidth="346.0">

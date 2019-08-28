@@ -34,13 +34,21 @@ public class ListUsersController extends GenericController {
     // users
     @FXML TableView<User> usersTable;
     @FXML TableColumn<Object, Object> userID;
+    @FXML TableColumn<Object, Object> userLibelle;
     @FXML TableColumn<Object, Object> userFirstName;
     @FXML TableColumn<Object, Object> userLastName;
-    @FXML TableColumn<Object, Object> userNumber;
+    @FXML TableColumn<Object, Object> userBirthDate;
+
     @FXML TableColumn<Object, Object> userEmail;
-    @FXML TableColumn<Object, Object> userCity;
+    @FXML TableColumn<Object, Object> userNumber;
     @FXML TableColumn<Object, Object> userAddress;
+    @FXML TableColumn<Object, Object> userCity;
     @FXML TableColumn<Object, Object> userPostalCode;
+
+    @FXML TableColumn<Object, Object> userPseudo;
+    @FXML TableColumn<Object, Object> userSiret;
+    @FXML TableColumn<Object, Object> userTaille;
+    @FXML TableColumn<Object, Object> userDesc;
 
     @FXML
     Label saveLabel;
@@ -48,7 +56,7 @@ public class ListUsersController extends GenericController {
     @Override
     public void init() throws Exception {
         displayCategoryLists();
-        displayUsersByCategory(lists.getJSONObject(0).getString("libelle"));
+        displayUsersByCategory(lists.getJSONObject(0).getString("libelle"), 1);
         categoryTable.getSelectionModel().selectFirst();
     }
 
@@ -67,30 +75,68 @@ public class ListUsersController extends GenericController {
     }
 
     // Displays Users on init and clickCategory
-    private void displayUsersByCategory(String libelle) throws Exception {
+    private void displayUsersByCategory(String libelle, int idCategory) throws Exception {
         usersTable.getItems().clear();
         try {
             users = fetchUsersByCategory(libelle);
 
+            System.out.println("la" +String.valueOf(idCategory));
+
             if(!users.isEmpty()) {
-                userID.setCellValueFactory(new PropertyValueFactory<>("id"));
-                userFirstName.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-                userLastName.setCellValueFactory(new PropertyValueFactory<>("nom"));
-                userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
-                userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
-                userCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
-                userAddress.setCellValueFactory(new PropertyValueFactory<>("adresse"));
-                userPostalCode.setCellValueFactory(new PropertyValueFactory<>("codePostal"));
 
-                for (int i = 0; i < users.length(); i++) {
-                    JSONObject user = users.getJSONObject(i);
-                    //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
-                    User userElement = jsonToUser(user);
+                if(idCategory == 1 || idCategory == 2){
+                    userID.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    userLibelle.setCellValueFactory(new PropertyValueFactory<>("Libelle"));
 
-                    usersTable.getItems().add(userElement);
+                    userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+                    userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
+                    userAddress.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+                    userCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
+
+                    userPostalCode.setCellValueFactory(new PropertyValueFactory<>("codePostal"));
+                    userPseudo.setCellValueFactory(new PropertyValueFactory<>("pseudo"));
+                    userSiret.setCellValueFactory(new PropertyValueFactory<>("siret"));
+                    userTaille.setCellValueFactory(new PropertyValueFactory<>("tailleOrganisme"));
+                    userDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+
+
+                    for (int i = 0; i < users.length(); i++) {
+                        JSONObject user = users.getJSONObject(i);
+                        //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
+                        User userElement = jsonToUser(user);
+
+                        usersTable.getItems().add(userElement);
+
+                        setInfoText("");
+                    }
                 }
+
+                else{
+                    userID.setCellValueFactory(new PropertyValueFactory<>("id"));
+                    userFirstName.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+                    userLastName.setCellValueFactory(new PropertyValueFactory<>("nom"));
+                    userBirthDate.setCellValueFactory(new PropertyValueFactory<>("dateDeNaissance"));
+
+                    userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
+                    userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
+                    userCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
+                    userAddress.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+                    userPostalCode.setCellValueFactory(new PropertyValueFactory<>("codePostal"));
+                    userPseudo.setCellValueFactory(new PropertyValueFactory<>("pseudo"));
+
+                    for (int i = 0; i < users.length(); i++) {
+                        JSONObject user = users.getJSONObject(i);
+                        //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
+                        User userElement = jsonToUser(user);
+
+                        usersTable.getItems().add(userElement);
+
+                        setInfoText("");
+                    }
+                }
+
             } else {
-                setInfoText("There is no Users in this category");
+                setInfoText("Aucun utilisateur dans cette catégorie");
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -103,7 +149,7 @@ public class ListUsersController extends GenericController {
         refreshSelectedIndices();
         if(indexOfCategorySelected != -1){
             try {
-                displayUsersByCategory(lists.getJSONObject(indexOfCategorySelected).getString("libelle"));
+                displayUsersByCategory(lists.getJSONObject(indexOfCategorySelected).getString("libelle"), indexOfCategorySelected);
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
@@ -119,6 +165,30 @@ public class ListUsersController extends GenericController {
         detailList.add(User);
 
         StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), detailList);
+    }
+
+
+
+    @FXML
+    private void deleteProduct() {
+        clearInfoText();
+
+        try {
+            refreshSelectedIndices();
+
+            if (indexOfUserSelected != -1){
+                if(fr.wastemart.maven.javaclient.services.User.deleteUser(users.getJSONObject(indexOfUserSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
+                    setInfoText("Utilisateur supprimé");
+                } else {
+                    setInfoErrorOccurred();
+                }
+            }
+
+            //refreshDisplay();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     @FXML

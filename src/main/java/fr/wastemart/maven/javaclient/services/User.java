@@ -258,6 +258,21 @@ public class User {
 
         // --- DELETE ---//
 
+    public static boolean deleteUser(Integer userId, String token) {
+        Integer result = 299;
+
+        try {
+            result = Requester.sendDeleteRequest("user/?id=" + userId, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
+    }
+
+
+
+
     public static boolean RegisterNewUser(String mail, Integer userCategory) {
         JSONObject createdUser = fetchCreatedUser(mail);
         if(createdUser == null) {
@@ -272,7 +287,7 @@ public class User {
             return new fr.wastemart.maven.javaclient.models.User(
                     user.getInt("id"),
                     user.isNull("libelle") ? null : user.getString("libelle"),
-                    user.getInt("Categorie_utilisateur_id"),
+                    -1,
                     user.isNull("nom") ? null : user.getString("nom"),
                     user.isNull("prenom") ? null : user.getString("prenom"),
                     user.getString("mail"),
