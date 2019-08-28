@@ -9,18 +9,32 @@ public class Warehouse {
         // --- GET --- //
 
     // GET all warehouses
-    public static JSONArray fetchAllWarehouse() throws Exception {
-        HttpResponse response = Requester.sendGetRequest("warehouse/", null);
-        return response.getDataAsJSONArray();
+    public static JSONArray fetchAllWarehouse() {
+        JSONArray result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("warehouse/", null);
+            result = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
     }
 
     // GET Warehouse by City name
-    public static JSONObject fetchWarehouseByCity(String city) throws Exception {
-        HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
-        return response.getDataAsJSONObject();
+    public static JSONObject fetchWarehouseByCity(String city) {
+        JSONObject result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("warehouse/?city=" + city, null);
+            result = response.getDataAsJSONObject();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
         // TODO Test if it works, supposed to return JSONObject
-
-
     }
 
 

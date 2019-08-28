@@ -35,7 +35,9 @@ public class AdminMainController extends GenericController {
     }
 
     public void displayProsSuggestions() {
-        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("pro"));
+        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance(), option);
     }
 
     public void displayWarehouses() {

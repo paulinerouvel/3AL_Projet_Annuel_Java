@@ -3,6 +3,7 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.services.DateFormatter;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.IntegerDetail;
 import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
@@ -45,6 +46,7 @@ public class DetailsProductController extends GenericController {
         setProductCategories();
 
         if(option.equals("add")){
+            listId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
             clearFields();
             categorieProduit.getSelectionModel().selectFirst();
         } else if (option.equals("modify")){

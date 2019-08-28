@@ -3,6 +3,7 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.ProductList;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.IntegerDetail;
 import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
@@ -66,6 +67,7 @@ public class ProductListsController extends GenericController {
     public void init(List<Detail> detail) throws Exception {
         listArchiveCheckBox.setSelected(false);
 
+
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
 
@@ -101,6 +103,8 @@ public class ProductListsController extends GenericController {
                 lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
             } else if (option.equals("me")) {
                 lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
+            } else if (option.equals("pro")) {
+                lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
             }
             return fillProductLists();
         } catch (Exception e) {
@@ -121,7 +125,9 @@ public class ProductListsController extends GenericController {
                     products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                 }
             } else if (option.equals("pro")) {
-                //products =
+                if (!lists.isEmpty()) {
+                    products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
+                }
             }
             return fillProducts();
         } catch (Exception e) {
@@ -237,10 +243,17 @@ public class ProductListsController extends GenericController {
         refreshSelectedIndices();
 
         List<Detail> details = new ArrayList<Detail>();
-        details.add(new StringDetail("add"));
 
-        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
-
+        if(option.equals("me") && indexOfListSelected != -1) {
+            details.add(new StringDetail("add"));
+            details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId()));
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+        } else if(option.equals("me")) {
+            setInfoText("Veuillez sélectionner une liste");
+        } else if (option.equals("all")) {
+            details.add(new StringDetail("add"));
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+        }
         refreshDisplay();
     }
 
