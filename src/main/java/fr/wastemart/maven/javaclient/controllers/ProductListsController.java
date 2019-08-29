@@ -9,11 +9,12 @@ import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,6 +67,23 @@ public class ProductListsController extends GenericController {
 
     public void init(List<Detail> detail) throws Exception {
         listArchiveCheckBox.setSelected(false);
+
+        listsTable.setEditable(true);
+        listsTable.getSelectionModel().setCellSelectionEnabled(true);  // selects cell only, not the whole row
+        listsTable.setOnMouseClicked(click -> {
+            if (click.getClickCount() == 2) {
+                @SuppressWarnings("rawtypes")
+                TablePosition pos = listsTable.getSelectionModel().getSelectedCells().get(0);
+                int row = pos.getRow();
+                int col = pos.getColumn();
+                @SuppressWarnings("rawtypes")
+                TableColumn column = pos.getTableColumn();
+                String val = column.getCellData(row).toString(); System.out.println("Selected Value, " + val + ", Column: " + col + ", Row: " + row);
+                if ( col == 2 ) { System.out.println("2"); }
+
+            }
+        });
+
 
 
         StringDetail optionDetail = (StringDetail) detail.get(0);
