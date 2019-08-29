@@ -12,8 +12,7 @@
 
 <AnchorPane prefHeight="651.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour" />
-      <Label layoutX="236.0" layoutY="22.0" style="-fx-font-size: 25;" text="Inscription" />
+      <Label layoutX="171.0" layoutY="14.0" style="-fx-font-size: 25;" text="Gestion d'utilisateur" />
       <Label alignment="CENTER" layoutX="232.0" layoutY="58.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
       <TextField fx:id="prenom" layoutX="50.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Prénom" text="Alexandre" />
       <TextField fx:id="nom" layoutX="310.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Nom" text="CHAMPAUD" />
@@ -36,8 +35,8 @@
       <TextField fx:id="siret" layoutX="312.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Siret" />
       <Label fx:id="info" alignment="TOP_LEFT" layoutX="52.0" layoutY="572.0" prefHeight="19.0" prefWidth="498.0" />
       <Button layoutX="249.0" layoutY="607.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
-      <Label layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Prenom" />
-      <Label layoutX="309.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Nom" />
+      <Label fx:id="prenomLabel" layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Prenom" />
+      <Label fx:id="nomLabel" layoutX="309.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Nom" />
       <Label layoutX="51.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Email" />
       <Label layoutX="312.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Téléphone" />
       <Label layoutX="52.0" layoutY="200.0" style="-fx-font-size: 11px;" text="Adresse" />
@@ -48,10 +47,10 @@
       <Label layoutX="311.0" layoutY="326.0" style="-fx-font-size: 11px;" text="Mot de passe" />
       <Label layoutX="51.0" layoutY="379.0" style="-fx-font-size: 11px;" text="Catégorie" />
       <Label layoutX="413.0" layoutY="379.0" style="-fx-font-size: 11px;" text="Photo" />
-      <Label layoutX="49.0" layoutY="465.0" style="-fx-font-size: 11px;" text="Libellé" />
-      <Label layoutX="311.0" layoutY="466.0" style="-fx-font-size: 11px;" text="Description" />
-      <Label layoutX="52.0" layoutY="537.0" style="-fx-font-size: 11px;" text="Taille Organisme" />
-      <Label layoutX="314.0" layoutY="538.0" style="-fx-font-size: 11px;" text="Siret" />
+      <Label fx:id="libelleLabel" layoutX="49.0" layoutY="465.0" style="-fx-font-size: 11px;" text="Libellé" />
+      <Label fx:id="descLabel" layoutX="311.0" layoutY="466.0" style="-fx-font-size: 11px;" text="Description" />
+      <Label fx:id="tailleLabel" layoutX="52.0" layoutY="537.0" style="-fx-font-size: 11px;" text="Taille Organisme" />
+      <Label fx:id="siretLabel" layoutX="314.0" layoutY="538.0" style="-fx-font-size: 11px;" text="Siret" />
       <CheckBox fx:id="estValide" layoutX="49.0" layoutY="49.0" mnemonicParsing="false" text="Est Valide" textFill="WHITE" />
    </children>
 </AnchorPane>

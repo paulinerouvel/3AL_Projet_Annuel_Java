@@ -30,7 +30,7 @@ public class GlobalRegisterController extends GenericController {
     private Integer IdCat;
 
 
-
+    @FXML private CheckBox estValide;
     @FXML private TextField prenom;
     @FXML private TextField nom;
     @FXML private TextField mail;
@@ -48,9 +48,6 @@ public class GlobalRegisterController extends GenericController {
     @FXML private TextArea description;
     @FXML private TextField tailleOrganisme;
     @FXML private TextField siret;
-
-
-
     @FXML private Label prenomLabel;
     @FXML private Label nomLabel;
     @FXML private Label tailleLabel;
@@ -103,17 +100,19 @@ public class GlobalRegisterController extends GenericController {
                 nomLabel.setVisible(true);
 
                 organismLabel.setVisible(false);
+
                 libelle.setVisible(false);
                 description.setVisible(false);
                 tailleOrganisme.setVisible(false);
                 siret.setVisible(false);
 
+                libelleLabel.setVisible(false);
+                descLabel.setVisible(false);
                 tailleLabel.setVisible(false);
                 siretLabel.setVisible(false);
-                descLabel.setVisible(false);
-                libelleLabel.setVisible(false);
 
 
+                estValide.setSelected(userToModif.getEstValide());
                 prenom.setText(userToModif.getPrenom());
                 nom.setText(userToModif.getNom());
                 mail.setText(userToModif.getMail());
@@ -136,19 +135,20 @@ public class GlobalRegisterController extends GenericController {
                 prenomLabel.setVisible(false);
                 nomLabel.setVisible(false);
 
-
-
                 organismLabel.setVisible(true);
+
                 libelle.setVisible(true);
                 description.setVisible(true);
                 tailleOrganisme.setVisible(true);
                 siret.setVisible(true);
 
+                libelleLabel.setVisible(true);
+                descLabel.setVisible(true);
                 tailleLabel.setVisible(true);
                 siretLabel.setVisible(true);
-                descLabel.setVisible(true);
-                libelleLabel.setVisible(true);
 
+
+                estValide.setSelected(userToModif.getEstValide());
                 pseudo.setText(userToModif.getPseudo());
                 mail.setText(userToModif.getMail());
                 tel.setText(userToModif.getTel());
@@ -257,6 +257,7 @@ public class GlobalRegisterController extends GenericController {
             prenomLabel.setVisible(true);
 
             organismLabel.setVisible(false);
+
             libelle.setVisible(false);
             description.setVisible(false);
             tailleOrganisme.setVisible(false);
@@ -283,6 +284,12 @@ public class GlobalRegisterController extends GenericController {
             prenomLabel.setVisible(false);
 
             organismLabel.setVisible(true);
+
+            libelle.setVisible(true);
+            description.setVisible(true);
+            tailleOrganisme.setVisible(true);
+            siret.setVisible(true);
+
             libelleLabel.setVisible(true);
             descLabel.setVisible(true);
             tailleLabel.setVisible(true);
@@ -319,7 +326,7 @@ public class GlobalRegisterController extends GenericController {
                         //uploadPicture(photo.getText()),
                         description.getText(),
                         (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
-                        false,
+                            estValide.isSelected(),
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
                         dateNaissance.getValue().toString(),
                         0
@@ -329,7 +336,6 @@ public class GlobalRegisterController extends GenericController {
                     user.setSiret(siret.getText());
                 }
                 user.setNbPointsSourire(0);
-                user.setEstValide(false);
 
                 boolean resultUser = false;
 
@@ -343,7 +349,6 @@ public class GlobalRegisterController extends GenericController {
                     if(user.getMdp().isEmpty()){
                         user.setMdp(userToModif.getMdp());
                     }
-                    user.setEstValide(true);
                     user.setId(userToModif.getId());
                     resultUser = updateUser(user, UserInstance.getInstance().getTokenValue());
                 }
