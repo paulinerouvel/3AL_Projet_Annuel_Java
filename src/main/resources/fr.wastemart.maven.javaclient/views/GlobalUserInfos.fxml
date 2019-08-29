@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalUserInfosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalUserInfosController">
    <children>
       <Label layoutX="286.0" layoutY="26.0" style="-fx-font-size: 25;" text="Modifier mes informations personnelles" />
       <Label fx:id="employeeName" alignment="CENTER" contentDisplay="CENTER" layoutX="291.0" layoutY="62.0" prefHeight="21.0" prefWidth="452.0" text="[LabelEmployé]" textAlignment="CENTER" />
@@ -24,10 +24,10 @@
             <TextArea layoutX="425.0" layoutY="173.0" prefHeight="37.0" prefWidth="259.0" promptText="Mot de passe" />
             <Label layoutX="116.0" layoutY="22.0" prefHeight="19.0" prefWidth="55.0" text="Email" />
             <Label layoutX="116.0" layoutY="89.0" prefHeight="19.0" prefWidth="71.0" text="Adresse" />
-            <Label layoutX="116.0" layoutY="156.0" text="Code postal" />
+            <Label layoutX="116.0" layoutY="155.0" text="Code postal" />
             <Label layoutX="425.0" layoutY="22.0" text="Téléphone" />
             <Label layoutX="425.0" layoutY="89.0" text="Ville" />
-            <Label layoutX="425.0" layoutY="156.0" text="Mot de passe" />
+            <Label layoutX="425.0" layoutY="153.0" text="Mot de passe" />
             <Label fx:id="info" alignment="CENTER" layoutX="96.0" layoutY="303.0" prefHeight="19.0" prefWidth="610.0" />
             <ImageView fx:id="employeePhoto" fitHeight="150.0" fitWidth="200.0" layoutX="116.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" layoutX="116.0" layoutY="263.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />

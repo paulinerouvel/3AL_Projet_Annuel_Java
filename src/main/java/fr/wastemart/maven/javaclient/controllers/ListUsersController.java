@@ -88,7 +88,7 @@ public class ListUsersController extends GenericController {
 
 
 
-                if(idCategory == 1 || idCategory == 2){
+                if(idCategory == 0 || idCategory == 1){
                     userLibelle.setCellValueFactory(new PropertyValueFactory<>("libelle"));
 
                     userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
@@ -161,6 +161,8 @@ public class ListUsersController extends GenericController {
     public void clickCategory() {
         refreshSelectedIndices();
         if(indexOfCategorySelected != -1){
+
+            System.out.println(indexOfCategorySelected);
             try {
                 displayUsersByCategory(lists.getJSONObject(indexOfCategorySelected).getString("libelle"), indexOfCategorySelected);
             } catch (Exception e) {

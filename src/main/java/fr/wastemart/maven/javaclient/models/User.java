@@ -31,7 +31,7 @@ public class User {
         this.libelle = (libelle == null ||libelle.isEmpty()) ? null : libelle; // Nullable
         this.categorieUtilisateur = categorieUtilisateur;
         this.nom = (nom == null || nom.isEmpty()) ? null : nom; // Nullable
-        this.prenom = prenom.isEmpty() ? null : prenom; // Nullable
+        this.prenom = (prenom == null || prenom.isEmpty()) ? null : prenom; // Nullable
         this.mail = mail;
         this.tel = tel;
         this.adresse = adresse;

@@ -5,34 +5,51 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="597.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
+<AnchorPane  prefHeight="650.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour" />
       <Label layoutX="236.0" layoutY="22.0" style="-fx-font-size: 25;" text="Inscription" />
-      <Label alignment="CENTER" layoutX="235.0" layoutY="78.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
+      <Label alignment="CENTER" layoutX="232.0" layoutY="58.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
       <TextField fx:id="prenom" layoutX="50.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Prénom" text="Alexandre" />
       <TextField fx:id="nom" layoutX="310.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Nom" text="CHAMPAUD" />
-      <TextField fx:id="mail" layoutX="50.0" layoutY="149.0" prefHeight="32.0" prefWidth="241.0" promptText="Mail" text="alex.bis8@hotmail.fr" />
-      <TextField fx:id="tel" layoutX="310.0" layoutY="149.0" prefHeight="32.0" prefWidth="241.0" promptText="Tél" text="0643519511" />
-      <TextField fx:id="adresse" layoutX="50.0" layoutY="190.0" prefHeight="32.0" prefWidth="241.0" promptText="Adresse" text="27 Rue Henri Martin" />
-      <TextField fx:id="ville" layoutX="310.0" layoutY="190.0" prefHeight="32.0" prefWidth="241.0" promptText="Ville" text="Asnières" />
-      <TextField fx:id="codePostal" layoutX="50.0" layoutY="231.0" prefHeight="32.0" prefWidth="241.0" promptText="Code Postal" text="92600" />
-      <DatePicker fx:id="dateNaissance" layoutX="310.0" layoutY="231.0" prefHeight="32.0" prefWidth="241.0" promptText="Date Naissance" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="236.0" layoutY="275.0" prefHeight="19.0" prefWidth="131.0" text="Utilisateur" />
-      <TextField fx:id="pseudo" layoutX="49.0" layoutY="304.0" prefHeight="32.0" prefWidth="241.0" promptText="Pseudo" text="alexandrebis" />
-      <PasswordField fx:id="mdp" layoutX="310.0" layoutY="304.0" prefHeight="32.0" prefWidth="241.0" promptText="Password" text="rgckyda88" />
-      <ChoiceBox fx:id="userType" layoutX="49.0" layoutY="345.0" onAction="#refreshUser" prefHeight="29.0" prefWidth="241.0" />
-      <Button layoutX="310.0" layoutY="346.0" mnemonicParsing="false" onAction="#selectFolder" text="Choisir" />
-      <TextField fx:id="photo" layoutX="412.0" layoutY="344.0" prefHeight="32.0" prefWidth="139.0" promptText="Photo" />
-      <Label fx:id="organismLabel" layoutX="260.0" layoutY="401.0" text="Organisme" />
-      <TextField fx:id="libelle" layoutX="49.0" layoutY="431.0" prefHeight="32.0" prefWidth="241.0" promptText="Libelle" />
-      <TextField fx:id="description" layoutX="310.0" layoutY="431.0" prefHeight="32.0" prefWidth="241.0" promptText="Description" />
-      <TextField fx:id="tailleOrganisme" layoutX="49.0" layoutY="472.0" prefHeight="32.0" prefWidth="241.0" promptText="Taille de l'organisme" />
-      <TextField fx:id="siret" layoutX="310.0" layoutY="472.0" prefHeight="32.0" prefWidth="241.0" promptText="Siret" />
-      <Label fx:id="info" alignment="TOP_LEFT" layoutX="52.0" layoutY="519.0" prefHeight="19.0" prefWidth="498.0" />
-      <Button layoutX="250.0" layoutY="545.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
+      <TextField fx:id="mail" layoutX="51.0" layoutY="161.0" prefHeight="32.0" prefWidth="241.0" promptText="Mail" text="alex.bis8@hotmail.fr" />
+      <TextField fx:id="tel" layoutX="311.0" layoutY="161.0" prefHeight="32.0" prefWidth="241.0" promptText="Tél" text="0643519511" />
+      <TextField fx:id="adresse" layoutX="51.0" layoutY="216.0" prefHeight="32.0" prefWidth="241.0" promptText="Adresse" text="27 Rue Henri Martin" />
+      <TextField fx:id="ville" layoutX="311.0" layoutY="216.0" prefHeight="32.0" prefWidth="241.0" promptText="Ville" text="Asnières" />
+      <TextField fx:id="codePostal" layoutX="50.0" layoutY="271.0" prefHeight="32.0" prefWidth="241.0" promptText="Code Postal" text="92600" />
+      <DatePicker fx:id="dateNaissance" layoutX="310.0" layoutY="271.0" prefHeight="32.0" prefWidth="241.0" promptText="Date Naissance" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="236.0" layoutY="303.0" prefHeight="19.0" prefWidth="131.0" text="Utilisateur" />
+      <TextField fx:id="pseudo" layoutX="49.0" layoutY="344.0" prefHeight="32.0" prefWidth="241.0" promptText="Pseudo" text="alexandrebis" />
+      <PasswordField fx:id="mdp" layoutX="310.0" layoutY="344.0" prefHeight="32.0" prefWidth="241.0" promptText="Password" text="rgckyda88" />
+      <ChoiceBox fx:id="userType" layoutX="49.0" layoutY="398.0" onAction="#refreshUser" prefHeight="29.0" prefWidth="241.0" style="-fx-background-color: #292929; -fx-border-color: WHITE;" />
+      <Button layoutX="310.0" layoutY="399.0" mnemonicParsing="false" onAction="#selectFolder" text="Choisir" />
+      <TextField fx:id="photo" layoutX="412.0" layoutY="397.0" prefHeight="32.0" prefWidth="139.0" promptText="Photo" />
+      <Label fx:id="organismLabel" layoutX="260.0" layoutY="444.0" text="Organisme" />
+      <TextField fx:id="libelle" layoutX="49.0" layoutY="484.0" prefHeight="32.0" prefWidth="241.0" promptText="Libelle" />
+      <TextArea fx:id="description" layoutX="310.0" layoutY="484.0" prefHeight="32.0" prefWidth="241.0" promptText="Description" />
+      <TextField fx:id="tailleOrganisme" layoutX="51.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Taille de l'organisme" />
+      <TextField fx:id="siret" layoutX="312.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Siret" />
+      <Label fx:id="info" alignment="TOP_LEFT" layoutX="52.0" layoutY="572.0" prefHeight="19.0" prefWidth="498.0" />
+      <Button layoutX="249.0" layoutY="607.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
+      <Label fx:id="prenomLabel" layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Prenom" />
+      <Label fx:id="nomLabel" layoutX="309.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Nom" />
+      <Label layoutX="51.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Email" />
+      <Label layoutX="312.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Téléphone" />
+      <Label layoutX="52.0" layoutY="200.0" style="-fx-font-size: 11px;" text="Adresse" />
+      <Label layoutX="312.0" layoutY="200.0" style="-fx-font-size: 11px;" text="Ville" />
+      <Label layoutX="52.0" layoutY="255.0" style="-fx-font-size: 11px;" text="Code Postal" />
+      <Label layoutX="312.0" layoutY="254.0" style="-fx-font-size: 11px;" text="Date de Naissance" />
+      <Label layoutX="50.0" layoutY="326.0" style="-fx-font-size: 11px;" text="Pseudo" />
+      <Label layoutX="311.0" layoutY="326.0" style="-fx-font-size: 11px;" text="Mot de passe" />
+      <Label layoutX="51.0" layoutY="379.0" style="-fx-font-size: 11px;" text="Catégorie" />
+      <Label layoutX="413.0" layoutY="379.0" style="-fx-font-size: 11px;" text="Photo" />
+      <Label fx:id="libelleLabel" layoutX="49.0" layoutY="465.0" style="-fx-font-size: 11px;" text="Libellé" />
+      <Label fx:id="descLabel" layoutX="311.0" layoutY="466.0" style="-fx-font-size: 11px;" text="Description" />
+      <Label fx:id="tailleLabel" layoutX="52.0" layoutY="537.0" style="-fx-font-size: 11px;" text="Taille Organisme" />
+      <Label fx:id="siretLabel" layoutX="314.0" layoutY="538.0" style="-fx-font-size: 11px;" text="Siret" />
    </children>
 </AnchorPane>

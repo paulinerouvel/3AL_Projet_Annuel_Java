@@ -27,8 +27,8 @@ public class GlobalRegisterController extends GenericController {
     private String option;
     private User userToModif;
     private Object[] registerFields;
-    private Integer registerFieldsLength = 10;
     private Integer IdCat;
+
 
 
     @FXML private TextField prenom;
@@ -45,9 +45,21 @@ public class GlobalRegisterController extends GenericController {
     @FXML private TextField photo;
     @FXML private Label organismLabel;
     @FXML private TextField libelle;
-    @FXML private TextField description;
+    @FXML private TextArea description;
     @FXML private TextField tailleOrganisme;
     @FXML private TextField siret;
+
+
+
+    @FXML private Label prenomLabel;
+    @FXML private Label nomLabel;
+    @FXML private Label tailleLabel;
+    @FXML private Label siretLabel;
+    @FXML private Label descLabel;
+    @FXML private Label libelleLabel;
+
+
+
 
 
     public void init(List<Detail> detail) {
@@ -61,23 +73,7 @@ public class GlobalRegisterController extends GenericController {
 
 
 
-        registerFields = new Object[16];
-        registerFields[0] = prenom;
-        registerFields[1] =  nom;
-        registerFields[2] = mail;
-        registerFields[3] = tel;
-        registerFields[4] = adresse;
-        registerFields[5] = ville;
-        registerFields[6] = codePostal;
-        registerFields[7] = dateNaissance;
-        registerFields[8] = pseudo;
-        registerFields[9] = mdp;
-        registerFields[10] = userType;
-        registerFields[11] = photo;
-        registerFields[12] = libelle;
-        registerFields[13] = description;
-        registerFields[14] = tailleOrganisme;
-        registerFields[15] = siret;
+
 
 
         if(option == "modify"){
@@ -92,20 +88,31 @@ public class GlobalRegisterController extends GenericController {
 
 
 
-            Integer IdCat = jsonCate.getInt("Categorie_utilisateur_id");
+            IdCat = jsonCate.getInt("Categorie_utilisateur_id");
 
 
 
 
             if(IdCat == 3 || IdCat == 4 || IdCat == 5){
 
+
                 nom.setVisible(true);
                 prenom.setVisible(true);
+
+                prenomLabel.setVisible(true);
+                nomLabel.setVisible(true);
+
                 organismLabel.setVisible(false);
                 libelle.setVisible(false);
                 description.setVisible(false);
                 tailleOrganisme.setVisible(false);
                 siret.setVisible(false);
+
+                tailleLabel.setVisible(false);
+                siretLabel.setVisible(false);
+                descLabel.setVisible(false);
+                libelleLabel.setVisible(false);
+
 
                 prenom.setText(userToModif.getPrenom());
                 nom.setText(userToModif.getNom());
@@ -120,13 +127,27 @@ public class GlobalRegisterController extends GenericController {
 
 
             } else {
+
+
+
                 nom.setVisible(false);
                 prenom.setVisible(false);
+
+                prenomLabel.setVisible(false);
+                nomLabel.setVisible(false);
+
+
+
                 organismLabel.setVisible(true);
                 libelle.setVisible(true);
                 description.setVisible(true);
                 tailleOrganisme.setVisible(true);
                 siret.setVisible(true);
+
+                tailleLabel.setVisible(true);
+                siretLabel.setVisible(true);
+                descLabel.setVisible(true);
+                libelleLabel.setVisible(true);
 
                 pseudo.setText(userToModif.getPseudo());
                 mail.setText(userToModif.getMail());
@@ -148,8 +169,41 @@ public class GlobalRegisterController extends GenericController {
         }
         else{
 
+
             userType.setVisible(true);
             userType.setItems(FXCollections.observableArrayList("Employé", "Professionnel", "Admin"));
+        }
+
+        if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))) {
+
+            registerFields = new Object[10];
+            registerFields[0] = prenom;
+            registerFields[1] = nom;
+            registerFields[2] = mail;
+            registerFields[3] = tel;
+            registerFields[4] = adresse;
+            registerFields[5] = ville;
+            registerFields[6] = codePostal;
+            registerFields[7] = dateNaissance;
+            registerFields[8] = pseudo;
+            registerFields[9] = mdp;
+
+        }else{
+
+            registerFields = new Object[12];
+            registerFields[0] = mail;
+            registerFields[1] = tel;
+            registerFields[2] = adresse;
+            registerFields[3] = ville;
+            registerFields[4] = codePostal;
+            registerFields[5] = dateNaissance;
+            registerFields[6] = pseudo;
+            registerFields[7] = mdp;
+            registerFields[8] = libelle;
+            registerFields[9] = description;
+            registerFields[10] = tailleOrganisme;
+            registerFields[11] = siret;
+
         }
 
 
@@ -160,17 +214,58 @@ public class GlobalRegisterController extends GenericController {
 
     public void refreshUser() {
 
+        if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))) {
+
+            registerFields = new Object[10];
+            registerFields[0] = prenom;
+            registerFields[1] = nom;
+            registerFields[2] = mail;
+            registerFields[3] = tel;
+            registerFields[4] = adresse;
+            registerFields[5] = ville;
+            registerFields[6] = codePostal;
+            registerFields[7] = dateNaissance;
+            registerFields[8] = pseudo;
+            registerFields[9] = mdp;
+
+        }else{
+
+            registerFields = new Object[12];
+            registerFields[0] = mail;
+            registerFields[1] = tel;
+            registerFields[2] = adresse;
+            registerFields[3] = ville;
+            registerFields[4] = codePostal;
+            registerFields[5] = dateNaissance;
+            registerFields[6] = pseudo;
+            registerFields[7] = mdp;
+            registerFields[8] = libelle;
+            registerFields[9] = description;
+            registerFields[10] = tailleOrganisme;
+            registerFields[11] = siret;
+
+        }
+
+
 
         if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2
                 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))){
 
             nom.setVisible(true);
             prenom.setVisible(true);
+            nomLabel.setVisible(true);
+            prenomLabel.setVisible(true);
+
             organismLabel.setVisible(false);
             libelle.setVisible(false);
             description.setVisible(false);
             tailleOrganisme.setVisible(false);
             siret.setVisible(false);
+
+            libelleLabel.setVisible(false);
+            descLabel.setVisible(false);
+            tailleLabel.setVisible(false);
+            siretLabel.setVisible(false);
 
 
             organismLabel.setText("");
@@ -178,19 +273,20 @@ public class GlobalRegisterController extends GenericController {
             description.setText("");
             tailleOrganisme.setText("");
             siret.setText("");
-            registerFieldsLength = 10;
         } else {
             nom.setText("");
             prenom.setText("");
 
             nom.setVisible(false);
             prenom.setVisible(false);
+            nomLabel.setVisible(false);
+            prenomLabel.setVisible(false);
+
             organismLabel.setVisible(true);
-            libelle.setVisible(true);
-            description.setVisible(true);
-            tailleOrganisme.setVisible(true);
-            siret.setVisible(true);
-            registerFieldsLength = 16;
+            libelleLabel.setVisible(true);
+            descLabel.setVisible(true);
+            tailleLabel.setVisible(true);
+            siretLabel.setVisible(true);
         }
     }
 
@@ -304,7 +400,7 @@ public class GlobalRegisterController extends GenericController {
     //areTextFieldsValid et mettre une option sur le else if passwordtype.isempty
 
     private Integer areTextFieldsValid(Object[] registerFields) {
-        for (int i = 0; i < registerFieldsLength; i++) {
+        for (int i = 0; i < registerFields.length; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
 
 
@@ -324,7 +420,7 @@ public class GlobalRegisterController extends GenericController {
     }
 
     private void clearFields(Object[] registerFields) {
-        for (int i = 0; i < registerFieldsLength; i++) {
+        for (int i = 0; i < registerFields.length; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
             if(registerFieldClassType == TextField.class) {
                 ((TextField)registerFields[i]).clear();
