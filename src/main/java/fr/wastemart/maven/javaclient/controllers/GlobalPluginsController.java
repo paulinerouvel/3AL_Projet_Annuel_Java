@@ -24,17 +24,16 @@ public class GlobalPluginsController extends GenericController {
     @FXML private ListView<String> onlinePluginsListView;
 
     public void init() { // Ne throw pas car peut être normal
+        String configFile = System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE");
+        String pluginsFolder = System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER");
 
-        System.out.println("(SharedPluginsController.init) path :"+ System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
-        pluginPath.setText(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER"));
+        initialization(pluginsFolder, configFile);
+
+        pluginPath.setText(getPluginFolder());
         pluginPath.positionCaret(pluginPath.getLength());
 
-        System.out.println("(SharedPluginsController.init) conffile :"+ dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
-        setConfFile(System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE"));
-
-
-        System.out.println("(SharedPluginsController.init)  folder :" + dotenv.get("DEFAULT_PLUGINS_FOLDER"));
-        setPluginFolder(pluginPath.getText());
+        System.out.println("(SharedPluginsController.init) conffile :"+ getConfFile());
+        System.out.println("(SharedPluginsController.init)  folder :" + getPluginFolder());
 
         fetchInstalledPlugins();
         fetchAvailablePlugins();

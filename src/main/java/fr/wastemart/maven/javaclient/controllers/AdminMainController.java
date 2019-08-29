@@ -27,7 +27,7 @@ public class AdminMainController extends GenericController {
     public void displayProducts() {
         List<Detail> option = new ArrayList<>();
         option.add(new StringDetail("all"));
-        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance(), option);
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PRODUCTS"), UserInstance.getInstance(), option);
     }
 
     public void displayProductLists() {
@@ -37,7 +37,7 @@ public class AdminMainController extends GenericController {
     public void displayProsSuggestions() {
         List<Detail> option = new ArrayList<>();
         option.add(new StringDetail("pro"));
-        StageManager.getInstance().loadPageWithDetails(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance(), option);
+        StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance(), option);
     }
 
     public void displayWarehouses() {

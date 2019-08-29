@@ -18,7 +18,8 @@ public abstract class GenericController {
     public Dotenv dotenv;
 
     protected GenericController() {
-        String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        //String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        String envFile = System.getProperty("user.dir");
         dotenv = Dotenv.configure()
                 .directory(envFile)
                 .load();

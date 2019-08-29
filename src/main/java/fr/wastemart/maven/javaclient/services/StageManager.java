@@ -28,7 +28,8 @@ public class StageManager {
 
     /** Constructeur privé */
     private StageManager() {
-        String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        //String envFile = System.getProperty("user.dir")+"/src/main/resources/fr.wastemart.maven.javaclient/";
+        String envFile = System.getProperty("user.dir");
         dotenv = Dotenv.configure()
                 .directory(envFile)
                 .load();
@@ -69,7 +70,7 @@ public class StageManager {
     }
 
     // Loads a page with detail and root
-    public void loadPageWithDetails(String mainView, UserInstance instance, List<Detail> details) {
+    public void loadPage(String mainView, UserInstance instance, List<Detail> details) {
         if(userInstanceIsValid(instance)) {
             loadRootlessPage(dotenv.get("GLOBAL_LOGIN"));
         }

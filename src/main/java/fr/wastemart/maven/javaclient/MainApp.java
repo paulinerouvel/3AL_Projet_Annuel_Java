@@ -1,12 +1,15 @@
 package fr.wastemart.maven.javaclient;
 
 import fr.wastemart.maven.javaclient.services.StageManager;
+import fr.wastemart.maven.pluginmanager.PluginManager;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+
+import static fr.wastemart.maven.pluginmanager.PluginManager.*;
 
 public class MainApp extends Application {
     /**
@@ -28,5 +31,13 @@ public class MainApp extends Application {
 
         StageManager.getInstance().setStage(primaryStage);
         StageManager.getInstance().loadLoginPage(null);
+
+
+        String configFile = System.getProperty("user.dir")+"/activatedPlugins.conf";
+        String pluginsFolder = System.getProperty("user.dir")+"/plugins";
+
+        if(new File(configFile).isFile() && new File(pluginsFolder).isDirectory()){
+            PluginManager.initialization(configFile, pluginsFolder);
+        }
     }
 }
