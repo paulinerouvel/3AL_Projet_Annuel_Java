@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="571.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsProductController">
    <children>
-      <Label layoutX="219.0" layoutY="29.0" style="-fx-font-size: 25;" text="Gérer Produit" />
+      <Label layoutX="205.0" layoutY="31.0" style="-fx-font-size: 25;" text="Gérer un produit" />
       <Label layoutX="64.0" layoutY="67.0" text="Libelle" />
       <Label layoutX="63.0" layoutY="132.0" text="Description" />
       <Label layoutX="64.0" layoutY="191.0" text="Photo" />

@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalPluginsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalPluginsController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="28.0" prefHeight="30.0" prefWidth="604.0" style="-fx-font-size: 25;" text="Plug-ins" textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="28.0" prefHeight="30.0" prefWidth="604.0" style="-fx-font-size: 25;" text="Gestion des Plug-ins" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Khmer OS System" size="18.0" />
          </font></Label>

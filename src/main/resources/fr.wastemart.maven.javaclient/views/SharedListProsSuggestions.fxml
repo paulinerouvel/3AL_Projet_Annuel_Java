@@ -42,8 +42,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <Label layoutX="14.0" layoutY="18.0" text="Produits" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="692.0">
+                  <Label layoutX="14.0" layoutY="81.0" text="Produits" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="81.0" />
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="102.0" prefHeight="427.0" prefWidth="692.0">
                     <columns>
                         <TableColumn fx:id="productName" prefWidth="167.0" text="Nom" />
                         <TableColumn fx:id="productDesc" prefWidth="86.0" text="Desc" />
@@ -71,7 +71,8 @@
                            </cursor></Button>
                     </buttons>
                   </ButtonBar>
-                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="159.0" layoutY="18.0" prefHeight="19.0" prefWidth="525.0" />
+                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="151.0" layoutY="71.0" prefHeight="19.0" prefWidth="525.0" />
+                  <Label layoutX="112.0" layoutY="23.0" style="-fx-font-size: 20px;" text="Gestion des soumissions de produit de professionnel" />
                </children>
             </AnchorPane>
         </items>

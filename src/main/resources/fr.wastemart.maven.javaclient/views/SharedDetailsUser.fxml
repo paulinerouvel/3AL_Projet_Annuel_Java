@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="651.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
    <children>
-      <Label layoutX="171.0" layoutY="14.0" style="-fx-font-size: 25;" text="Gestion d'utilisateur" />
+      <Label layoutX="171.0" layoutY="14.0" style="-fx-font-size: 25;" text="Gestion d'un utilisateur" />
       <Label alignment="CENTER" layoutX="232.0" layoutY="58.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
       <TextField fx:id="prenom" layoutX="50.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Prénom" text="Alexandre" />
       <TextField fx:id="nom" layoutX="310.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Nom" text="CHAMPAUD" />

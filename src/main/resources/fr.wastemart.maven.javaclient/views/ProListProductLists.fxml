@@ -37,8 +37,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Détails de la liste" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="746.0">
+                  <Label layoutX="14.0" layoutY="88.0" text="Détails de la liste" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="88.0" />
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="109.0" prefHeight="420.0" prefWidth="746.0">
                     <columns>
                         <TableColumn fx:id="productName" prefWidth="187.0" text="Nom" />
                         <TableColumn fx:id="productDesc" prefWidth="125.0" text="Desc" />
@@ -57,6 +57,7 @@
                     </buttons>
                   </ButtonBar>
                   <Label fx:id="info" layoutX="14.0" layoutY="541.0" prefHeight="19.0" prefWidth="322.0" />
+                  <Label layoutX="249.0" layoutY="28.0" style="-fx-font-size: 20px;" text="Gestion des listes de produit" />
                </children>
             </AnchorPane>
         </items>

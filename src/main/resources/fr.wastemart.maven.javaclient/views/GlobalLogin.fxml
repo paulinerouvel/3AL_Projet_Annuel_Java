@@ -19,7 +19,7 @@
                 <Image url="@../images/WasteMartLogo.png" />
             </image>
         </ImageView>
-        <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue à Wastemart">
+        <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>

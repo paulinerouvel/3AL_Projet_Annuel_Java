@@ -42,11 +42,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button mnemonicParsing="false" onAction="#displayContactAdmin" prefHeight="262.0" prefWidth="525.0" text="Contacter Administration" GridPane.columnIndex="1">
+                <Button mnemonicParsing="false" onAction="#displayContactAdmin" prefHeight="262.0" prefWidth="525.0" text="Contacter un administrateur" GridPane.columnIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-                <Button mnemonicParsing="false" onAction="#displayProductLists" prefHeight="216.0" prefWidth="443.0" text="Liste de produits">
+                <Button mnemonicParsing="false" onAction="#displayProductLists" prefHeight="216.0" prefWidth="443.0" text="Gestion des listes de produit">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
