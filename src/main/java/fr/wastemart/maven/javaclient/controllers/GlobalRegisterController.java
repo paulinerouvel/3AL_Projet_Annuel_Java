@@ -171,8 +171,18 @@ public class GlobalRegisterController extends GenericController {
             description.setVisible(false);
             tailleOrganisme.setVisible(false);
             siret.setVisible(false);
+
+
+            organismLabel.setText("");
+            libelle.setText("");
+            description.setText("");
+            tailleOrganisme.setText("");
+            siret.setText("");
             registerFieldsLength = 10;
         } else {
+            nom.setText("");
+            prenom.setText("");
+
             nom.setVisible(false);
             prenom.setVisible(false);
             organismLabel.setVisible(true);
@@ -231,6 +241,8 @@ public class GlobalRegisterController extends GenericController {
                     resultUser = createUser(user);
                 }
                 else{
+
+
 
 
 

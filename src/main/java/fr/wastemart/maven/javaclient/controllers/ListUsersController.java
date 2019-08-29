@@ -126,6 +126,8 @@ public class ListUsersController extends GenericController {
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject user = users.getJSONObject(i);
                         //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
+
+                        System.out.println("lalala" + user);
                         User userElement = jsonToUser(user);
 
                         usersTable.getItems().add(userElement);

@@ -44,7 +44,7 @@ public class User {
         this.tailleOrganisme = tailleOrganisme; // Nullable
         this.estValide = estValide;
         this.siret = (siret == null || siret.isEmpty()) ? null : siret; // Nullable
-        this.dateDeNaissance = (siret == null || dateDeNaissance.isEmpty()) ? null : dateDeNaissance; // Nullable
+        this.dateDeNaissance = (dateDeNaissance == null || dateDeNaissance.isEmpty()) ? null : dateDeNaissance; // Nullable
         this.nbPointsSourire = nbPointsSourire; // Nullable
     }
 
