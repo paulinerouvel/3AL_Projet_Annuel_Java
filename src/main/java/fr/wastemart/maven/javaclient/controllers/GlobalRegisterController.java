@@ -161,7 +161,8 @@ public class GlobalRegisterController extends GenericController {
     public void refreshUser() {
 
 
-        if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || IdCat == 3 || IdCat == 4 || IdCat == 5){
+        if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2
+                || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))){
 
             nom.setVisible(true);
             prenom.setVisible(true);
