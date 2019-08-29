@@ -218,6 +218,19 @@ public class User {
         return result;
     }
 
+    public static JSONArray fetchInvalidUsersByCategory(String libelle) {
+        JSONArray result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/allInvalidByCategory?type="+libelle, null);
+            result = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
+    }
+
     public static String fetchPhoto(String url, String file) {
         url += file;
 

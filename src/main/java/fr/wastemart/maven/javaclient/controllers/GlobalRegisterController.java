@@ -90,11 +90,11 @@ public class GlobalRegisterController extends GenericController {
 
             JSONObject jsonCate = fr.wastemart.maven.javaclient.services.User.fetchCategoryAsJSONObject(userToModif.getId());
 
-            System.out.println(jsonCate);
+
 
             Integer IdCat = jsonCate.getInt("Categorie_utilisateur_id");
 
-            System.out.println(userToModif.getDateDeNaissance());
+
 
 
             if(IdCat == 3 || IdCat == 4 || IdCat == 5){
@@ -238,12 +238,10 @@ public class GlobalRegisterController extends GenericController {
                 boolean resultUser = false;
 
                 if(option == "add"){
+
                     resultUser = createUser(user);
                 }
                 else{
-
-
-
 
 
                     if(user.getMdp().isEmpty()){
@@ -257,9 +255,9 @@ public class GlobalRegisterController extends GenericController {
 
                 if(option == "add"){
 
-                    if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2){
+                    if( userType.getSelectionModel().getSelectedIndex() == 1){
                         if(resultUser && RegisterNewUser(mail.getText(), userCategory)) {
-                            setInfoText("Demande d'inscription effectuée");
+                            setInfoText("Demande d'inscription effectuée, vous recevrez un mail lors de la validation de votre compte");
                             clearFields(registerFields);
                         }  else {
                             setInfoText("Demande d'inscription échouée");
@@ -277,7 +275,7 @@ public class GlobalRegisterController extends GenericController {
                 }else{
 
 
-                    if(resultUser && RegisterNewUser(mail.getText(), userCategory)) {
+                    if(resultUser) {
                         setInfoText("Modification effectuée");
                         clearFields(registerFields);
                     }  else {
@@ -308,6 +306,8 @@ public class GlobalRegisterController extends GenericController {
     private Integer areTextFieldsValid(Object[] registerFields) {
         for (int i = 0; i < registerFieldsLength; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
+
+
             if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
             } else if(registerFieldClassType == DatePicker.class && ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty()) {

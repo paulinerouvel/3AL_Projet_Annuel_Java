@@ -32,6 +32,9 @@ public class ListUsersController extends GenericController {
 
     // users
     @FXML TableView<User> usersTable;
+
+    @FXML TableView<User> usersTableRegistration;
+
     @FXML TableColumn<Object, Object> userLibelle;
     @FXML TableColumn<Object, Object> userFirstName;
     @FXML TableColumn<Object, Object> userLastName;
@@ -136,7 +139,7 @@ public class ListUsersController extends GenericController {
                         JSONObject user = users.getJSONObject(i);
                         //User userElement = fr.wastemart.maven.javaclient.services.User.jsonToUser(user);
 
-                        System.out.println("lalala" + user);
+
                         User userElement = jsonToUser(user);
 
                         usersTable.getItems().add(userElement);
