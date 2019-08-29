@@ -57,6 +57,10 @@ public class ListUsersController extends GenericController {
     @Override
     public void init() throws Exception {
 
+        if(usersTable == null){
+            usersTable = usersTableRegistration;
+        }
+
 
         displayCategoryLists();
         displayUsersByCategory(lists.getJSONObject(0).getString("libelle"), 1);
@@ -79,9 +83,21 @@ public class ListUsersController extends GenericController {
 
     // Displays Users on init and clickCategory
     private void displayUsersByCategory(String libelle, int idCategory) throws Exception {
+
+
         usersTable.getItems().clear();
         try {
-            users = fetchUsersByCategory(libelle);
+
+
+
+            if(usersTable.getId().equals( "usersTableRegistration")){
+                users = fetchInvalidUsersByCategory(libelle);
+            }
+            else{
+                users = fetchUsersByCategory(libelle);
+            }
+
+
 
 
             if(!users.isEmpty()) {
@@ -172,17 +188,6 @@ public class ListUsersController extends GenericController {
         }
     }
 
-    /*@FXML
-    public void modifyUser() {
-        UserDetail User = new UserDetail(usersTable.getSelectionModel().getSelectedItem());
-
-        List<Detail> detailList = new ArrayList<>();
-        detailList.add(User);
-
-        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), detailList);
-    }*/
-
-
     @FXML
     private void displayAddUser() {
         clearInfoText();
@@ -248,8 +253,6 @@ public class ListUsersController extends GenericController {
 
     }
 
-
-
     @FXML
     private void deleteUser() {
         clearInfoText();
@@ -295,6 +298,100 @@ public class ListUsersController extends GenericController {
             setInfoErrorOccurred();
         }
 
+    }
+
+    @FXML
+    public void validateUser(){
+        try {
+            refreshSelectedIndices();
+
+            if (indexOfUserSelected != -1) {
+
+                User user = new User(usersTable.getSelectionModel().getSelectedItem().getId(),
+                        usersTable.getSelectionModel().getSelectedItem().getLibelle(),
+                        null,
+                        usersTable.getSelectionModel().getSelectedItem().getNom(),
+                        usersTable.getSelectionModel().getSelectedItem().getPrenom(),
+                        usersTable.getSelectionModel().getSelectedItem().getMail(),
+                        usersTable.getSelectionModel().getSelectedItem().getTel(),
+                        usersTable.getSelectionModel().getSelectedItem().getAdresse(),
+                        usersTable.getSelectionModel().getSelectedItem().getVille(),
+                        usersTable.getSelectionModel().getSelectedItem().getCodePostal(),
+                        usersTable.getSelectionModel().getSelectedItem().getPseudo(),
+                        usersTable.getSelectionModel().getSelectedItem().getMdp(),
+                        usersTable.getSelectionModel().getSelectedItem().getPhoto(),
+                        usersTable.getSelectionModel().getSelectedItem().getDesc(),
+                        usersTable.getSelectionModel().getSelectedItem().getTailleOrganisme(),
+                        true,
+                        usersTable.getSelectionModel().getSelectedItem().getSiret(),
+                        usersTable.getSelectionModel().getSelectedItem().getDateDeNaissance(),
+                        0);
+
+
+
+                if(fr.wastemart.maven.javaclient.services.User.updateUser(user, UserInstance.getInstance().getTokenValue())){
+                    setInfoText("Utilisateur validé");
+                } else {
+                    setInfoErrorOccurred();
+                }
+
+                displayUsersByCategory( categoryTable.getSelectionModel().getSelectedItem().getLibelle(), indexOfCategorySelected);
+            }
+            else{
+                setInfoText("Veuillez sélectionner un utilisateur");
+            }
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    public void refuseUser(){
+        try {
+            refreshSelectedIndices();
+
+            if (indexOfUserSelected != -1) {
+
+                User user = new User(usersTable.getSelectionModel().getSelectedItem().getId(),
+                        usersTable.getSelectionModel().getSelectedItem().getLibelle(),
+                        null,
+                        usersTable.getSelectionModel().getSelectedItem().getNom(),
+                        usersTable.getSelectionModel().getSelectedItem().getPrenom(),
+                        usersTable.getSelectionModel().getSelectedItem().getMail(),
+                        usersTable.getSelectionModel().getSelectedItem().getTel(),
+                        usersTable.getSelectionModel().getSelectedItem().getAdresse(),
+                        usersTable.getSelectionModel().getSelectedItem().getVille(),
+                        usersTable.getSelectionModel().getSelectedItem().getCodePostal(),
+                        usersTable.getSelectionModel().getSelectedItem().getPseudo(),
+                        usersTable.getSelectionModel().getSelectedItem().getMdp(),
+                        usersTable.getSelectionModel().getSelectedItem().getPhoto(),
+                        usersTable.getSelectionModel().getSelectedItem().getDesc(),
+                        usersTable.getSelectionModel().getSelectedItem().getTailleOrganisme(),
+                        false,
+                        usersTable.getSelectionModel().getSelectedItem().getSiret(),
+                        usersTable.getSelectionModel().getSelectedItem().getDateDeNaissance(),
+                        0);
+
+
+
+                if(fr.wastemart.maven.javaclient.services.User.updateUser(user, UserInstance.getInstance().getTokenValue())){
+                    setInfoText("Utilisateur refusé");
+                } else {
+                    setInfoErrorOccurred();
+                }
+
+                displayUsersByCategory( categoryTable.getSelectionModel().getSelectedItem().getLibelle(), indexOfCategorySelected);
+            }
+            else{
+                setInfoText("Veuillez sélectionner un utilisateur");
+            }
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
     }
 
     public void refreshSelectedIndices() {

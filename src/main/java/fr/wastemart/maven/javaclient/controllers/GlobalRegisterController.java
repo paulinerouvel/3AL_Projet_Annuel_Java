@@ -66,13 +66,6 @@ public class GlobalRegisterController extends GenericController {
 
 
 
-
-
-
-
-
-
-
         if(option == "modify"){
 
             userType.setVisible(false);

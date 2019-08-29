@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane  prefHeight="650.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
+<AnchorPane prefHeight="675.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour" />
       <Label layoutX="236.0" layoutY="22.0" style="-fx-font-size: 25;" text="Inscription" />
@@ -33,8 +33,8 @@
       <TextArea fx:id="description" layoutX="310.0" layoutY="484.0" prefHeight="32.0" prefWidth="241.0" promptText="Description" />
       <TextField fx:id="tailleOrganisme" layoutX="51.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Taille de l'organisme" />
       <TextField fx:id="siret" layoutX="312.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Siret" />
-      <Label fx:id="info" alignment="TOP_LEFT" layoutX="52.0" layoutY="572.0" prefHeight="19.0" prefWidth="498.0" />
-      <Button layoutX="249.0" layoutY="607.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
+      <Label fx:id="info" alignment="TOP_LEFT" layoutX="48.0" layoutY="602.0" prefHeight="19.0" prefWidth="498.0" />
+      <Button layoutX="249.0" layoutY="632.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
       <Label fx:id="prenomLabel" layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Prenom" />
       <Label fx:id="nomLabel" layoutX="309.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Nom" />
       <Label layoutX="51.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Email" />

@@ -47,8 +47,8 @@
                         </TableView>
                         <ButtonBar layoutX="424.0" layoutY="531.0" prefHeight="40.0" prefWidth="406.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="17.0">
                             <buttons>
-                                <Button fx:id="modifyButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="30.0" text="Accepter" />
-                                <Button fx:id="contactButton" layoutX="536.0" layoutY="16.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="283.0" text="Refuser" />
+                                <Button fx:id="modifyButton" mnemonicParsing="false" onAction="#validateUser" prefHeight="29.0" prefWidth="30.0" text="Accepter" />
+                                <Button fx:id="contactButton" layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onAction="#refuseUser" prefHeight="29.0" prefWidth="283.0" text="Refuser" />
                             </buttons>
                         </ButtonBar>
                         <Label fx:id="info" layoutX="10.0" layoutY="541.0" prefHeight="19.0" prefWidth="406.0" />
