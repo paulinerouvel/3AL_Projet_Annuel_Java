@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 
-import static fr.wastemart.maven.pluginmanager.PluginManager.*;
-
 public class MainApp extends Application {
     /**
      * Calls start() internally

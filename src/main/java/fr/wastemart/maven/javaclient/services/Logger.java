@@ -102,41 +102,16 @@ public class Logger {
         }
     }
 
-    private void sendLogFile(File logFile) throws Exception{
-        System.out.println("(Logger.sendLogFile) Sending file");
-        String url = "http://51.75.143.205:8080/logs/javaclient/";
-        String charset = "UTF-8";
-        String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
-        String CRLF = "\r\n"; // Line separator required by multipart/form-data.
+    private boolean sendLogFile(File logFile) {
+        Integer result = 299;
 
-        URLConnection connection = new URL(url).openConnection();
+        try {
+            result = Requester.sendFile("logs/javaclient/", logFile).getResponseCode();
+        } catch (Exception ignored) {
 
-        connection.setDoOutput(true);
-        connection.addRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-
-        try (
-                OutputStream output = connection.getOutputStream();
-                PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true)
-        ) {
-
-            // Send text file.
-            writer.append(boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(logFile.getName()).append("\"").append(CRLF);
-            writer.append("Content-Type: text/plain; charset=").append(charset).append(CRLF); // Text file itself must be saved in this charset!*/
-            writer.append(CRLF).flush();
-            Files.copy(logFile.toPath(), output);
-            output.flush(); // Important before continuing with writer!
-            writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
-
-            // End of multipart/form-data.
-            writer.append("--").append(boundary).append("--").append(CRLF).flush();
         }
 
-        // Request is lazily fired whenever you need to obtain information about response.
-        int responseCode = ((HttpURLConnection) connection).getResponseCode();
-        ((HttpURLConnection) connection).disconnect();
-        System.out.println("(Logger.sendLogFile) " + responseCode); // Should be 200
-
+        return result < 299;
     }
 
     private void sendOfflineLogFile() throws Exception {

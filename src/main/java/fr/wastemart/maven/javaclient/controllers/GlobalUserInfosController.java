@@ -8,11 +8,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 
 import static fr.wastemart.maven.javaclient.services.User.*;
 
 public class GlobalUserInfosController extends GenericController {
+
     @FXML
     private Label name;
     @FXML
@@ -28,7 +33,10 @@ public class GlobalUserInfosController extends GenericController {
     @FXML
     private PasswordField password;
     @FXML
-    private ImageView employeePhoto;
+    private ImageView photoView;
+    @FXML
+    private TextField photoPathField;
+    private File photo;
 
     public void init() throws Exception {
         name.setText(UserInstance.getInstance().getUser().getNom());
@@ -37,9 +45,11 @@ public class GlobalUserInfosController extends GenericController {
         email.setText(UserInstance.getInstance().getUser().getMail());
         phone.setText(UserInstance.getInstance().getUser().getTel());
         postalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
-        password.setText(UserInstance.getInstance().getUser().getMdp());
-        //employeePhoto.setImage();
 
+        if((photo = fetchPhoto(UserInstance.getInstance().getUser().getPhoto())) != null){
+            photoView.setImage(new Image(photo.toURI().toURL().toExternalForm()));
+
+        }
     }
 
     public void save() {
@@ -48,18 +58,58 @@ public class GlobalUserInfosController extends GenericController {
             User user = UserInstance.getInstance().getUser();
             user.setVille(city.getText());
             user.setTel(phone.getText());
-            user.setMdp(password.getText());
             user.setMail(email.getText());
             user.setCodePostal(postalCode.getText() == null ? null : Integer.valueOf(postalCode.getText()));
             user.setAdresse(address.getText());
-            user.setMdp(password.getText());
 
-            if(updateUser(UserInstance.getInstance().getUser()) && user.getMdp().length() >=2) {
+            if(!password.getText().isEmpty()) {
+                user.setMdp(password.getText());
+            }
+
+            if(!photoPathField.getText().isEmpty()) {
+                System.out.println("(GlobalUserInfosController.save) Photo is not null!");
+                String photoName;
+                if((photoName = sendPhoto(photo)) != null) {
+                    System.out.println("(GlobalUserInfosController.save) Photo is:"+photoName);
+                    user.setPhoto(photoName);
+                }
+            }
+
+            System.out.println("(GlobalUserInfosController.save) About to update User");
+            if(updateUser(UserInstance.getInstance().getUser(), UserInstance.getInstance().getTokenValue()) && user.getMdp().length() >=2) {
                 setInfoText("Modification réussie");
             }
             else {
                 setInfoText("Modification échouée");
             }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    public void changeProfilePicture() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+
+            File actualDirectory = new File(System.getProperty("user.dir"));
+            fileChooser.setInitialDirectory(actualDirectory);
+
+            photo = fileChooser.showOpenDialog(StageManager.getInstance().getStage());
+
+            if (photo != null && photo.exists()) {
+                photoPathField.setText(photo.getAbsolutePath());
+                photoPathField.positionCaret(photoPathField.getLength());
+
+                Image image = new Image(photo.toURI().toURL().toExternalForm());
+
+                photoView.setImage(image);
+                photoView.setFitWidth(128);
+
+                setInfoText("Image changed");
+            }  // Else No File selected
+
+
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();

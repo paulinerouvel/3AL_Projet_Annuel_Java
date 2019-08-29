@@ -3,9 +3,14 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class User {
         // --- POST --- //
@@ -89,6 +94,47 @@ public class User {
         return result < 299;
     }
 
+    // POST image
+    public static String sendPhoto(File photo){
+        String result = null;
+
+        String fileName = photo.getName();
+        String extension = "";
+
+        if(fileName.contains(".")){
+            extension = fileName.substring(fileName.lastIndexOf("."));
+        }
+
+        File renamedPhoto = new File("img_profil_" + UserInstance.getInstance().getUser().getId() + extension);
+        System.out.println("(User.sendPhoto) new img name : " + renamedPhoto.getName());
+
+        Path copied = Paths.get(renamedPhoto.toURI());
+        Path original = photo.toPath();
+
+        try {
+            Files.copy(original, copied, REPLACE_EXISTING);
+        } catch (IOException e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        System.out.println("(User.sendPhoto) new img exists : ");
+        System.out.println(renamedPhoto.getAbsolutePath());
+        try {
+            if(Requester.sendFile("images/", renamedPhoto).getResponseCode() < 299){
+                renamedPhoto.delete();
+                result = renamedPhoto.getName();
+                System.out.println("Result : "+result);
+            } else {
+                System.out.println("Could not post image");
+            }
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+
+        return result;
+    }
 
         // --- GET --- //
 
@@ -193,17 +239,20 @@ public class User {
         return result;
     }
 
-    public static String fetchPhoto(String url, String file) {
-        url += file;
+    public static File fetchPhoto(String file) {
+        String url = "http://51.75.143.205:8080/images/" + file;
 
-        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream fileOS = new FileOutputStream("src/main/resources/images/" + file)) {
+        try {
+            BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+            FileOutputStream fileOS = new FileOutputStream(System.getProperty("user.dir")+"/"+file);
             byte data[] = new byte[1024];
             int byteContent;
             while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
                 fileOS.write(data, 0, byteContent);
             }
-            return file;
+            return new File(file);
+        } catch (FileNotFoundException e) {
+            return null;
         } catch (Exception e) {
            Logger.getInstance().reportError(e);
         }
@@ -215,7 +264,7 @@ public class User {
     // --- PUT --- //
 
     // PUT a user (Update)
-    public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user) {
+    public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user, String token) {
         String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
         String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
         String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
@@ -248,7 +297,7 @@ public class User {
         Integer result = 299;
 
         try {
-            result = Requester.sendPutRequest("user/", json, null).getResponseCode();
+            result = Requester.sendPutRequest("user/", json, token).getResponseCode();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }

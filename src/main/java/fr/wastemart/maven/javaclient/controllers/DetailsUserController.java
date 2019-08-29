@@ -51,7 +51,7 @@ public class DetailsUserController extends GenericController {
             userModified.setCodePostal(customerPostalCode.getText() == null ? null : Integer.valueOf(customerPostalCode.getText()));
             userModified.setVille(customerCity.getText() == null ? null : customerCity.getText());
             
-            if(updateUser(userModified)) {
+            if(updateUser(userModified, UserInstance.getInstance().getTokenValue())) {
                 setInfoText("Modification réussie");
             }
             else {
