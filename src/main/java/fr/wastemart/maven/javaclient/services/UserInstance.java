@@ -79,7 +79,7 @@ public class UserInstance {
         return token.getInt("userId");
     }
 
-    public Integer getTokenUserCategory() { return token.getInt("userCategory"); }
+    public Integer getTokenUserCategory() { return token.getJSONObject("userCategory").getInt("Categorie_utilisateur_id"); }
 
     public void setToken(JSONObject token) {
         this.token = token;

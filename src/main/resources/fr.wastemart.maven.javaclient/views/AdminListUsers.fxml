@@ -32,8 +32,7 @@
                         <Label layoutX="22.0" layoutY="14.0" text="Détail des clients" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0" />
                         <TableView fx:id="usersTable" editable="true" layoutY="44.0" prefHeight="488.0" prefWidth="837.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
                             <columns>
-                                <TableColumn fx:id="userID" prefWidth="41.0" text="ID" />
-                                <TableColumn fx:id="userLibelle" text="Libellé" />
+                                <TableColumn fx:id="userLibelle" text="Libelle" />
                                 <TableColumn fx:id="userFirstName" text="Prénom" />
                                 <TableColumn fx:id="userLastName" prefWidth="93.0" text="Nom" />
                                 <TableColumn fx:id="userBirthDate" prefWidth="93.0" text="Date Naissance" />
@@ -50,10 +49,10 @@
                         </TableView>
                         <ButtonBar layoutX="278.0" layoutY="531.0" prefHeight="40.0" prefWidth="555.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                        <Button mnemonicParsing="false" text="Créer" />
-                                <Button mnemonicParsing="false" onMouseClicked="#modifyUser" prefHeight="29.0" prefWidth="30.0" text="Modifier " />
-                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer" />
-                                <Button layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
+                        <Button mnemonicParsing="false" onAction="#displayAddUser" text="Créer" />
+                                <Button mnemonicParsing="false" onAction="#displayModifyUser" prefHeight="29.0" prefWidth="30.0" text="Modifier " />
+                        <Button mnemonicParsing="false" onAction="#deleteUser" text="Supprimer" />
+                                <Button layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onAction="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
                             </buttons>
                         </ButtonBar>
                         <Label fx:id="info" layoutX="14.0" layoutY="542.0" prefHeight="19.0" prefWidth="271.0" />

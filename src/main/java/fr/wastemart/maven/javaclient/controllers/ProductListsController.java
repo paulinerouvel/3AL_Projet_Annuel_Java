@@ -148,6 +148,7 @@ public class ProductListsController extends GenericController {
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
+                setInfoErrorOccurred();
             }
         }
     }

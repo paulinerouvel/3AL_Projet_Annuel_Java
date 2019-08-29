@@ -3,15 +3,14 @@ package fr.wastemart.maven.javaclient.controllers;
 import fr.wastemart.maven.javaclient.models.User;
 import fr.wastemart.maven.javaclient.models.UserCategory;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.IntegerDetail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Details.UserDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,7 +32,6 @@ public class ListUsersController extends GenericController {
 
     // users
     @FXML TableView<User> usersTable;
-    @FXML TableColumn<Object, Object> userID;
     @FXML TableColumn<Object, Object> userLibelle;
     @FXML TableColumn<Object, Object> userFirstName;
     @FXML TableColumn<Object, Object> userLastName;
@@ -55,6 +53,8 @@ public class ListUsersController extends GenericController {
 
     @Override
     public void init() throws Exception {
+
+
         displayCategoryLists();
         displayUsersByCategory(lists.getJSONObject(0).getString("libelle"), 1);
         categoryTable.getSelectionModel().selectFirst();
@@ -80,12 +80,12 @@ public class ListUsersController extends GenericController {
         try {
             users = fetchUsersByCategory(libelle);
 
-            System.out.println("la" +String.valueOf(idCategory));
 
             if(!users.isEmpty()) {
 
+
+
                 if(idCategory == 1 || idCategory == 2){
-                    userID.setCellValueFactory(new PropertyValueFactory<>("id"));
                     userLibelle.setCellValueFactory(new PropertyValueFactory<>("Libelle"));
 
                     userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
@@ -112,7 +112,6 @@ public class ListUsersController extends GenericController {
                 }
 
                 else{
-                    userID.setCellValueFactory(new PropertyValueFactory<>("id"));
                     userFirstName.setCellValueFactory(new PropertyValueFactory<>("prenom"));
                     userLastName.setCellValueFactory(new PropertyValueFactory<>("nom"));
                     userBirthDate.setCellValueFactory(new PropertyValueFactory<>("dateDeNaissance"));
@@ -157,7 +156,7 @@ public class ListUsersController extends GenericController {
         }
     }
 
-    @FXML
+    /*@FXML
     public void modifyUser() {
         UserDetail User = new UserDetail(usersTable.getSelectionModel().getSelectedItem());
 
@@ -165,12 +164,78 @@ public class ListUsersController extends GenericController {
         detailList.add(User);
 
         StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), detailList);
+    }*/
+
+
+    @FXML
+    private void displayAddUser() {
+        clearInfoText();
+
+
+        try{
+
+            refreshSelectedIndices();
+
+            List<Detail> details = new ArrayList<Detail>();
+
+
+            details.add(new StringDetail("add"));
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), details);
+
+            displayUsersByCategory( categoryTable.getSelectionModel().getSelectedItem().getLibelle(), indexOfCategorySelected);
+
+
+            } catch (Exception e) {
+                Logger.getInstance().reportError(e);
+                setInfoErrorOccurred();
+            }
+
+    }
+
+    @FXML
+    private void displayModifyUser() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        System.out.println(indexOfUserSelected);
+
+
+        try{
+
+
+
+            if(indexOfUserSelected != -1) {
+
+                User selectedUser = jsonToUser(users.getJSONObject(indexOfUserSelected));
+
+                List<Detail> details = new ArrayList<Detail>();
+
+
+                details.add(new StringDetail("modify"));
+                details.add(new UserDetail(selectedUser));
+                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_USER"), details);
+
+                displayUsersByCategory( categoryTable.getSelectionModel().getSelectedItem().getLibelle(), indexOfCategorySelected);
+
+            } else {
+                setInfoText("Veuillez sélectionner un utilisateur");
+            }
+
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+
+
+
+
     }
 
 
 
     @FXML
-    private void deleteProduct() {
+    private void deleteUser() {
         clearInfoText();
 
         try {
@@ -184,7 +249,7 @@ public class ListUsersController extends GenericController {
                 }
             }
 
-            //refreshDisplay();
+            displayUsersByCategory( categoryTable.getSelectionModel().getSelectedItem().getLibelle(), indexOfCategorySelected);
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
@@ -193,12 +258,26 @@ public class ListUsersController extends GenericController {
 
     @FXML
     public void contactUser() {
-        StringDetail mail = new StringDetail(usersTable.getSelectionModel().getSelectedItem().getMail());
 
-        List<Detail> contactDetails = new ArrayList<>();
-        contactDetails.add(mail);
+        try {
+            refreshSelectedIndices();
 
-        StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT"), contactDetails);
+            if (indexOfUserSelected != -1) {
+                StringDetail mail = new StringDetail(usersTable.getSelectionModel().getSelectedItem().getMail());
+
+                List<Detail> contactDetails = new ArrayList<>();
+                contactDetails.add(mail);
+
+                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_CONTACT"), contactDetails);
+            }
+            else{
+                setInfoText("Veuillez sélectionner un utilisateur");
+            }
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
 
     }
 

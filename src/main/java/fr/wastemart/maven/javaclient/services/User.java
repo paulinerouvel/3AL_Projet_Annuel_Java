@@ -171,6 +171,25 @@ public class User {
         return result;
     }
 
+    // GET the Category of one User
+    public static JSONObject fetchCategoryAsJSONObject(Integer userId) {
+        JSONObject result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
+            result = response.getDataAsJSONObject();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        // TODO Test : Initially return Integer.valueOf(content.toString());
+
+        System.out.println("(User.fetchCategory) Category of user : ");
+        System.out.println("(User.fetchCategory) " + result);
+
+        return result;
+    }
+
     // GET all Users Categories
     public static JSONArray fetchCategories() {
         JSONArray result = null;
@@ -190,7 +209,7 @@ public class User {
         JSONArray result = null;
 
         try {
-            HttpResponse response = Requester.sendGetRequest("user/AllValidByCategory?type="+libelle, null);
+            HttpResponse response = Requester.sendGetRequest("user/allByCategory?type="+libelle, null);
             result = response.getDataAsJSONArray();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -221,7 +240,7 @@ public class User {
     // --- PUT --- //
 
     // PUT a user (Update)
-    public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user) {
+    public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user, String token) {
         String json =
                 "{\n" +
                         "\t\"id\": \""+user.getId()+"\",\n" +
@@ -247,7 +266,7 @@ public class User {
         Integer result = 299;
 
         try {
-            result = Requester.sendPutRequest("user/", json, null).getResponseCode();
+            result = Requester.sendPutRequest("user/", json, token).getResponseCode();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
@@ -262,7 +281,7 @@ public class User {
         Integer result = 299;
 
         try {
-            result = Requester.sendDeleteRequest("user/?id=" + userId, token).getResponseCode();
+            result = Requester.sendDeleteRequest("user/" + userId, token).getResponseCode();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }

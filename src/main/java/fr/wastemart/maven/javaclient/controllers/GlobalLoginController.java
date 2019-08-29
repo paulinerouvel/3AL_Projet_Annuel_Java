@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GlobalLoginController extends GenericController {
@@ -77,6 +78,10 @@ public class GlobalLoginController extends GenericController {
     }
 
     public void displayRegister() {
-        StageManager.getInstance().loadRootlessPage(dotenv.get("GLOBAL_REGISTER"));
+
+        List<Detail> details = new ArrayList<Detail>();
+
+        details.add(new StringDetail("add"));
+        StageManager.getInstance().loadRootlessPage(dotenv.get("GLOBAL_REGISTER"), details);
     }
 }

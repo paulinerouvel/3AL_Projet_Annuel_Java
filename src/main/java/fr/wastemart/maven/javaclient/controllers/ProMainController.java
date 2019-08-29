@@ -4,7 +4,6 @@ import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -28,7 +27,7 @@ public class ProMainController extends GenericController {
     public void displayProductLists() {
         List<Detail> option = new ArrayList<>();
         option.add(new StringDetail("me"));
-        StageManager.getInstance().loadPageWithDetails(dotenv.get("PRO_LIST_PRODUCT_LISTS"), UserInstance.getInstance(), option);
+        StageManager.getInstance().loadPage(dotenv.get("PRO_LIST_PRODUCT_LISTS"), UserInstance.getInstance(), option);
     }
 
     public void displayContactAdmin() {

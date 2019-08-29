@@ -58,7 +58,7 @@ public class GlobalUserInfosController extends GenericController {
             }
             System.out.println("(SharedUserInfosController.save) Je vais rentrer dans saveUser()");
             //Appel à l'api + sauvegarde bdd
-            if(updateUser(UserInstance.getInstance().getUser()) && user.getMdp().length() >=2) {
+            if(updateUser(UserInstance.getInstance().getUser(), UserInstance.getInstance().getTokenValue()) && user.getMdp().length() >=2) {
                 // FAIRE UN POP UP
                 setInfoText("Modification réussie");
             }
