@@ -86,7 +86,7 @@ public class ListUsersController extends GenericController {
 
 
                 if(idCategory == 1 || idCategory == 2){
-                    userLibelle.setCellValueFactory(new PropertyValueFactory<>("Libelle"));
+                    userLibelle.setCellValueFactory(new PropertyValueFactory<>("libelle"));
 
                     userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
                     userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
@@ -112,6 +112,15 @@ public class ListUsersController extends GenericController {
                 }
 
                 else{
+
+
+
+                    userLibelle.setCellValueFactory(new PropertyValueFactory<>(""));
+                    userSiret.setCellValueFactory(new PropertyValueFactory<>(""));
+                    userTaille.setCellValueFactory(new PropertyValueFactory<>(""));
+                    userDesc.setCellValueFactory(new PropertyValueFactory<>(""));
+                    userTaille.setCellValueFactory(new PropertyValueFactory<>(""));
+
                     userFirstName.setCellValueFactory(new PropertyValueFactory<>("prenom"));
                     userLastName.setCellValueFactory(new PropertyValueFactory<>("nom"));
                     userBirthDate.setCellValueFactory(new PropertyValueFactory<>("dateDeNaissance"));
