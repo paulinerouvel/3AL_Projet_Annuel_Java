@@ -9,12 +9,17 @@ import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -69,22 +74,6 @@ public class ProductListsController extends GenericController {
         listArchiveCheckBox.setSelected(false);
 
         listsTable.setEditable(true);
-        listsTable.getSelectionModel().setCellSelectionEnabled(true);  // selects cell only, not the whole row
-        listsTable.setOnMouseClicked(click -> {
-            if (click.getClickCount() == 2) {
-                @SuppressWarnings("rawtypes")
-                TablePosition pos = listsTable.getSelectionModel().getSelectedCells().get(0);
-                int row = pos.getRow();
-                int col = pos.getColumn();
-                @SuppressWarnings("rawtypes")
-                TableColumn column = pos.getTableColumn();
-                String val = column.getCellData(row).toString(); System.out.println("Selected Value, " + val + ", Column: " + col + ", Row: " + row);
-                if ( col == 2 ) { System.out.println("2"); }
-
-            }
-        });
-
-
 
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
@@ -98,14 +87,18 @@ public class ProductListsController extends GenericController {
     private boolean refreshDisplay() {
         boolean result = false;
         if(displayProductLists()){
-            if (option.equals("all")) {
-                result = displayProducts(null);
-            } else if (option.equals("me")) {
-                result = displayProducts(lists.getJSONObject(0).getInt("id"));
-                listsTable.getSelectionModel().selectFirst();
-            } else if (option.equals("pro")) {
-                result = displayProducts(lists.getJSONObject(0).getInt("id"));
-                listsTable.getSelectionModel().selectFirst();
+            switch (option) {
+                case "all":
+                    result = displayProducts(null);
+                    break;
+                case "me":
+                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
+                    listsTable.getSelectionModel().selectFirst();
+                    break;
+                case "pro":
+                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
+                    listsTable.getSelectionModel().selectFirst();
+                    break;
             }
         }
         return result;
@@ -117,12 +110,16 @@ public class ProductListsController extends GenericController {
         try {
             listsTable.getItems().clear();
 
-            if (option.equals("all")) {
-                lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
-            } else if (option.equals("me")) {
-                lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
-            } else if (option.equals("pro")) {
-                lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
+            switch (option) {
+                case "all":
+                    lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
+                    break;
+                case "me":
+                    lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
+                    break;
+                case "pro":
+                    lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
+                    break;
             }
             return fillProductLists();
         } catch (Exception e) {
@@ -136,16 +133,20 @@ public class ProductListsController extends GenericController {
         try {
             productsTable.getItems().clear();
 
-            if (option.equals("all")) {
-                products = fetchAllProducts();
-            } else if (option.equals("me")) {
-                if (!lists.isEmpty()) {
-                    products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
-                }
-            } else if (option.equals("pro")) {
-                if (!lists.isEmpty()) {
-                    products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
-                }
+            switch (option) {
+                case "all":
+                    products = fetchAllProducts();
+                    break;
+                case "me":
+                    if (!lists.isEmpty()) {
+                        products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
+                    }
+                    break;
+                case "pro":
+                    if (!lists.isEmpty()) {
+                        products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
+                    }
+                    break;
             }
             return fillProducts();
         } catch (Exception e) {
@@ -270,7 +271,7 @@ public class ProductListsController extends GenericController {
         List<Detail> details = new ArrayList<Detail>();
 
         if(option.equals("me") && indexOfListSelected != -1) {
-            details.add(new StringDetail("add"));
+            details.add(new StringDetail("addtolist"));
             details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId()));
             StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
         } else if(option.equals("me")) {
@@ -288,7 +289,7 @@ public class ProductListsController extends GenericController {
         refreshSelectedIndices();
 
         try {
-            if(indexOfProductSelected != 1) {
+            if(indexOfProductSelected != -1) {
                 Product selectedProduct = jsonToProduct(products.getJSONObject(indexOfProductSelected));
 
                 List<Detail> details = new ArrayList<Detail>();
@@ -330,7 +331,7 @@ public class ProductListsController extends GenericController {
     }
 
     @FXML
-    private void addToList() {
+    private void affectToList() {
         clearInfoText();
         refreshSelectedIndices();
 
@@ -422,6 +423,12 @@ public class ProductListsController extends GenericController {
         }
     }
 
+    private void updateListLibelle(TableColumn.CellEditEvent<Object, Object> e) {
+        System.out.println("Deurien");
+        listsTable.getSelectionModel().getSelectedItem().setLibelle((String)e.getNewValue());
+        updateProductList(listsTable.getSelectionModel().getSelectedItem(), UserInstance.getInstance().getTokenValue());
+    }
+
     @FXML
     public void contactUser() {
         clearInfoText();
@@ -451,6 +458,10 @@ public class ProductListsController extends GenericController {
         if (!lists.isEmpty()) {
             listId.setCellValueFactory(new PropertyValueFactory<>("id"));
             listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+            StringConverter libelle = new DefaultStringConverter();
+            listName.setCellFactory(TextFieldTableCell.forTableColumn(libelle));
+            listName.setOnEditCommit(this::updateListLibelle);
+
             if(option.equals("all") || option.equals("pro")) {
                 listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
             }

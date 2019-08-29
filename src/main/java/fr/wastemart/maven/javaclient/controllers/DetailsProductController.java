@@ -19,6 +19,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class DetailsProductController extends GenericController {
     private Integer listId;
     private String option;
     private Product product;
+    private File photoFile;
 
     @FXML private TextField libelle;
     @FXML private TextField desc;
@@ -46,13 +48,16 @@ public class DetailsProductController extends GenericController {
         setProductCategories();
 
         if(option.equals("add")){
-            listId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
             clearFields();
             categorieProduit.getSelectionModel().selectFirst();
         } else if (option.equals("modify")){
             ProductDetail productDetail = (ProductDetail) detail.get(1);
             product = productDetail.getValue();
             setFields(product);
+        } else if (option.equals("addtolist")) {
+            listId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
+            clearFields();
+            categorieProduit.getSelectionModel().selectFirst();
         }
 
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
@@ -95,6 +100,16 @@ public class DetailsProductController extends GenericController {
                 }
                 setInfoText("Remplissez tous les champs");
             } else {
+
+                if(!photo.getText().isEmpty()) {
+                    System.out.println("(DetailsProductController.submitProduct) Photo is not null!");
+                    String photoName;
+                    if((photoName = fr.wastemart.maven.javaclient.services.Product.sendPhoto(photoFile, product.getId())) != null) {
+                        System.out.println("(DetailsProductController.submitProduct) Photo is:"+photoName);
+                        product.setPhoto(photoName);
+                    }
+                }
+
 
                 Product newProduct = new Product(product == null ? -1 : product.getId(),
                         libelle.getText(),

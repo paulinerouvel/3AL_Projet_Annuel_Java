@@ -67,7 +67,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="242.0" prefWidth="705.0" text="Gérer les commandes" textAlignment="CENTER" GridPane.rowIndex="2">
+               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="242.0" prefWidth="705.0" text="Gestion des commandes" textAlignment="CENTER" GridPane.rowIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

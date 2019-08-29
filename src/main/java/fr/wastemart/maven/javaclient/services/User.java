@@ -106,7 +106,6 @@ public class User {
         }
 
         File renamedPhoto = new File("img_profil_" + UserInstance.getInstance().getUser().getId() + extension);
-        System.out.println("(User.sendPhoto) new img name : " + renamedPhoto.getName());
 
         Path copied = Paths.get(renamedPhoto.toURI());
         Path original = photo.toPath();
@@ -117,15 +116,10 @@ public class User {
             Logger.getInstance().reportError(e);
         }
 
-        System.out.println("(User.sendPhoto) new img exists : ");
-        System.out.println(renamedPhoto.getAbsolutePath());
         try {
             if(Requester.sendFile("images/", renamedPhoto).getResponseCode() < 299){
                 renamedPhoto.delete();
                 result = renamedPhoto.getName();
-                System.out.println("Result : "+result);
-            } else {
-                System.out.println("Could not post image");
             }
 
         } catch (Exception e) {

@@ -17,8 +17,8 @@ public class Warehouse {
         this.adresse = adresse;
         this.ville = ville;
         this.codePostal = codePostal;
-        this.desc = desc;
-        this.photo = photo;
+        this.desc = (desc == null || desc.isEmpty()) ? null : desc; // Nullable
+        this.photo = (photo == null || photo.isEmpty()) ? null : photo; // Nullable
         this.placeTotal = placeTotal;
         this.placeLibre = placeLibre;
     }

@@ -3,7 +3,14 @@ package fr.wastemart.maven.javaclient.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Product {
         // --- POST --- //
@@ -49,6 +56,42 @@ public class Product {
     }
 
 
+    // POST image
+    public static String sendPhoto(File photo, Integer productId){
+        String result = null;
+
+        String fileName = photo.getName();
+        String extension = "";
+
+        if(fileName.contains(".")){
+            extension = fileName.substring(fileName.lastIndexOf("."));
+        }
+
+        File renamedPhoto = new File("img_product_" + productId + extension);
+
+        Path copied = Paths.get(renamedPhoto.toURI());
+        Path original = photo.toPath();
+
+        try {
+            Files.copy(original, copied, REPLACE_EXISTING);
+        } catch (IOException e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        try {
+            if(Requester.sendFile("images/", renamedPhoto).getResponseCode() < 299){
+                renamedPhoto.delete();
+                result = renamedPhoto.getName();
+                System.out.println("Result : "+result);
+            }
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+
+        return result;
+    }
         // --- GET --- //
 
     // GET all Products
@@ -105,6 +148,28 @@ public class Product {
 
         return result;
     }
+
+    public static File fetchPhoto(String file) {
+        String url = "http://51.75.143.205:8080/images/" + file;
+
+        try {
+            BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+            FileOutputStream fileOS = new FileOutputStream(System.getProperty("user.dir")+"/"+file);
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+            return new File(file);
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return null;
+    }
+
 
         // --- PUT --- //
 

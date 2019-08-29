@@ -8,26 +8,26 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.paint.Color;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
 import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
+import static fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse;
+
 
 
 public class ListWarehousesController extends GenericController {
     private JSONArray warehouses;
     private JSONArray products;
     private Integer indexOfProductSelected;
-    private Integer indexOfListSelected;
+    private Integer indexOfWarehouseSelected;
     private Integer swapIdWarehouse;
 
     // warehouse
@@ -43,15 +43,11 @@ public class ListWarehousesController extends GenericController {
     @FXML TableColumn<Object, Object> productName;
     @FXML TableColumn<Object, Object> productDesc;
     @FXML TableColumn<Object, Object> productPrice;
-    @FXML TableColumn<Object, Object> productInitialPrice;
     @FXML TableColumn<Object, Object> productDlc;
     @FXML TableColumn<Object, Object> productAvailable;
     @FXML TableColumn<Object, Object> productDate;
     @FXML TableColumn<Object, Object> productQuantity;
     @FXML TableColumn<Object, Object> IDwarehouse;
-
-    @FXML
-    Label saveLabel;
 
     public void init() throws Exception {
         displayWarehouseLists();
@@ -70,27 +66,17 @@ public class ListWarehousesController extends GenericController {
         listTotalPlace.setCellValueFactory(new PropertyValueFactory<>("placeTotal"));
         listName.setCellFactory(TextFieldTableCell.forTableColumn());
         // liste combobox entrepot
+        IDwarehouse.setCellValueFactory(new PropertyValueFactory<>("entrepotwm"));
         ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
         IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
-        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> {
-             swapIdWarehouse = (Integer)e.getNewValue();
-
-        });
+        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> swapIdWarehouse = (Integer)e.getNewValue());
 
         for (int i = 0; i < warehouses.length(); i++) {
-            JSONObject list = warehouses.getJSONObject(i);
-            Warehouse warehouse = new Warehouse(list.getInt("id"),
-                    list.getString("libelle"),
-                    list.getString("adresse"),
-                    list.getString("ville"),
-                    list.getString("codePostal"),
-                    list.getString("desc"),
-                    list.getString("photo"),
-                    list.getInt("placeTotal"),
-                    list.getInt("placeLibre")
-            );
-            warehouseTable.getItems().add(warehouse);
-            idWarehouse.add(list.getInt("id"));
+            JSONObject warehouse = warehouses.getJSONObject(i);
+            Warehouse warehouseElement = jsonToWarehouse(warehouse);
+
+            warehouseTable.getItems().add(warehouseElement);
+            idWarehouse.add(warehouseElement.getId());
         }
 
     }
@@ -102,7 +88,6 @@ public class ListWarehousesController extends GenericController {
         productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
         productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        productInitialPrice.setCellValueFactory(new PropertyValueFactory<>("prixInitial"));
         productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
         productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
         productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
@@ -122,8 +107,8 @@ public class ListWarehousesController extends GenericController {
         try {
             refreshSelectedIndices();
 
-            if (indexOfListSelected != -1) {
-                displayProductsByWarehouse(warehouses.getJSONObject(indexOfListSelected).getInt("id"));
+            if (indexOfWarehouseSelected != -1) {
+                displayProductsByWarehouse(warehouses.getJSONObject(indexOfWarehouseSelected).getInt("id"));
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -134,19 +119,12 @@ public class ListWarehousesController extends GenericController {
     @FXML
     public void validate() {
         try {
-            // UPDATE entrepot du produit
             if (swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
-                //update du produit + rechargement
                 //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
                 init();
-                saveLabel.setTextFill(Color.web("#008000", 1));
-                saveLabel.setText("Enregistrement validé :)");
-                saveLabel.setVisible(true);
+                setInfoText("Enregistrement validé :)");
             } else {
-
-                saveLabel.setTextFill(Color.web("#ff0000", 1));
-                saveLabel.setText("L'enregistrement a echoué :(");
-                saveLabel.setVisible(true);
+                setInfoText("L'enregistrement a echoué :(");
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -156,8 +134,7 @@ public class ListWarehousesController extends GenericController {
 
     public void refreshSelectedIndices() {
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
-        this.indexOfListSelected = warehouseTable.getSelectionModel().getSelectedIndex();
-
+        this.indexOfWarehouseSelected = warehouseTable.getSelectionModel().getSelectedIndex();
     }
 
     // Return button
