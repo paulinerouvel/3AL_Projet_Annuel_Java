@@ -18,9 +18,12 @@
                   <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickMyList" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
                       <TableColumn fx:id="listId" prefWidth="73.0" text="Id Liste" />
-                      <TableColumn fx:id="listName" prefWidth="93.0" text="Libelle" />
-                        <TableColumn fx:id="listEstArchive" prefWidth="92.0" text="Archivé" />
+                      <TableColumn fx:id="listName" prefWidth="184.0" text="Libelle" />
+                        <TableColumn fx:id="listEstArchive" prefWidth="184.0" text="Archivé" />
                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <ButtonBar layoutX="-17.0" layoutY="529.0" prefHeight="40.0" prefWidth="277.0">
                     <buttons>
@@ -34,8 +37,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Détails de la liste" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="746.0">
+                  <Label layoutX="14.0" layoutY="88.0" text="Détails de la liste" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="88.0" />
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="109.0" prefHeight="420.0" prefWidth="746.0">
                     <columns>
                         <TableColumn fx:id="productName" prefWidth="187.0" text="Nom" />
                         <TableColumn fx:id="productDesc" prefWidth="125.0" text="Desc" />
@@ -54,6 +57,7 @@
                     </buttons>
                   </ButtonBar>
                   <Label fx:id="info" layoutX="14.0" layoutY="541.0" prefHeight="19.0" prefWidth="322.0" />
+                  <Label layoutX="249.0" layoutY="28.0" style="-fx-font-size: 20px;" text="Gestion des listes de produit" />
                </children>
             </AnchorPane>
         </items>

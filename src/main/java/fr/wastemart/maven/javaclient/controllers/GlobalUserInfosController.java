@@ -121,9 +121,3 @@ public class GlobalUserInfosController extends GenericController {
         StageManager.getInstance().displayMainPage(UserInstance.getInstance());
     }
 }
-
-
-
-
-
-

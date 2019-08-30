@@ -73,7 +73,6 @@ public class ProductListsController extends GenericController {
     public void init(List<Detail> detail) throws Exception {
         listArchiveCheckBox.setSelected(false);
 
-        listsTable.setEditable(true);
 
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
@@ -424,7 +423,6 @@ public class ProductListsController extends GenericController {
     }
 
     private void updateListLibelle(TableColumn.CellEditEvent<Object, Object> e) {
-        System.out.println("Deurien");
         listsTable.getSelectionModel().getSelectedItem().setLibelle((String)e.getNewValue());
         updateProductList(listsTable.getSelectionModel().getSelectedItem(), UserInstance.getInstance().getTokenValue());
     }

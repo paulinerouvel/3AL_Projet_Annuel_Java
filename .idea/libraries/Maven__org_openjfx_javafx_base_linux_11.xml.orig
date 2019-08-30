@@ -1,0 +1,28 @@
+<<<<<<< HEAD:.idea/libraries/Maven__org_openjfx_javafx_base_win_11.xml
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-base:win:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-win.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+=======
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-base:linux:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-linux.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+>>>>>>> feature/AdminListUsers:.idea/libraries/Maven__org_openjfx_javafx_base_linux_11.xml
+</component>

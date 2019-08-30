@@ -1,0 +1,28 @@
+<<<<<<< HEAD:.idea/libraries/Maven__org_openjfx_javafx_fxml_win_11.xml
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-fxml:win:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-win.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+=======
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-fxml:linux:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-linux.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+>>>>>>> feature/AdminListUsers:.idea/libraries/Maven__org_openjfx_javafx_fxml_linux_11.xml
+</component>

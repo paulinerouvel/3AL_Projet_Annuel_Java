@@ -205,6 +205,25 @@ public class User {
         return result;
     }
 
+    // GET the Category of one User
+    public static JSONObject fetchCategoryAsJSONObject(Integer userId) {
+        JSONObject result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
+            result = response.getDataAsJSONObject();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        // TODO Test : Initially return Integer.valueOf(content.toString());
+
+        System.out.println("(User.fetchCategory) Category of user : ");
+        System.out.println("(User.fetchCategory) " + result);
+
+        return result;
+    }
+
     // GET all Users Categories
     public static JSONArray fetchCategories() {
         JSONArray result = null;
@@ -224,7 +243,7 @@ public class User {
         JSONArray result = null;
 
         try {
-            HttpResponse response = Requester.sendGetRequest("user/AllValidByCategory?type="+libelle, null);
+            HttpResponse response = Requester.sendGetRequest("user/allByCategory?type="+libelle, null);
             result = response.getDataAsJSONArray();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -232,6 +251,38 @@ public class User {
 
         return result;
     }
+
+    public static JSONArray fetchInvalidUsersByCategory(String libelle) {
+        JSONArray result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("user/allInvalidByCategory?type="+libelle, null);
+            result = response.getDataAsJSONArray();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
+    }
+
+    public static String fetchPhoto(String url, String file) {
+        url += file;
+
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
+             FileOutputStream fileOS = new FileOutputStream("src/main/resources/images/" + file)) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+            return file;
+        } catch (Exception e) {
+           Logger.getInstance().reportError(e);
+        }
+
+        return null;
+    }
+
 
     public static File fetchPhoto(String file) {
         String url = "http://51.75.143.205:8080/images/" + file;
@@ -302,6 +353,21 @@ public class User {
 
         // --- DELETE ---//
 
+    public static boolean deleteUser(Integer userId, String token) {
+        Integer result = 299;
+
+        try {
+            result = Requester.sendDeleteRequest("user/" + userId, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
+    }
+
+
+
+
     public static boolean RegisterNewUser(String mail, Integer userCategory) {
         JSONObject createdUser = fetchCreatedUser(mail);
         if(createdUser == null) {
@@ -316,8 +382,7 @@ public class User {
             return new fr.wastemart.maven.javaclient.models.User(
                     user.getInt("id"),
                     user.isNull("libelle") ? null : user.getString("libelle"),
-                    //user.getInt("Categorie_utilisateur_id"),
-                    null,
+                    null, // TODO -1 on Pauline's version
                     user.isNull("nom") ? null : user.getString("nom"),
                     user.isNull("prenom") ? null : user.getString("prenom"),
                     user.getString("mail"),

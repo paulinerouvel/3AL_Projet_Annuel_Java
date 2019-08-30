@@ -43,28 +43,28 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
            </rowConstraints>
            <children>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Produits" textAlignment="CENTER" wrapText="true">
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProducts" prefHeight="217.0" prefWidth="389.0" text="Gestion des produits" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="217.0" prefWidth="389.0" text="Gérer les commandes" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
+               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="217.0" prefWidth="389.0" text="Gestion des commandes" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProsSuggestions" prefHeight="228.0" prefWidth="491.0" text="Propositions de listes de Pros" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+               <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayProsSuggestions" prefHeight="228.0" prefWidth="491.0" text="Gestion des soumissions de produit de professionnel" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Entrepots" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
+               <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Gestion des entrepots" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="249.0" prefWidth="480.0" text="Utilisateurs" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <Button mnemonicParsing="false" onAction="#displayUsers" prefHeight="249.0" prefWidth="480.0" text="Gestion des utilisateurs" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button layoutX="302.0" layoutY="165.0" mnemonicParsing="false" onAction="#displayContactAdmin" prefHeight="249.0" prefWidth="480.0" text="Contacter un Admin" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button layoutX="302.0" layoutY="165.0" mnemonicParsing="false" onAction="#displayContactAdmin" prefHeight="249.0" prefWidth="480.0" text="Contacter un administrateur" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

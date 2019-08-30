@@ -3,7 +3,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -16,7 +15,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickMyList" prefHeight="482.0" prefWidth="317.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+                  <TableView fx:id="listsTable" layoutX="18.0" layoutY="41.0" onMouseClicked="#clickMyList" prefHeight="488.0" prefWidth="280.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                     <columns>
                       <TableColumn fx:id="listUser" prefWidth="81.0" text="Id User" />
                       <TableColumn fx:id="listId" prefWidth="81.0" text="Id Liste" />
@@ -31,8 +30,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                   <CheckBox fx:id="listArchiveCheckBox" layoutX="114.0" layoutY="18.0" mnemonicParsing="false" onAction="#displayProductLists" text="Afficher Archives" textFill="WHITE" />
-                   <ButtonBar layoutX="15.0" layoutY="531.0" prefHeight="40.0" prefWidth="287.0">
+                  <ButtonBar layoutX="15.0" layoutY="529.0" prefHeight="40.0" prefWidth="287.0">
                     <buttons>
                         <Button mnemonicParsing="false" onAction="#submitList" text="Poster liste">
                            <cursor>
@@ -44,8 +42,8 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
                <children>
-                  <Label layoutX="14.0" layoutY="18.0" text="Produits" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0" />
-                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="41.0" prefHeight="488.0" prefWidth="692.0">
+                  <Label layoutX="14.0" layoutY="81.0" text="Produits" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="81.0" />
+                  <TableView fx:id="productsTable" layoutX="5.0" layoutY="102.0" prefHeight="427.0" prefWidth="692.0">
                     <columns>
                         <TableColumn fx:id="productName" prefWidth="167.0" text="Nom" />
                         <TableColumn fx:id="productDesc" prefWidth="86.0" text="Desc" />
@@ -73,7 +71,8 @@
                            </cursor></Button>
                     </buttons>
                   </ButtonBar>
-                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="159.0" layoutY="18.0" prefHeight="19.0" prefWidth="525.0" />
+                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="151.0" layoutY="71.0" prefHeight="19.0" prefWidth="525.0" />
+                  <Label layoutX="112.0" layoutY="23.0" style="-fx-font-size: 20px;" text="Gestion des soumissions de produit de professionnel" />
                </children>
             </AnchorPane>
         </items>

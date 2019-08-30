@@ -1,0 +1,28 @@
+<<<<<<< HEAD:.idea/libraries/Maven__org_openjfx_javafx_graphics_win_11.xml
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-graphics:win:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-win.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+=======
+<component name="libraryTable">
+  <library name="Maven: org.openjfx:javafx-graphics:linux:11">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-linux.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-sources.jar!/" />
+    </SOURCES>
+  </library>
+>>>>>>> feature/AdminListUsers:.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_11.xml
+</component>

@@ -129,6 +129,25 @@ public class StageManager {
         }
     }
 
+
+    // Loads a page without root (register) + list detail
+    public void loadRootlessPage(String mainView, List<Detail> details) {
+        try {
+            GenericController genericController = loadController(mainView,  null);
+            try {
+                genericController.init(details);
+            } catch (Exception e) {
+                Logger.getInstance().reportError(e);
+                genericController.initFail();
+            }
+
+            showPane(mainPane);
+            getStage().show();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+    }
+
     // Loads login page from the menu bar or beginning
     public void loadLoginPage(UserInstance userInstance){
         try {

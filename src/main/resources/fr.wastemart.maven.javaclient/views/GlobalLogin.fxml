@@ -19,7 +19,7 @@
                 <Image url="@../images/WasteMartLogo.png" />
             </image>
         </ImageView>
-        <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue à Wastemart">
+        <Label layoutX="109.0" layoutY="56.0" style="-fx-font-size: 25;" text="Bienvenue sur Wastemart">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -27,8 +27,10 @@
 
         <AnchorPane fx:id="fieldsArea" layoutX="112.0" layoutY="85.0" prefHeight="158.0" prefWidth="386.0">
             <children>
-                <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="alex.bis8@hotmail.fr" />
-                <PasswordField fx:id="password" layoutX="16.0" layoutY="86.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" text="rgckyda88" />
+                <TextField fx:id="login" layoutX="16.0" layoutY="47.0" prefHeight="32.0" prefWidth="346.0" promptText="Identifiant" text="pauline.rouvel@hotmail.fr" />
+                <PasswordField fx:id="password" layoutX="16.0" layoutY="98.0" prefHeight="32.0" prefWidth="346.0" promptText="Mot de passe" text="pauline" />
+            <Label layoutX="16.0" layoutY="31.0" style="-fx-font-size: 11px;" text="Email" />
+            <Label layoutX="17.0" layoutY="82.0" style="-fx-font-size: 11px;" text="Mot de passe" />
             </children>
         </AnchorPane>
           <ButtonBar layoutX="127.0" layoutY="223.0" prefHeight="40.0" prefWidth="346.0">
