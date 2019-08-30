@@ -89,8 +89,9 @@ public class ListUsersController extends GenericController {
         try {
 
 
-
+            System.out.println(usersTable.getId());
             if(usersTable.getId().equals( "usersTableRegistration")){
+                System.out.println("Registration !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 users = fetchInvalidUsersByCategory(libelle);
             }
             else{
