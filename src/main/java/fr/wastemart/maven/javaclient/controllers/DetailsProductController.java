@@ -78,30 +78,39 @@ public class DetailsProductController extends GenericController {
                 switch (indexWrong) {
                     case 0:
                         libelle.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("Remplissez tous les champs");
                         break;
                     case 1:
                         desc.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("Remplissez tous les champs");
                         break;
                     case 2:
                         prix.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("Remplissez tous les champs");
                         break;
                     case 3:
                         quantite.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("Remplissez tous les champs");
                         break;
                     case 4:
                         dlc.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("La date ne doit pas être inférieure à aujourd'hui");
                         break;
                     case 5:
                         codeBarre.setStyle("-fx-background-color: #ff7980");
+                        setInfoText("Remplissez tous les champs");
                         break;
                     default:
                         break;
 
                 }
-                setInfoText("Remplissez tous les champs");
+
             } else {
 
-                if(!photo.getText().isEmpty()) {
+
+
+
+                if(!photo.getText().isEmpty() && !photo.getText().equals(String.valueOf(product.getPhoto()))) {
                     System.out.println("(DetailsProductController.submitProduct) Photo is not null!");
                     String photoName;
                     if((photoName = fr.wastemart.maven.javaclient.services.Product.sendPhoto(photoFile, product.getId())) != null) {
