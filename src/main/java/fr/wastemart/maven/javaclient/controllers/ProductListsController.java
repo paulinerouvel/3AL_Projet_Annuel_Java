@@ -71,8 +71,9 @@ public class ProductListsController extends GenericController {
     TableColumn<Object, Object> productList;
 
     public void init(List<Detail> detail) throws Exception {
-        listArchiveCheckBox.setSelected(false);
-
+        if(listArchiveCheckBox != null) {
+            listArchiveCheckBox.setSelected(false);
+        }
 
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
@@ -88,6 +89,9 @@ public class ProductListsController extends GenericController {
         if(displayProductLists()){
             switch (option) {
                 case "all":
+                    result = displayProducts(null);
+                    break;
+                case "listall":
                     result = displayProducts(null);
                     break;
                 case "me":
@@ -113,6 +117,9 @@ public class ProductListsController extends GenericController {
                 case "all":
                     lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
                     break;
+                case "listall":
+                    lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
+                    break;
                 case "me":
                     lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
                     break;
@@ -136,7 +143,12 @@ public class ProductListsController extends GenericController {
                 case "all":
                     products = fetchAllProducts();
                     break;
-                case "me":
+                case "listall":
+                    if(!lists.isEmpty()){
+                        products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
+                    }
+                    break;
+                case "list":
                     if (!lists.isEmpty()) {
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                     }
@@ -466,7 +478,7 @@ public class ProductListsController extends GenericController {
             listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
 
             for (int i = 0; i < lists.length(); i++) {
-                if (listArchiveCheckBox.isSelected() || lists.getJSONObject(i).getInt("estArchive") != 1) {
+                if ((listArchiveCheckBox != null && listArchiveCheckBox.isSelected()) || lists.getJSONObject(i).getInt("estArchive") != 1) {
                     ProductList list = jsonToProductList(lists.getJSONObject(i));
                     if(list != null){
                         listsTable.getItems().add(list);

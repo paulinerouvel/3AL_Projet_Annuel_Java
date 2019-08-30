@@ -192,7 +192,7 @@ public class User {
 
         try {
             HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
-            result = response.getDataAsJSONObject().getInt("Categorie");
+            result = response.getDataAsJSONObject().getInt("Categorie_utilisateur_id");
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }

@@ -31,7 +31,9 @@ public class AdminMainController extends GenericController {
     }
 
     public void displayProductLists() {
-        StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_PRODUCT_LISTS"), UserInstance.getInstance());
+        List<Detail> option = new ArrayList<>();
+        option.add(new StringDetail("listall"));
+        StageManager.getInstance().loadPage(dotenv.get("ADMIN_LIST_PRODUCT_LISTS"), UserInstance.getInstance(), option);
     }
 
     public void displayProsSuggestions() {
