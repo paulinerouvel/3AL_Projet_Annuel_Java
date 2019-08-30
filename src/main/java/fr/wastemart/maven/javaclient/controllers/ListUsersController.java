@@ -105,7 +105,10 @@ public class ListUsersController extends GenericController {
 
 
                 if(idCategory == 0 || idCategory == 1){
+
+
                     userLibelle.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+
 
                     userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
                     userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
