@@ -17,19 +17,19 @@ public class User {
 
     // POST a user (Register)
     public static boolean createUser(fr.wastemart.maven.javaclient.models.User user) {
-        String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
-        String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
-        String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
+        String libelle = user.getLibelle() == null ? "\"\"" : "\""+user.getLibelle()+"\"";
+        String nom = user.getNom() == null ? "\"\"" : "\""+user.getNom()+"\"";
+        String prenom = user.getPrenom() == null ? "\"\"" : "\""+user.getPrenom()+"\"";
         String photo = user.getPhoto() == null ? "\"\"" : "\""+user.getPhoto()+"\"";
-        String desc = user.getDesc() == null ? null : "\""+user.getDesc()+"\"";
-        String siret = user.getSiret() == null ? null : "\""+user.getSiret()+"\"";
+        String desc = user.getDesc() == null ? "\"\"" : "\""+user.getDesc()+"\"";
+        String siret = user.getSiret() == null ? "\"\"" : "\""+user.getSiret()+"\"";
         String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
 
         String json = "{\n" +
-            "\t\"id\": \""+user.getId()+"\",\n" +
-            "\t\"libelle\" : "+libelle+",\n" +
-            "\t\"nom\": "+nom+",\n" +
-            "\t\"prenom\": "+prenom+",\n" +
+            "\t\"id\":\""+user.getId()+"\",\n" +
+            "\t\"libelle\":"+libelle+",\n" +
+            "\t\"nom\":"+nom+",\n" +
+            "\t\"prenom\":"+prenom+",\n" +
             "\t\"mail\":\""+user.getMail()+"\",\n" +
             "\t\"tel\":\""+user.getTel()+"\",\n" +
             "\t\"adresse\":\""+user.getAdresse()+"\",\n" +

@@ -169,33 +169,25 @@ public class GlobalRegisterController extends GenericController {
 
         if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))) {
 
-            registerFields = new Object[10];
-            registerFields[0] = prenom;
-            registerFields[1] = nom;
-            registerFields[2] = mail;
-            registerFields[3] = tel;
-            registerFields[4] = adresse;
-            registerFields[5] = ville;
-            registerFields[6] = codePostal;
-            registerFields[7] = dateNaissance;
-            registerFields[8] = pseudo;
-            registerFields[9] = mdp;
-
-        }else{
-
-            registerFields = new Object[12];
+            registerFields = new Object[7];
             registerFields[0] = mail;
             registerFields[1] = tel;
             registerFields[2] = adresse;
             registerFields[3] = ville;
             registerFields[4] = codePostal;
-            registerFields[5] = dateNaissance;
-            registerFields[6] = pseudo;
-            registerFields[7] = mdp;
-            registerFields[8] = libelle;
-            registerFields[9] = description;
-            registerFields[10] = tailleOrganisme;
-            registerFields[11] = siret;
+            registerFields[5] = pseudo;
+            registerFields[6] = mdp;
+
+        }else{
+
+            registerFields = new Object[7];
+            registerFields[0] = mail;
+            registerFields[1] = tel;
+            registerFields[2] = adresse;
+            registerFields[3] = ville;
+            registerFields[4] = codePostal;
+            registerFields[5] = pseudo;
+            registerFields[6] = mdp;
 
         }
 
@@ -209,33 +201,25 @@ public class GlobalRegisterController extends GenericController {
 
         if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))) {
 
-            registerFields = new Object[10];
-            registerFields[0] = prenom;
-            registerFields[1] = nom;
-            registerFields[2] = mail;
-            registerFields[3] = tel;
-            registerFields[4] = adresse;
-            registerFields[5] = ville;
-            registerFields[6] = codePostal;
-            registerFields[7] = dateNaissance;
-            registerFields[8] = pseudo;
-            registerFields[9] = mdp;
-
-        }else{
-
-            registerFields = new Object[12];
+            registerFields = new Object[7];
             registerFields[0] = mail;
             registerFields[1] = tel;
             registerFields[2] = adresse;
             registerFields[3] = ville;
             registerFields[4] = codePostal;
-            registerFields[5] = dateNaissance;
-            registerFields[6] = pseudo;
-            registerFields[7] = mdp;
-            registerFields[8] = libelle;
-            registerFields[9] = description;
-            registerFields[10] = tailleOrganisme;
-            registerFields[11] = siret;
+            registerFields[5] = pseudo;
+            registerFields[6] = mdp;
+
+        }else{
+
+            registerFields = new Object[7];
+            registerFields[0] = mail;
+            registerFields[1] = tel;
+            registerFields[2] = adresse;
+            registerFields[3] = ville;
+            registerFields[4] = codePostal;
+            registerFields[5] = pseudo;
+            registerFields[6] = mdp;
 
         }
 
@@ -321,7 +305,7 @@ public class GlobalRegisterController extends GenericController {
                         (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
                         estValide != null && estValide.isSelected(),
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
-                        dateNaissance.getValue().toString(),
+                        dateNaissance.getValue() == null ? "" : dateNaissance.getValue().toString(),
                         0
                 );
 
@@ -398,7 +382,7 @@ public class GlobalRegisterController extends GenericController {
 
             if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
-            } else if(registerFieldClassType == DatePicker.class && (registerFields[i] == null |
+            } else if(registerFieldClassType == DatePicker.class && (registerFields[i] == null ||
                             ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty())) {
                 return i;
             }
