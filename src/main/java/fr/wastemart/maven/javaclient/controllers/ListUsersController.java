@@ -89,8 +89,9 @@ public class ListUsersController extends GenericController {
         try {
 
 
-
+            System.out.println(usersTable.getId());
             if(usersTable.getId().equals( "usersTableRegistration")){
+                System.out.println("Registration !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 users = fetchInvalidUsersByCategory(libelle);
             }
             else{
@@ -105,7 +106,10 @@ public class ListUsersController extends GenericController {
 
 
                 if(idCategory == 0 || idCategory == 1){
+
+
                     userLibelle.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+
 
                     userEmail.setCellValueFactory(new PropertyValueFactory<>("mail"));
                     userNumber.setCellValueFactory(new PropertyValueFactory<>("tel"));
