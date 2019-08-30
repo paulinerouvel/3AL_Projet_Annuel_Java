@@ -46,7 +46,7 @@ public class UserInstance {
         }
     }
 
-    public void initUser() throws Exception {
+    public void initUser() {
         User fetchedUser = fetchUser(token.getInt("userId"));
         setUser(fetchedUser);
     }

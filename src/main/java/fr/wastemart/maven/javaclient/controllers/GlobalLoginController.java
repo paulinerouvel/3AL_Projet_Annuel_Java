@@ -63,16 +63,17 @@ public class GlobalLoginController extends GenericController {
             }
         } else {
             UserInstance.getInstance().setToken(loginResponse.getDataAsJSONObject());
+            if(UserInstance.getInstance().getTokenUserCategory() != 1 && UserInstance.getInstance().getTokenUserCategory() != 3) {
+                if (UserInstance.getInstance().tokenIsValid()) {
+                    UserInstance.getInstance().initUser();
+                    UserInstance.getInstance().setConnected(true);
 
-            if(UserInstance.getInstance().tokenIsValid()) {
-                UserInstance.getInstance().initUser();
-                UserInstance.getInstance().setConnected(true);
-
-                StageManager.getInstance().displayMainPage(UserInstance.getInstance());
-
-            }
-            else {
-                setInfoText("Token incorrect. Re-essayez.");
+                    StageManager.getInstance().displayMainPage(UserInstance.getInstance());
+                } else {
+                    setInfoText("Token incorrect. Re-essayez.");
+                }
+            } else {
+                setInfoText("Cet utilisateur n'a pas le droit de se connecter sur le client Wastemart");
             }
         }
     }

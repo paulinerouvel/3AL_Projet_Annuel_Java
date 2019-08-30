@@ -150,7 +150,6 @@ public class User {
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
-
         return user;
     }
 

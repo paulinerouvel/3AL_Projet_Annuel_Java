@@ -1,5 +1,6 @@
 package fr.wastemart.maven.javaclient;
 
+import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.pluginmanager.PluginManager;
 import javafx.application.Application;
@@ -34,8 +35,12 @@ public class MainApp extends Application {
         String configFile = System.getProperty("user.dir")+"/activatedPlugins.conf";
         String pluginsFolder = System.getProperty("user.dir")+"/plugins";
 
-        if(new File(configFile).isFile() && new File(pluginsFolder).isDirectory()){
-            PluginManager.initialization(configFile, pluginsFolder);
+        try {
+            if (new File(configFile).isFile() && new File(pluginsFolder).isDirectory()) {
+                PluginManager.initialization(configFile, pluginsFolder);
+            }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
         }
     }
 }

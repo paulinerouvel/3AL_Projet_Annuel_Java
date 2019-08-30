@@ -49,11 +49,11 @@
                         </TableView>
                         <ButtonBar layoutX="204.0" layoutY="531.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                                <Button mnemonicParsing="false" onAction="#validate" prefHeight="29.0" prefWidth="139.0" text="Déplacer">
+                                <Button mnemonicParsing="false" onAction="#moveProduct" prefHeight="29.0" prefWidth="139.0" text="Déplacer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" text="Supprimer">
+                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>

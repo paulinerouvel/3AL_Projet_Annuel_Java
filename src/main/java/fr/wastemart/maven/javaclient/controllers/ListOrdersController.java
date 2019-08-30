@@ -143,7 +143,6 @@ public class ListOrdersController extends GenericController {
                 setInfoErrorOccurred();
             }
         } else {
-            System.out.println("Test");
             setInfoText("Aucune liste sélectionnée");
         }
     }

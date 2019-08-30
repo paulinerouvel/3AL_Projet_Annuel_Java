@@ -84,28 +84,25 @@ public class ProductListsController extends GenericController {
     }
 
     @FXML
-    private boolean refreshDisplay() {
-        boolean result = false;
+    private void refreshDisplay() {
         if(displayProductLists()){
             switch (option) {
                 case "all":
-                    result = displayProducts(null);
+                    displayProducts(null);
                     break;
                 case "listall":
-                    result = displayProducts(null);
+                    displayProducts(null);
                     break;
                 case "me":
-                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
+                    displayProducts(lists.getJSONObject(0).getInt("id"));
                     listsTable.getSelectionModel().selectFirst();
                     break;
                 case "pro":
-                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
+                    displayProducts(lists.getJSONObject(0).getInt("id"));
                     listsTable.getSelectionModel().selectFirst();
                     break;
             }
         }
-        return result;
-
     }
 
     @FXML

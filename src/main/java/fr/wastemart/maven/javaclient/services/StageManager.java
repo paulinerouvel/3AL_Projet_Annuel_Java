@@ -216,6 +216,9 @@ public class StageManager {
     }
 
     public void displayMainPage(UserInstance userInstance) {
+        System.out.println(userInstance.getTokenUserCategory());
+
+
         if (userInstance.getTokenUserCategory().equals(4)) {
             loadPage(dotenv.get("EMPLOYEE_MAIN"), userInstance);
         } else if (userInstance.getTokenUserCategory().equals(5)) {

@@ -16,8 +16,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
-import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
+import static fr.wastemart.maven.javaclient.services.Product.*;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
 import static fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse;
 
@@ -55,51 +54,27 @@ public class ListWarehousesController extends GenericController {
         warehouseTable.getSelectionModel().selectFirst();
     }
 
-    private void displayWarehouseLists() throws Exception {
+    private boolean displayWarehouseLists() {
+        boolean result = false;
         warehouseTable.getItems().clear();
         warehouses = fetchAllWarehouse();
 
-        listId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-        listCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
-        listPlace.setCellValueFactory(new PropertyValueFactory<>("placeLibre"));
-        listTotalPlace.setCellValueFactory(new PropertyValueFactory<>("placeTotal"));
-        listName.setCellFactory(TextFieldTableCell.forTableColumn());
-        // liste combobox entrepot
-        IDwarehouse.setCellValueFactory(new PropertyValueFactory<>("entrepotwm"));
-        ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
-        IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
-        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> swapIdWarehouse = (Integer)e.getNewValue());
-
-        for (int i = 0; i < warehouses.length(); i++) {
-            JSONObject warehouse = warehouses.getJSONObject(i);
-            Warehouse warehouseElement = jsonToWarehouse(warehouse);
-
-            warehouseTable.getItems().add(warehouseElement);
-            idWarehouse.add(warehouseElement.getId());
+        if(warehouses != null) {
+            result = fillWarehouseLists();
         }
-
+        return result;
     }
 
-    private void displayProductsByWarehouse(Integer id) throws Exception {
+    private boolean displayProductsByWarehouse(Integer id) {
+        boolean result = false;
         productsTable.getItems().clear();
         products = fetchProductsByWarehouse(id);
 
-        productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-        productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
-        productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
-        productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
-        productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
-
-
-        for (int i = 0; i < products.length(); i++) {
-            JSONObject product = products.getJSONObject(i);
-            Product productElement = jsonToProduct(product);
-
-            productsTable.getItems().add(productElement);
+        if(products != null){
+            result = fillProducts();
         }
+
+        return result;
     }
 
     @FXML
@@ -117,7 +92,7 @@ public class ListWarehousesController extends GenericController {
     }
 
     @FXML
-    public void validate() {
+    public void moveProduct() {
         try {
             if (swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
                 //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
@@ -129,6 +104,93 @@ public class ListWarehousesController extends GenericController {
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    public void deleteProduct() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfWarehouseSelected != -1 && indexOfProductSelected != -1) {
+            Product productToRemove = productsTable.getSelectionModel().getSelectedItem();
+            productToRemove.setListProduct(null);
+
+            if(updateProduct(productToRemove, UserInstance.getInstance().getTokenValue())){
+                refreshDisplay();
+                setInfoText("Produit supprimé de la liste");
+            } else {
+                setInfoErrorOccurred();
+            }
+        } else {
+            setInfoText("Veuillez sélectionner une liste et un produit");
+        }
+    }
+
+    private boolean fillWarehouseLists() {
+        if(warehouses != null) {
+            listId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+            listCity.setCellValueFactory(new PropertyValueFactory<>("ville"));
+            listPlace.setCellValueFactory(new PropertyValueFactory<>("placeLibre"));
+            listTotalPlace.setCellValueFactory(new PropertyValueFactory<>("placeTotal"));
+            listName.setCellFactory(TextFieldTableCell.forTableColumn());
+            // liste combobox entrepot
+            IDwarehouse.setCellValueFactory(new PropertyValueFactory<>("entrepotwm"));
+            ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
+            IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
+            IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> swapIdWarehouse = (Integer) e.getNewValue());
+
+            for (int i = 0; i < warehouses.length(); i++) {
+                Warehouse warehouse = jsonToWarehouse(warehouses.getJSONObject(i));
+                if(warehouse != null) {
+                    warehouseTable.getItems().add(warehouse);
+                    idWarehouse.add(warehouse.getId());
+
+                } else {
+                    setInfoText("Un ou plusieurs entrepôts n'ont pas pu être récupérés");
+
+                }
+
+            }
+            return true;
+        } else {
+            setInfoText("Aucun entrepôt récupéré");
+            return false;
+        }
+    }
+
+    private boolean fillProducts() {
+        if(!products.isEmpty()) {
+            productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+            productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+            productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            productDlc.setCellValueFactory(new PropertyValueFactory<>("dlc"));
+            productQuantity.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+            productAvailable.setCellValueFactory(new PropertyValueFactory<>("enRayon"));
+            productDate.setCellValueFactory(new PropertyValueFactory<>("dateMiseEnRayon"));
+
+            for (int i = 0; i < products.length(); i++) {
+                Product product = jsonToProduct(products.getJSONObject(i));
+                if(product != null) {
+                    productsTable.getItems().add(product);
+                } else {
+                    setInfoText("Un ou plusieurs produits n'ont pas pu être récupérés");
+                }
+            }
+            return true;
+        } else {
+            setInfoText("L'entrepôt est vide !");
+            return false;
+        }
+    }
+
+    @FXML
+    private void refreshDisplay() {
+        if(displayWarehouseLists()) {
+            if (displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"))) {
+                warehouseTable.getSelectionModel().selectFirst();
+            }
         }
     }
 
