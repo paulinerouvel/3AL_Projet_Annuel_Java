@@ -6,6 +6,35 @@ import org.json.JSONObject;
 public class Warehouse {
         // --- POST --- //
 
+    // POST a Warehouse
+    public static boolean createWarehouse(fr.wastemart.maven.javaclient.models.Warehouse warehouse) {
+        String desc = warehouse.getDesc() == null ? null : "\""+warehouse.getDesc()+"\"";
+        String photo = warehouse.getPhoto() == null ? "\"\"" : "\""+warehouse.getPhoto()+"\"";
+        String placeTotal = warehouse.getPlaceTotal() == null ? null : "\""+warehouse.getPlaceTotal()+"\"";
+        String placeLibre = warehouse.getPlaceLibre() == null ? null : "\""+warehouse.getPlaceLibre()+"\"";
+
+        String json = "{\n" +
+                "\t\"libelle\": \""+warehouse.getLibelle()+"\",\n" +
+                "\t\"adresse\" : \""+warehouse.getAdresse()+"\",\n" +
+                "\t\"ville\": \""+warehouse.getVille()+"\",\n" +
+                "\t\"codePostal\": \""+warehouse.getCodePostal()+"\",\n" +
+                "\t\"desc\":"+desc+",\n" +
+                "\t\"photo\":"+photo+",\n" +
+                "\t\"placeTotal\":"+placeTotal+",\n" +
+                "\t\"placeLibre\":"+placeLibre+",\n" +
+            "}";
+
+        Integer result = 299;
+
+        try {
+            result = Requester.sendPostRequest("warehouse", json, UserInstance.getInstance().getTokenValue()).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
+    }
+
         // --- GET --- //
 
     // GET all warehouses
@@ -68,6 +97,18 @@ public class Warehouse {
 
     // --- DELETE ---//
 
+    // DELETE a Warehouse
+    public static boolean removeWarehouse(Integer warehouseId, String token) {
+        Integer result = 299;
+
+        try {
+            result = Requester.sendDeleteRequest("warehouse?id=" + warehouseId, token).getResponseCode();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result < 299;
+    }
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
         try {

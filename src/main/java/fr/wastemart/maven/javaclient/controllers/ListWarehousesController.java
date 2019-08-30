@@ -2,6 +2,9 @@ package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
 import fr.wastemart.maven.javaclient.models.Warehouse;
+import fr.wastemart.maven.javaclient.services.Details.Detail;
+import fr.wastemart.maven.javaclient.services.Details.StringDetail;
+import fr.wastemart.maven.javaclient.services.Details.WarehouseDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
@@ -16,10 +19,11 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static fr.wastemart.maven.javaclient.services.Product.*;
-import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
-import static fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse;
+import java.util.ArrayList;
+import java.util.List;
 
+import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.Warehouse.*;
 
 
 public class ListWarehousesController extends GenericController {
@@ -49,9 +53,153 @@ public class ListWarehousesController extends GenericController {
     @FXML TableColumn<Object, Object> IDwarehouse;
 
     public void init() throws Exception {
-        displayWarehouseLists();
-        displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"));
-        warehouseTable.getSelectionModel().selectFirst();
+        refreshDisplay();
+    }
+
+
+    @FXML
+    public void clickItem() {
+        try {
+            refreshSelectedIndices();
+
+            if (indexOfWarehouseSelected != -1) {
+                displayProductsByWarehouse(warehouses.getJSONObject(indexOfWarehouseSelected).getInt("id"));
+            }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    public void displayAddWarehouse() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        try{
+            List<Detail> details = new ArrayList<Detail>();
+
+            details.add(new StringDetail("add"));
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_WAREHOUSE"), details);
+
+            refreshDisplay();
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+
+    }
+
+    @FXML
+    public void displayModifyWarehouse() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        try {
+            Warehouse selectedWarehouse = jsonToWarehouse(warehouses.getJSONObject(indexOfWarehouseSelected));
+
+            List<Detail> details = new ArrayList<Detail>();
+
+            details.add(new StringDetail("modify"));
+            details.add(new WarehouseDetail(selectedWarehouse));
+            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_WAREHOUSE"), details);
+
+            refreshDisplay();
+        } catch (Exception e){
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    public void deleteWarehouse() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfWarehouseSelected != -1) {
+            JSONArray productList = fetchProductsByWarehouse(warehouseTable.getSelectionModel().getSelectedItem().getId());
+
+            if(!productList.isEmpty()){
+                for(int i = 0; i < productList.length(); i ++) {
+                    Product product = jsonToProduct((JSONObject) productList.get(i));
+                    if(product != null){
+                        product.setEntrepotwm(null);
+                        if(updateProduct(product,UserInstance.getInstance().getTokenValue())) {
+                            setInfoText("Un ou plusieurs produits n'ont pas pu être supprimés");
+                        }
+                    }
+
+                }
+            }
+
+            if(removeWarehouse(warehouseTable.getSelectionModel().getSelectedItem().getId(), UserInstance.getInstance().getTokenValue())){
+                setInfoText("Produit supprimé de la liste");
+            } else {
+                setInfoErrorOccurred();
+
+            }
+            refreshDisplay();
+        } else {
+            setInfoText("Veuillez sélectionner un entrepôt");
+        }
+    }
+
+    @FXML
+    public void moveProduct(Integer newWarehouseId) {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfProductSelected != -1) {
+            if (newWarehouseId != -1) {
+                Product productToSwitch = productsTable.getSelectionModel().getSelectedItem();
+                productToSwitch.setEntrepotwm(newWarehouseId);
+
+                if (updateProduct(productToSwitch, UserInstance.getInstance().getTokenValue())) { // TODO Switches id of warehouse of product
+                    setInfoText("Produit changé d'entrepôt");
+                    refreshDisplay();
+                } else {
+                    setInfoErrorOccurred();
+                }
+
+            }
+        } else {
+            setInfoText("Veuillez sélectionner un produit");
+        }
+    }
+
+    @FXML
+    public void deleteProduct() {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfWarehouseSelected != -1 && indexOfProductSelected != -1) {
+            Product productToRemove = productsTable.getSelectionModel().getSelectedItem();
+
+            if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(productToRemove.getId(), UserInstance.getInstance().getTokenValue())){
+                setInfoText("Produit supprimé de l'entrepôt");
+                refreshDisplay();
+            } else {
+                setInfoErrorOccurred();
+            }
+        } else {
+            setInfoText("Veuillez sélectionner un entrepôt et un produit");
+        }
+    }
+
+
+
+    @FXML
+    private void refreshDisplay() {
+        if(displayWarehouseLists()) {
+            if (displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"))) {
+                warehouseTable.getSelectionModel().selectFirst();
+            }
+        }
+    }
+
+    public void refreshSelectedIndices() {
+        this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
+        this.indexOfWarehouseSelected = warehouseTable.getSelectionModel().getSelectedIndex();
     }
 
     private boolean displayWarehouseLists() {
@@ -77,56 +225,6 @@ public class ListWarehousesController extends GenericController {
         return result;
     }
 
-    @FXML
-    public void clickItem() {
-        try {
-            refreshSelectedIndices();
-
-            if (indexOfWarehouseSelected != -1) {
-                displayProductsByWarehouse(warehouses.getJSONObject(indexOfWarehouseSelected).getInt("id"));
-            }
-        } catch (Exception e) {
-            Logger.getInstance().reportError(e);
-            setInfoErrorOccurred();
-        }
-    }
-
-    @FXML
-    public void moveProduct() {
-        try {
-            if (swapIdWarehouse != productsTable.getSelectionModel().getSelectedItem().getEntrepotwm()) {
-                //updateProduct(productsTable.getSelectionModel().getSelectedItem().getId(), swapIdWarehouse); TODO Switches id of warehouse of product
-                init();
-                setInfoText("Enregistrement validé :)");
-            } else {
-                setInfoText("L'enregistrement a echoué :(");
-            }
-        } catch (Exception e) {
-            Logger.getInstance().reportError(e);
-            setInfoErrorOccurred();
-        }
-    }
-
-    @FXML
-    public void deleteProduct() {
-        clearInfoText();
-        refreshSelectedIndices();
-
-        if (indexOfWarehouseSelected != -1 && indexOfProductSelected != -1) {
-            Product productToRemove = productsTable.getSelectionModel().getSelectedItem();
-            productToRemove.setListProduct(null);
-
-            if(updateProduct(productToRemove, UserInstance.getInstance().getTokenValue())){
-                refreshDisplay();
-                setInfoText("Produit supprimé de la liste");
-            } else {
-                setInfoErrorOccurred();
-            }
-        } else {
-            setInfoText("Veuillez sélectionner une liste et un produit");
-        }
-    }
-
     private boolean fillWarehouseLists() {
         if(warehouses != null) {
             listId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -139,7 +237,7 @@ public class ListWarehousesController extends GenericController {
             IDwarehouse.setCellValueFactory(new PropertyValueFactory<>("entrepotwm"));
             ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
             IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
-            IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> swapIdWarehouse = (Integer) e.getNewValue());
+            IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> moveProduct((Integer) e.getNewValue()));
 
             for (int i = 0; i < warehouses.length(); i++) {
                 Warehouse warehouse = jsonToWarehouse(warehouses.getJSONObject(i));
@@ -183,20 +281,6 @@ public class ListWarehousesController extends GenericController {
             setInfoText("L'entrepôt est vide !");
             return false;
         }
-    }
-
-    @FXML
-    private void refreshDisplay() {
-        if(displayWarehouseLists()) {
-            if (displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"))) {
-                warehouseTable.getSelectionModel().selectFirst();
-            }
-        }
-    }
-
-    public void refreshSelectedIndices() {
-        this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
-        this.indexOfWarehouseSelected = warehouseTable.getSelectionModel().getSelectedIndex();
     }
 
     // Return button

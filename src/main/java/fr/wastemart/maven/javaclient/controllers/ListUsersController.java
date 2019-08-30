@@ -194,11 +194,11 @@ public class ListUsersController extends GenericController {
     @FXML
     private void displayAddUser() {
         clearInfoText();
+        refreshSelectedIndices();
 
 
         try{
 
-            refreshSelectedIndices();
 
             List<Detail> details = new ArrayList<Detail>();
 

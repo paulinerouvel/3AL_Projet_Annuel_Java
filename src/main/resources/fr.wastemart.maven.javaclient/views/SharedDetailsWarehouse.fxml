@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="397.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsWarehouseController">
+   <children>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="14.0" prefHeight="36.0" prefWidth="593.0" style="-fx-font-size: 25;" text="Gestion d'un entrepôt" />
+      <Label alignment="CENTER" layoutX="232.0" layoutY="58.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
+      <TextField fx:id="libelle" layoutX="50.0" layoutY="108.0" prefHeight="32.0" prefWidth="498.0" promptText="Libelle" />
+      <TextField fx:id="placeLibre" layoutX="51.0" layoutY="161.0" prefHeight="32.0" prefWidth="241.0" promptText="Place libre" />
+      <TextField fx:id="placeTotal" layoutX="309.0" layoutY="161.0" prefHeight="32.0" prefWidth="241.0" promptText="Place max" />
+      <TextField fx:id="adresse" layoutX="51.0" layoutY="219.0" prefHeight="32.0" prefWidth="498.0" promptText="Adresse" />
+      <TextField fx:id="ville" layoutX="51.0" layoutY="271.0" prefHeight="32.0" prefWidth="241.0" promptText="Ville" />
+      <TextField fx:id="codePostal" layoutX="308.0" layoutY="271.0" prefHeight="32.0" prefWidth="241.0" promptText="Code Postal" />
+      <Label fx:id="info" alignment="TOP_LEFT" layoutX="52.0" layoutY="315.0" prefHeight="19.0" prefWidth="498.0" />
+      <Button layoutX="252.0" layoutY="343.0" mnemonicParsing="false" onAction="#save" text="Envoyer" />
+      <Label layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Libelle" />
+      <Label layoutX="52.0" layoutY="254.0" style="-fx-font-size: 11px;" text="Ville" />
+      <Label layoutX="51.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Place Libre" />
+      <Label layoutX="309.0" layoutY="144.0" style="-fx-font-size: 11px;" text="Place Max" />
+      <Label layoutX="51.0" layoutY="203.0" style="-fx-font-size: 11px;" text="Adresse" />
+      <Label layoutX="308.0" layoutY="255.0" style="-fx-font-size: 11px;" text="Code Postal" />
+   </children>
+</AnchorPane>

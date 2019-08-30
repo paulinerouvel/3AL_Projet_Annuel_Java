@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.ListWarehousesController">
     <children>
-        <SplitPane dividerPositions="0.388671875" layoutX="123.0" layoutY="64.0" prefHeight="576.0" prefWidth="1058.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.4072265625" layoutX="123.0" layoutY="64.0" prefHeight="576.0" prefWidth="1058.0" style="-fx-background-color: #292929;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="575.0" prefWidth="406.0" style="-fx-background-color: #292929;">
                     <children>
@@ -29,7 +29,13 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Label fx:id="info" layoutX="15.0" layoutY="535.0" prefHeight="29.0" prefWidth="367.0" />
+                  <ButtonBar layoutX="7.0" layoutY="529.0" prefHeight="40.0" prefWidth="382.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#displayAddWarehouse" text="Créer" />
+                        <Button mnemonicParsing="false" onAction="#displayModifyWarehouse" text="Modifier" />
+                        <Button mnemonicParsing="false" onAction="#deleteWarehouse" prefHeight="29.0" text="Supprimer" />
+                    </buttons>
+                  </ButtonBar>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="642.0" style="-fx-background-color: #292929;">
@@ -44,15 +50,15 @@
                                 <TableColumn fx:id="productQuantity" maxWidth="300.0" prefWidth="82.0" text="Quantité" />
                                 <TableColumn fx:id="productAvailable" prefWidth="82.0" text="Rayon" />
                                 <TableColumn fx:id="productDate" maxWidth="200.0" minWidth="9.0" prefWidth="102.0" text="Date" />
-                        <TableColumn fx:id="IDwarehouse" maxWidth="300.0" prefWidth="106.0" text="Entrepot" />
+                        <TableColumn fx:id="IDwarehouse" maxWidth="300.0" prefWidth="89.0" text="Entrepot" />
                             </columns>
                         </TableView>
                         <ButtonBar layoutX="204.0" layoutY="531.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                                <Button mnemonicParsing="false" onAction="#moveProduct" prefHeight="29.0" prefWidth="139.0" text="Déplacer">
+                                <!--<Button mnemonicParsing="false" onAction="#moveProduct" prefHeight="29.0" prefWidth="139.0" text="Déplacer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor></Button>-->
                         <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -60,6 +66,7 @@
                             </buttons>
                         </ButtonBar>
                   <Label layoutX="211.0" layoutY="32.0" style="-fx-font-size: 20px;" text="Gestion des entrepots" />
+                  <Label fx:id="info" layoutX="22.0" layoutY="537.0" prefHeight="29.0" prefWidth="464.0" />
                     </children>
                 </AnchorPane>
             </items>

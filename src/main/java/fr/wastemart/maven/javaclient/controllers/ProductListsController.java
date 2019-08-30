@@ -326,12 +326,12 @@ public class ProductListsController extends GenericController {
             if (indexOfProductSelected != -1){
                 if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
                     setInfoText("Produit supprimé");
+                    refreshDisplay();
                 } else {
                     setInfoErrorOccurred();
                 }
             }
 
-            refreshDisplay();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
