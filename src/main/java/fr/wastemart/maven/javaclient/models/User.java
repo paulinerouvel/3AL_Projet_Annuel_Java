@@ -4,7 +4,7 @@ public class User {
 
     private Integer id;
     private String libelle;
-    private String categorieUtilisateur;
+    private Integer categorieUtilisateur;
     private String nom;
     private String prenom;
     private String mail;
@@ -23,7 +23,7 @@ public class User {
     private Integer nbPointsSourire;
 
     // Prend null ou .isEmpty() car il peut y avoir null OU ""
-    public User(Integer id, String libelle, String categorieUtilisateur, String nom, String prenom, String mail,
+    public User(Integer id, String libelle, Integer categorieUtilisateur, String nom, String prenom, String mail,
                 String tel, String adresse, String ville, Integer codePostal, String pseudo, String mdp, String photo,
                 String desc, Integer tailleOrganisme, Boolean estValide, String siret, String dateDeNaissance,
                 Integer nbPointsSourire) {
@@ -192,11 +192,11 @@ public class User {
         this.nbPointsSourire = nbPointsSourire;
     }
 
-    public String getCategorieUtilisateur() {
+    public Integer getCategorieUtilisateur() {
         return categorieUtilisateur;
     }
 
-    public void setCategorieUtilisateur(String categorieUtilisateur) {
+    public void setCategorieUtilisateur(Integer categorieUtilisateur) {
         this.categorieUtilisateur = categorieUtilisateur;
     }
 }

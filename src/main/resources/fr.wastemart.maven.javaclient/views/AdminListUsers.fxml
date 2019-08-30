@@ -47,9 +47,9 @@
                         </TableView>
                         <ButtonBar layoutX="278.0" layoutY="531.0" prefHeight="40.0" prefWidth="555.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                        <Button mnemonicParsing="false" onAction="#displayAddUser" text="Créer" />
+                                <Button mnemonicParsing="false" onAction="#displayAddUser" text="Créer" />
                                 <Button mnemonicParsing="false" onAction="#displayModifyUser" prefHeight="29.0" prefWidth="30.0" text="Modifier " />
-                        <Button mnemonicParsing="false" onAction="#deleteUser" text="Supprimer" />
+                                <Button mnemonicParsing="false" onAction="#deleteUser" text="Supprimer" />
                                 <Button layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onAction="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
                             </buttons>
                         </ButtonBar>

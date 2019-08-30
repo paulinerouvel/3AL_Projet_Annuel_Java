@@ -42,7 +42,7 @@
                         </TableView>
                         <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="279.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                             <buttons>
-                                <Button mnemonicParsing="false" onMouseClicked="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
+                                <Button mnemonicParsing="false" onAction="#contactUser" prefHeight="29.0" prefWidth="283.0" text="Contacter" />
                             </buttons>
                         </ButtonBar>
                         <Label fx:id="info" layoutX="10.0" layoutY="543.0" prefHeight="21.0" prefWidth="511.0" />

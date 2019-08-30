@@ -319,7 +319,7 @@ public class GlobalRegisterController extends GenericController {
                         //uploadPicture(photo.getText()),
                         description.getText(),
                         (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
-                            estValide.isSelected(),
+                        estValide != null && estValide.isSelected(),
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
                         dateNaissance.getValue().toString(),
                         0
@@ -398,10 +398,11 @@ public class GlobalRegisterController extends GenericController {
 
             if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
-            } else if(registerFieldClassType == DatePicker.class && ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty()) {
+            } else if(registerFieldClassType == DatePicker.class && (registerFields[i] == null |
+                            ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty())) {
                 return i;
             }
-            else if(option != "modify" && registerFieldClassType == PasswordField.class && ((PasswordField)registerFields[i]).getText().trim().isEmpty()) {
+            else if(!option.equals("modify") && registerFieldClassType == PasswordField.class && ((PasswordField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
             }
             else if(registerFieldClassType == ChoiceBox.class && ((ChoiceBox)registerFields[i]).getSelectionModel().getSelectedIndex() == 3) {

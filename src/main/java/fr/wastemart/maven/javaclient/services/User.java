@@ -144,7 +144,7 @@ public class User {
                 JSONObject jsonUser = fetchUserResponse.getDataAsJSONObject();
 
                 user = jsonToUser(jsonUser);
-                String userCategory = fetchCategory(jsonUser.getInt("id"));
+                Integer userCategory = fetchCategory(jsonUser.getInt("id"));
                 user.setCategorieUtilisateur(userCategory);
             }
         } catch (Exception e) {
@@ -187,12 +187,12 @@ public class User {
     }
 
     // GET the Category of one User
-    public static String fetchCategory(Integer userId) {
-        String result = null;
+    public static Integer fetchCategory(Integer userId) {
+        Integer result = null;
 
         try {
             HttpResponse response = Requester.sendGetRequest("user/category?userId=" + userId, null);
-            result = response.getData();
+            result = response.getDataAsJSONObject().getInt("Categorie");
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
@@ -382,7 +382,7 @@ public class User {
             return new fr.wastemart.maven.javaclient.models.User(
                     user.getInt("id"),
                     user.isNull("libelle") ? null : user.getString("libelle"),
-                    null, // TODO -1 on Pauline's version
+                    -1, // TODO -1 on Pauline's version
                     user.isNull("nom") ? null : user.getString("nom"),
                     user.isNull("prenom") ? null : user.getString("prenom"),
                     user.getString("mail"),

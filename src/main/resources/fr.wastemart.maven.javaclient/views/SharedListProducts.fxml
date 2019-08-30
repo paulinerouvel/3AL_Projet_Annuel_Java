@@ -60,7 +60,7 @@
                   </TableView>
                   <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="752.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="10.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#addToList" text="Ajouter" />
+                        <Button mnemonicParsing="false" onAction="#affectToList" text="Ajouter" />
                         <Button mnemonicParsing="false" onAction="#removeFromList" text="Enlever" />
                       <Button mnemonicParsing="false" onAction="#displayAddProduct" prefHeight="29.0" prefWidth="156.0" text="Créer" />
                         <Button mnemonicParsing="false" onAction="#displayModifyProduct" text="Modifier" />
