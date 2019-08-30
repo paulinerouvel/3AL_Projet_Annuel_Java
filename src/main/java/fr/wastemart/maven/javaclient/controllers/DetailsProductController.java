@@ -120,6 +120,7 @@ public class DetailsProductController extends GenericController {
                 }
 
 
+
                 Product newProduct = new Product(product == null ? -1 : product.getId(),
                         libelle.getText(),
                         desc.getText(),
@@ -163,7 +164,8 @@ public class DetailsProductController extends GenericController {
         else if(desc.getText().trim().isEmpty()){ return 1; }
         else if(!NumberUtils.isNumber(prix.getText()) || prix.getText().trim().isEmpty()){ return 2; }
         else if(!NumberUtils.isNumber(quantite.getText()) ||quantite.getText().trim().isEmpty()){ return 3; }
-        else if(!dlc.getValue().toString().trim().isEmpty() && dlc.getValue().compareTo(LocalDate.now()) < 0) { return 4; }
+        else if(dlc.getValue().toString().trim().isEmpty() || dlc.getValue().compareTo(LocalDate.now()) < 0) { return 4; }
+
         return -1;
     }
 

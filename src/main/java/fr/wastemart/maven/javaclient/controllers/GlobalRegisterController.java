@@ -379,7 +379,6 @@ public class GlobalRegisterController extends GenericController {
         for (int i = 0; i < registerFields.length; i++) {
             Class<?> registerFieldClassType = registerFields[i].getClass();
 
-
             if(registerFieldClassType == TextField.class && ((TextField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
             } else if(registerFieldClassType == DatePicker.class && (registerFields[i] == null ||
