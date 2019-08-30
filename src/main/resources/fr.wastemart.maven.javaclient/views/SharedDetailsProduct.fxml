@@ -27,7 +27,7 @@
       <Button layoutX="62.0" layoutY="390.0" mnemonicParsing="false" text="Lecteur" />
       <TextField fx:id="codeBarre" layoutX="173.0" layoutY="388.0" prefHeight="32.0" prefWidth="368.0" />
       <Button layoutX="443.0" layoutY="494.0" mnemonicParsing="false" onAction="#submitProduct" text="Valider" />
-      <ChoiceBox fx:id="categorieProduit" layoutX="61.0" layoutY="445.0" prefHeight="29.0" prefWidth="320.0" />
+      <ChoiceBox fx:id="categorieProduit" layoutX="61.0" layoutY="445.0" prefHeight="29.0" prefWidth="320.0" style="-fx-background-color: #292929; -fx-border-color: WHITE;" />
       <Label layoutX="62.0" layoutY="426.0" text="Type" />
       <Label fx:id="info" layoutX="108.0" layoutY="502.0" prefHeight="19.0" prefWidth="320.0" />
       <Label layoutX="62.0" layoutY="501.0" text="Info :" />
