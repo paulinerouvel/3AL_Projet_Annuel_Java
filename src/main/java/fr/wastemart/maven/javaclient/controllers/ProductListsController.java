@@ -231,6 +231,8 @@ public class ProductListsController extends GenericController {
                 } else {
                     setInfoErrorOccurred();
                 }
+            } else {
+                setInfoText("Veuillez sélectionner une liste");
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);

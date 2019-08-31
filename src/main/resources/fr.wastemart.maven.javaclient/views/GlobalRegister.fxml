@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -11,7 +12,10 @@
 
 <AnchorPane prefHeight="675.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalRegisterController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayLoginPage" text="Retour">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label layoutX="236.0" layoutY="22.0" style="-fx-font-size: 25;" text="Inscription" />
       <Label alignment="CENTER" layoutX="232.0" layoutY="58.0" prefHeight="19.0" prefWidth="131.0" text="Infos" />
       <TextField fx:id="prenom" layoutX="50.0" layoutY="108.0" prefHeight="32.0" prefWidth="241.0" promptText="Prénom" text="Alexandre" />
@@ -32,7 +36,10 @@
       <TextField fx:id="tailleOrganisme" layoutX="51.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Taille de l'organisme" />
       <TextField fx:id="siret" layoutX="312.0" layoutY="556.0" prefHeight="32.0" prefWidth="241.0" promptText="Siret" />
       <Label fx:id="info" alignment="TOP_LEFT" layoutX="48.0" layoutY="602.0" prefHeight="19.0" prefWidth="498.0" />
-      <Button layoutX="249.0" layoutY="632.0" mnemonicParsing="false" onAction="#register" text="Envoyer" />
+      <Button layoutX="249.0" layoutY="632.0" mnemonicParsing="false" onAction="#register" text="Envoyer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label fx:id="prenomLabel" layoutX="50.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Prenom" />
       <Label fx:id="nomLabel" layoutX="309.0" layoutY="89.0" style="-fx-font-size: 11px;" text="Nom" />
       <Label layoutX="51.0" layoutY="143.0" style="-fx-font-size: 11px;" text="Email *" />

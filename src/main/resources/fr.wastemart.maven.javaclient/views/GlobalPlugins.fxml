@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -9,21 +10,39 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.GlobalPluginsController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="28.0" prefHeight="30.0" prefWidth="604.0" style="-fx-font-size: 25;" text="Gestion des Plug-ins" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Khmer OS System" size="18.0" />
          </font></Label>
-      <Button layoutX="214.0" layoutY="107.0" mnemonicParsing="false" onAction="#selectFolder" text="Parcourir" />
+      <Button layoutX="214.0" layoutY="107.0" mnemonicParsing="false" onAction="#selectFolder" text="Parcourir">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <TextField fx:id="pluginPath" layoutX="329.0" layoutY="103.0" prefHeight="37.0" prefWidth="455.0" promptText="Sélectionnez un dossier" />
       <Label layoutX="251.0" layoutY="167.0" prefHeight="19.0" prefWidth="142.0" text="Plug-ins installés" />
       <ListView fx:id="localPluginsListView" layoutX="119.0" layoutY="194.0" prefHeight="296.0" prefWidth="375.0" />
-      <Button layoutX="557.0" layoutY="500.0" mnemonicParsing="false" onAction="#installSelectedPlugin" prefHeight="29.0" prefWidth="296.0" text="Télécharger" />
-      <Button layoutX="120.0" layoutY="500.0" minWidth="36.0" mnemonicParsing="false" onAction="#uninstallSelectedPlugin" prefHeight="29.0" prefWidth="136.0" text="Désinstaller" />
+      <Button layoutX="557.0" layoutY="500.0" mnemonicParsing="false" onAction="#installSelectedPlugin" prefHeight="29.0" prefWidth="296.0" text="Télécharger">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button layoutX="120.0" layoutY="500.0" minWidth="36.0" mnemonicParsing="false" onAction="#uninstallSelectedPlugin" prefHeight="29.0" prefWidth="136.0" text="Désinstaller">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label layoutX="634.0" layoutY="167.0" text="Plug-ins en ligne" />
       <ListView fx:id="onlinePluginsListView" layoutX="554.0" layoutY="194.0" prefHeight="296.0" prefWidth="296.0" />
-      <Button layoutX="263.0" layoutY="500.0" mnemonicParsing="false" onAction="#enablePlugin" prefHeight="29.0" prefWidth="101.0" text="Activer" />
-      <Button layoutX="370.0" layoutY="500.0" mnemonicParsing="false" onAction="#disablePlugin" prefHeight="29.0" prefWidth="124.0" text="Désactiver" />
+      <Button layoutX="263.0" layoutY="500.0" mnemonicParsing="false" onAction="#enablePlugin" prefHeight="29.0" prefWidth="101.0" text="Activer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button layoutX="370.0" layoutY="500.0" mnemonicParsing="false" onAction="#disablePlugin" prefHeight="29.0" prefWidth="124.0" text="Désactiver">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label fx:id="info" layoutX="25.0" layoutY="540.0" prefHeight="19.0" prefWidth="974.0" />
       <!--<Button layoutX="55.0" layoutY="96.0" mnemonicParsing="false" onAction="#disconnect" text="disconnect" />-->
    </children>

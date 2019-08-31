@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="571.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsProductController">
+<AnchorPane prefHeight="542.0" prefWidth="600.0" style="-fx-background-color: #292929;" stylesheets="@../css/Wastemart.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.wastemart.maven.javaclient.controllers.DetailsProductController">
    <children>
       <Label layoutX="205.0" layoutY="31.0" style="-fx-font-size: 25;" text="Gérer un produit" />
       <Label layoutX="64.0" layoutY="67.0" text="Libelle *" />
@@ -24,12 +25,18 @@
       <TextField fx:id="quantite" layoutX="61.0" layoutY="328.0" prefHeight="32.0" prefWidth="224.0" />
       <DatePicker fx:id="dlc" layoutX="313.0" layoutY="328.0" prefHeight="32.0" prefWidth="224.0" />
       <Label layoutX="173.0" layoutY="368.0" text="Code Barre *" />
-      <Button layoutX="62.0" layoutY="390.0" mnemonicParsing="false" text="Lecteur" />
+      <Button layoutX="62.0" layoutY="390.0" mnemonicParsing="false" text="Lecteur">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <TextField fx:id="codeBarre" layoutX="173.0" layoutY="388.0" prefHeight="32.0" prefWidth="368.0" />
-      <Button layoutX="443.0" layoutY="494.0" mnemonicParsing="false" onAction="#submitProduct" text="Valider" />
-      <ChoiceBox fx:id="categorieProduit" layoutX="61.0" layoutY="445.0" prefHeight="29.0" prefWidth="320.0" style="-fx-background-color: #292929; -fx-border-color: WHITE;" />
-      <Label layoutX="62.0" layoutY="426.0" text="Type *" />
-      <Label fx:id="info" alignment="TOP_LEFT" layoutX="108.0" layoutY="502.0" prefHeight="48.0" prefWidth="320.0" wrapText="true" />
-      <Label layoutX="62.0" layoutY="501.0" text="Info :" />
+      <Button layoutX="445.0" layoutY="440.0" mnemonicParsing="false" onAction="#submitProduct" text="Valider">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <ChoiceBox fx:id="categorieProduit" layoutX="313.0" layoutY="270.0" prefHeight="31.0" prefWidth="224.0" style="-fx-background-color: #292929; -fx-border-color: WHITE;" />
+      <Label layoutX="313.0" layoutY="251.0" text="Type *" />
+      <Label fx:id="info" alignment="TOP_LEFT" layoutX="108.0" layoutY="477.0" prefHeight="39.0" prefWidth="435.0" wrapText="true" />
+      <Label layoutX="62.0" layoutY="477.0" text="Info :" />
    </children>
 </AnchorPane>

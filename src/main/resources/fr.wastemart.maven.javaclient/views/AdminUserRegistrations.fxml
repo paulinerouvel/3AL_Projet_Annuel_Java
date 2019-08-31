@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -22,7 +23,10 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
-                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour" />
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#displayMainPage" text="Retour">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="617.0" style="-fx-background-color: #292929;">
@@ -47,9 +51,18 @@
                         </TableView>
                         <ButtonBar layoutX="424.0" layoutY="531.0" prefHeight="40.0" prefWidth="406.0" AnchorPane.bottomAnchor="4.0" AnchorPane.rightAnchor="17.0">
                             <buttons>
-                                <Button mnemonicParsing="false" onAction="#validateUser" prefHeight="29.0" prefWidth="30.0" text="Accepter" />
-                                <Button layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onAction="#refuseUser" prefHeight="29.0" prefWidth="283.0" text="Refuser" />
-                                <Button mnemonicParsing="false" onAction="#contactUser" text="Contacter" />
+                                <Button mnemonicParsing="false" onAction="#validateUser" prefHeight="29.0" prefWidth="30.0" text="Accepter">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                                <Button layoutX="536.0" layoutY="16.0" mnemonicParsing="false" onAction="#refuseUser" prefHeight="29.0" prefWidth="283.0" text="Refuser">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                                <Button mnemonicParsing="false" onAction="#contactUser" text="Contacter">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                             </buttons>
                         </ButtonBar>
                         <Label fx:id="info" layoutX="10.0" layoutY="541.0" prefHeight="19.0" prefWidth="406.0" />
