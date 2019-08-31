@@ -70,16 +70,23 @@ public class Warehouse {
 
 
     public static fr.wastemart.maven.javaclient.models.Warehouse jsonToWarehouse(JSONObject warehouse) {
-        return new fr.wastemart.maven.javaclient.models.Warehouse(
-                warehouse.getInt("id"),
-                warehouse.isNull("libelle") ? null : warehouse.getString("libelle"),
-                warehouse.getString("adresse"),
-                warehouse.getString("ville"),
-                warehouse.getString("codePostal"),
-                warehouse.isNull("desc") ? null : warehouse.getString("desc"),
-                warehouse.isNull("photo") ? null : warehouse.getString("photo"),
-                warehouse.isNull("placeTotal") ? null : warehouse.getInt("placeTotal"),
-                warehouse.isNull("placeLibre") ? null : warehouse.getInt("placeLibre")
-        );
+        try{
+            return new fr.wastemart.maven.javaclient.models.Warehouse(
+                    warehouse.getInt("id"),
+                    warehouse.isNull("libelle") ? null : warehouse.getString("libelle"),
+                    warehouse.getString("adresse"),
+                    warehouse.getString("ville"),
+                    warehouse.getString("codePostal"),
+                    warehouse.isNull("desc") ? null : warehouse.getString("desc"),
+                    warehouse.isNull("photo") ? null : warehouse.getString("photo"),
+                    warehouse.isNull("placeTotal") ? null : warehouse.getInt("placeTotal"),
+                    warehouse.isNull("placeLibre") ? null : warehouse.getInt("placeLibre")
+            );
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            return null;
+        }
     }
+
 }

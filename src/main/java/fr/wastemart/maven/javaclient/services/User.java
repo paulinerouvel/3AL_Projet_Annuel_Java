@@ -23,7 +23,7 @@ public class User {
         String photo = user.getPhoto() == null ? "\"\"" : "\""+user.getPhoto()+"\"";
         String desc = user.getDesc() == null ? "\"\"" : "\""+user.getDesc()+"\"";
         String siret = user.getSiret() == null ? "\"\"" : "\""+user.getSiret()+"\"";
-        String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
+        String dateDeNaissance = user.getDateDeNaissance() == null ? "\"\"" : "\""+user.getDateDeNaissance()+"\"";
 
         String json = "{\n" +
             "\t\"id\":\""+user.getId()+"\",\n" +
@@ -310,13 +310,13 @@ public class User {
 
     // PUT a user (Update)
     public static boolean updateUser(fr.wastemart.maven.javaclient.models.User user, String token) {
-        String libelle = user.getLibelle() == null ? null : "\""+user.getLibelle()+"\"";
-        String nom = user.getNom() == null ? null : "\""+user.getNom()+"\"";
-        String prenom = user.getPrenom() == null ? null : "\""+user.getPrenom()+"\"";
+        String libelle = user.getLibelle() == null ? "\"\"" : "\""+user.getLibelle()+"\"";
+        String nom = user.getNom() == null ? "\"\"" : "\""+user.getNom()+"\"";
+        String prenom = user.getPrenom() == null ? "\"\"" : "\""+user.getPrenom()+"\"";
         String photo = user.getPhoto() == null ? "\"\"" : "\""+user.getPhoto()+"\"";
-        String desc = user.getDesc() == null ? null : "\""+user.getDesc()+"\"";
-        String siret = user.getSiret() == null ? null : "\""+user.getSiret()+"\"";
-        String dateDeNaissance = user.getDateDeNaissance() == null ? null : "\""+user.getDateDeNaissance()+"\"";
+        String desc = user.getDesc() == null ? "\"\"" : "\""+user.getDesc()+"\"";
+        String siret = user.getSiret() == null ? "\"\"" : "\""+user.getSiret()+"\"";
+        String dateDeNaissance = user.getDateDeNaissance() == null ? "\"\"" : "\""+user.getDateDeNaissance()+"\"";
 
         String json = "{\n" +
                 "\t\"id\": \""+user.getId()+"\",\n" +

@@ -19,13 +19,13 @@ public class Product {
     public static boolean addProductToList(fr.wastemart.maven.javaclient.models.Product product, String token) {
         Integer result = 299;
 
-        String photo = product.getPhoto() == null ? null : "\""+product.getPhoto()+"\"";
-        String dlc = product.getDlc() == null ? null : "\""+product.getDlc()+"\"";
-        String codeBarre = product.getCodeBarre() == null ? null : "\""+product.getCodeBarre()+"\"";
-        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
-        String listProduct = product.getListProduct() == null ? null : "\""+product.getListProduct()+"\"";
-        String entrepotwm = product.getEntrepotwm() == null ? null : "\""+product.getEntrepotwm()+"\"";
-        String destinataire = product.getDestinataire() == null ? null : "\""+product.getDestinataire()+"\"";
+        String photo = product.getPhoto() == null ? "\"\"" : "\""+product.getPhoto()+"\"";
+        String dlc = product.getDlc() == null ? "\"\"" : "\""+product.getDlc()+"\"";
+        String codeBarre = product.getCodeBarre() == null ? "\"\"" : "\""+product.getCodeBarre()+"\"";
+        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? "\"\"" : "\""+product.getDateMiseEnRayon()+"\"";
+        Integer listProduct = product.getListProduct() == null ? 0 : product.getListProduct();
+        Integer entrepotwm = product.getEntrepotwm() == null ? 0 : product.getEntrepotwm();
+        Integer destinataire = product.getDestinataire() == null ? 0 : product.getDestinataire();
 
 
         String json =
@@ -176,13 +176,14 @@ public class Product {
     // PUT a Product (update)
     public static boolean updateProduct(fr.wastemart.maven.javaclient.models.Product product, String token) {
         Integer result = 299;
-        String photo = product.getPhoto() == null ? null : "\""+product.getPhoto()+"\"";
-        String dlc = product.getDlc() == null ? null : "\""+product.getDlc()+"\"";
-        String codeBarre = product.getCodeBarre() == null ? null : "\""+product.getCodeBarre()+"\"";
-        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? null : "\""+product.getDateMiseEnRayon()+"\"";
-        String listProduct = product.getListProduct() == null ? null : "\""+product.getListProduct()+"\"";
-        String entrepotwm = product.getEntrepotwm() == null ? null : "\""+product.getEntrepotwm()+"\"";
-        String destinataire = product.getDestinataire() == null ? null : "\""+product.getDestinataire()+"\"";
+
+        String photo = product.getPhoto() == null ? "\"\"" : "\""+product.getPhoto()+"\"";
+        String dlc = product.getDlc() == null ? "\"\"" : "\""+product.getDlc()+"\"";
+        String codeBarre = product.getCodeBarre() == null ? "\"\"" : "\""+product.getCodeBarre()+"\"";
+        String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? "\"\"" : "\""+product.getDateMiseEnRayon()+"\"";
+        Integer listProduct = product.getListProduct() == null ? 0 : product.getListProduct();
+        Integer entrepotwm = product.getEntrepotwm() == null ? 0 : product.getEntrepotwm();
+        Integer destinataire = product.getDestinataire() == null ? 0 : product.getDestinataire();
 
 
         String json =
