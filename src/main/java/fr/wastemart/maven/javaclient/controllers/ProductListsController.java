@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
 import static fr.wastemart.maven.javaclient.services.ProductList.*;
@@ -91,9 +92,6 @@ public class ProductListsController extends GenericController {
                 case "all":
                     result = displayProducts(null);
                     break;
-                case "listall":
-                    result = displayProducts(null);
-                    break;
                 case "me":
                     result = displayProducts(lists.getJSONObject(0).getInt("id"));
                     listsTable.getSelectionModel().selectFirst();
@@ -112,8 +110,11 @@ public class ProductListsController extends GenericController {
     private boolean displayProductLists() {
         try {
             listsTable.getItems().clear();
+            System.out.println(String.valueOf(option));
+
 
             switch (option) {
+
                 case "all":
                     lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
                     break;
@@ -125,6 +126,7 @@ public class ProductListsController extends GenericController {
                     break;
                 case "pro":
                     lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
+                    System.out.println(lists);
                     break;
             }
             return fillProductLists();
@@ -244,24 +246,20 @@ public class ProductListsController extends GenericController {
 
             if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1) {
 
-                JSONObject list = lists.getJSONObject(indexOfListSelected);
-                ProductList listElement = jsonToProductList(list);
 
-                ArrayList<Product> productList = new ArrayList<Product>();
-                for (int i = 0; i < products.length(); i++) {
-                    JSONObject product = products.getJSONObject(i);
-                    productList.add(jsonToProduct(product));
-                }
 
-                // Affecte la liste de produits à un entrepot
-                if(affectProductListToWarehouse(productList, UserInstance.getInstance().getUser().getVille(), UserInstance.getInstance().getTokenValue())){ // Réussite
-                    listElement.setEstArchive(1);
-                    listElement.setDate(LocalDate.now());
-                    updateProductList(listElement, UserInstance.getInstance().getTokenValue());
-                    setInfoText("Liste postée");
+
+                ProductList proL = listsTable.getSelectionModel().getSelectedItem();
+                proL.setEstArchive(1);
+
+                if(updateProductList(proL, UserInstance.getInstance().getTokenValue())){
+
+                    setInfoText("Liste soumisse ! ");
+
                 } else {
                     setInfoErrorOccurred();
                 }
+
             } else {
                 setInfoText("Veuillez sélectionner une liste");
             }
@@ -387,12 +385,14 @@ public class ProductListsController extends GenericController {
         clearInfoText();
         refreshSelectedIndices();
 
-        if(indexOfListSelected != -1) {
+        if(indexOfProductSelected != -1) {
             try {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 1);
                 Product productElement = jsonToProduct(product);
 
                 productElement.setEnRayon(true);
+
+                productElement.setDateMiseEnRayon(new Date().toInstant().toString().split("T")[0]);
                 if(updateProduct(productElement, UserInstance.getInstance().getTokenValue())){
                     setInfoText("Produit validé");
                 } else {
@@ -405,6 +405,9 @@ public class ProductListsController extends GenericController {
                 setInfoErrorOccurred();
             }
         }
+        else{
+            setInfoText("Veuillez séléctionner un produit");
+        }
     }
 
     @FXML
@@ -414,7 +417,7 @@ public class ProductListsController extends GenericController {
 
         try {
 
-            if (indexOfListSelected != -1) {
+            if (indexOfProductSelected != -1) {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
                 Product productElement = jsonToProduct(product);
 
@@ -427,6 +430,9 @@ public class ProductListsController extends GenericController {
                 }
 
                 refreshDisplay();
+            }
+            else{
+                setInfoText("Veuillez séléctionner un produit");
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);

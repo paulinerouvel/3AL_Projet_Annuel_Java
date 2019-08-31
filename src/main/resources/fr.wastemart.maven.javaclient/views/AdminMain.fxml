@@ -47,10 +47,6 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProductLists" prefHeight="217.0" prefWidth="389.0" text="Gestion des listes de produit" textAlignment="CENTER" GridPane.columnIndex="1">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
                <Button layoutX="302.0" layoutY="10.0" mnemonicParsing="false" onAction="#displayProsSuggestions" prefHeight="216.0" prefWidth="443.0" text="Gestion des soumissions de produit de professionnel" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -67,7 +63,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="242.0" prefWidth="705.0" text="Gestion des commandes" textAlignment="CENTER" GridPane.rowIndex="2">
+               <Button mnemonicParsing="false" onAction="#displayOrders" prefHeight="242.0" prefWidth="705.0" text="Gestion des commandes" textAlignment="CENTER" GridPane.columnIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

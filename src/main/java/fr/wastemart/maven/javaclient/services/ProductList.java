@@ -56,6 +56,7 @@ public class ProductList {
     public static JSONArray fetchAllProductListsByUserCategory(Integer idUserCategory, String token) throws Exception {
         JSONArray result;
 
+
         HttpResponse response = Requester.sendGetRequest("list/?idUserCategory="+idUserCategory, token);
         result = response.getDataAsJSONArray();
 
