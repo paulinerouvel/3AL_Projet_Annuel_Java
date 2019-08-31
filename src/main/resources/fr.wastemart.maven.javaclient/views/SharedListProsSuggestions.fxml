@@ -50,12 +50,11 @@
                         <TableColumn fx:id="productPrice" prefWidth="61.0" text="Prix" />
                         <TableColumn fx:id="productDlc" prefWidth="94.0" text="DLC" />
                         <TableColumn fx:id="productQuantity" prefWidth="81.0" text="Quantité" />
-                        <TableColumn fx:id="productAvailable" prefWidth="74.0" text="Dispo" />
-                        <TableColumn fx:id="productDate" prefWidth="166.0" text="Mise en rayon" />
-                        <TableColumn fx:id="productDate1" prefWidth="107.0" text="En rayon" />
+                        <TableColumn fx:id="productAvailable" prefWidth="74.0" text="En rayon" />
+                        <TableColumn fx:id="productDate" prefWidth="166.0" text="Date de mise en rayon" />
                     </columns>
                   </TableView>
-                  <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
+                  <ButtonBar layoutX="281.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
                       <Button mnemonicParsing="false" onAction="#validateProduct" prefHeight="29.0" prefWidth="156.0" text="Valider">
                            <cursor>
