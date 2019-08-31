@@ -30,14 +30,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <ButtonBar layoutX="15.0" layoutY="529.0" prefHeight="40.0" prefWidth="287.0">
-                    <buttons>
-                        <Button mnemonicParsing="false" onAction="#submitList" text="Poster liste">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                    </buttons>
-                  </ButtonBar>
+                  <Button layoutX="186.0" layoutY="545.0" mnemonicParsing="false" onAction="#submitList" text="Poster Liste" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">
