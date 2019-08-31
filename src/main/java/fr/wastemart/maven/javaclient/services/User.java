@@ -95,7 +95,7 @@ public class User {
     }
 
     // POST image
-    public static String sendPhoto(File photo){
+    public static String sendPhoto(File photo, Integer userId){
         String result = null;
 
         String fileName = photo.getName();
@@ -105,7 +105,7 @@ public class User {
             extension = fileName.substring(fileName.lastIndexOf("."));
         }
 
-        File renamedPhoto = new File("img_profil_" + UserInstance.getInstance().getUser().getId() + extension);
+        File renamedPhoto = new File("img_profil_" + userId + extension);
 
         Path copied = Paths.get(renamedPhoto.toURI());
         Path original = photo.toPath();
@@ -265,44 +265,28 @@ public class User {
         return result;
     }
 
-    public static String fetchPhoto(String url, String file) {
-        url += file;
-
-        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream fileOS = new FileOutputStream("src/main/resources/images/" + file)) {
-            byte data[] = new byte[1024];
-            int byteContent;
-            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-                fileOS.write(data, 0, byteContent);
-            }
-            return file;
-        } catch (Exception e) {
-           Logger.getInstance().reportError(e);
-        }
-
-        return null;
-    }
-
-
-    public static File fetchPhoto(String file) {
-        String url = "http://51.75.143.205:8080/images/" + file;
+    public static File fetchPhoto(Integer id) {
+        File result = null;
 
         try {
-            BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-            FileOutputStream fileOS = new FileOutputStream(System.getProperty("user.dir")+"/"+file);
-            byte data[] = new byte[1024];
-            int byteContent;
-            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-                fileOS.write(data, 0, byteContent);
-            }
-            return new File(file);
-        } catch (FileNotFoundException e) {
-            return null;
+            result = Requester.downloadFile("images/", "img_profil_"+id);
         } catch (Exception e) {
-           Logger.getInstance().reportError(e);
+            Logger.getInstance().reportError(e);
         }
 
-        return null;
+        return result;
+    }
+
+    public static File fetchPhoto(String file) {
+        File result = null;
+
+        try {
+            result = Requester.downloadFile("images/", file);
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
     }
 
 

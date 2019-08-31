@@ -7,6 +7,7 @@ import fr.wastemart.maven.javaclient.services.Details.IntegerDetail;
 import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
+import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.stage.FileChooser;
 import org.apache.commons.lang.math.NumberUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,11 +32,11 @@ public class DetailsProductController extends GenericController {
     private Integer listId;
     private String option;
     private Product product;
-    private File photoFile;
+    private File photo;
 
     @FXML private TextField libelle;
     @FXML private TextField desc;
-    @FXML private TextField photo;
+    @FXML private TextField photoField;
     @FXML private TextField prix;
     @FXML private TextField quantite;
     @FXML private DatePicker dlc;
@@ -63,7 +65,8 @@ public class DetailsProductController extends GenericController {
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
     }
 
-    public void submitProduct() {
+    @FXML
+    private void submitProduct() {
         try {
             libelle.setStyle("-fx-background-color: #FFFFFF");
             desc.setStyle("-fx-background-color: #FFFFFF");
@@ -108,23 +111,10 @@ public class DetailsProductController extends GenericController {
             } else {
 
 
-
-
-                if(!photo.getText().isEmpty() && !photo.getText().equals(String.valueOf(product.getPhoto()))) {
-                    System.out.println("(DetailsProductController.submitProduct) Photo is not null!");
-                    String photoName;
-                    if((photoName = fr.wastemart.maven.javaclient.services.Product.sendPhoto(photoFile, product.getId())) != null) {
-                        System.out.println("(DetailsProductController.submitProduct) Photo is:"+photoName);
-                        product.setPhoto(photoName);
-                    }
-                }
-
-
-
                 Product newProduct = new Product(product == null ? -1 : product.getId(),
                         libelle.getText(),
                         desc.getText(),
-                        photo.getText(),
+                        null,
                         Float.valueOf(prix.getText()),
                         Integer.valueOf(quantite.getText()),
                         DateFormatter.dateToString(dlc.getValue().toString()),
@@ -137,22 +127,65 @@ public class DetailsProductController extends GenericController {
                         product == null ? null : product.getDestinataire()
                 );
 
+
+                boolean resultProduct;
+
                 if (option.equals("add")) {
-                    if(addProductToList(newProduct, UserInstance.getInstance().getTokenValue())){
+                    if(addProductToList(newProduct, UserInstance.getInstance().getTokenValue())) {
                         clearFields();
                         setInfoText("Produit créé avec succès");
                     } else {
                         setInfoText("Le produit n'a pas pu être créé");
                     }
 
+
+
                 } else if (option.equals("modify")) {
-                    if(updateProduct(newProduct, UserInstance.getInstance().getTokenValue())){
+                    if(!photoField.getText().isEmpty() && !photoField.getText().equals(String.valueOf(product.getPhoto()))) {
+                        System.out.println("(DetailsProductController.save) Photo is not null!");
+                        String photoName;
+                        if((photoName = sendPhoto(photo, product.getId())) != null) {
+                            newProduct.setPhoto(photoName);
+                        } else {
+                            newProduct.setPhoto(product.getPhoto());
+                        }
+                    } else {
+                        newProduct.setPhoto(product.getPhoto());
+                    }
+
+                    resultProduct = updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
+
+                    if(resultProduct){
                         setInfoText("Produit modifié avec succès");
                     } else {
                         setInfoText("Le produit n'a pas pu être modifié");
                     }
                 }
             }
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
+        }
+    }
+
+    @FXML
+    private void changeProductPicture() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+
+            File actualDirectory = new File(System.getProperty("user.dir"));
+            fileChooser.setInitialDirectory(actualDirectory);
+
+            photo = fileChooser.showOpenDialog(StageManager.getInstance().getStage());
+
+            if (photo != null && photo.exists()) {
+                photoField.setText(photo.getAbsolutePath());
+                photoField.positionCaret(photoField.getLength());
+
+                setInfoText("Image changed");
+            }  // Else No File selected
+
+
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
@@ -172,7 +205,7 @@ public class DetailsProductController extends GenericController {
     private void clearFields() {
         libelle.clear();
         desc.clear();
-        photo.clear();
+        photoField.clear();
         prix.clear();
         quantite.clear();
         dlc.setValue(LocalDate.now());
@@ -181,16 +214,22 @@ public class DetailsProductController extends GenericController {
     }
 
     private void setFields(Product product) {
-            libelle.setText(product.getLibelle());
-            desc.setText(product.getDesc());
-            photo.setText(product.getPhoto() == null ? "" : product.getPhoto());
-            prix.setText(String.valueOf(product.getPrix()));
-            quantite.setText(String.valueOf(product.getQuantite()));
-            dlc.setValue(product.getCodeBarre() == null ? LocalDate.now() : LocalDate.parse(product.getDlc())); // Nullable
-            codeBarre.setText(product.getCodeBarre() == null ? "" : product.getCodeBarre()); // Nullable
-            categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
-            listId = product.getListProduct();
-            setInfoText("");
+        libelle.setText(product.getLibelle());
+        desc.setText(product.getDesc());
+        photoField.setText(product.getPhoto());
+        prix.setText(String.valueOf(product.getPrix()));
+        quantite.setText(String.valueOf(product.getQuantite()));
+        dlc.setValue(product.getCodeBarre() == null ? LocalDate.now() : LocalDate.parse(product.getDlc())); // Nullable
+        codeBarre.setText(product.getCodeBarre() == null ? "" : product.getCodeBarre()); // Nullable
+        categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
+        listId = product.getListProduct();
+        setInfoText("");
+
+        if(option.equals("modify") && (photo = fetchPhoto(product.getPhoto())) != null){
+            photoField.setText(photo.getAbsolutePath());
+        }
+
+
     }
 
     private void setProductCategories(){
@@ -206,5 +245,5 @@ public class DetailsProductController extends GenericController {
         categorieProduit.setItems(categories);
     }
 
-    public void setListId(Integer id) { this.listId = id; }
+
 }

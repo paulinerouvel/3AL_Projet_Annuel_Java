@@ -23,9 +23,9 @@ public class Product {
         String dlc = product.getDlc() == null ? "\"\"" : "\""+product.getDlc()+"\"";
         String codeBarre = product.getCodeBarre() == null ? "\"\"" : "\""+product.getCodeBarre()+"\"";
         String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? "\"\"" : "\""+product.getDateMiseEnRayon()+"\"";
-        Integer listProduct = product.getListProduct() == null ? 0 : product.getListProduct();
-        Integer entrepotwm = product.getEntrepotwm() == null ? 0 : product.getEntrepotwm();
-        Integer destinataire = product.getDestinataire() == null ? 0 : product.getDestinataire();
+        Integer listProduct = product.getListProduct() == null ? null : product.getListProduct();
+        Integer entrepotwm = product.getEntrepotwm() == null ? null : product.getEntrepotwm();
+        Integer destinataire = product.getDestinataire() == null ? null : product.getDestinataire();
 
 
         String json =
@@ -149,25 +149,28 @@ public class Product {
         return result;
     }
 
-    public static File fetchPhoto(String file) {
-        String url = "http://51.75.143.205:8080/images/" + file;
+    public static File fetchPhoto(Integer id) {
+        File result = null;
 
         try {
-            BufferedInputStream inputStream = new BufferedInputStream(new URL(url).openStream());
-            FileOutputStream fileOS = new FileOutputStream(System.getProperty("user.dir")+"/"+file);
-            byte data[] = new byte[1024];
-            int byteContent;
-            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-                fileOS.write(data, 0, byteContent);
-            }
-            return new File(file);
-        } catch (FileNotFoundException e) {
-            return null;
+            result = Requester.downloadFile("images/", "img_product_"+id);
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
 
-        return null;
+        return result;
+    }
+
+    public static File fetchPhoto(String file) {
+        File result = null;
+
+        try {
+            result = Requester.downloadFile("images/", file);
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
     }
 
 
@@ -181,9 +184,9 @@ public class Product {
         String dlc = product.getDlc() == null ? "\"\"" : "\""+product.getDlc()+"\"";
         String codeBarre = product.getCodeBarre() == null ? "\"\"" : "\""+product.getCodeBarre()+"\"";
         String dateMiseEnRayon = product.getDateMiseEnRayon() == null ? "\"\"" : "\""+product.getDateMiseEnRayon()+"\"";
-        Integer listProduct = product.getListProduct() == null ? 0 : product.getListProduct();
-        Integer entrepotwm = product.getEntrepotwm() == null ? 0 : product.getEntrepotwm();
-        Integer destinataire = product.getDestinataire() == null ? 0 : product.getDestinataire();
+        Integer listProduct = product.getListProduct() == null ? null : product.getListProduct();
+        Integer entrepotwm = product.getEntrepotwm() == null ? null : product.getEntrepotwm();
+        Integer destinataire = product.getDestinataire() == null ? null : product.getDestinataire();
 
 
         String json =

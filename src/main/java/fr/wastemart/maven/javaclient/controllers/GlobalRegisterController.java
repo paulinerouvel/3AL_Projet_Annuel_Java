@@ -8,15 +8,13 @@ import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,6 +26,7 @@ public class GlobalRegisterController extends GenericController {
     private User userToModif;
     private Object[] registerFields;
     private Integer IdCat;
+    private File photo;
 
 
     @FXML private CheckBox estValide;
@@ -42,7 +41,7 @@ public class GlobalRegisterController extends GenericController {
     @FXML private TextField pseudo;
     @FXML private PasswordField mdp;
     @FXML private ChoiceBox<String> userType;
-    @FXML private TextField photo;
+    @FXML private TextField photoField;
     @FXML private Label organismLabel;
     @FXML private TextField libelle;
     @FXML private TextArea description;
@@ -115,7 +114,6 @@ public class GlobalRegisterController extends GenericController {
                 codePostal.setText(String.valueOf(userToModif.getCodePostal()));
                 dateNaissance.setValue(userToModif.getDateDeNaissance() == null ? LocalDate.now() : LocalDate.parse(userToModif.getDateDeNaissance()));
                 pseudo.setText(userToModif.getPseudo());
-                photo.setText(userToModif.getPhoto());
 
 
             } else {
@@ -148,12 +146,16 @@ public class GlobalRegisterController extends GenericController {
                 adresse.setText(userToModif.getAdresse());
                 ville.setText(userToModif.getVille());
                 codePostal.setText(String.valueOf(userToModif.getCodePostal()));
-                photo.setText(userToModif.getPhoto());
+                photoField.setText(userToModif.getPhoto());
                 libelle.setText(userToModif.getLibelle());
                 description.setText(userToModif.getDesc());
                 tailleOrganisme.setText(String.valueOf(userToModif.getTailleOrganisme()));
                 siret.setText(userToModif.getSiret());
 
+            }
+
+            if((photo = fetchPhoto(userToModif.getPhoto())) != null){
+                photoField.setText(photo.getAbsolutePath());
             }
 
 
@@ -281,6 +283,7 @@ public class GlobalRegisterController extends GenericController {
             }
 
             Integer indexFieldVerif = areTextFieldsValid(registerFields);
+
             if (indexFieldVerif == -1) {
 
                 Integer userCategorySelected = userType.getSelectionModel().getSelectedIndex();
@@ -299,8 +302,7 @@ public class GlobalRegisterController extends GenericController {
                         codePostal.getText().matches("-?(0|[1-9]\\d*)") ? Integer.valueOf(codePostal.getText()) : 0,
                         pseudo.getText(),
                         mdp.getText(),
-                        photo.getText(),
-                        //uploadPicture(photo.getText()),
+                        null,
                         description.getText(),
                         (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
                         estValide != null && estValide.isSelected(),
@@ -317,8 +319,21 @@ public class GlobalRegisterController extends GenericController {
                 boolean resultUser = false;
 
                 if(option == "add"){
-
                     resultUser = createUser(user);
+                    System.out.println("Test1");
+
+                    if(photoField != null && !photoField.getText().isEmpty()) {
+                        System.out.println("(GlobalRegisterController.save) Photo is not null!");
+                        String photoName;
+                        User createdUser = jsonToUser(fetchCreatedUser(user.getMail()));
+                        if((photoName = sendPhoto(photo, createdUser.getId())) != null) {
+                            createdUser.setPhoto(photoName);
+                            resultUser = updateUser(createdUser, UserInstance.getInstance().getTokenValue());
+                        } else {
+                            user.setPhoto(userToModif.getPhoto());
+                        }
+                    }
+
                 }
                 else{
 
@@ -326,6 +341,20 @@ public class GlobalRegisterController extends GenericController {
                     if(user.getMdp().isEmpty()){
                         user.setMdp(userToModif.getMdp());
                     }
+
+                    if(!photoField.getText().isEmpty()) {
+                        System.out.println("(GlobalRegisterController.save) Photo is not null!");
+                        String photoName;
+                        if((photoName = sendPhoto(photo, userToModif.getId())) != null) {
+                            user.setPhoto(photoName);
+                        } else {
+                            user.setPhoto(userToModif.getPhoto());
+                        }
+                    } else {
+                        user.setPhoto(userToModif.getPhoto());
+                    }
+
+
                     user.setId(userToModif.getId());
                     resultUser = updateUser(user, UserInstance.getInstance().getTokenValue());
                 }
@@ -333,29 +362,30 @@ public class GlobalRegisterController extends GenericController {
 
                 if(option == "add"){
 
-                    if( userType.getSelectionModel().getSelectedIndex() == 1){
+
+                    if(userType.getSelectionModel().getSelectedIndex() == 1){
                         if(resultUser && RegisterNewUser(mail.getText(), userCategory)) {
+                            clearFields();
                             setInfoText("Demande d'inscription effectuée, vous recevrez un mail lors de la validation de votre compte");
-                            clearFields(registerFields);
+
                         }  else {
                             setInfoText("Demande d'inscription échouée");
                         }
                     }
-                    else{
+                    else {
                         if(resultUser && RegisterNewUser(mail.getText(), userCategory)) {
                             setInfoText("Inscription effectuée");
-                            clearFields(registerFields);
+                            clearFields();
                         }  else {
                             setInfoText("Inscription échouée");
                         }
                     }
 
-                }else{
+                } else {
 
 
                     if(resultUser) {
                         setInfoText("Modification effectuée");
-                        clearFields(registerFields);
                     }  else {
                         setInfoText("Modification échouée");
                     }
@@ -395,33 +425,45 @@ public class GlobalRegisterController extends GenericController {
         return -1;
     }
 
-    private void clearFields(Object[] registerFields) {
-        for (int i = 0; i < registerFields.length; i++) {
-            Class<?> registerFieldClassType = registerFields[i].getClass();
-            if(registerFieldClassType == TextField.class) {
-                ((TextField)registerFields[i]).clear();
-            } else if(registerFieldClassType == PasswordField.class) {
-                ((PasswordField)registerFields[i]).clear();
-            } else if(registerFieldClassType == ChoiceBox.class) {
-                ((ChoiceBox)registerFields[i]).getSelectionModel().selectFirst();
-            }
-        }
+    private void clearFields() {
+        prenom.clear();
+        nom.clear();
+        mail.clear();
+        tel.clear();
+        adresse.clear();
+        ville.clear();
+        codePostal.clear();
+        pseudo.clear();
+        mdp.clear();
+        photoField.clear();
+        libelle.clear();
+        description.clear();
+        tailleOrganisme.clear();
+        siret.clear();
+
     }
 
-    public void selectFolder(ActionEvent actionEvent) {
-        Stage stageNodeRoot = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    public void changeProfilePicture() {
+        try {
+            FileChooser fileChooser = new FileChooser();
 
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(stageNodeRoot);
+            File actualDirectory = new File(System.getProperty("user.dir"));
+            fileChooser.setInitialDirectory(actualDirectory);
 
-        if(!(selectedDirectory == null)){
-            photo.setText(selectedDirectory.getAbsolutePath());
+            photo = fileChooser.showOpenDialog(StageManager.getInstance().getStage());
+
+            if (photo != null && photo.exists()) {
+                photoField.setText(photo.getAbsolutePath());
+                photoField.positionCaret(photoField.getLength());
+
+                setInfoText("Image changed");
+            }  // Else No File selected
+
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+            setInfoErrorOccurred();
         }
-    }
-
-    private String uploadPicture(String text) {
-        String onlineLocation = "";
-        return onlineLocation;
     }
 
     public void displayLoginPage() {

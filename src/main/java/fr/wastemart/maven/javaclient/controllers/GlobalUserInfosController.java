@@ -46,7 +46,7 @@ public class GlobalUserInfosController extends GenericController {
         phone.setText(UserInstance.getInstance().getUser().getTel());
         postalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
 
-        if((photo = fetchPhoto(UserInstance.getInstance().getUser().getPhoto())) != null){
+        if((photo = fetchPhoto(UserInstance.getInstance().getUser().getId())) != null){
             photoView.setImage(new Image(photo.toURI().toURL().toExternalForm()));
 
         }
@@ -69,7 +69,7 @@ public class GlobalUserInfosController extends GenericController {
             if(!photoPathField.getText().isEmpty()) {
                 System.out.println("(GlobalUserInfosController.save) Photo is not null!");
                 String photoName;
-                if((photoName = sendPhoto(photo)) != null) {
+                if((photoName = sendPhoto(photo, UserInstance.getInstance().getUser().getId())) != null) {
                     System.out.println("(GlobalUserInfosController.save) Photo is:"+photoName);
                     user.setPhoto(photoName);
                 }

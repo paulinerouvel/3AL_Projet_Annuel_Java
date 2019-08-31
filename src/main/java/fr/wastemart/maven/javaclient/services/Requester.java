@@ -158,4 +158,31 @@ public class Requester {
 
         return readResponse((HttpURLConnection) connection);
     }
+
+    public static File downloadFile(String path, String fileName) throws Exception {
+        String fileUrl = StageManager.getInstance().getDotenv().get("WASTEMART_WEBSERVER")+path+fileName;
+        File imagesFolder = new File((System.getProperty("user.dir") + "/images/"));
+        boolean imageFolderExists;
+        if(!imagesFolder.isDirectory()){
+            imageFolderExists = imagesFolder.mkdir();
+        } else {
+            imageFolderExists = true;
+        }
+
+        if(imageFolderExists) {
+
+            String filePath = imagesFolder.getAbsolutePath() + "/" + fileName;
+
+            BufferedInputStream inputStream = new BufferedInputStream(new URL(fileUrl).openStream());
+            FileOutputStream fileOS = new FileOutputStream(filePath);
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
 }
