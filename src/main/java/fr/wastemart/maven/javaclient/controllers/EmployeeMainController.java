@@ -32,7 +32,7 @@ public class EmployeeMainController extends GenericController {
 
     public void displayProsSuggestions() {
         List<Detail> option = new ArrayList<>();
-        option.add(new StringDetail("pro"));
+        option.add(new StringDetail("suggestion"));
         StageManager.getInstance().loadPage(dotenv.get("SHARED_LIST_PROS_SUGGESTIONS"), UserInstance.getInstance(), option);
     }
 

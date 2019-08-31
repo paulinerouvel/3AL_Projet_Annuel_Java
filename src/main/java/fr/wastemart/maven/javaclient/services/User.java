@@ -265,18 +265,6 @@ public class User {
         return result;
     }
 
-    public static File fetchPhoto(Integer id) {
-        File result = null;
-
-        try {
-            result = Requester.downloadFile("images/", "img_profil_"+id);
-        } catch (Exception e) {
-            Logger.getInstance().reportError(e);
-        }
-
-        return result;
-    }
-
     public static File fetchPhoto(String file) {
         File result = null;
 

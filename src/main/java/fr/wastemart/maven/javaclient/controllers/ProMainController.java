@@ -27,7 +27,7 @@ public class ProMainController extends GenericController {
 
     public void displayProductLists() {
         List<Detail> option = new ArrayList<>();
-        option.add(new StringDetail("me"));
+        option.add(new StringDetail("pro"));
         StageManager.getInstance().loadPage(dotenv.get("PRO_LIST_PRODUCT_LISTS"), UserInstance.getInstance(), option);
     }
 

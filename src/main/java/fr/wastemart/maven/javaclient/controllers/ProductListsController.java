@@ -9,6 +9,8 @@ import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
@@ -92,10 +94,10 @@ public class ProductListsController extends GenericController {
                 case "all":
                     result = displayProducts(null);
                     break;
-                case "me":
+                case "pro":
                     result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
                     break;
-                case "pro":
+                case "suggestion":
                     result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
                     break;
             }
@@ -116,13 +118,10 @@ public class ProductListsController extends GenericController {
                 case "all":
                     lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
                     break;
-                case "listall":
-                    lists = fetchAllProductLists(UserInstance.getInstance().getTokenValue());
-                    break;
-                case "me":
+                case "pro":
                     lists = fetchProductLists(UserInstance.getInstance().getUser().getId(), UserInstance.getInstance().getTokenValue());
                     break;
-                case "pro":
+                case "suggestion":
                     lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
                     System.out.println(lists);
                     break;
@@ -144,21 +143,18 @@ public class ProductListsController extends GenericController {
                 case "all":
                     products = fetchAllProducts();
                     break;
-                case "listall":
-                    if(!lists.isEmpty()){
-                        products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
-                    }
-                    break;
-                case "me":
+                case "pro":
                     if (!lists.isEmpty()) {
-                        System.out.println("me");
+                        System.out.println("pro");
                         System.out.println(lists);
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                     }
                     break;
-                case "pro":
+                case "suggestion":
+                    System.out.println("Lists:");
+                    System.out.println(lists);
                     if (!lists.isEmpty()) {
-                        System.out.println("pro");
+                        System.out.println("suggestion");
                         System.out.println(lists);
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                         System.out.println(products);
@@ -211,7 +207,7 @@ public class ProductListsController extends GenericController {
             displayProductLists();
             if(option.equals("all")) {
                 displayProducts(null);
-            } else if(option.equals("me")) {
+            } else if(option.equals("pro")) {
                 displayProductLists();
             }
         } catch (Exception e) {
@@ -284,14 +280,14 @@ public class ProductListsController extends GenericController {
 
         List<Detail> details = new ArrayList<Detail>();
 
-        if(option.equals("me") && indexOfListSelected != -1) {
+        if(option.equals("pro") && indexOfListSelected != -1) {
             details.add(new StringDetail("addtolist"));
             details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId())); // Id de la liste
             details.add(new IntegerDetail(getWarehouse())); // Id de l'entrepôt
             details.add(new IntegerDetail(getDestinataire())); // Id du destinataire
             StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
 
-        } else if(option.equals("me")) {
+        } else if(option.equals("pro")) {
             setInfoText("Veuillez sélectionner une liste");
 
         } else if (option.equals("all")) {
@@ -488,30 +484,38 @@ public class ProductListsController extends GenericController {
     }
 
     private boolean fillProductLists() {
-        if (!lists.isEmpty()) {
+        System.out.println("azertyui gotta check if list empty");
+        if (lists != null && !lists.isEmpty()) {
+            System.out.println("List not empty");
+
+            boolean listFound = false;
             listId.setCellValueFactory(new PropertyValueFactory<>("id"));
             listName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             StringConverter libelle = new DefaultStringConverter();
             listName.setCellFactory(TextFieldTableCell.forTableColumn(libelle));
             listName.setOnEditCommit(this::updateListLibelle);
 
-            if(option.equals("all") || option.equals("pro")) {
+            ObservableList<ProductList> items = listsTable.getItems();
+
+            if(option.equals("all") || option.equals("suggestion")) {
                 listUser.setCellValueFactory(new PropertyValueFactory<>("userId"));
             }
             listEstArchive.setCellValueFactory(new PropertyValueFactory<>("estArchive"));
 
             for (int i = 0; i < lists.length(); i++) {
-                if ((listArchiveCheckBox != null && listArchiveCheckBox.isSelected()) || lists.getJSONObject(i).getInt("estArchive") != 1) {
+
+                    System.out.println("uidhgfyvuidshofviughvfTest");
+                    listFound = true;
                     ProductList list = jsonToProductList(lists.getJSONObject(i));
-                    if(list != null){
+                    if(list != null && (list.getEstArchive() == 0 || (listArchiveCheckBox != null && listArchiveCheckBox.isSelected()))) {
                         listsTable.getItems().add(list);
                     } else {
-                        setInfoText("Une ou plusieurs listes n'ont pas pu être récupérées");
+                        setInfoText("Une ou plusieurs listes non affichées car archivées");
                     }
 
                 }
-            }
-            return true;
+
+            return listFound;
         } else {
             setInfoText("Aucune liste trouvée");
             return false;
@@ -521,7 +525,8 @@ public class ProductListsController extends GenericController {
 
     private boolean fillProducts() {
         System.out.println("ozejfpoizejopf");
-        if(products != null && !products.isEmpty()) {
+        if(listsTable != null && !products.isEmpty()) {
+            boolean productFound = false;
             System.out.println("ozejfpoizejopf");
             productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
@@ -538,14 +543,15 @@ public class ProductListsController extends GenericController {
                 Product product = jsonToProduct(products.getJSONObject(i));
                 System.out.println("Product is : "+ products.getJSONObject(i));
                 if(product != null && (listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 0) ||
-                        (!option.equals("pro") && (listArchiveCheckBox.isSelected()))){
+                        (listArchiveCheckBox != null && listArchiveCheckBox.isSelected())){
                     System.out.println("ozejfpoizejopf");
+                    productFound = true;
                     productsTable.getItems().add(product);
                 } else {
-                    setInfoText("Un ou plusieurs produits n'ont pas pu être récupérés");
+                    setInfoText("Un ou plusieurs produits n'ont pas été affichés");
                 }
             }
-            return true;
+            return productFound;
         } else {
             setInfoText("La liste est vide !");
             return false;

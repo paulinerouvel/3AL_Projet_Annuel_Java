@@ -46,7 +46,7 @@ public class GlobalUserInfosController extends GenericController {
         phone.setText(UserInstance.getInstance().getUser().getTel());
         postalCode.setText(UserInstance.getInstance().getUser().getCodePostal().toString());
 
-        if((photo = fetchPhoto(UserInstance.getInstance().getUser().getId())) != null){
+        if((photo = fetchPhoto(UserInstance.getInstance().getUser().getPhoto())) != null){
             photoView.setImage(new Image(photo.toURI().toURL().toExternalForm()));
 
         }
