@@ -358,7 +358,7 @@ public class ListUsersController extends GenericController {
 
             if (indexOfUserSelected != -1) {
 
-                User user = new User(usersTable.getSelectionModel().getSelectedItem().getId(),
+                /*User user = new User(usersTable.getSelectionModel().getSelectedItem().getId(),
                         usersTable.getSelectionModel().getSelectedItem().getLibelle(),
                         null,
                         usersTable.getSelectionModel().getSelectedItem().getNom(),
@@ -376,12 +376,17 @@ public class ListUsersController extends GenericController {
                         false,
                         usersTable.getSelectionModel().getSelectedItem().getSiret(),
                         usersTable.getSelectionModel().getSelectedItem().getDateDeNaissance(),
-                        0);
+                        0);*/
 
 
-
-                if(fr.wastemart.maven.javaclient.services.User.updateUser(user, UserInstance.getInstance().getTokenValue())){
+                /*if(fr.wastemart.maven.javaclient.services.User.updateUser(user, UserInstance.getInstance().getTokenValue())){
                     setInfoText("Utilisateur refusé");
+                } else {
+                    setInfoErrorOccurred();
+                }*/
+
+                if(fr.wastemart.maven.javaclient.services.User.deleteUser(users.getJSONObject(indexOfUserSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
+                    setInfoText("Utilisateur refusé et supprimé");
                 } else {
                     setInfoErrorOccurred();
                 }

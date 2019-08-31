@@ -31,7 +31,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <CheckBox fx:id="listArchiveCheckBox" layoutX="114.0" layoutY="18.0" mnemonicParsing="false" onAction="#displayProductLists" text="Afficher Archives" textFill="WHITE" />
+                  <CheckBox fx:id="listArchiveCheckBox" layoutX="114.0" layoutY="18.0" mnemonicParsing="false" onAction="#refreshDisplay" text="Afficher Archives" textFill="WHITE" />
                   <ButtonBar layoutX="8.0" layoutY="529.0" prefHeight="46.0" prefWidth="257.0">
                     <buttons>
                         <Button mnemonicParsing="false" onAction="#contactUser" text="Contacter">

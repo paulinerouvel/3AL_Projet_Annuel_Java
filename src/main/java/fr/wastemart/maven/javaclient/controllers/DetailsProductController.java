@@ -1,21 +1,15 @@
 package fr.wastemart.maven.javaclient.controllers;
 
 import fr.wastemart.maven.javaclient.models.Product;
-import fr.wastemart.maven.javaclient.services.DateFormatter;
+import fr.wastemart.maven.javaclient.services.*;
 import fr.wastemart.maven.javaclient.services.Details.Detail;
 import fr.wastemart.maven.javaclient.services.Details.IntegerDetail;
 import fr.wastemart.maven.javaclient.services.Details.ProductDetail;
 import fr.wastemart.maven.javaclient.services.Details.StringDetail;
-import fr.wastemart.maven.javaclient.services.Logger;
-import fr.wastemart.maven.javaclient.services.StageManager;
-import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import org.apache.commons.lang.math.NumberUtils;
 import org.json.JSONArray;
@@ -26,10 +20,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static fr.wastemart.maven.javaclient.services.Product.*;
+import static fr.wastemart.maven.javaclient.services.Warehouse.fetchWarehouse;
+import static fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse;
 
 public class DetailsProductController extends GenericController {
 
     private Integer listId;
+    private Integer warehouseId;
+    private Integer destId;
     private String option;
     private Product product;
     private File photo;
@@ -49,17 +47,28 @@ public class DetailsProductController extends GenericController {
 
         setProductCategories();
 
-        if(option.equals("add")){
-            clearFields();
-            categorieProduit.getSelectionModel().selectFirst();
-        } else if (option.equals("modify")){
-            ProductDetail productDetail = (ProductDetail) detail.get(1);
-            product = productDetail.getValue();
-            setFields(product);
-        } else if (option.equals("addtolist")) {
-            listId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
-            clearFields();
-            categorieProduit.getSelectionModel().selectFirst();
+
+
+        switch (option) {
+            case "add":
+                warehouseId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
+                destId = (detail.get(2) != null) ? ((IntegerDetail) detail.get(2)).getValue() : null;
+                clearFields();
+                categorieProduit.getSelectionModel().selectFirst();
+                break;
+            case "modify":
+                ProductDetail productDetail = (ProductDetail) detail.get(1);
+                product = productDetail.getValue();
+                setFields(product);
+                break;
+            case "addtolist":
+                listId = (detail.get(1) != null) ? ((IntegerDetail) detail.get(1)).getValue() : null;
+                warehouseId = (detail.get(2) != null) ? ((IntegerDetail) detail.get(2)).getValue() : null;
+                destId = (detail.get(3) != null) ? ((IntegerDetail) detail.get(3)).getValue() : null;
+                clearFields();
+                categorieProduit.getSelectionModel().selectFirst();
+
+                break;
         }
 
         categorieProduit.setTooltip(new Tooltip("Sélectionnez un type de produit"));
@@ -68,6 +77,8 @@ public class DetailsProductController extends GenericController {
     @FXML
     private void submitProduct() {
         try {
+            clearInfoText();
+
             libelle.setStyle("-fx-background-color: #FFFFFF");
             desc.setStyle("-fx-background-color: #FFFFFF");
             prix.setStyle("-fx-background-color: #FFFFFF");
@@ -77,23 +88,24 @@ public class DetailsProductController extends GenericController {
 
             Integer indexWrong = areTextFieldsValid();
 
+
             if (indexWrong != -1) {
                 switch (indexWrong) {
                     case 0:
                         libelle.setStyle("-fx-background-color: #ff7980");
-                        setInfoText("Remplissez tous les champs");
+                        setInfoText("Remplissez tous les champs correctement");
                         break;
                     case 1:
                         desc.setStyle("-fx-background-color: #ff7980");
-                        setInfoText("Remplissez tous les champs");
+                        setInfoText("Remplissez tous les champs correctement");
                         break;
                     case 2:
                         prix.setStyle("-fx-background-color: #ff7980");
-                        setInfoText("Remplissez tous les champs");
+                        setInfoText("Remplissez tous les champs correctement");
                         break;
                     case 3:
                         quantite.setStyle("-fx-background-color: #ff7980");
-                        setInfoText("Remplissez tous les champs");
+                        setInfoText("Remplissez tous les champs correctement");
                         break;
                     case 4:
                         dlc.setStyle("-fx-background-color: #ff7980");
@@ -101,7 +113,7 @@ public class DetailsProductController extends GenericController {
                         break;
                     case 5:
                         codeBarre.setStyle("-fx-background-color: #ff7980");
-                        setInfoText("Remplissez tous les champs");
+                        setInfoText("Remplissez tous les champs correctement");
                         break;
                     default:
                         break;
@@ -110,56 +122,62 @@ public class DetailsProductController extends GenericController {
 
             } else {
 
-
-                Product newProduct = new Product(product == null ? -1 : product.getId(),
-                        libelle.getText(),
-                        desc.getText(),
-                        null,
-                        Float.valueOf(prix.getText()),
-                        Integer.valueOf(quantite.getText()),
-                        DateFormatter.dateToString(dlc.getValue().toString()),
-                        codeBarre.getText(),
-                        false,
-                        product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
-                        categorieProduit.getSelectionModel().getSelectedIndex() + 1,
-                        listId,
-                        product == null ? null : product.getEntrepotwm(),
-                        product == null ? null : product.getDestinataire()
-                );
+                fr.wastemart.maven.javaclient.models.Warehouse affectedWareHouse =
+                        jsonToWarehouse(fetchWarehouse(warehouseId));
+                if(affectedWareHouse.getPlaceLibre() - Integer.valueOf(quantite.getText()) >= 0) {
 
 
-                boolean resultProduct;
+                    Product newProduct = new Product(product == null ? -1 : product.getId(),
+                            libelle.getText(),
+                            desc.getText(),
+                            null,
+                            Float.valueOf(prix.getText()),
+                            Integer.valueOf(quantite.getText()),
+                            DateFormatter.dateToString(dlc.getValue().toString()),
+                            codeBarre.getText(),
+                            false,
+                            product == null ? null : product.getDateMiseEnRayon() == null ? null : product.getDateMiseEnRayon().toString(),
+                            categorieProduit.getSelectionModel().getSelectedIndex() + 1,
+                            listId,
+                            warehouseId,
+                            destId
+                    );
 
-                if (option.equals("add")) {
-                    if(addProductToList(newProduct, UserInstance.getInstance().getTokenValue())) {
-                        clearFields();
-                        setInfoText("Produit créé avec succès");
-                    } else {
-                        setInfoText("Le produit n'a pas pu être créé");
-                    }
+
+                    boolean resultProduct;
+
+                    if (option.equals("add") || option.equals("addtolist")) {
+                        if (addProduct(newProduct, UserInstance.getInstance().getTokenValue())) {
+                            clearFields();
+                            setInfoText("Produit créé avec succès");
+                        } else {
+                            setInfoText("Le produit n'a pas pu être créé");
+                        }
 
 
-
-                } else if (option.equals("modify")) {
-                    if(!photoField.getText().isEmpty() && !photoField.getText().equals(String.valueOf(product.getPhoto()))) {
-                        System.out.println("(DetailsProductController.save) Photo is not null!");
-                        String photoName;
-                        if((photoName = sendPhoto(photo, product.getId())) != null) {
-                            newProduct.setPhoto(photoName);
+                    } else if (option.equals("modify")) {
+                        if (!photoField.getText().isEmpty() && !photoField.getText().equals(String.valueOf(product.getPhoto()))) {
+                            System.out.println("(DetailsProductController.save) Photo is not null!");
+                            String photoName;
+                            if ((photoName = sendPhoto(photo, product.getId())) != null) {
+                                newProduct.setPhoto(photoName);
+                            } else {
+                                newProduct.setPhoto(product.getPhoto());
+                            }
                         } else {
                             newProduct.setPhoto(product.getPhoto());
                         }
-                    } else {
-                        newProduct.setPhoto(product.getPhoto());
-                    }
 
-                    resultProduct = updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
+                        resultProduct = updateProduct(newProduct, UserInstance.getInstance().getTokenValue());
 
-                    if(resultProduct){
-                        setInfoText("Produit modifié avec succès");
-                    } else {
-                        setInfoText("Le produit n'a pas pu être modifié");
+                        if (resultProduct) {
+                            setInfoText("Produit modifié avec succès");
+                        } else {
+                            setInfoText("Le produit n'a pas pu être modifié");
+                        }
                     }
+                } else {
+                    setInfoText("La taille de l'entrepôt est dépassée, place libre : "+ affectedWareHouse.getPlaceLibre());
                 }
             }
         } catch (Exception e) {
@@ -182,7 +200,7 @@ public class DetailsProductController extends GenericController {
                 photoField.setText(photo.getAbsolutePath());
                 photoField.positionCaret(photoField.getLength());
 
-                setInfoText("Image changed");
+                setInfoText("Image changée");
             }  // Else No File selected
 
 
@@ -195,9 +213,19 @@ public class DetailsProductController extends GenericController {
     private Integer areTextFieldsValid() {
         if(libelle.getText().trim().isEmpty()){ return 0; }
         else if(desc.getText().trim().isEmpty()){ return 1; }
-        else if(!NumberUtils.isNumber(prix.getText()) || prix.getText().trim().isEmpty()){ return 2; }
-        else if(!NumberUtils.isNumber(quantite.getText()) ||quantite.getText().trim().isEmpty()){ return 3; }
-        else if(dlc.getValue().toString().trim().isEmpty() || dlc.getValue().compareTo(LocalDate.now()) < 0) { return 4; }
+        else if(!NumberUtils.isNumber(prix.getText()) || prix.getText().trim().isEmpty()
+                || Integer.valueOf(quantite.getText()) < 1){
+            return 2;
+        }
+        else if(!NumberUtils.isNumber(quantite.getText())  || quantite.getText().trim().isEmpty()
+                || Integer.valueOf(quantite.getText()) < 1 ) {
+            return 3;
+        }
+        else if(dlc.getValue().toString().trim().isEmpty() || dlc.getValue().compareTo(LocalDate.now()) < 0) {
+            return 4;
+        } else if(codeBarre.getText().trim().isEmpty()) {
+            return 5;
+        }
 
         return -1;
     }
@@ -223,6 +251,8 @@ public class DetailsProductController extends GenericController {
         codeBarre.setText(product.getCodeBarre() == null ? "" : product.getCodeBarre()); // Nullable
         categorieProduit.getSelectionModel().select(product.getCategorieProduit() - 1);
         listId = product.getListProduct();
+        warehouseId = product.getEntrepotwm();
+        destId = product.getDestinataire();
         setInfoText("");
 
         if(option.equals("modify") && (photo = fetchPhoto(product.getPhoto())) != null){

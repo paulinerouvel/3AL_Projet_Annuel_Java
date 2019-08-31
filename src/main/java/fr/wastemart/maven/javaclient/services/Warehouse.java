@@ -22,6 +22,20 @@ public class Warehouse {
         return result;
     }
 
+    // GET warehouse by ID
+    public static JSONObject fetchWarehouse(Integer id) {
+        JSONObject result = null;
+
+        try {
+            HttpResponse response = Requester.sendGetRequest("warehouse?id="+id, null);
+            result = (JSONObject) response.getDataAsJSONArray().get(0);
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
+
+        return result;
+    }
+
     // GET Warehouse by City name
     public static JSONObject fetchWarehouseByCity(String city) {
         JSONObject result = null;

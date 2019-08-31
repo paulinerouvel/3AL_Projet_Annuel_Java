@@ -395,7 +395,7 @@ public class GlobalRegisterController extends GenericController {
 
             } else {
                 ((Control) registerFields[indexFieldVerif]).setStyle("-fx-background-color: #ff7980");
-                setInfoText("Veuillez remplir les champs");
+                setInfoText("Veuillez remplir les champs correctement");
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -415,10 +415,8 @@ public class GlobalRegisterController extends GenericController {
                             ((DatePicker)registerFields[i]).getValue().toString().trim().isEmpty())) {
                 return i;
             }
-            else if(!option.equals("modify") && registerFieldClassType == PasswordField.class && ((PasswordField)registerFields[i]).getText().trim().isEmpty()) {
-                return i;
-            }
-            else if(registerFieldClassType == ChoiceBox.class && ((ChoiceBox)registerFields[i]).getSelectionModel().getSelectedIndex() == 3) {
+            else if(!option.equals("modify") && registerFieldClassType == PasswordField.class &&
+                    ((PasswordField)registerFields[i]).getText().trim().isEmpty()) {
                 return i;
             }
         }

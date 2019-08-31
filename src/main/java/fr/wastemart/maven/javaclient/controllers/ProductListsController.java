@@ -9,13 +9,10 @@ import fr.wastemart.maven.javaclient.services.Details.StringDetail;
 import fr.wastemart.maven.javaclient.services.Logger;
 import fr.wastemart.maven.javaclient.services.StageManager;
 import fr.wastemart.maven.javaclient.services.UserInstance;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
@@ -79,14 +76,17 @@ public class ProductListsController extends GenericController {
         option = optionDetail.getValue();
 
         refreshDisplay();
-
-        refreshSelectedIndices();
     }
 
     @FXML
     private boolean refreshDisplay() {
+        refreshSelectedIndices();
+        clearInfoText();
+
         boolean result = false;
         if(displayProductLists()){
+            listsTable.getSelectionModel().selectFirst();
+
             switch (option) {
                 case "all":
                     result = displayProducts(null);
@@ -95,12 +95,10 @@ public class ProductListsController extends GenericController {
                     result = displayProducts(null);
                     break;
                 case "me":
-                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
-                    listsTable.getSelectionModel().selectFirst();
+                    result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
                     break;
                 case "pro":
-                    result = displayProducts(lists.getJSONObject(0).getInt("id"));
-                    listsTable.getSelectionModel().selectFirst();
+                    result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
                     break;
             }
         }
@@ -127,6 +125,7 @@ public class ProductListsController extends GenericController {
                     lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
                     break;
             }
+            System.out.println(lists);
             return fillProductLists();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -148,14 +147,19 @@ public class ProductListsController extends GenericController {
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                     }
                     break;
-                case "list":
+                case "me":
                     if (!lists.isEmpty()) {
+                        System.out.println("me");
+                        System.out.println(lists);
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                     }
                     break;
                 case "pro":
                     if (!lists.isEmpty()) {
+                        System.out.println("pro");
+                        System.out.println(lists);
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
+                        System.out.println(products);
                     }
                     break;
             }
@@ -171,10 +175,11 @@ public class ProductListsController extends GenericController {
     public void clickMyList() {
         clearInfoText();
         refreshSelectedIndices();
+        System.out.println("Selected : "+ indexOfListSelected);
 
         if(indexOfListSelected != -1){
             try {
-                displayProducts(lists.getJSONObject(indexOfListSelected).getInt("id"));
+                displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
@@ -221,7 +226,7 @@ public class ProductListsController extends GenericController {
             refreshSelectedIndices();
 
             if(indexOfListSelected != -1){
-                Integer listToRemoveId = lists.getJSONObject(indexOfListSelected).getInt("id");
+                Integer listToRemoveId = listsTable.getSelectionModel().getSelectedItem().getId();
                 if(removeProductsList(listToRemoveId, UserInstance.getInstance().getTokenValue())){
                     setInfoText("Liste supprimmée");
                     refreshDisplay();
@@ -242,7 +247,7 @@ public class ProductListsController extends GenericController {
 
         try {
 
-            if (indexOfListSelected != -1 && lists.getJSONObject(indexOfListSelected).getInt("estArchive") != 1) {
+            if (indexOfListSelected != -1 && listsTable.getSelectionModel().getSelectedItem().getEstArchive() != 1) {
 
                 JSONObject list = lists.getJSONObject(indexOfListSelected);
                 ProductList listElement = jsonToProductList(list);
@@ -283,14 +288,21 @@ public class ProductListsController extends GenericController {
 
         if(option.equals("me") && indexOfListSelected != -1) {
             details.add(new StringDetail("addtolist"));
-            details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId()));
+            details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId())); // Id de la liste
+            details.add(new IntegerDetail(getWarehouse())); // Id de l'entrepôt
+            details.add(new IntegerDetail(getDestinataire())); // Id du destinataire
             StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+
         } else if(option.equals("me")) {
             setInfoText("Veuillez sélectionner une liste");
+
         } else if (option.equals("all")) {
             details.add(new StringDetail("add"));
+            details.add(new IntegerDetail(getWarehouse())); // Id de l'entrepôt
+            details.add(new IntegerDetail(getDestinataire())); // Id du destinataire
             StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
         }
+
         refreshDisplay();
     }
 
@@ -392,14 +404,17 @@ public class ProductListsController extends GenericController {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 1);
                 Product productElement = jsonToProduct(product);
 
-                productElement.setEnRayon(true);
-                if(updateProduct(productElement, UserInstance.getInstance().getTokenValue())){
-                    setInfoText("Produit validé");
-                } else {
-                    setInfoErrorOccurred();
-                }
+                if(productElement != null) {
+                    productElement.setEnRayon(true);
+                    productElement.setEntrepotwm(getWarehouse());
+                    if (updateProduct(productElement, UserInstance.getInstance().getTokenValue())) {
+                        setInfoText("Produit validé");
+                    } else {
+                        setInfoErrorOccurred();
+                    }
 
-                refreshDisplay();
+                    refreshDisplay();
+                }
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
                 setInfoErrorOccurred();
@@ -418,15 +433,18 @@ public class ProductListsController extends GenericController {
                 JSONObject product = products.getJSONObject(indexOfProductSelected).put("enRayon", 0);
                 Product productElement = jsonToProduct(product);
 
-                productElement.setEnRayon(false);
+                if (productElement != null) {
+                    productElement.setEnRayon(false);
+                    productElement.setEntrepotwm(null);
 
-                if(updateProduct(productElement, UserInstance.getInstance().getTokenValue())){
-                    setInfoText("Produit refusé");
-                } else {
-                    setInfoErrorOccurred();
+                    if (updateProduct(productElement, UserInstance.getInstance().getTokenValue())) {
+                        setInfoText("Produit refusé");
+                    } else {
+                        setInfoErrorOccurred();
+                    }
+
+                    refreshDisplay();
                 }
-
-                refreshDisplay();
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -459,7 +477,6 @@ public class ProductListsController extends GenericController {
                 setInfoErrorOccurred();
             }
         } else {
-            System.out.println("Test");
             setInfoText("Aucune liste sélectionnée");
         }
     }
@@ -497,7 +514,9 @@ public class ProductListsController extends GenericController {
     }
 
     private boolean fillProducts() {
-        if(!products.isEmpty()) {
+        System.out.println("ozejfpoizejopf");
+        if(products != null && !products.isEmpty()) {
+            System.out.println("ozejfpoizejopf");
             productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
             productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
@@ -511,7 +530,10 @@ public class ProductListsController extends GenericController {
 
             for (int i = 0; i < products.length(); i++) {
                 Product product = jsonToProduct(products.getJSONObject(i));
-                if(product != null) {
+                System.out.println("Product is : "+ products.getJSONObject(i));
+                if(product != null && (listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 0) ||
+                        (!option.equals("pro") && (listArchiveCheckBox.isSelected()))){
+                    System.out.println("ozejfpoizejopf");
                     productsTable.getItems().add(product);
                 } else {
                     setInfoText("Un ou plusieurs produits n'ont pas pu être récupérés");
@@ -530,6 +552,25 @@ public class ProductListsController extends GenericController {
     }
 
 
+    private Integer getWarehouse() {
+        Integer result = 0;
+        if(indexOfListSelected != -1){
+            result = (listsTable.getSelectionModel().getSelectedItem().getId() % 2) + 1;
+        } else {
+            result = (int) (Math.random() * (2)) + 1 ;
+        }
+        System.out.println("Warehouse :");
+        System.out.println(result);
+        return result;
+    }
+
+    private Integer getDestinataire() {
+
+        Integer result = (int) (Math.random() * (2)) == 0 ? 1 : 3;
+        System.out.println("Destinataire :");
+        System.out.println(result);
+        return result;
+    }
 
     // Return button
     public void displayMainPage() {

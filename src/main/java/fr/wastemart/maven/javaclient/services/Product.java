@@ -16,7 +16,7 @@ public class Product {
         // --- POST --- //
 
     // POST a new Product in a List
-    public static boolean addProductToList(fr.wastemart.maven.javaclient.models.Product product, String token) {
+    public static boolean addProduct(fr.wastemart.maven.javaclient.models.Product product, String token) {
         Integer result = 299;
 
         String photo = product.getPhoto() == null ? "\"\"" : "\""+product.getPhoto()+"\"";
