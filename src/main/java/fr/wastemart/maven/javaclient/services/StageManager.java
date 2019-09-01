@@ -58,7 +58,6 @@ public class StageManager {
                 genericController.init();
             } catch (Exception e) {
                 Logger.getInstance().reportError(e);
-                e.printStackTrace();
                 genericController.initFail();
             }
 

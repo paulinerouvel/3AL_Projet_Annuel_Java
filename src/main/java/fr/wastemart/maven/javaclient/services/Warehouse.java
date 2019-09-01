@@ -48,7 +48,6 @@ public class Warehouse {
         }
 
         return result;
-        // TODO Test if it works, supposed to return JSONObject
     }
 
 

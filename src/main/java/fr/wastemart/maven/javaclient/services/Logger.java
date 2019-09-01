@@ -12,13 +12,7 @@ public class Logger {
     private File logFile;
 
     /** Constructeur privé */
-    private Logger(){
-        try {
-            sendOfflineLogFile();
-        } catch (Exception e){
-            // TODO Fail, will retry in a few minutes
-        }
-    }
+    private Logger(){}
 
     /** Instance unique */
     private static Logger INSTANCE;
@@ -32,8 +26,6 @@ public class Logger {
     }
 
     public void reportError(Exception ex){
-
-        ex.printStackTrace();
         if(getLogFile() == null) {
 
             File createdLogFile = createLogFile(ex);
@@ -114,15 +106,6 @@ public class Logger {
         }
 
         return result < 299;
-    }
-
-    private void sendOfflineLogFile() throws Exception {
-        //TODO
-        // Récupérer chaque fichiers avec offline_ dans le nom
-        //       for(File file in files){
-        //           sendLogFile(file);
-        //       }
-        // Une fois tout envoyé, changer le nom enlever offline_
     }
 
     private File getLogFile() {

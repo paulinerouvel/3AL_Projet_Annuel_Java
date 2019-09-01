@@ -197,11 +197,6 @@ public class User {
             Logger.getInstance().reportError(e);
         }
 
-        // TODO Test : Initially return Integer.valueOf(content.toString());
-
-
-
-
         return result;
     }
 
@@ -215,11 +210,6 @@ public class User {
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
-
-        // TODO Test : Initially return Integer.valueOf(content.toString());
-
-
-
 
         return result;
     }
@@ -354,7 +344,7 @@ public class User {
             return new fr.wastemart.maven.javaclient.models.User(
                     user.getInt("id"),
                     user.isNull("libelle") ? null : user.getString("libelle"),
-                    -1, // TODO -1 on Pauline's version
+                    -1,
                     user.isNull("nom") ? null : user.getString("nom"),
                     user.isNull("prenom") ? null : user.getString("prenom"),
                     user.getString("mail"),

@@ -60,7 +60,6 @@ public class UserInstance {
             result = Requester.sendPostRequest("user/login", json, null);
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
-            e.printStackTrace();
             result = new HttpResponse(417, "Erreure interne");
         }
 
