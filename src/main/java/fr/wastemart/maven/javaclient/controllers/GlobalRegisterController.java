@@ -290,6 +290,11 @@ public class GlobalRegisterController extends GenericController {
                 Integer userCategory = userCategorySelected == 0 ? 4 :
                         userCategorySelected == 1 ? 2 : 5;
 
+                Integer tailleOrganismeValue = (userType.getSelectionModel()
+                        .getSelectedIndex() == 1 && !tailleOrganisme.getText()
+                        .isEmpty()) ? Integer.valueOf(tailleOrganisme.getText())
+                        : null;
+
                 User user = new User(-1,
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !libelle.getText().isEmpty()) ? libelle.getText() : null,
                         userCategory,
@@ -304,7 +309,7 @@ public class GlobalRegisterController extends GenericController {
                         mdp.getText(),
                         null,
                         description.getText(),
-                        (userType.getSelectionModel().getSelectedIndex() == 1) ? Integer.valueOf(tailleOrganisme.getText()) : null,
+                        tailleOrganismeValue,
                         estValide != null && estValide.isSelected(),
                         (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
                         dateNaissance.getValue() == null ? "" : dateNaissance.getValue().toString(),
@@ -433,7 +438,9 @@ public class GlobalRegisterController extends GenericController {
         codePostal.clear();
         pseudo.clear();
         mdp.clear();
-        photoField.clear();
+        if (photoField != null) {
+            photoField.clear();
+        }
         libelle.clear();
         description.clear();
         tailleOrganisme.clear();
