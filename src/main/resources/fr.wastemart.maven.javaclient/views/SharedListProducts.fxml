@@ -59,23 +59,23 @@
                   </TableView>
                   <ButtonBar layoutX="297.0" layoutY="529.0" prefHeight="40.0" prefWidth="752.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="10.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#affectToList" text="Ajouter">
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#affectToList" text="Ajouter">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" onAction="#removeFromList" text="Enlever">
+                        <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeFromList" text="Enlever">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                      <Button mnemonicParsing="false" onAction="#displayAddProduct" prefHeight="29.0" prefWidth="156.0" text="Créer">
+                      <Button fx:id="createButton" mnemonicParsing="false" onAction="#displayAddProduct" prefHeight="29.0" prefWidth="156.0" text="Créer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" onAction="#displayModifyProduct" text="Modifier">
+                        <Button fx:id="modifyButton" mnemonicParsing="false" onAction="#displayModifyProduct" text="Modifier">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteProduct" text="Supprimer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>

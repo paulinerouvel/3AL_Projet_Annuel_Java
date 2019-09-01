@@ -12,6 +12,7 @@ import fr.wastemart.maven.javaclient.services.UserInstance;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -69,6 +70,18 @@ public class ProductListsController extends GenericController {
     TableColumn<Object, Object> productDate;
     @FXML
     TableColumn<Object, Object> productList;
+
+    @FXML
+    Button addButton;
+    @FXML
+    Button createButton;
+    @FXML
+    Button removeButton;
+    @FXML
+    Button modifyButton;
+    @FXML
+    Button deleteButton;
+
 
     public void init(List<Detail> detail) throws Exception {
         if(listArchiveCheckBox != null) {
@@ -335,11 +348,18 @@ public class ProductListsController extends GenericController {
 
         try {
             if (indexOfProductSelected != -1){
-                if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
-                    setInfoText("Produit supprimé");
-                } else {
-                    setInfoErrorOccurred();
+
+                if(listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 1 && option == "pro"){
+                    setInfoText("Vous ne pouvez pas agir sur une liste archivée");
                 }
+                else{
+                    if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
+                        setInfoText("Produit supprimé");
+                    } else {
+                        setInfoErrorOccurred();
+                    }
+                }
+
             }
 
             refreshDisplay();
@@ -561,8 +581,12 @@ public class ProductListsController extends GenericController {
     }
 
     private void refreshSelectedIndices() {
+
+
         this.indexOfProductSelected = productsTable.getSelectionModel().getSelectedIndex();
         this.indexOfListSelected = listsTable.getSelectionModel().getSelectedIndex();
+
+
     }
 
 
