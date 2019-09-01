@@ -41,6 +41,9 @@ public class DetailsProductController extends GenericController {
     @FXML private TextField codeBarre;
     @FXML private ChoiceBox<String> categorieProduit;
 
+    @FXML private Label photoLabel;
+    @FXML private Button parcourirButton;
+
     public void init(List<Detail> detail) throws Exception {
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
@@ -55,6 +58,10 @@ public class DetailsProductController extends GenericController {
                 destId = (detail.get(2) != null) ? ((IntegerDetail) detail.get(2)).getValue() : null;
                 clearFields();
                 categorieProduit.getSelectionModel().selectFirst();
+
+                photoField.setVisible(false);
+                photoLabel.setVisible(false);
+                parcourirButton.setVisible(false);
                 break;
             case "modify":
                 ProductDetail productDetail = (ProductDetail) detail.get(1);
@@ -67,6 +74,10 @@ public class DetailsProductController extends GenericController {
                 destId = (detail.get(3) != null) ? ((IntegerDetail) detail.get(3)).getValue() : null;
                 clearFields();
                 categorieProduit.getSelectionModel().selectFirst();
+
+                photoField.setVisible(false);
+                photoLabel.setVisible(false);
+                parcourirButton.setVisible(false);
 
                 break;
         }

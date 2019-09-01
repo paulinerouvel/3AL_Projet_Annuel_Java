@@ -151,6 +151,8 @@ public class GlobalRegisterController extends GenericController {
                 description.setText(userToModif.getDesc());
                 tailleOrganisme.setText(String.valueOf(userToModif.getTailleOrganisme()));
                 siret.setText(userToModif.getSiret());
+                dateNaissance.setValue(userToModif.getDateDeNaissance() == null ? LocalDate.now() : LocalDate.parse(userToModif.getDateDeNaissance()));
+
 
             }
 
@@ -166,7 +168,7 @@ public class GlobalRegisterController extends GenericController {
 
 
             userType.setVisible(true);
-            userType.setItems(FXCollections.observableArrayList("Employé", "Professionnel", "Admin"));
+            userType.setItems(FXCollections.observableArrayList("Employé", "Entreprise", "Admin"));
         }
 
         if(userType.getSelectionModel().getSelectedIndex() == 0 || userType.getSelectionModel().getSelectedIndex() == 2 || (IdCat != null && (IdCat == 3 || IdCat == 4 || IdCat == 5))) {
@@ -290,13 +292,11 @@ public class GlobalRegisterController extends GenericController {
                 Integer userCategory = userCategorySelected == 0 ? 4 :
                         userCategorySelected == 1 ? 2 : 5;
 
-                Integer tailleOrganismeValue = (userType.getSelectionModel()
-                        .getSelectedIndex() == 1 && !tailleOrganisme.getText()
-                        .isEmpty()) ? Integer.valueOf(tailleOrganisme.getText())
-                        : null;
+
+
 
                 User user = new User(-1,
-                        (userType.getSelectionModel().getSelectedIndex() == 1 && !libelle.getText().isEmpty()) ? libelle.getText() : null,
+                        libelle.getText(),
                         userCategory,
                         nom.getText(),
                         prenom.getText(),
@@ -309,9 +309,9 @@ public class GlobalRegisterController extends GenericController {
                         mdp.getText(),
                         null,
                         description.getText(),
-                        tailleOrganismeValue,
+                        tailleOrganisme.getText().isEmpty()? null:Integer.valueOf(tailleOrganisme.getText()),
                         estValide != null && estValide.isSelected(),
-                        (userType.getSelectionModel().getSelectedIndex() == 1 && !siret.getText().isEmpty()) ? siret.getText() : null,
+                        siret.getText(),
                         dateNaissance.getValue() == null ? "" : dateNaissance.getValue().toString(),
                         0
                 );

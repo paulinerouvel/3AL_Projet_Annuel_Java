@@ -13,23 +13,19 @@
       <Label layoutX="205.0" layoutY="31.0" style="-fx-font-size: 25;" text="Gérer un produit" />
       <Label layoutX="64.0" layoutY="67.0" text="Libelle *" />
       <Label layoutX="63.0" layoutY="132.0" text="Description *" />
-      <Label layoutX="62.0" layoutY="191.0" text="Photo" />
+      <Label fx:id="photoLabel" layoutX="62.0" layoutY="191.0" text="Photo" />
       <Label layoutX="61.0" layoutY="251.0" text="Prix *" />
       <Label layoutX="62.0" layoutY="309.0" text="Quantité *" />
       <Label layoutX="314.0" layoutY="309.0" text="Date Limite de Consommation" />
       <TextField fx:id="libelle" layoutX="59.0" layoutY="86.0" prefHeight="32.0" prefWidth="479.0" />
       <TextField fx:id="desc" layoutX="59.0" layoutY="151.0" prefHeight="32.0" prefWidth="479.0" />
-      <Button layoutX="61.0" layoutY="212.0" mnemonicParsing="false" onAction="#changeProductPicture" text="Parcourir" />
+      <Button fx:id="parcourirButton" layoutX="61.0" layoutY="212.0" mnemonicParsing="false" onAction="#changeProductPicture" text="Parcourir" />
       <TextField fx:id="photoField" layoutX="181.0" layoutY="210.0" prefHeight="32.0" prefWidth="358.0" />
       <TextField fx:id="prix" layoutX="62.0" layoutY="270.0" prefHeight="32.0" prefWidth="224.0" />
       <TextField fx:id="quantite" layoutX="61.0" layoutY="328.0" prefHeight="32.0" prefWidth="224.0" />
       <DatePicker fx:id="dlc" layoutX="313.0" layoutY="328.0" prefHeight="32.0" prefWidth="224.0" />
-      <Label layoutX="173.0" layoutY="368.0" text="Code Barre *" />
-      <Button layoutX="62.0" layoutY="390.0" mnemonicParsing="false" text="Lecteur">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <TextField fx:id="codeBarre" layoutX="173.0" layoutY="388.0" prefHeight="32.0" prefWidth="368.0" />
+      <Label layoutX="64.0" layoutY="367.0" text="Code Barre *" />
+      <TextField fx:id="codeBarre" layoutX="62.0" layoutY="388.0" prefHeight="32.0" prefWidth="479.0" />
       <Button layoutX="445.0" layoutY="440.0" mnemonicParsing="false" onAction="#submitProduct" text="Valider">
          <cursor>
             <Cursor fx:constant="HAND" />

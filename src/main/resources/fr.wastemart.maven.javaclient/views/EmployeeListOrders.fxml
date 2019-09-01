@@ -25,6 +25,7 @@
                             </columnResizePolicy>
                         </TableView>
                   <Label layoutX="155.0" layoutY="14.0" text="Commandes" />
+                  <Button layoutX="143.0" layoutY="544.0" mnemonicParsing="false" onAction="#deleteOrder" text="Supprimer" />
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #292929;">

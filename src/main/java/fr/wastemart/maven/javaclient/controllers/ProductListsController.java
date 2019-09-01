@@ -223,7 +223,7 @@ public class ProductListsController extends GenericController {
 
         try {
             ProductList productList = new ProductList(-1,
-                    "",
+                    "Liste "+ LocalDate.now(),
                     LocalDate.now(),
                     UserInstance.getInstance().getUser().getId(),
                     0);

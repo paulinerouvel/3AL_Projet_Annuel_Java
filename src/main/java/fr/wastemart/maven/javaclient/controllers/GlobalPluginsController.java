@@ -27,16 +27,23 @@ public class GlobalPluginsController extends GenericController {
         String configFile = System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_CONFIGFILE");
         String pluginsFolder = System.getProperty("user.dir")+dotenv.get("DEFAULT_PLUGINS_FOLDER");
 
-        initialization(pluginsFolder, configFile);
+        try {
+            initialization(pluginsFolder, configFile);
 
-        pluginPath.setText(getPluginFolder());
-        pluginPath.positionCaret(pluginPath.getLength());
+            pluginPath.setText(getPluginFolder());
+            pluginPath.positionCaret(pluginPath.getLength());
 
-        System.out.println("(SharedPluginsController.init) conffile :"+ getConfFile());
-        System.out.println("(SharedPluginsController.init)  folder :" + getPluginFolder());
+            System.out.println("(SharedPluginsController.init) conffile :"+ getConfFile());
+            System.out.println("(SharedPluginsController.init)  folder :" + getPluginFolder());
+
+
+        } catch (Exception e) {
+            Logger.getInstance().reportError(e);
+        }
 
         fetchInstalledPlugins();
         fetchAvailablePlugins();
+
     }
 
     public void selectFolder() {
