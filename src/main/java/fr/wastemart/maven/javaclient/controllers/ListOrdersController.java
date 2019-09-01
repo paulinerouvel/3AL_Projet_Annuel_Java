@@ -71,7 +71,7 @@ public class ListOrdersController extends GenericController {
             JSONObject order = orders.getJSONObject(i);
             //Order orderElement = jsonToOrder(order);
 
-            System.out.println("(SharedListOrdersController.displayOrderList) Order : " + order);
+
             Order orderElement = jsonToOrder(order);
 
             ordersTable.getItems().add(orderElement);
@@ -143,7 +143,7 @@ public class ListOrdersController extends GenericController {
                 setInfoErrorOccurred();
             }
         } else {
-            System.out.println("Test");
+
             setInfoText("Aucune liste sélectionnée");
         }
     }

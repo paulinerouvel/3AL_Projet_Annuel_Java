@@ -163,7 +163,7 @@ public class User {
 
             if (fetchUserResponse.getResponseCode() <= 299) {
                 jsonUser = fetchUserResponse.getDataAsJSONObject();
-                System.out.println("User"+ jsonUser);
+
             }
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -199,8 +199,8 @@ public class User {
 
         // TODO Test : Initially return Integer.valueOf(content.toString());
 
-        System.out.println("(User.fetchCategory) Category of user : ");
-        System.out.println("(User.fetchCategory) " + result);
+
+
 
         return result;
     }
@@ -218,8 +218,8 @@ public class User {
 
         // TODO Test : Initially return Integer.valueOf(content.toString());
 
-        System.out.println("(User.fetchCategory) Category of user : ");
-        System.out.println("(User.fetchCategory) " + result);
+
+
 
         return result;
     }

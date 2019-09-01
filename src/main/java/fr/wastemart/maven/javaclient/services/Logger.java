@@ -1,10 +1,9 @@
 package fr.wastemart.maven.javaclient.services;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -33,14 +32,15 @@ public class Logger {
     }
 
     public void reportError(Exception ex){
+
         ex.printStackTrace();
         if(getLogFile() == null) {
-            System.out.println("(Logger.reportError) logFile does not exist, creating it...");
+
             File createdLogFile = createLogFile(ex);
             if(createdLogFile != null){
                 setLogFile(createdLogFile);
             } else {
-                System.out.println("(Logger.reportError) Failed creating File");
+
                 return;
             }
 
@@ -49,9 +49,11 @@ public class Logger {
         writeErrorInLogFile(ex);
 
         try {
-            sendLogFile(logFile);
+            boolean result = sendLogFile(logFile);
+
+
         } catch (Exception e) {
-            System.out.println("(Logger.reportError) Failed to send, will send later");
+
             getLogFile().renameTo(new File("offline_" + getLogFile().getName()));
         }
     }
@@ -60,18 +62,18 @@ public class Logger {
     private File createLogFile(Exception ex) {
         LocalDateTime ldt = LocalDateTime.now();
         String formatedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd-hh-mm-ss", Locale.FRANCE).format(ldt);
-        System.out.println("(Logger.createLogFile) Date formated");
+
         File file = new File(formatedDate + "-Java-" + ex.getCause() + ".txt");
         try {
             if(file.createNewFile()){
-                System.out.println("(Logger.createLogFile) File created, path is : "+file.getAbsolutePath());
+
                 return file;
             }
-            System.out.println("(Logger.createLogFile) File not created");
+
             return null;
 
         } catch (IOException e) {
-            System.out.println("(Logger.createLogFile) IOException error during file creation, formatedDate = "+formatedDate);
+
             return null;
         }
     }

@@ -33,8 +33,8 @@ public class GlobalPluginsController extends GenericController {
             pluginPath.setText(getPluginFolder());
             pluginPath.positionCaret(pluginPath.getLength());
 
-            System.out.println("(SharedPluginsController.init) conffile :"+ getConfFile());
-            System.out.println("(SharedPluginsController.init)  folder :" + getPluginFolder());
+
+
 
 
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class GlobalPluginsController extends GenericController {
         try {
             setPluginFolder(pluginPath.getText());
 
-            System.out.println("(SharedPluginsController.uninstallSelectedPlugin) Selected indice: "+ getSelectedIndex(localPluginsListView));
+
             if(uninstallPlugin(getSelectedIndex(localPluginsListView))) {
                 setInfoText("Plug-in désinstallé avec succès");
             } else {

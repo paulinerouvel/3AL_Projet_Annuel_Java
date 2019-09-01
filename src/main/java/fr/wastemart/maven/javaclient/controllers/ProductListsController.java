@@ -132,7 +132,7 @@ public class ProductListsController extends GenericController {
     private boolean displayProductLists() {
         try {
             listsTable.getItems().clear();
-            System.out.println(String.valueOf(option));
+
 
 
             switch (option) {
@@ -145,10 +145,10 @@ public class ProductListsController extends GenericController {
                     break;
                 case "suggestion":
                     lists = fetchAllProductListsByUserCategory(2, UserInstance.getInstance().getTokenValue());
-                    System.out.println(lists);
+
                     break;
             }
-            System.out.println(lists);
+
 
 
             return fillProductLists();
@@ -171,19 +171,19 @@ public class ProductListsController extends GenericController {
                     break;
                 case "pro":
                     if (!lists.isEmpty()) {
-                        System.out.println("pro");
-                        System.out.println(lists);
+
+
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
                     }
                     break;
                 case "suggestion":
-                    System.out.println("Lists:");
-                    System.out.println(lists);
+
+
                     if (!lists.isEmpty()) {
-                        System.out.println("suggestion");
-                        System.out.println(lists);
+
+
                         products = fetchProducts(selectedList, UserInstance.getInstance().getTokenValue());
-                        System.out.println(products);
+
                     }
                     break;
             }
@@ -199,7 +199,7 @@ public class ProductListsController extends GenericController {
     public void clickMyList() {
         clearInfoText();
         refreshSelectedIndices();
-        System.out.println("Selected : "+ indexOfListSelected);
+
 
         if(indexOfListSelected != -1){
             try {
@@ -535,9 +535,9 @@ public class ProductListsController extends GenericController {
     }
 
     private boolean fillProductLists() {
-        System.out.println("azertyui gotta check if list empty");
+
         if (lists != null && !lists.isEmpty() || option.equals("all")) {
-            System.out.println("List not empty");
+
 
             boolean listFound = false;
             listId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -555,7 +555,7 @@ public class ProductListsController extends GenericController {
 
             for (int i = 0; i < lists.length(); i++) {
 
-                    System.out.println("uidhgfyvuidshofviughvfTest");
+
                     listFound = true;
                     ProductList list = jsonToProductList(lists.getJSONObject(i));
                     if(list != null && (list.getEstArchive() == 0 || (listArchiveCheckBox != null && listArchiveCheckBox.isSelected()))) {
@@ -590,10 +590,10 @@ public class ProductListsController extends GenericController {
 
             for (int i = 0; i < products.length(); i++) {
                 Product product = jsonToProduct(products.getJSONObject(i));
-                System.out.println("Product is : "+ products.getJSONObject(i));
+
                 if(product != null && (listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 0) ||
                         (listArchiveCheckBox != null && listArchiveCheckBox.isSelected())){
-                    System.out.println("ozejfpoizejopf");
+
                     productFound = true;
                     productsTable.getItems().add(product);
                 } else {
@@ -624,16 +624,16 @@ public class ProductListsController extends GenericController {
         } else {
             result = (int) (Math.random() * (2)) + 1 ;
         }
-        System.out.println("Warehouse :");
-        System.out.println(result);
+
+
         return result;
     }
 
     private Integer getDestinataire() {
 
         Integer result = (int) (Math.random() * (2)) == 0 ? 1 : 3;
-        System.out.println("Destinataire :");
-        System.out.println(result);
+
+
         return result;
     }
 

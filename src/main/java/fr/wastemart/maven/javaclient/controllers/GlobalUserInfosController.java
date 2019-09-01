@@ -228,16 +228,16 @@ public class GlobalUserInfosController extends GenericController {
                 }
 
                 if (!photoPathField.getText().isEmpty()) {
-                    System.out.println("(GlobalUserInfosController.save) Photo is not null!");
+
                     String photoName;
                     if ((photoName = sendPhoto(photo, UserInstance.getInstance().getUser().getId())) != null) {
-                        System.out.println("(GlobalUserInfosController.save) Photo is:" + photoName);
+
                         user.setPhoto(photoName);
                     }
                 }
 
 
-                System.out.println("(GlobalUserInfosController.save) About to update User");
+
                 if (updateUser(UserInstance.getInstance().getUser(), UserInstance.getInstance().getTokenValue()) && user.getMdp().length() >= 2) {
                     setInfoText("Modification réussie");
                 } else {

@@ -89,9 +89,9 @@ public class ListUsersController extends GenericController {
         try {
 
 
-            System.out.println(usersTable.getId());
+
             if(usersTable.getId().equals( "usersTableRegistration")){
-                System.out.println("Registration !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
                 users = fetchInvalidUsersByCategory(libelle);
             }
             else{
@@ -182,7 +182,7 @@ public class ListUsersController extends GenericController {
         refreshSelectedIndices();
         if(indexOfCategorySelected != -1){
 
-            System.out.println(indexOfCategorySelected);
+
             try {
                 displayUsersByCategory(lists.getJSONObject(indexOfCategorySelected).getString("libelle"), indexOfCategorySelected);
             } catch (Exception e) {
@@ -222,7 +222,7 @@ public class ListUsersController extends GenericController {
         clearInfoText();
         refreshSelectedIndices();
 
-        System.out.println(indexOfUserSelected);
+
 
 
         try{

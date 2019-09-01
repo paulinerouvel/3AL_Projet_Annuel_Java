@@ -12,12 +12,12 @@ public class Requester {
         // Creating Request
         URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        System.out.println("(Requester.sendGetRequest) Sending GET to : "+route);
+
 
         // Add request Headers
         con.setRequestMethod("GET");
         if (token != null) {
-            System.out.println("(Requester.sendPostRequest) VT!!");
+
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -28,12 +28,12 @@ public class Requester {
         // Creating Request
         URL url = new URL(StageManager.getInstance().getDotenv().get("WASTEMART_API")+route);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        System.out.println("(Requester.sendDeleteRequest) Sending DELETE to : "+route);
+
 
         // Add request Headers
         con.setRequestMethod("DELETE");
         if (token != null) {
-            System.out.println("(Requester.sendDeleteRequest) VT!!");
+
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -50,7 +50,7 @@ public class Requester {
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         if (token != null) {
-            System.out.println("(Requester.sendPostRequest) VT!!");
+
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -68,7 +68,7 @@ public class Requester {
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         if (token != null) {
-            System.out.println("(Requester.sendPutRequest) VT!!");
+
             con.setRequestProperty("Authorization", "Bearer " + token);
         }
 
@@ -81,7 +81,7 @@ public class Requester {
         Reader streamReader = null;
         int status = con.getResponseCode();
 
-        System.out.println("(Requester.readResponse) Status: "+ status);
+
 
         if (status > 299) {
             return new HttpResponse(status, null);
@@ -102,14 +102,14 @@ public class Requester {
         in.close();
         con.disconnect();
 
-        System.out.println("(Requester.readResponse) Data Response : ");
-        System.out.println("(Requester.readResponse) " + httpResponse.toString());
+
+
 
         return httpResponse;
     }
 
     private static void sendJson(HttpURLConnection con, String json) throws Exception {
-        System.out.println("(Requester.sendJson) About to send : " + json);
+
         // Form request, connect and send json
         byte[] output = json.getBytes(StandardCharsets.UTF_8);
         int length = output.length;
@@ -154,7 +154,7 @@ public class Requester {
 
         // Request is lazily fired whenever you need to obtain information about response.
         int responseCode = ((HttpURLConnection) connection).getResponseCode();
-        System.out.println("(Requester.sendFile) " + responseCode); // Should be 200
+
 
         return readResponse((HttpURLConnection) connection);
     }

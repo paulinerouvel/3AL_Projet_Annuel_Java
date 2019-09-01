@@ -170,7 +170,7 @@ public class DetailsProductController extends GenericController {
 
                     } else if (option.equals("modify")) {
                         if (!photoField.getText().isEmpty() && !photoField.getText().equals(String.valueOf(product.getPhoto()))) {
-                            System.out.println("(DetailsProductController.save) Photo is not null!");
+
                             String photoName;
                             if ((photoName = sendPhoto(photo, product.getId())) != null) {
                                 newProduct.setPhoto(photoName);

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import static fr.wastemart.maven.javaclient.services.Product.fetchProductsByWarehouse;
 import static fr.wastemart.maven.javaclient.services.Product.jsonToProduct;
+import static fr.wastemart.maven.javaclient.services.Product.updateProduct;
 import static fr.wastemart.maven.javaclient.services.Warehouse.fetchAllWarehouse;
 import static fr.wastemart.maven.javaclient.services.Warehouse.jsonToWarehouse;
 
@@ -55,7 +56,38 @@ public class ListWarehousesController extends GenericController {
         warehouseTable.getSelectionModel().selectFirst();
     }
 
-    private void displayWarehouseLists() throws Exception {
+    @FXML
+    public void moveProduct(Integer newWarehouseId) {
+        clearInfoText();
+        refreshSelectedIndices();
+
+        if (indexOfProductSelected != -1) {
+            if (newWarehouseId != -1) {
+                Product productToSwitch = productsTable.getSelectionModel().getSelectedItem();
+                productToSwitch.setEntrepotwm(newWarehouseId);
+
+
+                if (updateProduct(productToSwitch, UserInstance.getInstance().getTokenValue())) {
+                    setInfoText("Produit changé d'entrepôt");
+
+                    if(displayWarehouseLists()) {
+                        if (displayProductsByWarehouse(warehouses.getJSONObject(0).getInt("id"))) {
+                            warehouseTable.getSelectionModel().selectFirst();
+                        }
+                    }
+                } else {
+
+                    setInfoErrorOccurred();
+                }
+
+            }
+        } else {
+            setInfoText("Veuillez sélectionner un produit");
+        }
+    }
+
+    private boolean displayWarehouseLists() {
+        boolean warehouseFound = false;
         warehouseTable.getItems().clear();
         warehouses = fetchAllWarehouse();
 
@@ -69,19 +101,25 @@ public class ListWarehousesController extends GenericController {
         IDwarehouse.setCellValueFactory(new PropertyValueFactory<>("entrepotwm"));
         ObservableList<Object> idWarehouse = FXCollections.observableArrayList();
         IDwarehouse.setCellFactory(ComboBoxTableCell.forTableColumn(idWarehouse));
-        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> swapIdWarehouse = (Integer)e.getNewValue());
+        IDwarehouse.setOnEditCommit((TableColumn.CellEditEvent<Object, Object> e) -> moveProduct((Integer) e.getNewValue()));
 
         for (int i = 0; i < warehouses.length(); i++) {
             JSONObject warehouse = warehouses.getJSONObject(i);
             Warehouse warehouseElement = jsonToWarehouse(warehouse);
 
-            warehouseTable.getItems().add(warehouseElement);
-            idWarehouse.add(warehouseElement.getId());
-        }
+            if(warehouseElement != null){
+                warehouseTable.getItems().add(warehouseElement);
+                idWarehouse.add(warehouseElement.getId());
+                warehouseFound = true;
+            }
 
+        }
+        return warehouseFound;
     }
 
-    private void displayProductsByWarehouse(Integer id) throws Exception {
+    private boolean displayProductsByWarehouse(Integer id) {
+        boolean productFound = false;
+
         productsTable.getItems().clear();
         products = fetchProductsByWarehouse(id);
 
@@ -98,8 +136,13 @@ public class ListWarehousesController extends GenericController {
             JSONObject product = products.getJSONObject(i);
             Product productElement = jsonToProduct(product);
 
-            productsTable.getItems().add(productElement);
+            if(productElement != null) {
+                productFound = true;
+                productsTable.getItems().add(productElement);
+
+            }
         }
+        return productFound;
     }
 
     @FXML

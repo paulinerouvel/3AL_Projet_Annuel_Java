@@ -325,10 +325,10 @@ public class GlobalRegisterController extends GenericController {
 
                 if(option == "add"){
                     resultUser = createUser(user);
-                    System.out.println("Test1");
+
 
                     if(photoField != null && !photoField.getText().isEmpty()) {
-                        System.out.println("(GlobalRegisterController.save) Photo is not null!");
+
                         String photoName;
                         User createdUser = jsonToUser(fetchCreatedUser(user.getMail()));
                         if((photoName = sendPhoto(photo, createdUser.getId())) != null) {
@@ -348,7 +348,7 @@ public class GlobalRegisterController extends GenericController {
                     }
 
                     if(!photoField.getText().isEmpty()) {
-                        System.out.println("(GlobalRegisterController.save) Photo is not null!");
+
                         String photoName;
                         if((photoName = sendPhoto(photo, userToModif.getId())) != null) {
                             user.setPhoto(photoName);

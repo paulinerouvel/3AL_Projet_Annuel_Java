@@ -82,7 +82,7 @@ public class Product {
             if(Requester.sendFile("images/", renamedPhoto).getResponseCode() < 299){
                 renamedPhoto.delete();
                 result = renamedPhoto.getName();
-                System.out.println("Result : "+result);
+
             }
 
         } catch (Exception e) {
@@ -202,6 +202,7 @@ public class Product {
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
         }
+
         return result < 299;
 
 
