@@ -97,7 +97,7 @@ public class ProductListsController extends GenericController {
     @FXML
     private boolean refreshDisplay() {
         refreshSelectedIndices();
-        clearInfoText();
+        //clearInfoText();
 
         boolean result = false;
         if(displayProductLists()){
@@ -296,11 +296,17 @@ public class ProductListsController extends GenericController {
         List<Detail> details = new ArrayList<Detail>();
 
         if(option.equals("pro") && indexOfListSelected != -1) {
-            details.add(new StringDetail("addtolist"));
-            details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId())); // Id de la liste
-            details.add(new IntegerDetail(getWarehouse())); // Id de l'entrepôt
-            details.add(new IntegerDetail(getDestinataire())); // Id du destinataire
-            StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+
+            if(listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 1 && option == "pro"){
+                setInfoText("Vous ne pouvez pas agir sur une liste archivée");
+            }
+            else {
+                details.add(new StringDetail("addtolist"));
+                details.add(new IntegerDetail(listsTable.getSelectionModel().getSelectedItem().getId())); // Id de la liste
+                details.add(new IntegerDetail(getWarehouse())); // Id de l'entrepôt
+                details.add(new IntegerDetail(getDestinataire())); // Id du destinataire
+                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+            }
 
         } else if(option.equals("pro")) {
             setInfoText("Veuillez sélectionner une liste");
@@ -322,16 +328,22 @@ public class ProductListsController extends GenericController {
 
         try {
             if(indexOfProductSelected != -1) {
-                Product selectedProduct = jsonToProduct(products.getJSONObject(indexOfProductSelected));
 
-                List<Detail> details = new ArrayList<Detail>();
-                details.add(new StringDetail("modify"));
-                details.add(new ProductDetail(selectedProduct));
+                if(listsTable.getSelectionModel().getSelectedItem().getEstArchive() == 1 && option == "pro"){
+                    setInfoText("Vous ne pouvez pas agir sur une liste archivée");
+                }
+                else {
+                    Product selectedProduct = jsonToProduct(products.getJSONObject(indexOfProductSelected));
+
+                    List<Detail> details = new ArrayList<Detail>();
+                    details.add(new StringDetail("modify"));
+                    details.add(new ProductDetail(selectedProduct));
 
 
-                StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
+                    StageManager.getInstance().loadExtraPageWithDetails(dotenv.get("SHARED_DETAILS_PRODUCT"), details);
 
-                refreshDisplay();
+                    refreshDisplay();
+                }
             } else {
                 setInfoText("Veuillez sélectionner un produit");
             }
@@ -355,14 +367,18 @@ public class ProductListsController extends GenericController {
                 else{
                     if(fr.wastemart.maven.javaclient.services.Product.deleteProduct(products.getJSONObject(indexOfProductSelected).getInt("id"), UserInstance.getInstance().getTokenValue())){
                         setInfoText("Produit supprimé");
+                        refreshDisplay();
                     } else {
                         setInfoErrorOccurred();
                     }
                 }
 
             }
+            else{
+                setInfoText("Veuillez séléctionner un produit");
+            }
 
-            refreshDisplay();
+
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
             setInfoErrorOccurred();
