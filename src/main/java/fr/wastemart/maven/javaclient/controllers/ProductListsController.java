@@ -91,7 +91,11 @@ public class ProductListsController extends GenericController {
         StringDetail optionDetail = (StringDetail) detail.get(0);
         option = optionDetail.getValue();
 
-        refreshDisplay();
+
+        if(!listsTable.getItems().isEmpty()){
+            refreshDisplay();
+        }
+
     }
 
     @FXML
@@ -562,10 +566,8 @@ public class ProductListsController extends GenericController {
     }
 
     private boolean fillProducts() {
-        System.out.println("ozejfpoizejopf");
         if(listsTable != null && !products.isEmpty()) {
             boolean productFound = false;
-            System.out.println("ozejfpoizejopf");
             productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
             productPrice.setCellValueFactory(new PropertyValueFactory<>("prix"));
