@@ -59,7 +59,7 @@
                            </cursor></Button>
                             </buttons>
                         </ButtonBar>
-                  <Label layoutX="211.0" layoutY="32.0" style="-fx-font-size: 20px;" text="Gestion des entrepots" />
+                  <Label layoutX="211.0" layoutY="32.0" style="-fx-font-size: 20px;" text="Gestion des stocks" />
                     </children>
                 </AnchorPane>
             </items>

@@ -124,6 +124,8 @@ public class DetailsProductController extends GenericController {
 
                 fr.wastemart.maven.javaclient.models.Warehouse affectedWareHouse =
                         jsonToWarehouse(fetchWarehouse(warehouseId));
+
+
                 if(affectedWareHouse.getPlaceLibre() - Integer.valueOf(quantite.getText()) >= 0) {
 
 

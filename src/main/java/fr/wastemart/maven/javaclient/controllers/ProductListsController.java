@@ -92,9 +92,9 @@ public class ProductListsController extends GenericController {
         option = optionDetail.getValue();
 
 
-        if(!listsTable.getItems().isEmpty()){
-            refreshDisplay();
-        }
+
+        refreshDisplay();
+
 
     }
 
@@ -112,10 +112,15 @@ public class ProductListsController extends GenericController {
                     result = displayProducts(null);
                     break;
                 case "pro":
-                    result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
+                    if(!listsTable.getItems().isEmpty()) {
+                        result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
+                    }
                     break;
                 case "suggestion":
-                    result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
+                    if(!listsTable.getItems().isEmpty()){
+                        result = displayProducts(listsTable.getSelectionModel().getSelectedItem().getId());
+                    }
+
                     break;
             }
         }
@@ -144,6 +149,8 @@ public class ProductListsController extends GenericController {
                     break;
             }
             System.out.println(lists);
+
+
             return fillProductLists();
         } catch (Exception e) {
             Logger.getInstance().reportError(e);
@@ -154,6 +161,8 @@ public class ProductListsController extends GenericController {
     @FXML
     private boolean displayProducts(Integer selectedList) {
         try {
+
+
             productsTable.getItems().clear();
 
             switch (option) {
@@ -527,7 +536,7 @@ public class ProductListsController extends GenericController {
 
     private boolean fillProductLists() {
         System.out.println("azertyui gotta check if list empty");
-        if (lists != null && !lists.isEmpty()) {
+        if (lists != null && !lists.isEmpty() || option.equals("all")) {
             System.out.println("List not empty");
 
             boolean listFound = false;
@@ -566,7 +575,7 @@ public class ProductListsController extends GenericController {
     }
 
     private boolean fillProducts() {
-        if(listsTable != null && !products.isEmpty()) {
+        if((listsTable != null && !products.isEmpty() )|| (option.equals("all") && !products.isEmpty()) ) {
             boolean productFound = false;
             productName.setCellValueFactory(new PropertyValueFactory<>("libelle"));
             productDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));

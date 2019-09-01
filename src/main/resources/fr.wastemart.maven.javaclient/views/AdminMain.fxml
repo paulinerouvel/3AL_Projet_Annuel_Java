@@ -59,7 +59,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-               <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Gestion des entrepots" textAlignment="CENTER" GridPane.rowIndex="1">
+               <Button mnemonicParsing="false" onAction="#displayWarehouses" prefHeight="262.0" prefWidth="525.0" text="Gestion des stocks" textAlignment="CENTER" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

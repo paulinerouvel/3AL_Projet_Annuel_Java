@@ -81,7 +81,7 @@
                            </cursor></Button>
                     </buttons>
                   </ButtonBar>
-                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="107.0" layoutY="68.0" prefHeight="19.0" prefWidth="638.0" textAlignment="RIGHT" />
+                  <Label fx:id="info" alignment="CENTER_RIGHT" layoutX="107.0" layoutY="68.0" prefHeight="21.0" prefWidth="606.0" textAlignment="RIGHT" />
                   <Label layoutX="290.0" layoutY="26.0" style="-fx-font-size: 20px;" text="Gestion des listes de produit" />
                </children>
             </AnchorPane>

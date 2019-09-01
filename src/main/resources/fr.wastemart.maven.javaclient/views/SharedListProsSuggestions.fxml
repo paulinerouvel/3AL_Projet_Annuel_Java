@@ -30,11 +30,11 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button layoutX="167.0" layoutY="538.0" mnemonicParsing="false" onAction="#submitList" text="Poster Liste">
+                  <Button layoutX="158.0" layoutY="539.0" mnemonicParsing="false" onAction="#submitList" prefHeight="40.0" prefWidth="121.0" style="-fx-font-size: 12px;" text="Poster la liste de produit" wrapText="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button layoutX="26.0" layoutY="538.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="29.0" prefWidth="130.0" text="Jeter Liste">
+                  <Button layoutX="29.0" layoutY="539.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="40.0" prefWidth="108.0" style="-fx-font-size: 12px;" text="Jeter la liste de produit" wrapText="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
@@ -56,15 +56,15 @@
                   </TableView>
                   <ButtonBar layoutX="281.0" layoutY="529.0" prefHeight="40.0" prefWidth="403.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
-                      <Button mnemonicParsing="false" onAction="#validateProduct" prefHeight="29.0" prefWidth="156.0" text="Valider">
+                      <Button mnemonicParsing="false" onAction="#validateProduct" prefHeight="44.0" prefWidth="156.0" style="-fx-font-size: 12px;" text="Valider le produit" wrapText="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" onAction="#refuseProduct" text="Refuser">
+                        <Button mnemonicParsing="false" onAction="#refuseProduct" style="-fx-font-size: 12px;" text="Refuser le produit" wrapText="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Button mnemonicParsing="false" onAction="#contactUser" text="Contacter">
+                        <Button mnemonicParsing="false" onAction="#contactUser" prefHeight="41.0" text="Contacter">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
